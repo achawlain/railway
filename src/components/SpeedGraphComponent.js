@@ -54,8 +54,11 @@ const SpeedGraphComponent = ({ haltStation }) => {
 
   return (
     <div className="bg-white p-8">
+      <div>
+        <ChartComponent chartData={chartSpeedBeforHaltData} />
+      </div>
       <h3 className="text-center text-xl font-bold mb-4 mt-2">
-        Speed From 1000 m in rear of halts
+        Speed Vs Time Chart
       </h3>
       <div>
         <ChartComponent chartData={chartSpeedTimeData} />
@@ -69,12 +72,6 @@ const SpeedGraphComponent = ({ haltStation }) => {
           src={brakingProfile}
           alt="Logo"
         />
-      </div>
-      <h3 className="text-center text-xl font-bold mb-4 mt-8">
-        Speed Vs Time Chart
-      </h3>
-      <div>
-        <ChartComponent chartData={chartSpeedBeforHaltData} />
       </div>
     </div>
   );

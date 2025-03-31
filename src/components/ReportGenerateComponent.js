@@ -197,7 +197,7 @@ const ReportGenerateComponent = () => {
                   <TableComponent
                     data={halteTable.data}
                     colums={halteTable.columns}
-                    tableTitle={""}
+                    tableTitle={"Speed From 1000 m in rear of halts"}
                   />
                 </Suspense>
               </div>
