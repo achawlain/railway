@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.reportGenerateBg {
+  background-image: linear-gradient(270deg, #9b4b90 0, #2c215d);
+}
+
+.no-print {
+  display: none;
+}
+
+.loaderPdf {
+  position: absolute;
+  z-index: 77;
+  left: 0%;
+  top: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+}
+.loaderPdf img {
+  display: inline-block;
+  width: 40px;
+  animation: rotateAnimation 2s linear infinite;
+}
+@keyframes rotateAnimation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(1turn);
+  }
+}
