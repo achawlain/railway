@@ -13,6 +13,7 @@ const getLocalISOTime = () => {
 const ReportTable = ({ onFormChange, handleHaltSelectedData }) => {
   // const [locations, setLocations] = useState(locations);
   const [isDatat, setIsData] = useState(false);
+  const [stationList, setStationList] = useState("");
   const [formData, setFormData] = useState({
     dateOfAnalysis: getLocalISOTime(),
     analyzedBy: "",
@@ -41,10 +42,26 @@ const ReportTable = ({ onFormChange, handleHaltSelectedData }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      await getStationList();
       await getFormData();
     };
     fetchData();
   }, []);
+
+  const getStationList = async () => {
+    try {
+      const stations = await apiService(
+        "get",
+        `${RAILWAY_CONST.API_ENDPOINT.GET_STATION}?id=${id} `
+      );
+      if (stations) {
+        setStationList(stations);
+        console.log("station", stations);
+      }
+    } catch (error) {
+      console.error("Error fetching chart data:", error);
+    }
+  };
 
   const getFormData = async () => {
     try {
@@ -227,7 +244,10 @@ const ReportTable = ({ onFormChange, handleHaltSelectedData }) => {
   return (
     <div>
       <h3 className="text-center text-xl font-bold mb-8 mt-2">
-        CENTRAL RAILWAY, MUMBAI DIVISION
+        EASTERN RAILWAY, A DIVISION
+        <span className="block font-normal">
+          EASTERN RAILWAY, ASANSOL DIVISION
+        </span>
       </h3>
 
       <form className="grid grid-cols-3 gap-8">
@@ -267,11 +287,12 @@ const ReportTable = ({ onFormChange, handleHaltSelectedData }) => {
             className="w-full border p-2 rounded"
           >
             <option value="">Select From</option>
-            {locations.map((loc) => (
-              <option key={loc.id} value={loc.name}>
-                {loc.name}
-              </option>
-            ))}
+            {stationList &&
+              stationList.map((loc, i) => (
+                <option key={i} value={loc.station}>
+                  {loc.station}
+                </option>
+              ))}
           </select>
         </div>
         <div className="flex flex-row items-center">
@@ -309,11 +330,12 @@ const ReportTable = ({ onFormChange, handleHaltSelectedData }) => {
             className="w-full border p-2 rounded"
           >
             <option value="">Select To</option>
-            {locations.map((loc) => (
-              <option key={loc.id} value={loc.name}>
-                {loc.name}
-              </option>
-            ))}
+            {stationList &&
+              stationList.map((loc, i) => (
+                <option key={i} value={loc.station}>
+                  {loc.station}
+                </option>
+              ))}
           </select>
         </div>
         <div className="flex flex-row items-center">

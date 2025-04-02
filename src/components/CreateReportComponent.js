@@ -12,6 +12,8 @@ const CreateReportComponent = () => {
   const [selectedPSR, setSelectedPSR] = useState("");
   const [selectedTSR, setSelectedTSR] = useState("");
   const [isStationListVisible, setIsStationListVisible] = useState(false);
+  const [isPSRListVisible, setIsPSRListVisible] = useState(false);
+  const [isTSRListVisible, setIsTSRListVisible] = useState(false);
 
   useEffect(() => {
     getTemplateData();
@@ -43,6 +45,26 @@ const CreateReportComponent = () => {
       setSelectedTemplate(template || null);
     }
   };
+  const handleStationChage = (e) => {
+    setSelectedStation(e.target.value);
+    if (e.target.value === "Add New") {
+      setSelectedPSR("Add New");
+      setSelectedTSR("Add New");
+    } else {
+      setSelectedPSR("");
+      setSelectedTSR("");
+    }
+  };
+
+  const handlePSRchange = (e) => {
+    setSelectedPSR(e.target.value);
+    if (e.target.value === "Add New") {
+      setSelectedTSR("Add New");
+    } else {
+      setSelectedTSR("");
+    }
+  };
+
   return (
     <div className="w-full bg-[#efefef] p-4 reportGenerateBg pt-8 min-h-screen">
       <div className="max-w-[1200px] mx-auto px-2 mb-4">
@@ -86,14 +108,14 @@ const CreateReportComponent = () => {
 
               {selectedTemplate !== null && (
                 <div className="flex flex-col space-y-4">
-                  <div className="flex">
+                  <div className="flex items-center">
                     <label className="font-medium mr-2 min-w-[200px]">
                       Select Station:
                     </label>
                     {selectedTemplate !== "Add New" && (
                       <select
                         className="border p-2 rounded-md w-auto min-w-[300px]"
-                        onChange={(e) => setSelectedStation(e.target.value)}
+                        onChange={handleStationChage}
                         value={selectedStation}
                       >
                         <option value="">Select Station</option>
@@ -127,7 +149,7 @@ const CreateReportComponent = () => {
                             )}
                           </span>
                           {isStationListVisible && (
-                            <div className="absolute w-[150px] shadow-md p-2 rounded-sm h-40 overflow-auto ">
+                            <div className="absolute w-[150px] shadow-md p-2 rounded-sm h-40 overflow-auto  bg-white z-10">
                               <ul>
                                 {selectedTemplate?.stations?.station_list?.map(
                                   (station) => (
@@ -152,76 +174,144 @@ const CreateReportComponent = () => {
                   </div>
 
                   {/* Select PSR */}
-                  <div className="flex">
-                    <label className="font-medium mr-2 min-w-[200px]">
-                      Select PSR:
-                    </label>
-                    {selectedTemplate !== "Add New" && (
-                      <select
-                        className="border p-2 rounded-md w-auto min-w-[300px]"
-                        onChange={(e) => setSelectedPSR(e.target.value)}
-                        value={selectedPSR}
-                      >
-                        <option value="">Select PSR</option>
+                  {(selectedStation || selectedTemplate === "Add New") && (
+                    <div className="flex items-center">
+                      <label className="font-medium mr-2 min-w-[200px]">
+                        Select PSR:
+                      </label>
+                      {selectedTemplate !== "Add New" && (
+                        <select
+                          className="border p-2 rounded-md w-auto min-w-[300px]"
+                          onChange={handlePSRchange}
+                          value={selectedPSR}
+                        >
+                          <option value="">Select PSR</option>
 
-                        <option value={selectedTemplate?.stations?.psr?.title}>
-                          {selectedTemplate?.stations?.psr?.title}
-                        </option>
-                        <option value="Add New">Add New</option>
-                      </select>
-                    )}
+                          <option
+                            value={selectedTemplate?.stations?.psr?.title}
+                          >
+                            {selectedTemplate?.stations?.psr?.title}
+                          </option>
+                          <option value="Add New">Add New</option>
+                        </select>
+                      )}
 
-                    {selectedPSR !== "" && selectedPSR !== "Add New" && (
-                      <img
-                        alt="View Icon"
-                        src={viewIcon}
-                        className="w-[27px] ml-2 cursor-pointer"
-                      />
-                    )}
+                      {selectedPSR !== "" && selectedPSR !== "Add New" && (
+                        <div className="relative ml-4">
+                          <span
+                            onClick={() => {
+                              setIsPSRListVisible(!isPSRListVisible);
+                            }}
+                          >
+                            {!isPSRListVisible ? (
+                              <img
+                                alt="View Icon"
+                                src={viewIcon}
+                                className="w-[27px] ml-2 cursor-pointer"
+                              />
+                            ) : (
+                              <img
+                                alt="View Icon"
+                                src={hideIcon}
+                                className="w-[27px] ml-2 cursor-pointer"
+                              />
+                            )}
+                          </span>
+                          {isPSRListVisible && (
+                            <div className="absolute w-[220px] shadow-md p-2 rounded-sm h-40 overflow-auto bg-white z-20">
+                              <ul>
+                                {selectedTemplate?.stations?.psr?.psr_list?.map(
+                                  (psr) => (
+                                    <li key={psr.id} className="mb-1">
+                                      {psr.id}{" "}
+                                      {psr.speed ? `(${psr.speed} km/h)` : ""}
+                                    </li>
+                                  )
+                                )}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      )}
 
-                    {(selectedPSR === "Add New" ||
-                      selectedTemplate === "Add New") && (
-                      <input
-                        type="file"
-                        className="border p-2 rounded-md w-[300px] ml-2"
-                      />
-                    )}
-                  </div>
+                      {(selectedPSR === "Add New" ||
+                        selectedTemplate === "Add New") && (
+                        <input
+                          type="file"
+                          className="border p-2 rounded-md w-[300px] ml-2"
+                        />
+                      )}
+                    </div>
+                  )}
 
                   {/* Select TSR */}
-                  <div className="flex">
-                    <label className="font-medium mr-2 min-w-[200px]">
-                      Select TSR:
-                    </label>
-                    {selectedTemplate !== "Add New" && (
-                      <select
-                        className="border p-2 rounded-md w-auto min-w-[300px]"
-                        onChange={(e) => setSelectedTSR(e.target.value)}
-                        value={selectedTSR}
-                      >
-                        <option value="">Select TSR</option>
-                        <option value={selectedTemplate?.stations?.tsr?.title}>
-                          {selectedTemplate?.stations?.tsr?.title}
-                        </option>
-                        <option value="Add New">Add New</option>
-                      </select>
-                    )}
+                  {(selectedPSR || selectedTemplate === "Add New") && (
+                    <div className="flex items-center">
+                      <label className="font-medium mr-2 min-w-[200px]">
+                        Select TSR:
+                      </label>
+                      {selectedTemplate !== "Add New" && (
+                        <select
+                          className="border p-2 rounded-md w-auto min-w-[300px]"
+                          onChange={(e) => setSelectedTSR(e.target.value)}
+                          value={selectedTSR}
+                        >
+                          <option value="">Select TSR</option>
+                          <option
+                            value={selectedTemplate?.stations?.tsr?.title}
+                          >
+                            {selectedTemplate?.stations?.tsr?.title}
+                          </option>
+                          <option value="Add New">Add New</option>
+                        </select>
+                      )}
 
-                    {selectedTSR !== "" && selectedTSR !== "Add New" && (
-                      <img
-                        alt="View Icon"
-                        src={viewIcon}
-                        className="w-[27px] ml-2 cursor-pointer"
-                      />
-                    )}
-                    {(selectedTSR === "Add New" ||
-                      selectedTemplate === "Add New") && (
-                      <input
-                        type="file"
-                        className="border p-2 rounded-md w-[300px] ml-2"
-                      />
-                    )}
-                  </div>
+                      {selectedTSR !== "" && selectedTSR !== "Add New" && (
+                        <div className="relative ml-4">
+                          <span
+                            onClick={() => {
+                              setIsTSRListVisible(!isTSRListVisible);
+                            }}
+                          >
+                            {!isTSRListVisible ? (
+                              <img
+                                alt="View Icon"
+                                src={viewIcon}
+                                className="w-[27px] ml-2 cursor-pointer"
+                              />
+                            ) : (
+                              <img
+                                alt="View Icon"
+                                src={hideIcon}
+                                className="w-[27px] ml-2 cursor-pointer"
+                              />
+                            )}
+                          </span>
+                          {isTSRListVisible && (
+                            <div className="absolute w-[220px] shadow-md p-2 rounded-sm h-40 overflow-auto bg-white">
+                              <ul>
+                                {selectedTemplate?.stations?.psr?.psr_list?.map(
+                                  (tsr) => (
+                                    <li className="mb-1" key={tsr.id}>
+                                      {tsr.id}{" "}
+                                      {tsr.speed ? `(${tsr.speed} km/h)` : ""}
+                                    </li>
+                                  )
+                                )}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      {(selectedTSR === "Add New" ||
+                        selectedTemplate === "Add New") && (
+                        <input
+                          type="file"
+                          className="border p-2 rounded-md w-[300px] ml-2"
+                        />
+                      )}
+                    </div>
+                  )}
                 </div>
               )}
             </>

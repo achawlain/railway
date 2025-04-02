@@ -8,6 +8,7 @@ const RAILWAY_CONST = {
     STAT_SPEED_BEFORE_HALT: "/stat_speed_before_halt",
     REPORTS: "reports",
     TEMPLATE: "templates",
+    GET_STATION: "get_station",
   },
 
   ROUTE: {
