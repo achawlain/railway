@@ -6,6 +6,8 @@ const RAILWAY_CONST = {
     STAT: "/stat",
     CREW_ID: "/crew_id/",
     STAT_SPEED_BEFORE_HALT: "/stat_speed_before_halt",
+    REPORTS: "reports",
+    TEMPLATE: "templates",
   },
 
   ROUTE: {
@@ -13,6 +15,9 @@ const RAILWAY_CONST = {
     HOME: "/home",
     LOGIN: "/login",
     REPORT_GENERATE: "/reportGenerate",
+    DASHBOARD: "/dashboard",
+    REPORTS: "/reports",
+    CREATE_REPORT: "/createReport",
   },
 };
 

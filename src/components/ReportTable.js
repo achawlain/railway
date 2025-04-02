@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import { locations } from "../utils/tableData";
+import { useLocation, useParams } from "react-router-dom";
 
 const getLocalISOTime = () => {
   const now = new Date();
@@ -36,6 +37,8 @@ const ReportTable = ({ onFormChange, handleHaltSelectedData }) => {
     timeWithSpeed: "",
   });
 
+  const { id } = useParams();
+
   useEffect(() => {
     const fetchData = async () => {
       await getFormData();
@@ -47,7 +50,7 @@ const ReportTable = ({ onFormChange, handleHaltSelectedData }) => {
     try {
       const statResponse = await apiService(
         "get",
-        RAILWAY_CONST.API_ENDPOINT.STAT
+        `${RAILWAY_CONST.API_ENDPOINT.STAT}?id=${id}`
       );
       if (statResponse) {
         setFormData((prev) => ({

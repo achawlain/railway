@@ -7,6 +7,8 @@ import Login from "../pages/Login";
 import HomeComponent from "../components/HomeComponent";
 import PrivateRoute from "../utils/PrivateRoute";
 import ReportGenerateComponent from "../components/ReportGenerateComponent";
+import Dashboard from "../pages/Dashboard";
+import CreateReport from "../pages/CreateReport";
 
 const router = createBrowserRouter([
   {
@@ -17,13 +19,17 @@ const router = createBrowserRouter([
         element: <Navigate to={RAILWAY_CONST.ROUTE.REPORT_GENERATE} />,
       },
       {
-        path: RAILWAY_CONST.ROUTE.REPORT_GENERATE,
+        path: `${RAILWAY_CONST.ROUTE.REPORTS}/:id`,
         element: <ReportGenerateComponent />,
       },
-      // {
-      //   path: RAILWAY_CONST.ROUTE.DASHBOARD,
-      //   element: <PrivateRoute element={<DashboardComponent />} />,
-      // },
+      {
+        path: RAILWAY_CONST.ROUTE.DASHBOARD,
+        element: <Dashboard />,
+      },
+      {
+        path: RAILWAY_CONST.ROUTE.CREATE_REPORT,
+        element: <CreateReport />,
+      },
     ],
   },
   {

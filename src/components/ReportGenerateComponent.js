@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { useLocation, useParams } from "react-router-dom";
 import {
   // halteTableData,
   halteTableTitle,
@@ -21,6 +22,7 @@ import {
 } from "../utils/tableData";
 import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
+import { setDataOnLocalStorage } from "../utils/localStorage";
 
 // Lazy load components
 const ReportTable = lazy(() => import("./ReportTable"));
@@ -41,6 +43,9 @@ const ReportGenerateComponent = () => {
     trainNo: "",
   });
 
+  const { id } = useParams();
+  const location = useLocation();
+  const { date, train_id } = location.state || {};
   // const handleFormChange = useCallback((updatedData) => {
   //   setFormData((prev) => {
   //     const newData = { ...prev, ...updatedData };
@@ -133,21 +138,31 @@ const ReportGenerateComponent = () => {
     []
   );
 
-  useEffect(() => {
-    const fetchHaltData = async () => {
-      await getHaltTableData();
-    };
-    fetchHaltData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchHaltData = async () => {
+  //     await getHaltTableData(false);
+  //   };
+  //   fetchHaltData();
+  // }, []);
 
-  const getHaltTableData = async () => {
+  // useEffect(() => {
+  //   getHaltTableData(true);
+  // }, [haltStation]);
+
+  useEffect(() => {
+    getHaltTableData(!!haltStation?.from && !!haltStation?.to);
+  }, [haltStation]);
+
+  const getHaltTableData = async (limitedHaltStation) => {
+    const url =
+      limitedHaltStation && haltStation && haltStation.from && haltStation.to
+        ? `${RAILWAY_CONST.API_ENDPOINT.STAT_SPEED_BEFORE_HALT}?id=${id}&from_station=${haltStation.from}&to_station=${haltStation.to}`
+        : `${RAILWAY_CONST.API_ENDPOINT.STAT_SPEED_BEFORE_HALT}?id=${id}`;
     try {
-      const response = await apiService(
-        "get",
-        RAILWAY_CONST.API_ENDPOINT.STAT_SPEED_BEFORE_HALT
-      );
+      const response = await apiService("get", url);
       console.log("/response", response);
       setHalteTableData(response);
+      // setDataOnLocalStorage("reportList", response);
     } catch (error) {
       console.error("Error fetching chart data:", error);
     }
