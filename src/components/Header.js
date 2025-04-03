@@ -98,7 +98,13 @@ const Header = () => {
         <header className="headerRow top-0 z-20 fixed bg-white w-full flex justify-between items-center px-4 shadow-md">
           <div className="max-w-[1300px] mx-auto flex flex-row justify-between w-full items-center">
             <div className="h-[90px] logoHeader">
-              <Link to={RAILWAY_CONST.ROUTE.REPORT_GENERATE}>
+              <Link
+                to={
+                  userInfo
+                    ? RAILWAY_CONST.ROUTE.DASHBOARD
+                    : RAILWAY_CONST.ROUTE.LOGIN
+                }
+              >
                 <img
                   className="sm:h-[80px] h-[24px] mt-[5px]"
                   src={logo}

@@ -47,6 +47,7 @@ export const halteTableTitle = [
   "200m",
   "100m",
   "Halt",
+  "Remark",
 ];
 
 export const previousAnalysisTitle = ["Date of Wkg", "Loco", "From", "To"];
