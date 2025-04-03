@@ -4,6 +4,7 @@ import RAILWAY_CONST from "../utils/RailwayConst";
 import { locations } from "../utils/tableData";
 import { Link, useLocation, useParams } from "react-router-dom";
 import Loader from "./Loader";
+import { useNavigate } from "react-router-dom";
 
 const getLocalISOTime = () => {
   const now = new Date();
@@ -43,7 +44,7 @@ const ReportTable = ({
     totalDistance: "",
     timeWithSpeed: "",
   });
-
+  let navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
@@ -269,7 +270,7 @@ const ReportTable = ({
             <div>
               <h3 className="text-center text-xl font-bold mb-8 mt-2 relative ">
                 <span className="absolute left-0 underline cursor-pointer">
-                  <Link to="/dashboard">Back</Link>
+                  <button onClick={() => navigate(-1)}>Back</button>
                 </span>
                 EASTERN RAILWAY, ASANSOL DIVISION
               </h3>
