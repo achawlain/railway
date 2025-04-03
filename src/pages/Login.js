@@ -42,7 +42,7 @@ const Login = () => {
       };
 
       setDataOnLocalStorage("userInfo", userObj);
-      navigate(RAILWAY_CONST.ROUTE.REPORT_GENERATE);
+      navigate(RAILWAY_CONST.ROUTE.DASHBOARD);
     } catch (error) {
       console.error("Error fetching chart data:", error);
     }

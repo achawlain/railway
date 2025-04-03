@@ -176,9 +176,9 @@ const ReportGenerateComponent = () => {
       {loading && (
         <div className="loaderingView">
           <div className="loaderPdf">
-            <Suspense fallback={<Loader />}>
+            <div className="loader">
               <Loader />
-            </Suspense>
+            </div>
           </div>
         </div>
       )}
@@ -186,23 +186,20 @@ const ReportGenerateComponent = () => {
         ref={contentRef}
         className="w-full bg-[#efefef] p-4 reportGenerateBg pt-8 min-h-screen"
       >
-        <div className="max-w-full mx-auto px-2 mb-4">
-          <div className="bg-white w-full p-8 pb-16 rounded-[15px] relative">
-            <button
-              className="bg-[#2c215d] h-[32px] w-[120px] text-white absolute right-8"
-              onClick={handleDownloadPDF}
-              id="downloadPdfButton"
-            >
-              Download PDF
-            </button>
-            <Suspense fallback={<div>Loading form...</div>}>
-              <ReportTable
-                onFormChange={handleFormChange}
-                handleHaltSelectedData={handleHaltSelectedData}
-              />
-            </Suspense>
-          </div>
-        </div>
+        <Suspense
+          fallback={
+            <div className="loader">
+              <Loader />
+            </div>
+          }
+        >
+          <ReportTable
+            onFormChange={handleFormChange}
+            handleHaltSelectedData={handleHaltSelectedData}
+            handleDownloadPDF={handleDownloadPDF}
+          />
+        </Suspense>
+
         {/* {formData.trainNo === "NSFTIAFAS" && formData.dateOfWorking && ( */}
         {formData.trainNo === "NSFTIAFAS" && (
           <>
@@ -219,7 +216,13 @@ const ReportGenerateComponent = () => {
             </div>
             <div className="max-w-full mx-auto px-2 mb-4">
               <div className="bg-white w-full p-8 pb-16 rounded-[15px]">
-                <Suspense fallback={<div>Loading graph...</div>}>
+                <Suspense
+                  fallback={
+                    <div className="loader">
+                      <Loader />
+                    </div>
+                  }
+                >
                   <SpeedGraphComponent haltStation={haltStation} />
                 </Suspense>
               </div>

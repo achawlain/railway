@@ -9,14 +9,23 @@ import PrivateRoute from "../utils/PrivateRoute";
 import ReportGenerateComponent from "../components/ReportGenerateComponent";
 import Dashboard from "../pages/Dashboard";
 import CreateReport from "../pages/CreateReport";
+import { getDataFromLocalStorage } from "./localStorage";
 
+const user = getDataFromLocalStorage("userInfo");
+console.log("user", user);
 const router = createBrowserRouter([
   {
     element: <WithHeaderLayout />,
     children: [
       {
         path: RAILWAY_CONST.ROUTE.ROOT,
-        element: <Navigate to={RAILWAY_CONST.ROUTE.REPORT_GENERATE} />,
+        element: (
+          <Navigate
+            to={
+              user ? RAILWAY_CONST.ROUTE.DASHBOARD : RAILWAY_CONST.ROUTE.LOGIN
+            }
+          />
+        ),
       },
       {
         path: `${RAILWAY_CONST.ROUTE.REPORTS}/:id`,

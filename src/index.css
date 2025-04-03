@@ -36,3 +36,39 @@
     transform: rotate(1turn);
   }
 }
+
+.loader {
+  position: fixed;
+  z-index: 77;
+  left: 0%;
+  top: 0%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+}
+.loader img {
+  display: inline-block;
+  width: 40px;
+  animation: rotateAnimation 2s linear infinite;
+}
+
+.componentLoader {
+  z-index: 77;
+  left: 0%;
+  top: 0%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 200px;
+  background: #fff;
+}
+
+.componentLoader img {
+  display: inline-block;
+  width: 40px;
+  animation: rotateAnimation 2s linear infinite;
+}

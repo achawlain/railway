@@ -75,7 +75,9 @@ const CreateReportComponent = () => {
 
           {loading ? (
             <div className="flex justify-center py-10">
-              <Loader />
+              <div className="loader">
+                <Loader />
+              </div>
             </div>
           ) : (
             <>
