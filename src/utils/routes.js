@@ -22,7 +22,9 @@ const router = createBrowserRouter([
         element: (
           <Navigate
             to={
-              user ? RAILWAY_CONST.ROUTE.DASHBOARD : RAILWAY_CONST.ROUTE.LOGIN
+              user
+                ? RAILWAY_CONST.ROUTE.DASHBOARD
+                : RAILWAY_CONST.ROUTE.DASHBOARD
             }
           />
         ),

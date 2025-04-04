@@ -260,19 +260,19 @@ const ReportTable = ({
       ) : (
         <div className="max-w-full mx-auto px-2 mb-4">
           <div className="bg-white w-full p-8 pb-16 rounded-[15px] relative">
-            <button
-              className="bg-[#2c215d] h-[32px] w-[120px] text-white absolute right-8"
-              onClick={handleDownloadPDF}
-              id="downloadPdfButton"
-            >
-              Download PDF
-            </button>
             <div>
               <h3 className="text-center text-xl font-bold mb-8 mt-2 relative ">
                 <span className="absolute left-0 underline cursor-pointer">
                   <button onClick={() => navigate(-1)}>Back</button>
                 </span>
                 EASTERN RAILWAY, ASANSOL DIVISION
+                <button
+                  className="bg-[#2c215d] absolute top-0 right-[0] h-[32px] w-[120px] font-normal text-[16px] text-white absolute right-8"
+                  onClick={handleDownloadPDF}
+                  id="downloadPdfButton"
+                >
+                  Download PDF
+                </button>
               </h3>
 
               <form className="grid grid-cols-3 gap-8">

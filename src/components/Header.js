@@ -102,7 +102,7 @@ const Header = () => {
                 to={
                   userInfo
                     ? RAILWAY_CONST.ROUTE.DASHBOARD
-                    : RAILWAY_CONST.ROUTE.LOGIN
+                    : RAILWAY_CONST.ROUTE.DASHBOARD
                 }
               >
                 <img

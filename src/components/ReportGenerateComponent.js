@@ -81,8 +81,9 @@ const ReportGenerateComponent = () => {
     setShowUploadBox(shouldShowUploadBox);
   }, [shouldShowUploadBox]);
 
-  const handleDownloadPDF = () => {
+  const handleDownloadPDF = async () => {
     setLoading(true);
+    console.log("loading");
     if (contentRef.current) {
       const input = contentRef.current;
       const downloadButton = document.getElementById("downloadPdfButton");
@@ -116,6 +117,7 @@ const ReportGenerateComponent = () => {
         }
       );
     }
+    //  setLoading(false);
   };
 
   const halteTable = useMemo(
