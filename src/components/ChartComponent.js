@@ -5,11 +5,11 @@ import Loader from "./Loader";
 const ChartComponent = ({ chartData }) => {
   if (!chartData) {
     return (
-      <p>
+      <div>
         <div className="componentLoader">
           <Loader />
         </div>
-      </p>
+      </div>
     );
   }
 

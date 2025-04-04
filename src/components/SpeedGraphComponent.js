@@ -61,17 +61,34 @@ const SpeedGraphComponent = ({ haltStation }) => {
   };
 
   return (
-    <div className="bg-white p-8">
-      <div>
-        <ChartComponent chartData={chartSpeedBeforHaltData} />
+    <>
+      <div className="bg-white p-8">
+        {loading ? (
+          <div className="componentLoader">
+            <Loader />
+          </div>
+        ) : (
+          <div>
+            <ChartComponent
+              loading={loading}
+              chartData={chartSpeedBeforHaltData}
+            />
+          </div>
+        )}
+        <h3 className="text-center text-xl font-bold mb-4 mt-2">
+          Speed Vs Time Chart
+        </h3>
+        {loading ? (
+          <div className="componentLoader">
+            <Loader />
+          </div>
+        ) : (
+          <div>
+            <ChartComponent loading={loading} chartData={chartSpeedTimeData} />
+          </div>
+        )}
       </div>
-      <h3 className="text-center text-xl font-bold mb-4 mt-2">
-        Speed Vs Time Chart
-      </h3>
-      <div>
-        <ChartComponent chartData={chartSpeedTimeData} />
-      </div>
-    </div>
+    </>
   );
 };
 
