@@ -68,7 +68,7 @@ const SpeedGraphComponent = ({ haltStation }) => {
             <Loader />
           </div>
         ) : (
-          <div>
+          <div style={{ overflowX: "auto", width: "100%" }}>
             <ChartComponent
               loading={loading}
               chartData={chartSpeedBeforHaltData}
@@ -83,7 +83,7 @@ const SpeedGraphComponent = ({ haltStation }) => {
             <Loader />
           </div>
         ) : (
-          <div>
+          <div style={{ overflowX: "auto", width: "100%" }}>
             <ChartComponent loading={loading} chartData={chartSpeedTimeData} />
           </div>
         )}

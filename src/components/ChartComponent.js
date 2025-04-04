@@ -13,7 +13,18 @@ const ChartComponent = ({ chartData }) => {
     );
   }
 
-  return <Plot data={chartData.data} layout={chartData.layout} />;
+  return (
+    <Plot
+      data={chartData.data}
+      layout={chartData.layout}
+      config={{
+        responsive: true,
+        displayModeBar: true,
+        displaylogo: false,
+        modeBarButtonsToRemove: ["zoomIn2d", "zoomOut2d", "resetScale2d"],
+      }}
+    />
+  );
 };
 
 export default ChartComponent;
