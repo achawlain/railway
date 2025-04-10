@@ -5,6 +5,7 @@ const CreateReport = () => {
   return (
     <div>
       <CreateReportComponent />
+      {/* <CreateReportComponentNew /> */}
     </div>
   );
 };

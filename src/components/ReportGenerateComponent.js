@@ -36,6 +36,7 @@ const ReportGenerateComponent = () => {
   const contentRef = useRef(null);
   const [haltStation, setHaltStation] = useState({});
   const [showUploadBox, setShowUploadBox] = useState(false);
+  const [formReportData, setFormReportData] = useState({});
   const [loading, setLoading] = useState(false);
   const [halteTableData, setHalteTableData] = useState(null);
   const [formData, setFormData] = useState({
@@ -173,6 +174,14 @@ const ReportGenerateComponent = () => {
   const handleHaltSelectedData = (fromStation, toStation) => {
     setHaltStation({ from: fromStation, to: toStation });
   };
+
+  const speedBfore1000 = (formData) => {
+    const data = {
+      speed_before_1000m: formData.speed_before_1000m,
+      stat_speed_before_halt: formData.stat_speed_before_halt,
+    };
+    setFormReportData(data);
+  };
   return (
     <>
       {loading && (
@@ -199,6 +208,7 @@ const ReportGenerateComponent = () => {
             onFormChange={handleFormChange}
             handleHaltSelectedData={handleHaltSelectedData}
             handleDownloadPDF={handleDownloadPDF}
+            speedBfore1000={speedBfore1000}
           />
         </Suspense>
 
@@ -207,13 +217,18 @@ const ReportGenerateComponent = () => {
           <>
             <div className="max-w-full mx-auto px-2 mb-4">
               <div className="bg-white w-full p-8 pt-2 rounded-[15px]">
-                <Suspense fallback={<div>Loading table...</div>}>
-                  <TableComponent
-                    data={halteTable.data}
-                    colums={halteTable.columns}
-                    tableTitle={"Speed From 1000 m in rear of halts"}
-                  />
-                </Suspense>
+                {formReportData.speed_before_1000m === "" ||
+                formData.stat_speed_before_halt === "" ? (
+                  <div>No Data Found</div>
+                ) : (
+                  <Suspense fallback={<div>Loading table...</div>}>
+                    <TableComponent
+                      data={halteTable.data}
+                      colums={halteTable.columns}
+                      tableTitle={"Speed From 1000 m in rear of halts"}
+                    />
+                  </Suspense>
+                )}
               </div>
             </div>
             <div className="max-w-full mx-auto px-2 mb-4">
@@ -225,7 +240,10 @@ const ReportGenerateComponent = () => {
                     </div>
                   }
                 >
-                  <SpeedGraphComponent haltStation={haltStation} />
+                  <SpeedGraphComponent
+                    formReportData={formReportData}
+                    haltStation={haltStation}
+                  />
                 </Suspense>
               </div>
             </div>

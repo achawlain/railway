@@ -9,7 +9,7 @@ import { apiService } from "../utils/apiService";
 import Loader from "./Loader";
 import { useLocation, useParams } from "react-router-dom";
 
-const SpeedGraphComponent = ({ haltStation }) => {
+const SpeedGraphComponent = ({ formReportData, haltStation }) => {
   const [chartSpeedTimeData, setChartSpeedTimeData] = useState(null);
   const [chartSpeedBeforHaltData, setChartSpeedBeforHaltData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -69,10 +69,15 @@ const SpeedGraphComponent = ({ haltStation }) => {
           </div>
         ) : (
           <div style={{ overflowX: "auto", width: "100%" }}>
-            <ChartComponent
-              loading={loading}
-              chartData={chartSpeedBeforHaltData}
-            />
+            {formReportData.speed_before_1000m === "" ||
+            formReportData.stat_speed_before_halt === "" ? (
+              <div>No Data Found</div>
+            ) : (
+              <ChartComponent
+                loading={loading}
+                chartData={chartSpeedBeforHaltData}
+              />
+            )}
           </div>
         )}
         <h3 className="text-center text-xl font-bold mb-4 mt-2">
