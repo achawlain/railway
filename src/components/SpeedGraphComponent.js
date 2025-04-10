@@ -43,10 +43,7 @@ const SpeedGraphComponent = ({ formReportData, haltStation }) => {
   };
 
   const getChartSpeedBeforeHaltData = async (limitedHaltStation) => {
-    if (
-      !formReportData.speed_before_1000m ||
-      !formReportData.stat_speed_before_halt
-    ) {
+    if (!formReportData.speed_before_1000m) {
       console.warn("No  API call.");
       return;
     }
