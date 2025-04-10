@@ -157,17 +157,19 @@ const ReportGenerateComponent = () => {
   }, [haltStation]);
 
   const getHaltTableData = async (limitedHaltStation) => {
-    const url =
-      limitedHaltStation && haltStation && haltStation.from && haltStation.to
-        ? `${RAILWAY_CONST.API_ENDPOINT.STAT_SPEED_BEFORE_HALT}?id=${id}&from_station=${haltStation.from}&to_station=${haltStation.to}`
-        : `${RAILWAY_CONST.API_ENDPOINT.STAT_SPEED_BEFORE_HALT}?id=${id}`;
-    try {
-      const response = await apiService("get", url);
-      console.log("/response", response);
-      setHalteTableData(response);
-      // setDataOnLocalStorage("reportList", response);
-    } catch (error) {
-      console.error("Error fetching chart data:", error);
+    if (!formReportData.speed_before_1000m === "") {
+      const url =
+        limitedHaltStation && haltStation && haltStation.from && haltStation.to
+          ? `${RAILWAY_CONST.API_ENDPOINT.STAT_SPEED_BEFORE_HALT}?id=${id}&from_station=${haltStation.from}&to_station=${haltStation.to}`
+          : `${RAILWAY_CONST.API_ENDPOINT.STAT_SPEED_BEFORE_HALT}?id=${id}`;
+      try {
+        const response = await apiService("get", url);
+        console.log("/response", response);
+        setHalteTableData(response);
+        // setDataOnLocalStorage("reportList", response);
+      } catch (error) {
+        console.error("Error fetching chart data:", error);
+      }
     }
   };
 
@@ -217,8 +219,7 @@ const ReportGenerateComponent = () => {
           <>
             <div className="max-w-full mx-auto px-2 mb-4">
               <div className="bg-white w-full p-8 pt-2 rounded-[15px]">
-                {formReportData.speed_before_1000m === "" ||
-                formData.stat_speed_before_halt === "" ? (
+                {formReportData.speed_before_1000m === "" ? (
                   <div>No Data Found</div>
                 ) : (
                   <Suspense fallback={<div>Loading table...</div>}>
