@@ -5,8 +5,8 @@ import CreateReportComponentNew from "../components/CreateReportComponentNew";
 const CreateReport = () => {
   return (
     <div>
-      {/* <CreateReportComponent /> */}
-      <CreateReportComponentNew />
+      <CreateReportComponent />
+      {/* <CreateReportComponentNew /> */}
     </div>
   );
 };
