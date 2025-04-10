@@ -43,6 +43,14 @@ const SpeedGraphComponent = ({ formReportData, haltStation }) => {
   };
 
   const getChartSpeedBeforeHaltData = async (limitedHaltStation) => {
+    if (
+      !formReportData.speed_before_1000m ||
+      !formReportData.stat_speed_before_halt
+    ) {
+      console.warn("No  API call.");
+      return;
+    }
+
     const url =
       limitedHaltStation && haltStation?.from && haltStation?.to
         ? `${RAILWAY_CONST.API_ENDPOINT.SPEED_BEFORE_HALT}?id=${id}&from_station=${haltStation.from}&to_station=${haltStation.to}`
