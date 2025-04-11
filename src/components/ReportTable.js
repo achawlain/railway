@@ -399,7 +399,7 @@ const ReportTable = ({
                     Departure Time
                   </label>
                   <input
-                    type="time"
+                    type="text"
                     name="departureTime"
                     value={formData.departureTime}
                     onChange={handleChange}
@@ -440,7 +440,7 @@ const ReportTable = ({
                     Arrival Time
                   </label>
                   <input
-                    type="time"
+                    type="text"
                     name="arrivalTime"
                     value={formData.arrivalTime}
                     onChange={handleChange}
