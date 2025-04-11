@@ -105,16 +105,22 @@ const Header = () => {
                     : RAILWAY_CONST.ROUTE.DASHBOARD
                 }
               >
-                <img
-                  className="sm:h-[80px] h-[24px] mt-[5px]"
-                  src={logo}
-                  alt="Logo"
-                />
+                <span className="flex flex-row justify-center items-center">
+                  <img
+                    className="sm:h-[80px] h-[24px] mt-[5px]"
+                    src={logo}
+                    alt="Logo"
+                  />
+                  <span className="text-[24px] ml-2 font-semibold flex flex-col">
+                    EASTERN RAILWAY, ASANSOL DIVISION
+                    <span className="text-[18px] font-normal">
+                      Ministry of Railways, Govt of India.
+                    </span>
+                  </span>
+                </span>
               </Link>
             </div>
-            <span className="text-[20px]">
-              EASTERN RAILWAY, ASANSOL DIVISION
-            </span>
+
             <div className="flex flex-row items-center">
               <nav className="h-[30px]" ref={navListRef}>
                 {/* <span className="navIcon cursor-pointer" onClick={toggleNavList}>
