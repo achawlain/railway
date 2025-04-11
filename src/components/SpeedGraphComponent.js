@@ -9,7 +9,7 @@ import { apiService } from "../utils/apiService";
 import Loader from "./Loader";
 import { useLocation, useParams } from "react-router-dom";
 
-const SpeedGraphComponent = ({ formReportData, haltStation }) => {
+const SpeedGraphComponent = ({ speed_before_1000m, haltStation }) => {
   const [chartSpeedTimeData, setChartSpeedTimeData] = useState(null);
   const [chartSpeedBeforHaltData, setChartSpeedBeforHaltData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -43,7 +43,7 @@ const SpeedGraphComponent = ({ formReportData, haltStation }) => {
   };
 
   const getChartSpeedBeforeHaltData = async (limitedHaltStation) => {
-    if (!formReportData.speed_before_1000m) {
+    if (!speed_before_1000m) {
       console.warn("No  API call.");
       return;
     }
@@ -74,15 +74,12 @@ const SpeedGraphComponent = ({ formReportData, haltStation }) => {
           </div>
         ) : (
           <div style={{ overflowX: "auto", width: "100%" }}>
-            {formReportData.speed_before_1000m === "" ||
-            formReportData.stat_speed_before_halt === "" ? (
-              <div>No Data Found</div>
-            ) : (
+            {speed_before_1000m ? (
               <ChartComponent
                 loading={loading}
                 chartData={chartSpeedBeforHaltData}
               />
-            )}
+            ) : null}
           </div>
         )}
         <h3 className="text-center text-xl font-bold mb-4 mt-2">

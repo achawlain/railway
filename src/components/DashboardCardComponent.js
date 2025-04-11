@@ -6,7 +6,7 @@ const DashboardCardComponent = ({ item, onDelete, onView }) => {
   return (
     <Link
       to={`/reports/${item.id}`}
-      state={{ title: item.title }}
+      state={{ title: item.title, speed_before_1000m: item.speed_before_1000m }}
       className="relative pb-[55px] min-h-[240px] max-w-sm relative docCol w-[24%] mx-[.5%] mb-[20px] bg-[#f1f1f1] rounded-[10px] shadow-md hover:shadow-lg"
     >
       <div>

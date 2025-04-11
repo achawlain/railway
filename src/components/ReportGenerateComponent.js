@@ -36,7 +36,6 @@ const ReportGenerateComponent = () => {
   const contentRef = useRef(null);
   const [haltStation, setHaltStation] = useState({});
   const [showUploadBox, setShowUploadBox] = useState(false);
-  const [formReportData, setFormReportData] = useState({});
   const [loading, setLoading] = useState(false);
   const [halteTableData, setHalteTableData] = useState(null);
   const [formData, setFormData] = useState({
@@ -46,7 +45,7 @@ const ReportGenerateComponent = () => {
 
   const { id } = useParams();
   const location = useLocation();
-  const { date, train_id, title } = location.state || {};
+  const { date, train_id, title, speed_before_1000m } = location.state || {};
   // const handleFormChange = useCallback((updatedData) => {
   //   setFormData((prev) => {
   //     const newData = { ...prev, ...updatedData };
@@ -169,7 +168,7 @@ const ReportGenerateComponent = () => {
   }, [haltStation]);
 
   const getHaltTableData = async (limitedHaltStation) => {
-    if (!formReportData.speed_before_1000m === "") {
+    if (speed_before_1000m) {
       const url =
         limitedHaltStation && haltStation && haltStation.from && haltStation.to
           ? `${RAILWAY_CONST.API_ENDPOINT.STAT_SPEED_BEFORE_HALT}?id=${id}&from_station=${haltStation.from}&to_station=${haltStation.to}`
@@ -189,13 +188,6 @@ const ReportGenerateComponent = () => {
     setHaltStation({ from: fromStation, to: toStation });
   };
 
-  const speedBfore1000 = (formData) => {
-    const data = {
-      speed_before_1000m: formData.speed_before_1000m,
-      stat_speed_before_halt: formData.stat_speed_before_halt,
-    };
-    setFormReportData(data);
-  };
   return (
     <>
       {loading && (
@@ -222,7 +214,6 @@ const ReportGenerateComponent = () => {
             onFormChange={handleFormChange}
             handleHaltSelectedData={handleHaltSelectedData}
             handleDownloadPDF={handleDownloadPDF}
-            speedBfore1000={speedBfore1000}
             title={title}
           />
         </Suspense>
@@ -230,7 +221,7 @@ const ReportGenerateComponent = () => {
         {/* {formData.trainNo === "NSFTIAFAS" && formData.dateOfWorking && ( */}
         {formData.trainNo === "NSFTIAFAS" && (
           <>
-            {!formReportData.speed_before_1000m === "" ? (
+            {speed_before_1000m ? (
               <div className="max-w-full mx-auto px-2 mb-4">
                 <div className="bg-white w-full p-8 pt-2 rounded-[15px]">
                   <Suspense fallback={<div>Loading table...</div>}>
@@ -254,8 +245,8 @@ const ReportGenerateComponent = () => {
                   }
                 >
                   <SpeedGraphComponent
-                    formReportData={formReportData}
                     haltStation={haltStation}
+                    speed_before_1000m={speed_before_1000m}
                   />
                 </Suspense>
               </div>

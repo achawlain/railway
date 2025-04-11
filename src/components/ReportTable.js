@@ -17,7 +17,6 @@ const ReportTable = ({
   onFormChange,
   handleHaltSelectedData,
   handleDownloadPDF,
-  speedBfore1000,
   title,
 }) => {
   // const [locations, setLocations] = useState(locations);
@@ -104,7 +103,7 @@ const ReportTable = ({
           bmbs: statResponse.bmbs?.toString() || prev.bmbs,
           timeWithSpeed: statResponse.max_speed_5 || prev.timeWithSpeed,
         }));
-        speedBfore1000(statResponse);
+
         await getCrewData();
         setLoading(false);
       }

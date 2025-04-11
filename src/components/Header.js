@@ -112,6 +112,9 @@ const Header = () => {
                 />
               </Link>
             </div>
+            <span className="text-[20px]">
+              EASTERN RAILWAY, ASANSOL DIVISION
+            </span>
             <div className="flex flex-row items-center">
               <nav className="h-[30px]" ref={navListRef}>
                 {/* <span className="navIcon cursor-pointer" onClick={toggleNavList}>
