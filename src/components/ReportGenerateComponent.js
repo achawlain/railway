@@ -46,7 +46,7 @@ const ReportGenerateComponent = () => {
 
   const { id } = useParams();
   const location = useLocation();
-  const { date, train_id } = location.state || {};
+  const { date, train_id, title } = location.state || {};
   // const handleFormChange = useCallback((updatedData) => {
   //   setFormData((prev) => {
   //     const newData = { ...prev, ...updatedData };
@@ -89,6 +89,13 @@ const ReportGenerateComponent = () => {
       const input = contentRef.current;
       const downloadButton = document.getElementById("downloadPdfButton");
       if (downloadButton) downloadButton.style.display = "none";
+      const backButton = document.getElementById("backButton");
+      if (backButton) backButton.style.display = "none";
+      const pdfLogo = document.getElementById("pdfLogo");
+      if (pdfLogo) pdfLogo.style.display = "flex";
+      document.querySelectorAll("input, select").forEach((el) => {
+        el.style.border = "0";
+      });
 
       html2canvas(input, { scale: 2, useCORS: true, logging: false }).then(
         (canvas) => {
@@ -115,6 +122,11 @@ const ReportGenerateComponent = () => {
           pdf.save("download.pdf");
           setLoading(false);
           if (downloadButton) downloadButton.style.display = "block";
+          if (pdfLogo) pdfLogo.style.display = "none";
+          if (backButton) backButton.style.display = "inline-block";
+          document.querySelectorAll("input, select").forEach((el) => {
+            el.style.border = "1px solid #e5e7eb";
+          });
         }
       );
     }
@@ -211,17 +223,16 @@ const ReportGenerateComponent = () => {
             handleHaltSelectedData={handleHaltSelectedData}
             handleDownloadPDF={handleDownloadPDF}
             speedBfore1000={speedBfore1000}
+            title={title}
           />
         </Suspense>
 
         {/* {formData.trainNo === "NSFTIAFAS" && formData.dateOfWorking && ( */}
         {formData.trainNo === "NSFTIAFAS" && (
           <>
-            <div className="max-w-full mx-auto px-2 mb-4">
-              <div className="bg-white w-full p-8 pt-2 rounded-[15px]">
-                {formReportData.speed_before_1000m === "" ? (
-                  <div>No Data Found</div>
-                ) : (
+            {!formReportData.speed_before_1000m === "" ? (
+              <div className="max-w-full mx-auto px-2 mb-4">
+                <div className="bg-white w-full p-8 pt-2 rounded-[15px]">
                   <Suspense fallback={<div>Loading table...</div>}>
                     <TableComponent
                       data={halteTable.data}
@@ -229,9 +240,10 @@ const ReportGenerateComponent = () => {
                       tableTitle={"Speed From 1000 m in rear of halts"}
                     />
                   </Suspense>
-                )}
+                </div>
               </div>
-            </div>
+            ) : null}
+
             <div className="max-w-full mx-auto px-2 mb-4">
               <div className="bg-white w-full p-8 pb-16 rounded-[15px]">
                 <Suspense

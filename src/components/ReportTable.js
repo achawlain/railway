@@ -5,6 +5,7 @@ import { locations } from "../utils/tableData";
 import { Link, useLocation, useParams } from "react-router-dom";
 import Loader from "./Loader";
 import { useNavigate } from "react-router-dom";
+import logo from "../../src/images/railwayLogo.png";
 
 const getLocalISOTime = () => {
   const now = new Date();
@@ -17,6 +18,7 @@ const ReportTable = ({
   handleHaltSelectedData,
   handleDownloadPDF,
   speedBfore1000,
+  title,
 }) => {
   // const [locations, setLocations] = useState(locations);
   const [isDatat, setIsData] = useState(false);
@@ -259,12 +261,21 @@ const ReportTable = ({
       ) : (
         <div className="max-w-full mx-auto px-2 mb-4">
           <div className="bg-white w-full p-8 pb-16 rounded-[15px] relative">
+            <div
+              id="pdfLogo"
+              className="w-full items-center justify-center flex pb-4 hidden"
+            >
+              <img className="sm:h-[80px] h-[24px]" src={logo} alt="Logo" />
+            </div>
             <div>
-              <h3 className="text-center text-xl font-bold mb-8 mt-2 relative ">
-                <span className="absolute left-0 underline cursor-pointer">
+              <h3 className="text-center text-xl font-bold mb-8 mt-2 relative pt-16">
+                <span
+                  id="backButton"
+                  className="absolute left-0 underline cursor-pointer top-0"
+                >
                   <button onClick={() => navigate(-1)}>Back</button>
                 </span>
-                EASTERN RAILWAY, ASANSOL DIVISION
+                {title}
                 <button
                   className="bg-[#2c215d] absolute top-0 right-[0] h-[32px] w-[120px] font-normal text-[16px] text-white absolute right-8"
                   onClick={handleDownloadPDF}
