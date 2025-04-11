@@ -3,7 +3,7 @@ import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import FileDropzone from "./FileDropzone";
 import ShowMessagePopUp from "./ShowMessagePopUp";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loader from "./Loader";
 
 const CreateReportComponentNew = () => {
@@ -100,6 +100,11 @@ const CreateReportComponentNew = () => {
       return;
     }
 
+    if (!formData.title) {
+      showPopup("Title is required!", "error");
+      return;
+    }
+
     setIsSubmitting(true);
 
     const submission = new FormData();
@@ -149,17 +154,26 @@ const CreateReportComponentNew = () => {
       )}
 
       <div className="max-w-[1200px] mx-auto px-2 mb-4">
-        <div className="bg-white w-full p-8 pt-2 rounded-[15px] min-h-[600px]">
-          <h1 className="text-[22px] text-[#30424c] font-medium mb-8 border-b border-[#ccc] pb-2 relative pt-2">
+        <div className="bg-white w-full p-8 pt-2 rounded-[15px] min-h-[600px] relative ">
+          <h1 className="text-[22px] text-[#30424c] font-medium text-center mb-8 border-b border-[#ccc] pb-2 relative pt-2">
+            <span className="absolute left-0 text-white pr-4 top-[5px] underline cursor-pointer ">
+              <button
+                className="text-[18px] text-[#888] hover:text-[#000] "
+                onClick={() => navigate(-1)}
+              >
+                Back
+              </button>
+            </span>
             Create Report
           </h1>
+
           <form
             onSubmit={handleSubmit}
             className="max-w-xl mx-auto p-6 bg-white rounded shadow"
           >
             <div className="mb-4 flex items-center">
-              <label className="block font-medium mb-1 mr-4 w-32 text-right">
-                Title
+              <label className="block font-medium mb-1 mr-4 w-36 text-right">
+                Title <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -173,7 +187,14 @@ const CreateReportComponentNew = () => {
             </div>
 
             <FileDropzone
-              label="Select Station"
+              label="Speedo Data File"
+              file={formData.speedo_file}
+              onDrop={handleFileDrop("speedo_file")}
+              required
+            />
+
+            <FileDropzone
+              label="Station File"
               file={formData.station_file}
               onDrop={handleFileDrop("station_file")}
             />
@@ -183,25 +204,19 @@ const CreateReportComponentNew = () => {
               onDrop={handleFileDrop("isd_file")}
             />
             <FileDropzone
-              label="Select PSR"
+              label="PSR File"
               file={formData.psr_file}
               onDrop={handleFileDrop("psr_file")}
             />
             <FileDropzone
-              label="Select TSR"
+              label="TSR File"
               file={formData.tsr_file}
               onDrop={handleFileDrop("tsr_file")}
             />
             <FileDropzone
-              label="Select Gradient"
+              label="Gradient File"
               file={formData.gradient_file}
               onDrop={handleFileDrop("gradient_file")}
-            />
-            <FileDropzone
-              label="Speedo Data"
-              file={formData.speedo_file}
-              onDrop={handleFileDrop("speedo_file")}
-              required
             />
 
             <div className="w-full flex justify-center items-center ">
