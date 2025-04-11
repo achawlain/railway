@@ -9,6 +9,12 @@ import Loader from "./Loader";
 const CreateReportComponentNew = () => {
   const [formData, setFormData] = useState({
     title: "",
+    lp_cms_id: "",
+    train_no: "",
+    load: "",
+    bmbs: "",
+    loco_no: "",
+    spm: "",
     station_file: null,
     isd_file: null,
     psr_file: null,
@@ -21,6 +27,11 @@ const CreateReportComponentNew = () => {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleFileDrop = (name) => (acceptedFiles) => {
     setFormData((pre) => ({
@@ -109,8 +120,24 @@ const CreateReportComponentNew = () => {
 
     const submission = new FormData();
     submission.append("report_title", formData.title);
+    submission.append("lp_cms_id", formData.lp_cms_id);
+    submission.append("train_no", formData.train_no);
+    submission.append("load", formData.load);
+    submission.append("bmbs", formData.bmbs);
+    submission.append("loco_no", formData.loco_no);
+    submission.append("spm", formData.spm);
+
+    const fileFields = [
+      "station_file",
+      "isd_file",
+      "psr_file",
+      "tsr_file",
+      "gradient_file",
+      "speedo_file",
+    ];
+
     Object.keys(formData).forEach((key) => {
-      if (formData[key] && key !== "title") {
+      if (fileFields.includes(key)) {
         submission.append(key, formData[key]);
       }
     });
@@ -171,7 +198,7 @@ const CreateReportComponentNew = () => {
             onSubmit={handleSubmit}
             className="max-w-xl mx-auto p-6 bg-white rounded shadow"
           >
-            <div className="mb-4 flex items-center">
+            {/* <div className="mb-4 flex items-center">
               <label className="block font-medium mb-1 mr-4 w-36 text-right">
                 Title <span className="text-red-500">*</span>
               </label>
@@ -183,6 +210,97 @@ const CreateReportComponentNew = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, title: e.target.value })
                 }
+              />
+            </div> */}
+
+            <div className="mb-4 flex items-center">
+              <label className="block font-medium mb-1 mr-4 w-36 text-right">
+                Title <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                name="title"
+                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
+                value={formData.title}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="mb-4 flex items-center">
+              <label className="block font-medium mb-1 mr-4 w-36 text-right">
+                LP CMS ID
+              </label>
+              <input
+                type="text"
+                name="lp_cms_id"
+                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
+                value={formData.lp_cms_id}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="mb-4 flex items-center">
+              <label className="block font-medium mb-1 mr-4 w-36 text-right">
+                Train No
+              </label>
+              <input
+                type="text"
+                name="train_no"
+                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
+                value={formData.train_no}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="mb-4 flex items-center">
+              <label className="block font-medium mb-1 mr-4 w-36 text-right">
+                Load
+              </label>
+              <input
+                type="text"
+                name="load"
+                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
+                value={formData.load}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="mb-4 flex items-center">
+              <label className="block font-medium mb-1 mr-4 w-36 text-right">
+                BMBS
+              </label>
+              <input
+                type="text"
+                name="bmbs"
+                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
+                value={formData.bmbs}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="mb-4 flex items-center">
+              <label className="block font-medium mb-1 mr-4 w-36 text-right">
+                Loco No
+              </label>
+              <input
+                type="text"
+                name="loco_no"
+                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
+                value={formData.loco_no}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="mb-4 flex items-center">
+              <label className="block font-medium mb-1 mr-4 w-36 text-right">
+                SPM
+              </label>
+              <input
+                type="text"
+                name="spm"
+                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
+                value={formData.spm}
+                onChange={handleInputChange}
               />
             </div>
 

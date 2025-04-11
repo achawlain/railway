@@ -45,7 +45,8 @@ const ReportGenerateComponent = () => {
 
   const { id } = useParams();
   const location = useLocation();
-  const { date, train_id, title, speed_before_1000m } = location.state || {};
+  const { date, train_id, title, speed_before_1000m, lp_cms_id } =
+    location.state || {};
   // const handleFormChange = useCallback((updatedData) => {
   //   setFormData((prev) => {
   //     const newData = { ...prev, ...updatedData };
@@ -215,6 +216,7 @@ const ReportGenerateComponent = () => {
             handleHaltSelectedData={handleHaltSelectedData}
             handleDownloadPDF={handleDownloadPDF}
             title={title}
+            lp_cms_id={lp_cms_id}
           />
         </Suspense>
 

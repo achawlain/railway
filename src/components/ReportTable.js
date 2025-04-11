@@ -18,6 +18,7 @@ const ReportTable = ({
   handleHaltSelectedData,
   handleDownloadPDF,
   title,
+  lp_cms_id,
 }) => {
   // const [locations, setLocations] = useState(locations);
   const [isDatat, setIsData] = useState(false);
@@ -103,8 +104,9 @@ const ReportTable = ({
           bmbs: statResponse.bmbs?.toString() || prev.bmbs,
           timeWithSpeed: statResponse.max_speed_5 || prev.timeWithSpeed,
         }));
-
-        await getCrewData();
+        if (lp_cms_id) {
+          await getCrewData();
+        }
         setLoading(false);
       }
     } catch (error) {
@@ -117,7 +119,7 @@ const ReportTable = ({
     try {
       const crewResponse = await apiService(
         "get",
-        "crew_details?crew_id=ASN2685"
+        `crew_details?crew_id=${lp_cms_id}`
       );
       if (crewResponse) {
         setFormData((prev) => ({
