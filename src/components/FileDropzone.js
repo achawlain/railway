@@ -9,13 +9,17 @@ const FileDropzone = ({ label, onDrop, file, required = false }) => {
   });
 
   return (
-    <div className="mb-4">
-      <label className="block font-medium mb-1">
+    <div className="mb-4 flex items-center">
+      {" "}
+      {/* Use flex to align label and dropzone */}
+      <label className="block font-medium mb-1 mr-4 w-32 text-right">
+        {" "}
+        {/* Add right alignment and fixed width for label */}
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       <div
         {...getRootProps()}
-        className={`p-4 border-2 border-dashed rounded cursor-pointer transition-all ${
+        className={`p-4 border-2 border-dashed rounded cursor-pointer transition-all flex-grow ${
           isDragActive ? "border-blue-500 bg-blue-50" : "border-gray-300"
         }`}
       >

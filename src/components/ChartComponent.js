@@ -6,9 +6,9 @@ const ChartComponent = ({ chartData }) => {
   if (!chartData) {
     return (
       <div>
-        <div className="componentLoader">
+        {/* <div className="componentLoader">
           <Loader />
-        </div>
+        </div> */}
       </div>
     );
   }
