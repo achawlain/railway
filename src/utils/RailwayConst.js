@@ -10,6 +10,7 @@ const RAILWAY_CONST = {
     TEMPLATE: "templates",
     GET_STATION: "get_station",
     NEW_REPORT: "new_report",
+    UPDATE_REPORT: "update_report",
   },
 
   ROUTE: {

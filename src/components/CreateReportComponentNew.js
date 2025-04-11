@@ -146,12 +146,12 @@ const CreateReportComponentNew = () => {
       const response = await apiService(
         "POST",
         RAILWAY_CONST.API_ENDPOINT.NEW_REPORT,
-        submission,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        submission
+        // {
+        //   headers: {
+        //     "Content-Type": "multipart/form-data",
+        //   },
+        // }
       );
 
       showPopup("Upload successful!", "success");

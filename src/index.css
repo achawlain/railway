@@ -86,3 +86,11 @@ body.loading:before {
   top: 0px;
   z-index: 1;
 }
+
+.reportTableForm input[readonly] {
+  background-color: #f3f4f6; /* gray-100 */
+  color: #6b7280; /* gray-500 */
+  cursor: not-allowed;
+  border-color: transparent;
+  box-shadow: none;
+}

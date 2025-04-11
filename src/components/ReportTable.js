@@ -19,6 +19,7 @@ const ReportTable = ({
   handleDownloadPDF,
   title,
   lp_cms_id,
+  handleformData,
 }) => {
   // const [locations, setLocations] = useState(locations);
   const [isDatat, setIsData] = useState(false);
@@ -66,7 +67,6 @@ const ReportTable = ({
       );
       if (stations) {
         setStationList(stations);
-        console.log("station", stations);
       }
     } catch (error) {
       console.error("Error fetching chart data:", error);
@@ -115,6 +115,9 @@ const ReportTable = ({
     }
   };
 
+  useEffect(() => {
+    handleformData(formData, "allFields");
+  }, [formData]);
   const getCrewData = async () => {
     try {
       const crewResponse = await apiService(
@@ -248,10 +251,8 @@ const ReportTable = ({
   // };
 
   useEffect(() => {
-    if (onFormChange) {
-      onFormChange(formData);
-    }
-  }, [formData, onFormChange]); //run effect when formData changes
+    onFormChange(formData);
+  }, [formData]); //run effect when formData changes
 
   return (
     <>
@@ -260,7 +261,7 @@ const ReportTable = ({
           <Loader />
         </div>
       ) : (
-        <div className="max-w-full mx-auto px-2 mb-4">
+        <div className="max-w-full mx-auto px-2 mb-4 reportTableForm">
           <div className="bg-white w-full p-8 pb-16 rounded-[15px] relative">
             <div
               id="pdfLogo"
@@ -357,7 +358,6 @@ const ReportTable = ({
                     value={formData.trainNo}
                     onChange={handleChange}
                     className="w-full border p-2 rounded focus:outline-none"
-                    readOnly
                   />
                 </div>
                 <div className="flex flex-row items-center">
@@ -402,7 +402,6 @@ const ReportTable = ({
                     value={formData.load}
                     onChange={handleChange}
                     className="w-full border p-2 rounded focus:outline-none"
-                    readOnly
                   />
                 </div>
                 <div className="flex flex-row items-center">
@@ -439,11 +438,10 @@ const ReportTable = ({
                   </label>
                   <input
                     type="text"
-                    name="designation"
+                    name="bmbs"
                     value={formData.bmbs}
                     onChange={handleChange}
                     className="w-full border p-2 rounded focus:outline-none"
-                    readOnly
                   />
                 </div>
                 <div className="flex flex-row items-center">
@@ -484,7 +482,6 @@ const ReportTable = ({
                     value={formData.locoNo}
                     onChange={handleChange}
                     className="w-full border p-2 rounded focus:outline-none"
-                    readOnly
                   />
                 </div>
                 <div className="flex flex-row items-center">
@@ -523,7 +520,6 @@ const ReportTable = ({
                     value={formData.spm}
                     onChange={handleChange}
                     className="w-full border p-2 rounded focus:outline-none"
-                    readOnly
                   />
                 </div>
                 <div className="flex flex-row items-center">

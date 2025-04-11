@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const DeficiencyRemark = () => {
+const DeficiencyRemark = ({ handleformData, deficiency, remark }) => {
   const [formData, setFormData] = useState({
     deficiency: "",
     remark: "",
@@ -13,17 +13,24 @@ const DeficiencyRemark = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form Data Submitted:", formData);
-  };
+  useEffect(() => {
+    setFormData({
+      deficiency: deficiency || "",
+      remark: remark || "",
+    });
+  }, [deficiency, remark]);
+
+  useEffect(() => {
+    console.log("formData", formData);
+    handleformData(formData, "redmarkDeficiency");
+  }, [formData]);
 
   return (
     <div className="w-full mx-auto mt-8 p-6 bg-white ">
       <h2 className="text-xl font-semibold mb-4 text-center ">
         Deficiency and Remark
       </h2>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2">
             Deficiency

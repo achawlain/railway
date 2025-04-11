@@ -10,6 +10,7 @@ import React, {
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { useLocation, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   // halteTableData,
   halteTableTitle,
@@ -23,6 +24,7 @@ import {
 import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import { setDataOnLocalStorage } from "../utils/localStorage";
+import ShowMessagePopUp from "./ShowMessagePopUp";
 
 // Lazy load components
 const ReportTable = lazy(() => import("./ReportTable"));
@@ -33,8 +35,31 @@ const Loader = lazy(() => import("./Loader"));
 const UploadFilePopup = lazy(() => import("./UploadFilePopup"));
 
 const ReportGenerateComponent = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const location = useLocation();
+  const {
+    date,
+    train_id,
+    title,
+    speed_before_1000m,
+    lp_cms_id,
+    deficiency,
+    remark,
+  } = location.state || {};
+
   const contentRef = useRef(null);
   const [haltStation, setHaltStation] = useState({});
+  const [fullFormData, setFullFormData] = useState({
+    id: id,
+    train_id: "",
+    load: "",
+    bmbs: "",
+    loco_no: "",
+    spm: "",
+    deficiency: "",
+    remark: "’",
+  });
   const [showUploadBox, setShowUploadBox] = useState(false);
   const [loading, setLoading] = useState(false);
   const [halteTableData, setHalteTableData] = useState(null);
@@ -42,11 +67,8 @@ const ReportGenerateComponent = () => {
     dateofWorking: "",
     trainNo: "",
   });
-
-  const { id } = useParams();
-  const location = useLocation();
-  const { date, train_id, title, speed_before_1000m, lp_cms_id } =
-    location.state || {};
+  const [popup, setPopup] = useState({ show: false, message: "", type: "" });
+  const [error, setError] = useState("");
   // const handleFormChange = useCallback((updatedData) => {
   //   setFormData((prev) => {
   //     const newData = { ...prev, ...updatedData };
@@ -70,17 +92,17 @@ const ReportGenerateComponent = () => {
     setFormData((prev) => ({ ...prev, ...updatedData }));
   }, []);
 
-  const shouldShowUploadBox = useMemo(() => {
-    return (
-      formData.trainNo !== "" &&
-      formData.trainNo !== "NSFTIAFAS" &&
-      formData.trainNo.length > 5
-    );
-  }, [formData.trainNo, formData.dateOfWorking]);
+  // const shouldShowUploadBox = useMemo(() => {
+  //   return (
+  //     formData.trainNo !== "" &&
+  //     formData.trainNo !== "NSFTIAFAS" &&
+  //     formData.trainNo.length > 5
+  //   );
+  // }, [formData.trainNo, formData.dateOfWorking]);
 
-  useEffect(() => {
-    setShowUploadBox(shouldShowUploadBox);
-  }, [shouldShowUploadBox]);
+  // useEffect(() => {
+  //   setShowUploadBox(shouldShowUploadBox);
+  // }, [shouldShowUploadBox]);
 
   const handleDownloadPDF = async () => {
     setLoading(true);
@@ -176,7 +198,6 @@ const ReportGenerateComponent = () => {
           : `${RAILWAY_CONST.API_ENDPOINT.STAT_SPEED_BEFORE_HALT}?id=${id}`;
       try {
         const response = await apiService("get", url);
-        console.log("/response", response);
         setHalteTableData(response);
         // setDataOnLocalStorage("reportList", response);
       } catch (error) {
@@ -187,6 +208,51 @@ const ReportGenerateComponent = () => {
 
   const handleHaltSelectedData = (fromStation, toStation) => {
     setHaltStation({ from: fromStation, to: toStation });
+  };
+
+  const handleformData = (data, label) => {
+    console.log("handleformData", data);
+    if (label === "allFields") {
+      setFullFormData((prev) => ({
+        ...prev,
+        train_id: data.trainNo || prev.train_id,
+        load: data.load || prev.load,
+        bmbs: data.bmbs || prev.bmbs,
+        loco_no: data.locoNo || prev.loco_no,
+        spm: data.spm || prev.spm,
+      }));
+    }
+    if (label === "redmarkDeficiency") {
+      setFullFormData((prev) => ({
+        ...prev,
+        deficiency: data.deficiency || prev.deficiency,
+        remark: data.remark || prev.remark,
+      }));
+    }
+  };
+
+  const handleSubmit = async () => {
+    console.log("fullFormData", fullFormData);
+    setLoading(true);
+    try {
+      const response = await apiService(
+        "POST",
+        RAILWAY_CONST.API_ENDPOINT.UPDATE_REPORT,
+        fullFormData
+      );
+      navigate(RAILWAY_CONST.ROUTE.DASHBOARD);
+    } catch (error) {
+      let errorMessage = "Something went wrong. Please try again.";
+      if (error.response?.data?.error) {
+        errorMessage = error.response.data.error;
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -217,43 +283,43 @@ const ReportGenerateComponent = () => {
             handleDownloadPDF={handleDownloadPDF}
             title={title}
             lp_cms_id={lp_cms_id}
+            handleformData={handleformData}
           />
         </Suspense>
 
         {/* {formData.trainNo === "NSFTIAFAS" && formData.dateOfWorking && ( */}
-        {formData.trainNo === "NSFTIAFAS" && (
-          <>
-            {speed_before_1000m ? (
-              <div className="max-w-full mx-auto px-2 mb-4">
-                <div className="bg-white w-full p-8 pt-2 rounded-[15px]">
-                  <Suspense fallback={<div>Loading table...</div>}>
-                    <TableComponent
-                      data={halteTable.data}
-                      colums={halteTable.columns}
-                      tableTitle={"Speed From 1000 m in rear of halts"}
-                    />
-                  </Suspense>
-                </div>
-              </div>
-            ) : null}
-
+        <>
+          {speed_before_1000m ? (
             <div className="max-w-full mx-auto px-2 mb-4">
-              <div className="bg-white w-full p-8 pb-16 rounded-[15px]">
-                <Suspense
-                  fallback={
-                    <div className="loader">
-                      <Loader />
-                    </div>
-                  }
-                >
-                  <SpeedGraphComponent
-                    haltStation={haltStation}
-                    speed_before_1000m={speed_before_1000m}
+              <div className="bg-white w-full p-8 pt-2 rounded-[15px]">
+                <Suspense fallback={<div>Loading table...</div>}>
+                  <TableComponent
+                    data={halteTable.data}
+                    colums={halteTable.columns}
+                    tableTitle={"Speed From 1000 m in rear of halts"}
                   />
                 </Suspense>
               </div>
             </div>
-            {/* <div className="max-w-full mx-auto px-2 mb-4">
+          ) : null}
+
+          <div className="max-w-full mx-auto px-2 mb-4">
+            <div className="bg-white w-full p-8 pb-16 rounded-[15px]">
+              <Suspense
+                fallback={
+                  <div className="loader">
+                    <Loader />
+                  </div>
+                }
+              >
+                <SpeedGraphComponent
+                  haltStation={haltStation}
+                  speed_before_1000m={speed_before_1000m}
+                />
+              </Suspense>
+            </div>
+          </div>
+          {/* <div className="max-w-full mx-auto px-2 mb-4">
               <div className="bg-white w-full p-8 pb-16 rounded-[15px]">
                 <div className="w-full flex flex-row justify-between">
                   <div className="w-[40%]">
@@ -288,15 +354,26 @@ const ReportGenerateComponent = () => {
                 </div>
               </div>
             </div> */}
-            <div className="max-w-full mx-auto px-2 mb-4">
-              <div className="bg-white w-full p-8 pb-16 rounded-[15px]">
-                <Suspense fallback={<div>Loading deficiency remarks...</div>}>
-                  <DeficiencyRemark />
-                </Suspense>
+          <div className="max-w-full mx-auto px-2 mb-4">
+            <div className="bg-white w-full p-8 pb-16 rounded-[15px]">
+              <Suspense fallback={<div>Loading deficiency remarks...</div>}>
+                <DeficiencyRemark
+                  handleformData={handleformData}
+                  deficiency={deficiency}
+                  remark={remark}
+                />
+              </Suspense>
+              <div className="w-full justify-center items-center flex">
+                <button
+                  className="px-4 reportGenerateBg py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </button>
               </div>
             </div>
-          </>
-        )}
+          </div>
+        </>
         {showUploadBox && (
           <Suspense
             fallback={
@@ -307,6 +384,13 @@ const ReportGenerateComponent = () => {
           >
             <UploadFilePopup onClose={() => setShowUploadBox(false)} />
           </Suspense>
+        )}
+        {popup.show && (
+          <ShowMessagePopUp
+            message={popup.message}
+            type={popup.type}
+            onClose={() => setPopup({ show: false, message: "", type: "" })}
+          />
         )}
       </div>
     </>
