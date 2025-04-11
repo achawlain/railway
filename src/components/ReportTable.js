@@ -83,10 +83,8 @@ const ReportTable = ({
           ...prev,
           analyzedBy: statResponse.analyzed_by || prev.analyzedBy,
           spm: statResponse.SPM || prev.spm,
-          dateOfAnalysis:
-            formatDateTimeForInput(statResponse.date_of_analysis) ||
-            prev.dateOfAnalysis,
-          dateOfWorking: formatDateTimeForInput(statResponse.date_of_working),
+          dateOfAnalysis: statResponse.date_of_analysis || prev.dateOfAnalysis,
+          dateOfWorking: statResponse.date_of_working || prev.dateOfWorking,
           arrivalTime:
             formatTime(statResponse.arrival_time) || prev.arrivalTime,
           departureTime:
@@ -283,7 +281,8 @@ const ReportTable = ({
                     Date of Analysis
                   </label>
                   <input
-                    type="datetime-local"
+                    // type="datetime-local"
+                    type="text"
                     name="dateOfAnalysis"
                     value={formData.dateOfAnalysis}
                     onChange={handleChange}
@@ -296,7 +295,7 @@ const ReportTable = ({
                     Date of Working
                   </label>
                   <input
-                    type="datetime-local"
+                    type="text"
                     name="dateOfWorking"
                     value={formData.dateOfWorking}
                     onChange={handleChange}
