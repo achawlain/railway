@@ -27,17 +27,14 @@ const CreateReportComponent = () => {
         RAILWAY_CONST.API_ENDPOINT.TEMPLATE
       );
       setTemplateData(response.templates);
-      console.log("res", response.templates);
+      // console.log("res", response.templates);
     } catch (error) {
       console.error("Error fetching reports:", error);
     }
     setLoading(false);
   };
 
-  console.log("selectedTemplate", selectedTemplate);
-
   const handleTemplateChange = (e) => {
-    console.log("eee", e.target.value);
     if (e.target.value === "add_new") {
       setSelectedTemplate("Add New");
     } else {

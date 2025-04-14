@@ -12,7 +12,7 @@ import CreateReport from "../pages/CreateReport";
 import { getDataFromLocalStorage } from "./localStorage";
 
 const user = getDataFromLocalStorage("userInfo");
-console.log("user", user);
+
 const router = createBrowserRouter([
   {
     element: <WithHeaderLayout />,

@@ -32,10 +32,10 @@ const SpeedGraphComponent = ({ speed_before_1000m, haltStation }) => {
       limitedHaltStation && haltStation?.from && haltStation?.to
         ? `${RAILWAY_CONST.API_ENDPOINT.CHART_SPEED_TIME}?id=${id}&from_station=${haltStation.from}&to_station=${haltStation.to}`
         : `${RAILWAY_CONST.API_ENDPOINT.CHART_SPEED_TIME}?id=${id}`;
-    console.log("url", url);
+
     try {
       const response = await apiService("get", url);
-      console.log("haltlimited----------", JSON.parse(response));
+
       setChartSpeedTimeData(JSON.parse(response));
     } catch (error) {
       console.error("Error fetching chart data:", error);
@@ -55,10 +55,7 @@ const SpeedGraphComponent = ({ speed_before_1000m, haltStation }) => {
 
     try {
       const response = await apiService("get", url);
-      console.log(
-        "response-------getChartSpeedBeforeHaltData",
-        JSON.parse(response)
-      );
+
       setChartSpeedBeforHaltData(JSON.parse(response));
     } catch (error) {
       console.error("Error fetching chart data:", error);

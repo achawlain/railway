@@ -85,8 +85,6 @@ const ReportGenerateComponent = () => {
   //   });
   // }, []);
 
-  console.log("-----report", currentReport);
-
   const handleFormChange = useCallback((updatedData) => {
     setFormData((prev) => ({ ...prev, ...updatedData }));
   }, []);
@@ -210,7 +208,6 @@ const ReportGenerateComponent = () => {
   };
 
   const handleformData = (data, label) => {
-    console.log("handleformData", data);
     if (label === "allFields") {
       setFullFormData((prev) => ({
         ...prev,
@@ -231,7 +228,6 @@ const ReportGenerateComponent = () => {
   };
 
   const handleSubmit = async () => {
-    console.log("fullFormData", fullFormData);
     setLoading(true);
     try {
       const response = await apiService(

@@ -20,8 +20,6 @@ const Login = () => {
     }
     setError("");
 
-    console.log("Logging in with", { email, password });
-
     // Call API for login
     await getChartSpeedBeforeHaltData();
   };
