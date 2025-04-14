@@ -21,7 +21,7 @@ const DeficiencyRemark = ({ handleformData, deficiency, remark }) => {
   }, [deficiency, remark]);
 
   useEffect(() => {
-    console.log("formData", formData);
+    // console.log("formData", formData);
     handleformData(formData, "redmarkDeficiency");
   }, [formData]);
 

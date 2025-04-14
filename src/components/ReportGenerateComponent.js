@@ -23,7 +23,10 @@ import {
 } from "../utils/tableData";
 import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
-import { setDataOnLocalStorage } from "../utils/localStorage";
+import {
+  getDataFromLocalStorage,
+  setDataOnLocalStorage,
+} from "../utils/localStorage";
 import ShowMessagePopUp from "./ShowMessagePopUp";
 
 // Lazy load components
@@ -38,16 +41,10 @@ const ReportGenerateComponent = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
-  const {
-    date,
-    train_id,
-    title,
-    speed_before_1000m,
-    lp_cms_id,
-    deficiency,
-    remark,
-  } = location.state || {};
-
+  const { deficiency, remark } = location.state || {};
+  const [currentReport, setCurrentReport] = useState(
+    getDataFromLocalStorage("currentReport")
+  );
   const contentRef = useRef(null);
   const [haltStation, setHaltStation] = useState({});
   const [fullFormData, setFullFormData] = useState({
@@ -87,6 +84,8 @@ const ReportGenerateComponent = () => {
   //     return newData;
   //   });
   // }, []);
+
+  console.log("-----report", currentReport);
 
   const handleFormChange = useCallback((updatedData) => {
     setFormData((prev) => ({ ...prev, ...updatedData }));
@@ -191,7 +190,7 @@ const ReportGenerateComponent = () => {
   }, [haltStation]);
 
   const getHaltTableData = async (limitedHaltStation) => {
-    if (speed_before_1000m) {
+    if (currentReport?.speed_before_1000m) {
       const url =
         limitedHaltStation && haltStation && haltStation.from && haltStation.to
           ? `${RAILWAY_CONST.API_ENDPOINT.STAT_SPEED_BEFORE_HALT}?id=${id}&from_station=${haltStation.from}&to_station=${haltStation.to}`
@@ -281,15 +280,14 @@ const ReportGenerateComponent = () => {
             onFormChange={handleFormChange}
             handleHaltSelectedData={handleHaltSelectedData}
             handleDownloadPDF={handleDownloadPDF}
-            title={title}
-            lp_cms_id={lp_cms_id}
             handleformData={handleformData}
+            currentReport={currentReport}
           />
         </Suspense>
 
         {/* {formData.trainNo === "NSFTIAFAS" && formData.dateOfWorking && ( */}
         <>
-          {speed_before_1000m ? (
+          {currentReport.speed_before_1000m ? (
             <div className="max-w-full mx-auto px-2 mb-4">
               <div className="bg-white w-full p-8 pt-2 rounded-[15px]">
                 <Suspense fallback={<div>Loading table...</div>}>
@@ -314,7 +312,7 @@ const ReportGenerateComponent = () => {
               >
                 <SpeedGraphComponent
                   haltStation={haltStation}
-                  speed_before_1000m={speed_before_1000m}
+                  speed_before_1000m={currentReport.speed_before_1000m}
                 />
               </Suspense>
             </div>
@@ -359,8 +357,8 @@ const ReportGenerateComponent = () => {
               <Suspense fallback={<div>Loading deficiency remarks...</div>}>
                 <DeficiencyRemark
                   handleformData={handleformData}
-                  deficiency={deficiency}
-                  remark={remark}
+                  deficiency={currentReport.deficiency}
+                  remark={currentReport.remark}
                 />
               </Suspense>
               <div className="w-full justify-center items-center flex">

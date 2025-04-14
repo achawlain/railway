@@ -17,9 +17,8 @@ const ReportTable = ({
   onFormChange,
   handleHaltSelectedData,
   handleDownloadPDF,
-  title,
-  lp_cms_id,
   handleformData,
+  currentReport,
 }) => {
   // const [locations, setLocations] = useState(locations);
   const [isDatat, setIsData] = useState(false);
@@ -74,134 +73,38 @@ const ReportTable = ({
   };
 
   const getFormData = async () => {
-    setLoading(true);
-    try {
-      const statResponse = await apiService(
-        "get",
-        `${RAILWAY_CONST.API_ENDPOINT.STAT}?id=${id}`
-      );
-      if (statResponse) {
-        setFormData((prev) => ({
-          ...prev,
-          analyzedBy: statResponse.analyzed_by || prev.analyzedBy,
-          spm: statResponse.SPM || prev.spm,
-          dateOfAnalysis: statResponse.date_of_analysis || prev.dateOfAnalysis,
-          dateOfWorking: statResponse.date_of_working || prev.dateOfWorking,
-          arrivalTime:
-            formatTime(statResponse.arrival_time) || prev.arrivalTime,
-          departureTime:
-            formatTime(statResponse.departure_time) || prev.departureTime,
-          averageSpeed: statResponse.avg_speed?.toString() || prev.averageSpeed,
-          maxSpeed: statResponse.max_speed?.toString() || prev.maxSpeed,
-          runningTime: statResponse.running_time || prev.runningTime,
-          totalDistance:
-            statResponse.total_distance?.toString() || prev.totalDistance,
-          from: statResponse.from || prev.from,
-          to: statResponse.to || prev.to,
-          trainNo: statResponse.train_num || prev.trainNo,
-          load: statResponse.load || prev.load,
-          locoNo: statResponse.loco_no || prev.locoNo,
-          bmbs: statResponse.bmbs?.toString() || prev.bmbs,
-          timeWithSpeed: statResponse.max_speed_5 || prev.timeWithSpeed,
-        }));
-        if (lp_cms_id) {
-          await getCrewData();
-        }
-        setLoading(false);
-      }
-    } catch (error) {
-      console.error("Error fetching chart data:", error);
-      setLoading(false);
-    }
+    setFormData((prev) => ({
+      ...prev,
+      analyzedBy: currentReport.analyzed_by || prev.analyzedBy,
+      spm: currentReport.SPM || prev.spm,
+      dateOfAnalysis: currentReport.date_of_analysis || prev.dateOfAnalysis,
+      dateOfWorking: currentReport.date_of_working || prev.dateOfWorking,
+      arrivalTime: formatTime(currentReport.arrival_time) || prev.arrivalTime,
+      departureTime:
+        formatTime(currentReport.departure_time) || prev.departureTime,
+      averageSpeed: currentReport.avg_speed?.toString() || prev.averageSpeed,
+      maxSpeed: currentReport.max_speed?.toString() || prev.maxSpeed,
+      runningTime: currentReport.running_time || prev.runningTime,
+      totalDistance:
+        currentReport.total_distance?.toString() || prev.totalDistance,
+      from: currentReport.from || prev.from,
+      to: currentReport.to || prev.to,
+      trainNo: currentReport.train_num || prev.trainNo,
+      load: currentReport.load || prev.load,
+      locoNo: currentReport.loco_no || prev.locoNo,
+      bmbs: currentReport.bmbs?.toString() || prev.bmbs,
+      timeWithSpeed: currentReport.max_speed_5 || prev.timeWithSpeed,
+      lp: currentReport.crew_name || prev.lp,
+      designation: currentReport.crew_designation || prev.designation,
+      nominatedCLI: currentReport.nominated_cli || prev.nominatedCLI,
+      lpCMSID: currentReport.lp_cms_id || prev.lpCMSID,
+    }));
+    setLoading(false);
   };
 
   useEffect(() => {
     handleformData(formData, "allFields");
   }, [formData]);
-  const getCrewData = async () => {
-    try {
-      const crewResponse = await apiService(
-        "get",
-        `crew_details?crew_id=${lp_cms_id}`
-      );
-      if (crewResponse) {
-        setFormData((prev) => ({
-          ...prev,
-          lp: crewResponse.crew_name,
-          designation: crewResponse.designation,
-          nominatedCLI: crewResponse.nominated_cli,
-          lpCMSID: crewResponse.lp_cms_id,
-        }));
-      }
-    } catch (error) {
-      console.error("Error fetching chart data:", error);
-    }
-  };
-
-  const formatDateTimeForInput = (dateString) => {
-    if (!dateString) return "";
-
-    const parts = dateString.split(" ");
-    if (parts.length !== 2) return "";
-
-    const [day, month, year] = parts[0].split("/").map(Number);
-    const [hours, minutes] = parts[1].split(":").map(Number);
-
-    if (
-      !day ||
-      !month ||
-      !year ||
-      hours === undefined ||
-      minutes === undefined
-    ) {
-      return "";
-    }
-
-    // Convert to ISO format for datetime-local
-    const date = new Date(year, month - 1, day, hours, minutes);
-    return date.toISOString().slice(0, 16); // Get YYYY-MM-DDTHH:MM
-  };
-
-  const formatDate = (dateString) => {
-    if (!dateString || dateString === "some-date") {
-      console.warn("Invalid date received:", dateString);
-      return ""; // Return empty to avoid crashes
-    }
-
-    // If already in ISO format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SSZ), return only date
-    if (dateString.includes("T")) {
-      return dateString.split("T")[0];
-    }
-
-    // Handle DD/MM/YYYY HH:MM format
-    const parts = dateString.split(" ");
-    if (parts.length < 1 || parts.length > 2) {
-      console.error("Invalid date format:", dateString);
-      return "";
-    }
-
-    const dateParts = parts[0].split("/");
-    if (dateParts.length !== 3) {
-      console.error("Invalid date structure:", dateString);
-      return "";
-    }
-
-    const [day, month, year] = dateParts.map(Number);
-    if (!day || !month || !year) {
-      console.error("Invalid date values:", dateString);
-      return "";
-    }
-
-    // Create Date object (months in JS start from 0)
-    const date = new Date(year, month - 1, day);
-
-    if (isNaN(date.getTime())) {
-      console.error("Invalid date conversion:", dateString);
-      return "";
-    }
-
-    return date.toISOString().split("T")[0]; // Returns YYYY-MM-DD
-  };
 
   const formatTime = (time) => {
     if (!time) return "";
@@ -277,7 +180,7 @@ const ReportTable = ({
                 >
                   <button onClick={() => navigate(-1)}>Back</button>
                 </span>
-                {title}
+                {currentReport.title}
                 <button
                   className="bg-[#2c215d] absolute top-0 right-[0] h-[32px] w-[120px] font-normal text-[16px] text-white absolute right-8"
                   onClick={handleDownloadPDF}
