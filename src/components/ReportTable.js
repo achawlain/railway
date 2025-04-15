@@ -248,7 +248,6 @@ const ReportTable = ({
                     value={formData.analyzedBy}
                     onChange={handleChange}
                     className="w-full border p-2 rounded focus:outline-none"
-                    readOnly
                   />
                 </div>
                 <div className="flex flex-row items-center">

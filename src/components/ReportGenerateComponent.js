@@ -216,6 +216,7 @@ const ReportGenerateComponent = () => {
         bmbs: data.bmbs || prev.bmbs,
         loco_no: data.locoNo || prev.loco_no,
         spm: data.spm || prev.spm,
+        analyzed_by: data.analyzedBy || prev.analyzed_by,
       }));
     }
     if (label === "redmarkDeficiency") {
