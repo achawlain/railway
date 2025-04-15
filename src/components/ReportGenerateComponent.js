@@ -110,10 +110,15 @@ const ReportGenerateComponent = () => {
       if (downloadButton) downloadButton.style.display = "none";
       const backButton = document.getElementById("backButton");
       if (backButton) backButton.style.display = "none";
+      const submitButon = document.getElementById("submitButon");
+      if (submitButon) submitButon.style.display = "none";
       const pdfLogo = document.getElementById("pdfLogo");
       if (pdfLogo) pdfLogo.style.display = "flex";
-      document.querySelectorAll("input, select").forEach((el) => {
+      document.querySelectorAll("input, select, textarea").forEach((el) => {
         el.style.border = "0";
+        if (el.hasAttribute("readonly")) {
+          el.style.background = "white";
+        }
       });
 
       html2canvas(input, { scale: 2, useCORS: true, logging: false }).then(
@@ -143,8 +148,12 @@ const ReportGenerateComponent = () => {
           if (downloadButton) downloadButton.style.display = "block";
           if (pdfLogo) pdfLogo.style.display = "none";
           if (backButton) backButton.style.display = "inline-block";
-          document.querySelectorAll("input, select").forEach((el) => {
+          if (submitButon) submitButon.style.display = "inline-block";
+          document.querySelectorAll("input, select, textarea").forEach((el) => {
             el.style.border = "1px solid #e5e7eb";
+            if (el.hasAttribute("readonly")) {
+              el.style.background = "#f3f4f6";
+            }
           });
         }
       );
@@ -264,7 +273,7 @@ const ReportGenerateComponent = () => {
       )}
       <div
         ref={contentRef}
-        className="w-full bg-[#efefef] p-4 reportGenerateBg pt-8 min-h-screen"
+        className="w-full bg-[#efefef] p-4 reportGenerateBg reportGenerateMain pt-8 min-h-screen"
       >
         <Suspense
           fallback={
@@ -360,7 +369,8 @@ const ReportGenerateComponent = () => {
               </Suspense>
               <div className="w-full justify-center items-center flex">
                 <button
-                  className="px-4 reportGenerateBg py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  id="submitButon"
+                  className="px-4 reportGenerateBg bg-blue-600 text-white rounded hover:bg-blue-700 py-1 inline-block"
                   onClick={handleSubmit}
                 >
                   Submit

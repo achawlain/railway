@@ -89,8 +89,16 @@ body.loading:before {
 
 .reportTableForm input[readonly] {
   background-color: #f3f4f6; /* gray-100 */
-  color: #6b7280; /* gray-500 */
+
   cursor: not-allowed;
   border-color: transparent;
   box-shadow: none;
+}
+
+.reportGenerateMain input,
+.reportGenerateMain select {
+  font-size: 14px;
+  color: #000;
+  height: 40px;
+  line-height: 40px;
 }

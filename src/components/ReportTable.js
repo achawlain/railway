@@ -87,8 +87,8 @@ const ReportTable = ({
       runningTime: currentReport.running_time || prev.runningTime,
       totalDistance:
         currentReport.total_distance?.toString() || prev.totalDistance,
-      from: currentReport.from || prev.from,
-      to: currentReport.to || prev.to,
+      from: currentReport.stn_from || prev.from,
+      to: currentReport.stn_to || prev.to,
       trainNo: currentReport.train_num || prev.trainNo,
       load: currentReport.load || prev.load,
       locoNo: currentReport.loco_no || prev.locoNo,
@@ -227,7 +227,7 @@ const ReportTable = ({
                     name="from"
                     value={formData.from}
                     onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none"
+                    className="w-full border p-2 rounded focus:outline-none h-[39px] leading-[39px]"
                   >
                     <option value="">Select From</option>
                     {stationList &&
@@ -270,7 +270,7 @@ const ReportTable = ({
                     name="to"
                     value={formData.to}
                     onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none"
+                    className="w-full border p-2 rounded focus:outline-none h-[39px] leading-[39px]"
                   >
                     <option value="">Select To</option>
                     {stationList &&
