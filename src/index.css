@@ -102,3 +102,7 @@ body.loading:before {
   height: 40px;
   line-height: 40px;
 }
+
+.colSpaceBottom > div {
+  margin-bottom: 25px;
+}
