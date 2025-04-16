@@ -21,6 +21,7 @@ const CreateReportComponentNew = () => {
     tsr_file: null,
     gradient_file: null,
     speedo_file: null,
+    attacking_speed_file: null,
   });
   const [popup, setPopup] = useState({ show: false, message: "", type: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -134,6 +135,7 @@ const CreateReportComponentNew = () => {
       "tsr_file",
       "gradient_file",
       "speedo_file",
+      "attacking_speed_file",
     ];
 
     Object.keys(formData).forEach((key) => {
@@ -335,6 +337,12 @@ const CreateReportComponentNew = () => {
               label="Gradient File"
               file={formData.gradient_file}
               onDrop={handleFileDrop("gradient_file")}
+            />
+
+            <FileDropzone
+              label="Attacking Speed File"
+              file={formData.attacking_speed_file}
+              onDrop={handleFileDrop("attacking_speed_file")}
             />
 
             <div className="w-full flex justify-center items-center ">

@@ -173,16 +173,16 @@ const ReportTable = ({
               <img className="sm:h-[80px] h-[24px]" src={logo} alt="Logo" />
             </div>
             <div>
-              <h3 className="text-center text-xl font-bold mb-8 mt-2 relative pt-16">
+              <h3 className="text-center text-xl font-bold mb-8 mt-2 border-t border-[#ccc] relative pt-8 mt-12">
                 <span
                   id="backButton"
-                  className="absolute left-0 underline cursor-pointer top-0"
+                  className="absolute left-0 underline cursor-pointer top-[-35px]"
                 >
                   <button onClick={() => navigate(-1)}>Back</button>
                 </span>
                 {currentReport.title}
                 <button
-                  className="bg-[#2c215d] absolute top-0 right-[0] h-[32px] w-[120px] font-normal text-[16px] text-white absolute right-8"
+                  className="bg-[#2c215d] absolute top-[-38px] right-[0] h-[32px] w-[120px] font-normal text-[16px] text-white absolute right-8"
                   onClick={handleDownloadPDF}
                   id="downloadPdfButton"
                 >
@@ -280,6 +280,18 @@ const ReportTable = ({
                         </option>
                       ))}
                   </select>
+                </div>
+                <div className="flex flex-row items-center">
+                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                    LP CMS ID
+                  </label>
+                  <input
+                    type="text"
+                    name="lpCMSID"
+                    value={formData.lpCMSID}
+                    onChange={handleChange}
+                    className="w-full border p-2 rounded focus:outline-none"
+                  />
                 </div>
                 <div className="flex flex-row items-center">
                   <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
@@ -399,19 +411,7 @@ const ReportTable = ({
                     readOnly
                   />
                 </div>
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    LP CMS ID
-                  </label>
-                  <input
-                    type="text"
-                    name="lpCMSID"
-                    value={formData.lpCMSID}
-                    onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none"
-                    readOnly
-                  />
-                </div>
+
                 <div className="flex flex-row items-center">
                   <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
                     SPM

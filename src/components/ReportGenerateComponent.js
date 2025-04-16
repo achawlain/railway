@@ -226,6 +226,7 @@ const ReportGenerateComponent = () => {
         loco_no: data.locoNo || prev.loco_no,
         spm: data.spm || prev.spm,
         analyzed_by: data.analyzedBy || prev.analyzed_by,
+        lp_cms_id: data.lpCMSID || prev.lp_cms_id,
       }));
     }
     if (label === "redmarkDeficiency") {

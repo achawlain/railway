@@ -37,8 +37,10 @@ const DashboardCardComponent = ({ item, onDelete, onView }) => {
                 {item?.train_id}
               </li>
               <li className="mt-2 text-[#000] font-bold">
-                <span className="mr-1 text-[#414141] font-medium">Date : </span>
-                {item?.date}
+                <span className="mr-1 text-[#414141] font-medium">
+                  Date of Working :{" "}
+                </span>
+                {item?.date_of_working}
               </li>
             </ul>
           </div>
