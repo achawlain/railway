@@ -176,7 +176,7 @@ const ReportTable = ({
               <h3 className="text-center text-xl font-bold mb-8 mt-2 border-b border-[#ccc] relative pt-2 pb-2 mt-4">
                 <span
                   id="backButton"
-                  className="absolute left-0 underline cursor-pointer top-[15px] text-[#888] hover:text-[#000] font-normal"
+                  className="absolute left-0 underline cursor-pointer top-[15px] text-[#000] hover:text-[#000] font-normal"
                 >
                   <button onClick={() => navigate(-1)}>Back</button>
                 </span>

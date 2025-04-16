@@ -187,7 +187,7 @@ const CreateReportComponentNew = () => {
           <h1 className="text-[22px] text-[#30424c] font-medium text-center mb-8 border-b border-[#ccc] pb-2 relative pt-2">
             <span className="absolute left-0 text-white pr-4 top-[5px] underline cursor-pointer ">
               <button
-                className="text-[18px] text-[#888] hover:text-[#000] "
+                className="text-[18px] text-[#000] hover:text-[#000] "
                 onClick={() => navigate(-1)}
               >
                 Back
