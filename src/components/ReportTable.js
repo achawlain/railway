@@ -173,16 +173,16 @@ const ReportTable = ({
               <img className="sm:h-[80px] h-[24px]" src={logo} alt="Logo" />
             </div>
             <div>
-              <h3 className="text-center text-xl font-bold mb-8 mt-2 border-t border-[#ccc] relative pt-8 mt-12">
+              <h3 className="text-center text-xl font-bold mb-8 mt-2 border-b border-[#ccc] relative pt-2 pb-2 mt-4">
                 <span
                   id="backButton"
-                  className="absolute left-0 underline cursor-pointer top-[-35px]"
+                  className="absolute left-0 underline cursor-pointer top-[15px] text-[#888] hover:text-[#000] font-normal"
                 >
                   <button onClick={() => navigate(-1)}>Back</button>
                 </span>
                 {currentReport.title}
                 <button
-                  className="bg-[#2c215d] absolute top-[-38px] right-[0] h-[32px] w-[120px] font-normal text-[16px] text-white absolute right-8"
+                  className="bg-[#2c215d] absolute top-1 right-[0] h-[32px] w-[120px] font-normal text-[16px] text-white absolute right-8"
                   onClick={handleDownloadPDF}
                   id="downloadPdfButton"
                 >
