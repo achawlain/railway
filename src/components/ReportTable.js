@@ -89,7 +89,7 @@ const ReportTable = ({
         currentReport.total_distance?.toString() || prev.totalDistance,
       from: currentReport.stn_from || prev.from,
       to: currentReport.stn_to || prev.to,
-      trainNo: currentReport.train_num || prev.trainNo,
+      trainNo: currentReport.train_id || prev.trainNo,
       load: currentReport.load || prev.load,
       locoNo: currentReport.loco_no || prev.locoNo,
       bmbs: currentReport.bmbs?.toString() || prev.bmbs,
@@ -191,302 +191,304 @@ const ReportTable = ({
               </h3>
 
               <form className="grid grid-cols-3 gap-8">
-                {/* Row 1 */}
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    Date of Analysis
-                  </label>
-                  <input
-                    // type="datetime-local"
-                    type="text"
-                    name="dateOfAnalysis"
-                    value={formData.dateOfAnalysis}
-                    onChange={handleChange}
-                    className="w-full p-2 border rounded focus:outline-none"
-                    readOnly
-                  />
+                {/* Row 1 start */}
+                <div className="colSpaceBottom">
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Date of Analysis
+                    </label>
+                    <input
+                      // type="datetime-local"
+                      type="text"
+                      name="dateOfAnalysis"
+                      value={formData.dateOfAnalysis}
+                      onChange={handleChange}
+                      className="w-full p-2 border rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Analyzed By
+                    </label>
+                    <input
+                      type="text"
+                      name="analyzedBy"
+                      value={formData.analyzedBy}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      LP CMS ID
+                    </label>
+                    <input
+                      type="text"
+                      name="lpCMSID"
+                      value={formData.lpCMSID}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      LP
+                    </label>
+                    <input
+                      type="text"
+                      name="lp"
+                      value={formData.lp}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Designation
+                    </label>
+                    <input
+                      type="text"
+                      name="designation"
+                      value={formData.designation}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Nominated CLI
+                    </label>
+                    <input
+                      type="text"
+                      name="nominatedCLI"
+                      value={formData.nominatedCLI}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      SPM
+                    </label>
+                    <input
+                      type="text"
+                      name="spm"
+                      value={formData.spm}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                    />
+                  </div>
                 </div>
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    Date of Working
-                  </label>
-                  <input
-                    type="text"
-                    name="dateOfWorking"
-                    value={formData.dateOfWorking}
-                    onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none"
-                    readOnly
-                  />
-                </div>
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    From
-                  </label>
-                  <select
-                    name="from"
-                    value={formData.from}
-                    onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none h-[39px] leading-[39px]"
-                  >
-                    <option value="">Select From</option>
-                    {stationList &&
-                      stationList.map((loc, i) => (
-                        <option key={i} value={loc.station}>
-                          {loc.station}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    Analyzed By
-                  </label>
-                  <input
-                    type="text"
-                    name="analyzedBy"
-                    value={formData.analyzedBy}
-                    onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none"
-                  />
-                </div>
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    Train No
-                  </label>
-                  <input
-                    type="text"
-                    name="trainNo"
-                    value={formData.trainNo}
-                    onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none"
-                  />
-                </div>
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    To
-                  </label>
-                  <select
-                    name="to"
-                    value={formData.to}
-                    onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none h-[39px] leading-[39px]"
-                  >
-                    <option value="">Select To</option>
-                    {stationList &&
-                      stationList.map((loc, i) => (
-                        <option key={i} value={loc.station}>
-                          {loc.station}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    LP CMS ID
-                  </label>
-                  <input
-                    type="text"
-                    name="lpCMSID"
-                    value={formData.lpCMSID}
-                    onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none"
-                  />
-                </div>
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    LP
-                  </label>
-                  <input
-                    type="text"
-                    name="lp"
-                    value={formData.lp}
-                    onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none"
-                    readOnly
-                  />
-                </div>
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    Load
-                  </label>
-                  <input
-                    type="text"
-                    name="load"
-                    value={formData.load}
-                    onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none"
-                  />
-                </div>
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    Departure Time
-                  </label>
-                  <input
-                    type="text"
-                    name="departureTime"
-                    value={formData.departureTime}
-                    onChange={handleChange}
-                    step="1"
-                    className="w-full border p-2 rounded focus:outline-none"
-                    readOnly
-                  />
-                </div>
-                {/* Row 2 */}
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    Designation
-                  </label>
-                  <input
-                    type="text"
-                    name="designation"
-                    value={formData.designation}
-                    onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none"
-                    readOnly
-                  />
-                </div>
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    BMBS %
-                  </label>
-                  <input
-                    type="text"
-                    name="bmbs"
-                    value={formData.bmbs}
-                    onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none"
-                  />
-                </div>
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    Arrival Time
-                  </label>
-                  <input
-                    type="text"
-                    name="arrivalTime"
-                    value={formData.arrivalTime}
-                    onChange={handleChange}
-                    step="1"
-                    className="w-full border p-2 rounded focus:outline-none"
-                    readOnly
-                  />
-                </div>
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    Nominated CLI
-                  </label>
-                  <input
-                    type="text"
-                    name="nominatedCLI"
-                    value={formData.nominatedCLI}
-                    onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none"
-                    readOnly
-                  />
-                </div>
+                {/* Row 1 end */}
 
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    Loco No
-                  </label>
-                  <input
-                    type="text"
-                    name="locoNo"
-                    value={formData.locoNo}
-                    onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none"
-                  />
-                </div>
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    Running Time
-                  </label>
-                  <input
-                    type="text"
-                    name="runningTime"
-                    value={formData.runningTime}
-                    onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none"
-                    readOnly
-                  />
-                </div>
+                {/* Row 2 start */}
+                <div className="colSpaceBottom">
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Date of Working
+                    </label>
+                    <input
+                      type="text"
+                      name="dateOfWorking"
+                      value={formData.dateOfWorking}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Train No
+                    </label>
+                    <input
+                      type="text"
+                      name="trainNo"
+                      value={formData.trainNo}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Load
+                    </label>
+                    <input
+                      type="text"
+                      name="load"
+                      value={formData.load}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      BMBS %
+                    </label>
+                    <input
+                      type="text"
+                      name="bmbs"
+                      value={formData.bmbs}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Loco No
+                    </label>
+                    <input
+                      type="text"
+                      name="locoNo"
+                      value={formData.locoNo}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                    />
+                  </div>
 
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    SPM
-                  </label>
-                  <input
-                    type="text"
-                    name="spm"
-                    value={formData.spm}
-                    onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none"
-                  />
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Departure Time
+                    </label>
+                    <input
+                      type="text"
+                      name="departureTime"
+                      value={formData.departureTime}
+                      onChange={handleChange}
+                      step="1"
+                      className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
+                  {/* Row 2 */}
+
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Arrival Time
+                    </label>
+                    <input
+                      type="text"
+                      name="arrivalTime"
+                      value={formData.arrivalTime}
+                      onChange={handleChange}
+                      step="1"
+                      className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Running Time
+                    </label>
+                    <input
+                      type="text"
+                      name="runningTime"
+                      value={formData.runningTime}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
                 </div>
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    Total Distance (KM)
-                  </label>
-                  <input
-                    type="number"
-                    name="totalDistance"
-                    value={formData.totalDistance}
-                    onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none"
-                    readOnly
-                  />
+                {/* Row 2 end */}
+
+                {/* Row 3 start */}
+                <div className="colSpaceBottom">
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      From
+                    </label>
+                    <select
+                      name="from"
+                      value={formData.from}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none h-[39px] leading-[39px]"
+                    >
+                      <option value="">Select From</option>
+                      {stationList &&
+                        stationList.map((loc, i) => (
+                          <option key={i} value={loc.station}>
+                            {loc.station}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      To
+                    </label>
+                    <select
+                      name="to"
+                      value={formData.to}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none h-[39px] leading-[39px]"
+                    >
+                      <option value="">Select To</option>
+                      {stationList &&
+                        stationList.map((loc, i) => (
+                          <option key={i} value={loc.station}>
+                            {loc.station}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Max Speed
+                    </label>
+                    <input
+                      type="number"
+                      name="maxSpeed"
+                      value={formData.maxSpeed}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Average Speed
+                    </label>
+                    <input
+                      type="text"
+                      name="averageSpeed"
+                      value={formData.averageSpeed}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Total Distance (KM)
+                    </label>
+                    <input
+                      type="number"
+                      name="totalDistance"
+                      value={formData.totalDistance}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Time with Speed ≥ (Max Speed - 5 Kmph)
+                    </label>
+                    <input
+                      type="text"
+                      name="timeWithSpeed"
+                      value={formData.timeWithSpeed}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
                 </div>
-
-                {/* Row 3 */}
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    Max Speed
-                  </label>
-                  <input
-                    type="number"
-                    name="maxSpeed"
-                    value={formData.maxSpeed}
-                    onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none"
-                    readOnly
-                  />
-                </div>
-
-                {/* Row 4 */}
-
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    Average Speed
-                  </label>
-                  <input
-                    type="text"
-                    name="averageSpeed"
-                    value={formData.averageSpeed}
-                    onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none"
-                    readOnly
-                  />
-                </div>
-
-                {/* Row 5 - Dropdowns */}
-
-                {/* Row 6 */}
-
-                {/* Last Row */}
-                <div className="flex flex-row items-center">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    Time with Speed ≥ (Max Speed - 5 Kmph)
-                  </label>
-                  <input
-                    type="text"
-                    name="timeWithSpeed"
-                    value={formData.timeWithSpeed}
-                    onChange={handleChange}
-                    className="w-full border p-2 rounded focus:outline-none"
-                    readOnly
-                  />
-                </div>
+                {/* Row 3 end */}
               </form>
             </div>
           </div>
