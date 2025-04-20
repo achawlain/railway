@@ -140,12 +140,12 @@ const CreateReportComponentNew = () => {
 
     const submission = new FormData();
     submission.append("template_id", template.id);
-    // submission.append("lp_cms_id", formData.lp_cms_id);
-    // submission.append("train_no", formData.train_no);
-    // submission.append("load", formData.load);
-    // submission.append("bmbs", formData.bmbs);
-    // submission.append("loco_no", formData.loco_no);
-    // submission.append("spm", formData.spm);
+    submission.append("lp_cms_id", formData.lp_cms_id);
+    submission.append("train_no", formData.train_no);
+    submission.append("load", formData.load);
+    submission.append("bmbs", formData.bmbs);
+    submission.append("loco_no", formData.loco_no);
+    submission.append("spm", formData.spm);
 
     const fileFields = [
       // "station_file",
