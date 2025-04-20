@@ -12,7 +12,7 @@ const FileDropzone = ({ label, onDrop, file, required = false }) => {
     <div className="mb-4 flex items-center">
       {" "}
       {/* Use flex to align label and dropzone */}
-      <label className="block font-medium mb-1 mr-4 w-36 text-right">
+      <label className="block font-medium mb-1 mr-4 w-40 text-right">
         {" "}
         {/* Add right alignment and fixed width for label */}
         {label} {required && <span className="text-red-500">*</span>}

@@ -5,8 +5,12 @@ import FileDropzone from "./FileDropzone";
 import ShowMessagePopUp from "./ShowMessagePopUp";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "./Loader";
+import { getDataFromLocalStorage } from "../utils/localStorage";
 
 const CreateReportComponentNew = () => {
+  const [template, setTemplate] = useState(
+    getDataFromLocalStorage("currentTemplate")
+  );
   const [formData, setFormData] = useState({
     title: "",
     lp_cms_id: "",
@@ -40,6 +44,20 @@ const CreateReportComponentNew = () => {
       [name]: acceptedFiles[0],
     }));
   };
+
+  useEffect(() => {
+    if (template) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        title: template.title || "",
+        station_file: template.station_file || null,
+        isd_file: template.isd_file || null,
+        psr_file: template.psr_file || null,
+        gradient_file: template.gradient_file || null,
+        attacking_speed_file: template.attacking_speed_file || null,
+      }));
+    }
+  }, [template]);
 
   const showPopup = (message, type = "success") => {
     setPopup({ show: true, message, type });
@@ -120,22 +138,22 @@ const CreateReportComponentNew = () => {
     setIsSubmitting(true);
 
     const submission = new FormData();
-    submission.append("report_title", formData.title);
-    submission.append("lp_cms_id", formData.lp_cms_id);
-    submission.append("train_no", formData.train_no);
-    submission.append("load", formData.load);
-    submission.append("bmbs", formData.bmbs);
-    submission.append("loco_no", formData.loco_no);
-    submission.append("spm", formData.spm);
+    submission.append("template_id", template.id);
+    // submission.append("lp_cms_id", formData.lp_cms_id);
+    // submission.append("train_no", formData.train_no);
+    // submission.append("load", formData.load);
+    // submission.append("bmbs", formData.bmbs);
+    // submission.append("loco_no", formData.loco_no);
+    // submission.append("spm", formData.spm);
 
     const fileFields = [
-      "station_file",
-      "isd_file",
-      "psr_file",
-      "tsr_file",
-      "gradient_file",
+      // "station_file",
+      // "isd_file",
+      // "psr_file",
+      // "tsr_file",
+      // "gradient_file",
       "speedo_file",
-      "attacking_speed_file",
+      // "attacking_speed_file",
     ];
 
     Object.keys(formData).forEach((key) => {
@@ -143,7 +161,7 @@ const CreateReportComponentNew = () => {
         submission.append(key, formData[key]);
       }
     });
-
+    console.log("submission", submission);
     try {
       const response = await apiService(
         "POST",
@@ -216,7 +234,7 @@ const CreateReportComponentNew = () => {
             </div> */}
 
             <div className="mb-4 flex items-center">
-              <label className="block font-medium mb-1 mr-4 w-36 text-right">
+              <label className="block font-medium mb-1 mr-4 w-40 text-right">
                 Title <span className="text-red-500">*</span>
               </label>
               <input
@@ -229,7 +247,7 @@ const CreateReportComponentNew = () => {
             </div>
 
             <div className="mb-4 flex items-center">
-              <label className="block font-medium mb-1 mr-4 w-36 text-right">
+              <label className="block font-medium mb-1 mr-4 w-40 text-right">
                 LP CMS ID
               </label>
               <input
@@ -242,7 +260,7 @@ const CreateReportComponentNew = () => {
             </div>
 
             <div className="mb-4 flex items-center">
-              <label className="block font-medium mb-1 mr-4 w-36 text-right">
+              <label className="block font-medium mb-1 mr-4 w-40 text-right">
                 Train No
               </label>
               <input
@@ -255,7 +273,7 @@ const CreateReportComponentNew = () => {
             </div>
 
             <div className="mb-4 flex items-center">
-              <label className="block font-medium mb-1 mr-4 w-36 text-right">
+              <label className="block font-medium mb-1 mr-4 w-40 text-right">
                 Load
               </label>
               <input
@@ -268,7 +286,7 @@ const CreateReportComponentNew = () => {
             </div>
 
             <div className="mb-4 flex items-center">
-              <label className="block font-medium mb-1 mr-4 w-36 text-right">
+              <label className="block font-medium mb-1 mr-4 w-40 text-right">
                 BMBS
               </label>
               <input
@@ -281,7 +299,7 @@ const CreateReportComponentNew = () => {
             </div>
 
             <div className="mb-4 flex items-center">
-              <label className="block font-medium mb-1 mr-4 w-36 text-right">
+              <label className="block font-medium mb-1 mr-4 w-40 text-right">
                 Loco No
               </label>
               <input
@@ -294,7 +312,7 @@ const CreateReportComponentNew = () => {
             </div>
 
             <div className="mb-4 flex items-center">
-              <label className="block font-medium mb-1 mr-4 w-36 text-right">
+              <label className="block font-medium mb-1 mr-4 w-40 text-right">
                 SPM
               </label>
               <input
@@ -314,36 +332,57 @@ const CreateReportComponentNew = () => {
             />
 
             <FileDropzone
-              label="Station File"
-              file={formData.station_file}
-              onDrop={handleFileDrop("station_file")}
-            />
-            <FileDropzone
-              label="ISD File"
-              file={formData.isd_file}
-              onDrop={handleFileDrop("isd_file")}
-            />
-            <FileDropzone
-              label="PSR File"
-              file={formData.psr_file}
-              onDrop={handleFileDrop("psr_file")}
-            />
-            <FileDropzone
               label="TSR File"
               file={formData.tsr_file}
               onDrop={handleFileDrop("tsr_file")}
             />
-            <FileDropzone
-              label="Gradient File"
-              file={formData.gradient_file}
-              onDrop={handleFileDrop("gradient_file")}
-            />
 
-            <FileDropzone
-              label="Attacking Speed File"
-              file={formData.attacking_speed_file}
-              onDrop={handleFileDrop("attacking_speed_file")}
-            />
+            {formData.station_file && (
+              <div className="mb-4 flex items-center">
+                <label className="block font-medium mb-1 mr-4 w-40 text-right">
+                  Station File
+                </label>
+                <span className="text-[#777]">formData.station_file</span>
+              </div>
+            )}
+
+            {formData.isd_file && (
+              <div className="mb-4 flex items-center">
+                <label className="block font-medium mb-1 mr-4 w-40 text-right">
+                  ISD File
+                </label>
+                <span className="text-[#777]">formData.isd_file</span>
+              </div>
+            )}
+
+            {formData.psr_file && (
+              <div className="mb-4 flex items-center">
+                <label className="block font-medium mb-1 mr-4 w-40 text-right">
+                  PSR File
+                </label>
+                <span className="text-[#777]">formData.psr_file</span>
+              </div>
+            )}
+
+            {formData.gradient_file && (
+              <div className="mb-4 flex items-center">
+                <label className="block font-medium mb-1 mr-4 w-40 text-right">
+                  Gradient File
+                </label>
+                <span className="text-[#777]">formData.gradient_file</span>
+              </div>
+            )}
+
+            {formData.attacking_speed_file && (
+              <div className="mb-4 flex items-center">
+                <label className="block font-medium mb-1 mr-4 w-40 text-right">
+                  Attacking Speed File
+                </label>
+                <span className="text-[#777]">
+                  formData.attacking_speed_file
+                </span>
+              </div>
+            )}
 
             <div className="w-full flex justify-center items-center ">
               <button

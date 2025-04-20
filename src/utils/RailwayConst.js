@@ -19,6 +19,7 @@ const RAILWAY_CONST = {
     LOGIN: "/login",
     REPORT_GENERATE: "/reportGenerate",
     DASHBOARD: "/dashboard",
+    TEMPLATE: "/templates",
     REPORTS: "/reports",
     CREATE_REPORT: "/createReport",
   },
