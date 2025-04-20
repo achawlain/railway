@@ -152,7 +152,7 @@ const CreateReportComponentNew = () => {
       // "station_file",
       // "isd_file",
       // "psr_file",
-      // "tsr_file",
+      "tsr_file",
       // "gradient_file",
       "speedo_file",
       // "attacking_speed_file",
