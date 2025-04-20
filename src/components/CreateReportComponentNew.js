@@ -46,15 +46,16 @@ const CreateReportComponentNew = () => {
   };
 
   useEffect(() => {
+    console.log("template", template);
     if (template) {
       setFormData((prevFormData) => ({
         ...prevFormData,
         title: template.title || "",
-        station_file: template.station_file || null,
-        isd_file: template.isd_file || null,
-        psr_file: template.psr_file || null,
-        gradient_file: template.gradient_file || null,
-        attacking_speed_file: template.attacking_speed_file || null,
+        // station_file: template.station_file || null,
+        // isd_file: template.isd_file || null,
+        // psr_file: template.psr_file || null,
+        // gradient_file: template.gradient_file || null,
+        // attacking_speed_file: template.attacking_speed_file || null,
       }));
     }
   }, [template]);
@@ -342,7 +343,7 @@ const CreateReportComponentNew = () => {
                 <label className="block font-medium mb-1 mr-4 w-40 text-right">
                   Station File
                 </label>
-                <span className="text-[#777]">formData.station_file</span>
+                <span className="text-[#777]">{template.station_file}</span>
               </div>
             )}
 
@@ -351,7 +352,7 @@ const CreateReportComponentNew = () => {
                 <label className="block font-medium mb-1 mr-4 w-40 text-right">
                   ISD File
                 </label>
-                <span className="text-[#777]">formData.isd_file</span>
+                <span className="text-[#777]">{template.isd_file}</span>
               </div>
             )}
 
@@ -360,7 +361,7 @@ const CreateReportComponentNew = () => {
                 <label className="block font-medium mb-1 mr-4 w-40 text-right">
                   PSR File
                 </label>
-                <span className="text-[#777]">formData.psr_file</span>
+                <span className="text-[#777]">{template.psr_file}</span>
               </div>
             )}
 
@@ -369,7 +370,7 @@ const CreateReportComponentNew = () => {
                 <label className="block font-medium mb-1 mr-4 w-40 text-right">
                   Gradient File
                 </label>
-                <span className="text-[#777]">formData.gradient_file</span>
+                <span className="text-[#777]">{template.gradient_file}</span>
               </div>
             )}
 
@@ -379,7 +380,7 @@ const CreateReportComponentNew = () => {
                   Attacking Speed File
                 </label>
                 <span className="text-[#777]">
-                  formData.attacking_speed_file
+                  {template.attacking_speed_file}
                 </span>
               </div>
             )}
