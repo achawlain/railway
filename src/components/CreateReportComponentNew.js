@@ -146,6 +146,7 @@ const CreateReportComponentNew = () => {
     submission.append("bmbs", formData.bmbs);
     submission.append("loco_no", formData.loco_no);
     submission.append("spm", formData.spm);
+    submission.append("report_title", formData.title);
 
     const fileFields = [
       // "station_file",
