@@ -339,7 +339,7 @@ const CreateReportComponentNew = () => {
               onDrop={handleFileDrop("tsr_file")}
             />
 
-            {formData.station_file && (
+            {template.station_file && (
               <div className="mb-4 flex items-center">
                 <label className="block font-medium mb-1 mr-4 w-40 text-right">
                   Station File
@@ -348,7 +348,7 @@ const CreateReportComponentNew = () => {
               </div>
             )}
 
-            {formData.isd_file && (
+            {template.isd_file && (
               <div className="mb-4 flex items-center">
                 <label className="block font-medium mb-1 mr-4 w-40 text-right">
                   ISD File
@@ -357,7 +357,7 @@ const CreateReportComponentNew = () => {
               </div>
             )}
 
-            {formData.psr_file && (
+            {template.psr_file && (
               <div className="mb-4 flex items-center">
                 <label className="block font-medium mb-1 mr-4 w-40 text-right">
                   PSR File
@@ -366,7 +366,7 @@ const CreateReportComponentNew = () => {
               </div>
             )}
 
-            {formData.gradient_file && (
+            {template.gradient_file && (
               <div className="mb-4 flex items-center">
                 <label className="block font-medium mb-1 mr-4 w-40 text-right">
                   Gradient File
@@ -375,7 +375,7 @@ const CreateReportComponentNew = () => {
               </div>
             )}
 
-            {formData.attacking_speed_file && (
+            {template.attacking_speed_file && (
               <div className="mb-4 flex items-center">
                 <label className="block font-medium mb-1 mr-4 w-40 text-right">
                   Attacking Speed File
