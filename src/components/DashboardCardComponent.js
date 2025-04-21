@@ -11,7 +11,6 @@ const DashboardCardComponent = ({ item, onDelete, onView }) => {
     setDataOnLocalStorage("currentReport", item);
     navigate(`/reports/${item.id}`, {});
   };
-  console.log("item", item);
 
   return (
     <div
