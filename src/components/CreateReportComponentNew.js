@@ -176,13 +176,21 @@ const CreateReportComponentNew = () => {
         // }
       );
 
+      if (response.status === 500 || response.data === null) {
+        throw new Error(response.message || "Unexpected error.");
+      }
+
       showPopup("Upload successful!", "success");
     } catch (error) {
       let errorMessage = "Something went wrong. Please try again.";
-      if (error.response?.data?.error) {
-        errorMessage = error.response.data.error;
-      } else if (error.response?.data?.message) {
-        errorMessage = error.response.data.message;
+      if (error.response) {
+        if (error.response.status === 500) {
+          errorMessage = "Internal Server Error. Please contact support.";
+        } else if (error.response.data?.error) {
+          errorMessage = error.response.data.error;
+        } else if (error.response.data?.message) {
+          errorMessage = error.response.data.message;
+        }
       } else if (error.message) {
         errorMessage = error.message;
       }
