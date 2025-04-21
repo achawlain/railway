@@ -11,6 +11,7 @@ const DashboardCardComponent = ({ item, onDelete, onView }) => {
     setDataOnLocalStorage("currentReport", item);
     navigate(`/reports/${item.id}`, {});
   };
+  console.log("item", item);
 
   return (
     <div
@@ -41,6 +42,42 @@ const DashboardCardComponent = ({ item, onDelete, onView }) => {
                   Date of Working :{" "}
                 </span>
                 {item?.date_of_working}
+              </li>
+              <li className="mt-2 text-[#000] font-bold">
+                <span className="mr-1 text-[#414141] font-medium">
+                  From:{" "}
+                </span>
+                {item?.stn_from}                
+              </li>
+              <li className="mt-2 text-[#000] font-bold">
+                <span className="mr-1 text-[#414141] font-medium">
+                  To :{" "}
+                </span>
+                {item?.stn_to}
+              </li>
+              <li className="mt-2 text-[#000] font-bold">
+                <span className="mr-1 text-[#414141] font-medium">
+                Departure Time :{" "}
+                </span>
+                {item?.departure_time}
+              </li>
+              <li className="mt-2 text-[#000] font-bold">
+                <span className="mr-1 text-[#414141] font-medium">
+                Arrival Time :{" "}
+                </span>
+                {item?.arrival_time}                
+              </li>
+              <li className="mt-2 text-[#000] font-bold">
+                <span className="mr-1 text-[#414141] font-medium">
+                Average Speed :{" "}
+                </span>
+                {item?.avg_speed}                
+              </li>
+              <li className="mt-2 text-[#000] font-bold">
+                <span className="mr-1 text-[#414141] font-medium">
+                Total Distance (KM) :{" "}
+                </span>
+                {item?.total_distance}
               </li>
             </ul>
           </div>
