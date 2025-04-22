@@ -37,6 +37,19 @@ const CreateReportComponentNew = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+  const spmOptions = [
+    { source_key: "Laxven", source_value: "Laxven" },
+    { source_key: "Telpro", source_value: "Telpro" },
+    // { source_key: "spm_3", source_value: "Source 3" },
+  ];
+
+  // Handle dropdown change
+  const handleDropdownChange = (e) => {
+    const selectedKey = e.target.value;
+    setFormData((prev) => ({ ...prev, spm: selectedKey }));
+  };
+
+  
 
   const handleFileDrop = (name) => (acceptedFiles) => {
     setFormData((pre) => ({
@@ -325,13 +338,28 @@ const CreateReportComponentNew = () => {
               <label className="block font-medium mb-1 mr-4 w-40 text-right">
                 SPM
               </label>
-              <input
-                type="text"
+              {/* <input
+                type="dropdown"
                 name="spm"
                 className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
                 value={formData.spm}
                 onChange={handleInputChange}
-              />
+              /> */}
+         <select
+          name="spm"
+          value={formData.spm}
+          onChange={handleDropdownChange}
+          className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
+        >
+          <option value="" disabled>
+            Select SPM
+          </option>
+          {spmOptions.map((option) => (
+            <option key={option.source_key} value={option.source_key}>
+              {option.source_value}
+            </option>
+          ))}
+        </select>
             </div>
 
             <FileDropzone
