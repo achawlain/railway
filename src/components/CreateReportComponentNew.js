@@ -30,6 +30,8 @@ const CreateReportComponentNew = () => {
   const [popup, setPopup] = useState({ show: false, message: "", type: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [spmOption, setSpmOption] = useState([]);
+
 
   const navigate = useNavigate();
 
@@ -37,11 +39,34 @@ const CreateReportComponentNew = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  const spmOptions = [
-    { source_key: "Laxven", source_value: "Laxven" },
-    { source_key: "Telpro", source_value: "Telpro" },
-    // { source_key: "spm_3", source_value: "Source 3" },
-  ];
+  
+  const fetchSPMOptions = async () => {
+    try {
+      const response = await fetch('http://182.77.59.45:5010/supported_data_sources');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      // Transform the data to match spmOption format
+      const options = data.sources.map(source => ({
+        source_key: source.source_key,
+        source_value: source.source_value,
+      }));
+      setSpmOption(options);
+    } catch (error) {
+      console.error('Error fetching SPM options:', error);
+      setError('Failed to fetch SPM options. Please try again later.');
+    }
+  };
+  
+  useEffect(() => {
+    console.log("spmOption", spmOption);
+  }, [spmOption]); 
+
+  // Call fetchSPMOptions when the component mounts
+  useEffect(() => {
+    fetchSPMOptions();
+  }, []);
 
   // Handle dropdown change
   const handleDropdownChange = (e) => {
@@ -354,9 +379,10 @@ const CreateReportComponentNew = () => {
           <option value="" disabled>
             Select SPM
           </option>
-          {spmOptions.map((option) => (
+          {spmOption.map((option) => (
             <option key={option.source_key} value={option.source_key}>
               {option.source_value}
+              {console.log("option", option.source_key)}
             </option>
           ))}
         </select>
