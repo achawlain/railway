@@ -11,6 +11,7 @@ const RAILWAY_CONST = {
     GET_STATION: "get_station",
     NEW_REPORT: "new_report",
     UPDATE_REPORT: "update_report",
+    SUPPORTED_DATA_SOURCES: "supported_data_sources",
   },
 
   ROUTE: {

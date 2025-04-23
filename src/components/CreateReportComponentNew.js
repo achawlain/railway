@@ -39,29 +39,27 @@ const CreateReportComponentNew = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  
+
   const fetchSPMOptions = async () => {
     try {
-      const response = await fetch('http://182.77.59.45:5010/supported_data_sources');
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      // Transform the data to match spmOption format
-      const options = data.sources.map(source => ({
+      const response = await apiService(
+        "get",
+         RAILWAY_CONST.API_ENDPOINT.SUPPORTED_DATA_SOURCES);
+        // Transform the data to match spmOption format
+      const options = response.sources.map(source => ({
         source_key: source.source_key,
         source_value: source.source_value,
       }));
       setSpmOption(options);
     } catch (error) {
-      console.error('Error fetching SPM options:', error);
-      setError('Failed to fetch SPM options. Please try again later.');
+      console.error("Error fetching SPM options:", error);
+      setError("Failed to fetch SPM options. Please try again later.");
     }
   };
-  
-  useEffect(() => {
-    console.log("spmOption", spmOption);
-  }, [spmOption]); 
+
+  // useEffect(() => {
+  //   console.log("spmOption", spmOption);
+  // }, [spmOption]); 
 
   // Call fetchSPMOptions when the component mounts
   useEffect(() => {
@@ -74,7 +72,7 @@ const CreateReportComponentNew = () => {
     setFormData((prev) => ({ ...prev, spm: selectedKey }));
   };
 
-  
+
 
   const handleFileDrop = (name) => (acceptedFiles) => {
     setFormData((pre) => ({
@@ -238,7 +236,7 @@ const CreateReportComponentNew = () => {
       setIsSubmitting(false);
     }
   };
-  useEffect(() => {});
+  useEffect(() => { });
 
   return (
     <div className="w-full bg-[#efefef] p-4 reportGenerateBg pt-8 min-h-screen">
@@ -370,22 +368,22 @@ const CreateReportComponentNew = () => {
                 value={formData.spm}
                 onChange={handleInputChange}
               /> */}
-         <select
-          name="spm"
-          value={formData.spm}
-          onChange={handleDropdownChange}
-          className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
-        >
-          <option value="" disabled>
-            Select SPM
-          </option>
-          {spmOption.map((option) => (
-            <option key={option.source_key} value={option.source_key}>
-              {option.source_value}
-              {console.log("option", option.source_key)}
-            </option>
-          ))}
-        </select>
+              <select
+                name="spm"
+                value={formData.spm}
+                onChange={handleDropdownChange}
+                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
+              >
+                <option value="" disabled>
+                  Select SPM
+                </option>
+                {spmOption.map((option) => (
+                  <option key={option.source_key} value={option.source_key}>
+                    {option.source_value}
+                    {console.log("option", option.source_key)}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <FileDropzone
