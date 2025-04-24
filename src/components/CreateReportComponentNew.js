@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { apiService } from "../utils/apiService";
+import { apiService ,DataTable} from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import FileDropzone from "./FileDropzone";
 import ShowMessagePopUp from "./ShowMessagePopUp";
@@ -31,6 +31,11 @@ const CreateReportComponentNew = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [spmOption, setSpmOption] = useState([]);
+  const [data, setData] = useState([]);
+  const [columns, setColumns] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isTableVisible, setTableVisible] = useState(false);
+
 
 
   const navigate = useNavigate();
@@ -56,6 +61,38 @@ const CreateReportComponentNew = () => {
       setError("Failed to fetch SPM options. Please try again later.");
     }
   };
+
+  const hangleShowDataonClickEyeIcon = async (dataSource) => {
+    setIsLoading(true);
+    try {
+      const response = await apiService(
+        "get",
+        RAILWAY_CONST.API_ENDPOINT.METADATA,
+        {}, 
+        {
+          template_id: 2,
+          data_src: dataSource, 
+        }
+      );
+      const responseData = response?.data || [];
+      console.log(responseData,"json csv data");
+      if (responseData.length) {
+        setColumns(Object.keys(responseData[0])); // Get column names dynamically
+        setData(responseData);
+        setTableVisible(true)
+      } else {
+        setColumns([]);
+        setData([]);
+      }
+     
+    } catch (error) {
+      console.error("Error fetching csv data:", error);
+      setError("Failed to fetch csv data. Please try again later.");
+    }
+    finally {
+      setIsLoading(false);
+    }
+  }
 
   // useEffect(() => {
   //   console.log("spmOption", spmOption);
@@ -164,6 +201,11 @@ const CreateReportComponentNew = () => {
 
     if (!formData.speedo_file) {
       showPopup("Speedo Data is required!", "error");
+      return;
+    }
+
+    if (!formData.spm) {
+      showPopup("SPM is required!", "error");
       return;
     }
 
@@ -359,7 +401,7 @@ const CreateReportComponentNew = () => {
 
             <div className="mb-4 flex items-center">
               <label className="block font-medium mb-1 mr-4 w-40 text-right">
-                SPM
+                SPM <span className="text-red-500">*</span>
               </label>
               {/* <input
                 type="dropdown"
@@ -378,7 +420,7 @@ const CreateReportComponentNew = () => {
                   Select SPM
                 </option>
                 {spmOption.map((option) => (
-                  <option key={option.source_key} value={option.source_key}>
+                  <option key={option.source_key} value={option.source_key} >
                     {option.source_value}
                     {console.log("option", option.source_key)}
                   </option>
@@ -405,6 +447,9 @@ const CreateReportComponentNew = () => {
                   Station File
                 </label>
                 <span className="text-[#777]">{template.station_file}</span>
+                <span
+                className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
+                onClick={() =>hangleShowDataonClickEyeIcon('station_file')}><i class="fa fa-eye" ></i></span>
               </div>
             )}
 
@@ -414,6 +459,9 @@ const CreateReportComponentNew = () => {
                   ISD File
                 </label>
                 <span className="text-[#777]">{template.isd_file}</span>
+                <span
+                className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
+                onClick={() =>hangleShowDataonClickEyeIcon('isd_file')}><i class="fa fa-eye" ></i></span>
               </div>
             )}
 
@@ -423,6 +471,9 @@ const CreateReportComponentNew = () => {
                   PSR File
                 </label>
                 <span className="text-[#777]">{template.psr_file}</span>
+                <span
+                className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110" 
+                onClick={() =>hangleShowDataonClickEyeIcon('psr_file')}><i class="fa fa-eye" ></i></span>
               </div>
             )}
 
@@ -432,6 +483,9 @@ const CreateReportComponentNew = () => {
                   Gradient File
                 </label>
                 <span className="text-[#777]">{template.gradient_file}</span>
+                <span
+                className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110" 
+                onClick={() =>hangleShowDataonClickEyeIcon('gradient_file')}><i class="fa fa-eye" ></i></span>
               </div>
             )}
 
@@ -443,6 +497,9 @@ const CreateReportComponentNew = () => {
                 <span className="text-[#777]">
                   {template.attacking_speed_file}
                 </span>
+                <span
+                className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110" 
+                onClick={() =>hangleShowDataonClickEyeIcon('attacking_speed_file')}><i class="fa fa-eye" ></i></span>
               </div>
             )}
 
@@ -464,6 +521,22 @@ const CreateReportComponentNew = () => {
           type={popup.type}
           onClose={() => setPopup({ show: false, message: "", type: "" })}
         />
+      )}
+
+{isLoading ? (
+        <Loader />
+      ) : data.length > 0 ? (
+        <>
+          {isTableVisible && (
+            <DataTable
+              columns={columns}
+              data={data}
+              onClose={() => setTableVisible(false)}
+            />
+          )}
+        </>
+      ) : (
+        <p>No data available.</p>
       )}
     </div>
   );
