@@ -70,7 +70,7 @@ const CreateReportComponentNew = () => {
         RAILWAY_CONST.API_ENDPOINT.METADATA,
         {}, 
         {
-          template_id: 2,
+          template_id: template.id,
           data_src: dataSource, 
         }
       );
