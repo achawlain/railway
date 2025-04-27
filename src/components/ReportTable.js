@@ -211,6 +211,60 @@ const ReportTable = ({
                   </div>
                   <div className="flex flex-row items-center">
                     <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Date of Working
+                    </label>
+                    <input
+                      type="text"
+                      name="dateOfWorking"
+                      value={formData.dateOfWorking}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Departure Time
+                    </label>
+                    <input
+                      type="text"
+                      name="departureTime"
+                      value={formData.departureTime}
+                      onChange={handleChange}
+                      step="1"
+                      className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Arrival Time
+                    </label>
+                    <input
+                      type="text"
+                      name="arrivalTime"
+                      value={formData.arrivalTime}
+                      onChange={handleChange}
+                      step="1"
+                      className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Running Time
+                    </label>
+                    <input
+                      type="text"
+                      name="runningTime"
+                      value={formData.runningTime}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
                       Analyzed By
                     </label>
                     <input
@@ -289,19 +343,7 @@ const ReportTable = ({
 
                 {/* Row 2 start */}
                 <div className="colSpaceBottom">
-                  <div className="flex flex-row items-center">
-                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                      Date of Working
-                    </label>
-                    <input
-                      type="text"
-                      name="dateOfWorking"
-                      value={formData.dateOfWorking}
-                      onChange={handleChange}
-                      className="w-full border p-2 rounded focus:outline-none"
-                      readOnly
-                    />
-                  </div>
+                  
                   <div className="flex flex-row items-center">
                     <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
                       Train No
@@ -349,93 +391,6 @@ const ReportTable = ({
                       onChange={handleChange}
                       className="w-full border p-2 rounded focus:outline-none"
                     />
-                  </div>
-
-                  <div className="flex flex-row items-center">
-                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                      Departure Time
-                    </label>
-                    <input
-                      type="text"
-                      name="departureTime"
-                      value={formData.departureTime}
-                      onChange={handleChange}
-                      step="1"
-                      className="w-full border p-2 rounded focus:outline-none"
-                      readOnly
-                    />
-                  </div>
-                  {/* Row 2 */}
-
-                  <div className="flex flex-row items-center">
-                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                      Arrival Time
-                    </label>
-                    <input
-                      type="text"
-                      name="arrivalTime"
-                      value={formData.arrivalTime}
-                      onChange={handleChange}
-                      step="1"
-                      className="w-full border p-2 rounded focus:outline-none"
-                      readOnly
-                    />
-                  </div>
-                  <div className="flex flex-row items-center">
-                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                      Running Time
-                    </label>
-                    <input
-                      type="text"
-                      name="runningTime"
-                      value={formData.runningTime}
-                      onChange={handleChange}
-                      className="w-full border p-2 rounded focus:outline-none"
-                      readOnly
-                    />
-                  </div>
-                </div>
-                {/* Row 2 end */}
-
-                {/* Row 3 start */}
-                <div className="colSpaceBottom">
-                  <div className="flex flex-row items-center">
-                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                      From
-                    </label>
-                    <select
-                      name="from"
-                      value={formData.from}
-                      onChange={handleChange}
-                      className="w-full border p-2 rounded focus:outline-none h-[39px] leading-[39px]"
-                    >
-                      <option value="">Select From</option>
-                      {stationList &&
-                        stationList.map((loc, i) => (
-                          <option key={i} value={loc.station}>
-                            {loc.station}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-                  <div className="flex flex-row items-center">
-                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                      To
-                    </label>
-                    <select
-                      name="to"
-                      value={formData.to}
-                      onChange={handleChange}
-                      className="w-full border p-2 rounded focus:outline-none h-[39px] leading-[39px]"
-                    >
-                      <option value="">Select To</option>
-                      {stationList &&
-                        stationList.map((loc, i) => (
-                          <option key={i} value={loc.station}>
-                            {loc.station}
-                          </option>
-                        ))}
-                    </select>
                   </div>
                   <div className="flex flex-row items-center">
                     <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
@@ -489,6 +444,50 @@ const ReportTable = ({
                       readOnly
                     />
                   </div>
+                </div>
+                {/* Row 2 end */}
+
+                {/* Row 3 start */}
+                <div className="colSpaceBottom">
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      From
+                    </label>
+                    <select
+                      name="from"
+                      value={formData.from}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none h-[39px] leading-[39px]"
+                    >
+                      <option value="">Select From</option>
+                      {stationList &&
+                        stationList.map((loc, i) => (
+                          <option key={i} value={loc.station}>
+                            {loc.station}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      To
+                    </label>
+                    <select
+                      name="to"
+                      value={formData.to}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none h-[39px] leading-[39px]"
+                    >
+                      <option value="">Select To</option>
+                      {stationList &&
+                        stationList.map((loc, i) => (
+                          <option key={i} value={loc.station}>
+                            {loc.station}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+                 
                   <div className="flex flex-row items-center">
                     <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
                       PSR Violation
@@ -499,11 +498,13 @@ const ReportTable = ({
                           <div key={index} className="flex flex-col mb-2">
                             <h4 className="font-semibold text-[14px] text-center mb-1">{violation.psr_section}</h4>
                             <div className="flex flex-row gap-4">
-                              <p className="border p-2 rounded bg-gray-100 w-1/2">
-                                <strong>From:</strong> {violation.from}
+                              <p className="border p-2 rounded bg-gray-100 w-1/2 text-[14px]">
+                                {/* <strong>From:</strong>  */}
+                                {violation.from}
                               </p>
-                              <p className="border p-2 rounded bg-gray-100 w-1/2">
-                                <strong>To:</strong> {violation.to}
+                              <p className="border p-2 rounded bg-gray-100 w-1/2 text-[14px]">
+                                {/* <strong>To:</strong>  */}
+                                {violation.to}
                               </p>
                             </div>
                           </div>
@@ -513,8 +514,7 @@ const ReportTable = ({
                       )}
                     </div>
                   </div>
-                </div>
-                <div className="flex flex-row items-center">
+                  <div className="flex flex-row items-center">
                   <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
                     TSR Violation
                   </label>
@@ -524,11 +524,13 @@ const ReportTable = ({
                         <div key={index} className="flex flex-col mb-2">
                           <h4 className="font-semibold text-[14px] text-center mb-1">{violation.tsr_section}</h4>
                           <div className="flex flex-row gap-4">
-                            <p className="border p-2 rounded bg-gray-100 w-1/2">
-                              <strong>From:</strong> {violation.from}
+                            <p className="border p-2 rounded bg-gray-100 w-1/2 text-[14px]">
+                              {/* <strong>From:</strong>  */}
+                              {violation.from}
                             </p>
-                            <p className="border p-2 rounded bg-gray-100 w-1/2">
-                              <strong>To:</strong> {violation.to}
+                            <p className="border p-2 rounded bg-gray-100 w-1/2 text-[14px]">
+                              {/* <strong>To:</strong>  */}
+                              {violation.to}
                             </p>
                           </div>
                         </div>
@@ -537,6 +539,7 @@ const ReportTable = ({
                       <p className="text-gray-800">NIL</p>
                     )}
                   </div>
+                </div>
                 </div>
                 {/* Row 3 end */}
               </form>
