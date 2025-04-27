@@ -488,7 +488,7 @@ const ReportTable = ({
                     </select>
                   </div>
                  
-                  <div className="flex flex-row items-center">
+                  <div className="flex flex-row ">
                     <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
                       PSR Violation
                     </label>
@@ -514,7 +514,7 @@ const ReportTable = ({
                       )}
                     </div>
                   </div>
-                  <div className="flex flex-row items-center">
+                  <div className="flex flex-row ">
                   <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
                     TSR Violation
                   </label>

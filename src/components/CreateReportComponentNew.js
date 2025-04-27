@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { apiService ,DataTable} from "../utils/apiService";
+import { apiService, DataTable } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import FileDropzone from "./FileDropzone";
 import ShowMessagePopUp from "./ShowMessagePopUp";
@@ -26,6 +26,7 @@ const CreateReportComponentNew = () => {
     gradient_file: null,
     speedo_file: null,
     attacking_speed_file: null,
+    goods: false,
   });
   const [popup, setPopup] = useState({ show: false, message: "", type: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -49,8 +50,8 @@ const CreateReportComponentNew = () => {
     try {
       const response = await apiService(
         "get",
-         RAILWAY_CONST.API_ENDPOINT.SUPPORTED_DATA_SOURCES);
-        // Transform the data to match spmOption format
+        RAILWAY_CONST.API_ENDPOINT.SUPPORTED_DATA_SOURCES);
+      // Transform the data to match spmOption format
       const options = response.sources.map(source => ({
         source_key: source.source_key,
         source_value: source.source_value,
@@ -68,14 +69,14 @@ const CreateReportComponentNew = () => {
       const response = await apiService(
         "get",
         RAILWAY_CONST.API_ENDPOINT.METADATA,
-        {}, 
+        {},
         {
           template_id: template.id,
-          data_src: dataSource, 
+          data_src: dataSource,
         }
       );
       const responseData = response?.data || [];
-      console.log(responseData,"json csv data");
+      console.log(responseData, "json csv data");
       if (responseData.length) {
         setColumns(Object.keys(responseData[0])); // Get column names dynamically
         setData(responseData);
@@ -84,7 +85,7 @@ const CreateReportComponentNew = () => {
         setColumns([]);
         setData([]);
       }
-     
+
     } catch (error) {
       console.error("Error fetching csv data:", error);
       setError("Failed to fetch csv data. Please try again later.");
@@ -225,6 +226,8 @@ const CreateReportComponentNew = () => {
     submission.append("loco_no", formData.loco_no);
     submission.append("spm", formData.spm);
     submission.append("report_title", formData.title);
+    submission.append("goods", formData.goods ? "true" : "false");
+
 
     const fileFields = [
       // "station_file",
@@ -422,10 +425,22 @@ const CreateReportComponentNew = () => {
                 {spmOption.map((option) => (
                   <option key={option.source_key} value={option.source_key} >
                     {option.source_value}
-                    {console.log("option", option.source_key)}
                   </option>
                 ))}
               </select>
+            </div>
+            <div className="mb-4 flex items-center">
+             <label htmlFor="goods" className="block font-medium mb-1 mr-4 w-40 text-right">
+                Goods
+              </label>
+              <input
+                type="checkbox"
+                id="goods"
+                name="goods"
+                checked={formData.goods}
+                onChange={(e) => setFormData({ ...formData, goods: e.target.checked })}
+                className="p-2 border rounded cursor-pointer transition-all w-5 h-5 border-gray-300 accent-[#4f46e5]"
+              />
             </div>
 
             <FileDropzone
@@ -448,8 +463,8 @@ const CreateReportComponentNew = () => {
                 </label>
                 <span className="text-[#777]">{template.station_file}</span>
                 <span
-                className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
-                onClick={() =>hangleShowDataonClickEyeIcon('station_file')}><i class="fa fa-eye" ></i></span>
+                  className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
+                  onClick={() => hangleShowDataonClickEyeIcon('station_file')}><i class="fa fa-eye" ></i></span>
               </div>
             )}
 
@@ -460,8 +475,8 @@ const CreateReportComponentNew = () => {
                 </label>
                 <span className="text-[#777]">{template.isd_file}</span>
                 <span
-                className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
-                onClick={() =>hangleShowDataonClickEyeIcon('isd_file')}><i class="fa fa-eye" ></i></span>
+                  className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
+                  onClick={() => hangleShowDataonClickEyeIcon('isd_file')}><i class="fa fa-eye" ></i></span>
               </div>
             )}
 
@@ -472,8 +487,8 @@ const CreateReportComponentNew = () => {
                 </label>
                 <span className="text-[#777]">{template.psr_file}</span>
                 <span
-                className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110" 
-                onClick={() =>hangleShowDataonClickEyeIcon('psr_file')}><i class="fa fa-eye" ></i></span>
+                  className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
+                  onClick={() => hangleShowDataonClickEyeIcon('psr_file')}><i class="fa fa-eye" ></i></span>
               </div>
             )}
 
@@ -484,12 +499,12 @@ const CreateReportComponentNew = () => {
                 </label>
                 <span className="text-[#777]">{template.gradient_file}</span>
                 <span
-                className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110" 
-                onClick={() =>hangleShowDataonClickEyeIcon('gradient_file')}><i class="fa fa-eye" ></i></span>
+                  className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
+                  onClick={() => hangleShowDataonClickEyeIcon('gradient_file')}><i class="fa fa-eye" ></i></span>
               </div>
             )}
 
-            {template.attacking_speed_file && (
+            {formData.goods && template.attacking_speed_file && (
               <div className="mb-4 flex items-center">
                 <label className="block font-medium mb-1 mr-4 w-40 text-right">
                   Attacking Speed File
@@ -498,8 +513,8 @@ const CreateReportComponentNew = () => {
                   {template.attacking_speed_file}
                 </span>
                 <span
-                className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110" 
-                onClick={() =>hangleShowDataonClickEyeIcon('attacking_speed_file')}><i class="fa fa-eye" ></i></span>
+                  className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
+                  onClick={() => hangleShowDataonClickEyeIcon('attacking_speed_file')}><i class="fa fa-eye" ></i></span>
               </div>
             )}
 
@@ -523,7 +538,7 @@ const CreateReportComponentNew = () => {
         />
       )}
 
-{isLoading ? (
+      {isLoading ? (
         <Loader />
       ) : data.length > 0 ? (
         <>
@@ -536,7 +551,8 @@ const CreateReportComponentNew = () => {
           )}
         </>
       ) : (
-        <p>No data available.</p>
+        // <p>No data available.</p>
+        ''
       )}
     </div>
   );
