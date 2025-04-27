@@ -100,6 +100,8 @@ const ReportTable = ({
       lpCMSID: currentReport.lp_cms_id || prev.lpCMSID,
       psr_violation: currentReport.psr_violation || [],
       tsr_violation: currentReport.tsr_violation || [],
+      attacking_speed_violation:
+        currentReport.attacking_speed_violation || [],
     }));
     setLoading(false);
   };
@@ -344,7 +346,7 @@ const ReportTable = ({
 
                 {/* Row 2 start */}
                 <div className="colSpaceBottom">
-                  
+
                   <div className="flex flex-row items-center">
                     <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
                       Train No
@@ -488,7 +490,7 @@ const ReportTable = ({
                         ))}
                     </select>
                   </div>
-                 
+
                   <div className="flex flex-row ">
                     <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
                       PSR Violation
@@ -516,31 +518,53 @@ const ReportTable = ({
                     </div>
                   </div>
                   <div className="flex flex-row ">
-                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                    TSR Violation
-                  </label>
-                  <div className="w-full"> 
-                    {formData.tsr_violation?.length > 0 ? (
-                      formData.tsr_violation.map((violation, index) => (
-                        <div key={index} className="flex flex-col mb-2">
-                          <h4 className="font-semibold text-[14px] text-center mb-1">{violation.tsr_section}</h4>
-                          <div className="flex flex-row gap-4">
-                            <p className="border p-2 rounded bg-gray-100 w-1/2 text-[14px]">
-                              {/* <strong>From:</strong>  */}
-                              {violation.from}
-                            </p>
-                            <p className="border p-2 rounded bg-gray-100 w-1/2 text-[14px]">
-                              {/* <strong>To:</strong>  */}
-                              {violation.to}
-                            </p>
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      TSR Violation
+                    </label>
+                    <div className="w-full">
+                      {formData.tsr_violation?.length > 0 ? (
+                        formData.tsr_violation.map((violation, index) => (
+                          <div key={index} className="flex flex-col mb-2">
+                            <h4 className="font-semibold text-[14px] text-center mb-1">{violation.tsr_section}</h4>
+                            <div className="flex flex-row gap-4">
+                              <p className="border p-2 rounded bg-gray-100 w-1/2 text-[14px]">
+                                {/* <strong>From:</strong>  */}
+                                {violation.from}
+                              </p>
+                              <p className="border p-2 rounded bg-gray-100 w-1/2 text-[14px]">
+                                {/* <strong>To:</strong>  */}
+                                {violation.to}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-gray-800">NIL</p>
-                    )}
+                        ))
+                      ) : (
+                        <p className="text-gray-800">NIL</p>
+                      )}
+                    </div>
                   </div>
-                </div>
+                  <div className="flex flex-row ">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Attacking Speed Violation
+                    </label>
+                    <div className="w-full">
+                      {formData.attacking_speed_violation?.length > 0 ? (
+                        formData.attacking_speed_violation.map((violation, index) => (
+                          <div key={index} className="flex flex-col mb-2">
+                            <div className="border p-2 rounded bg-gray-100 w-full">
+                            <p >
+                              {/* <strong>Violation:</strong>  */}
+                              {violation.violation}
+                            </p>
+                            <p className="text-gray-500 text-sm"> <i>{violation.time}</i></p>
+                           </div>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-gray-800">NIL</p>
+                      )}
+                    </div>
+                  </div>
                 </div>
                 {/* Row 3 end */}
               </form>
