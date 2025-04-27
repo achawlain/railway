@@ -98,6 +98,8 @@ const ReportTable = ({
       designation: currentReport.crew_designation || prev.designation,
       nominatedCLI: currentReport.nominated_cli || prev.nominatedCLI,
       lpCMSID: currentReport.lp_cms_id || prev.lpCMSID,
+      psr_violation: currentReport.psr_violation || [],
+      tsr_violation: currentReport.tsr_violation || [],
     }));
     setLoading(false);
   };
@@ -486,6 +488,54 @@ const ReportTable = ({
                       className="w-full border p-2 rounded focus:outline-none"
                       readOnly
                     />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      PSR Violation
+                    </label>
+                    <div className="w-full">
+                      {formData.psr_violation?.length > 0 ? (
+                        formData.psr_violation.map((violation, index) => (
+                          <div key={index} className="flex flex-col mb-2">
+                            <h4 className="font-semibold text-[14px] text-center mb-1">{violation.psr_section}</h4>
+                            <div className="flex flex-row gap-4">
+                              <p className="border p-2 rounded bg-gray-100 w-1/2">
+                                <strong>From:</strong> {violation.from}
+                              </p>
+                              <p className="border p-2 rounded bg-gray-100 w-1/2">
+                                <strong>To:</strong> {violation.to}
+                              </p>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-gray-800">NIL</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-row items-center">
+                  <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                    TSR Violation
+                  </label>
+                  <div className="w-full"> 
+                    {formData.tsr_violation?.length > 0 ? (
+                      formData.tsr_violation.map((violation, index) => (
+                        <div key={index} className="flex flex-col mb-2">
+                          <h4 className="font-semibold text-[14px] text-center mb-1">{violation.tsr_section}</h4>
+                          <div className="flex flex-row gap-4">
+                            <p className="border p-2 rounded bg-gray-100 w-1/2">
+                              <strong>From:</strong> {violation.from}
+                            </p>
+                            <p className="border p-2 rounded bg-gray-100 w-1/2">
+                              <strong>To:</strong> {violation.to}
+                            </p>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-gray-800">NIL</p>
+                    )}
                   </div>
                 </div>
                 {/* Row 3 end */}
