@@ -76,7 +76,7 @@ const ReportTable = ({
     setFormData((prev) => ({
       ...prev,
       analyzedBy: currentReport.analyzed_by || prev.analyzedBy,
-      spm: currentReport.SPM || prev.spm,
+      spm: currentReport.spm || prev.spm,
       dateOfAnalysis: currentReport.date_of_analysis || prev.dateOfAnalysis,
       dateOfWorking: currentReport.date_of_working || prev.dateOfWorking,
       arrivalTime: formatTime(currentReport.arrival_time) || prev.arrivalTime,
@@ -336,6 +336,7 @@ const ReportTable = ({
                       value={formData.spm}
                       onChange={handleChange}
                       className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
                     />
                   </div>
                 </div>
