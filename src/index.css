@@ -111,3 +111,8 @@ body.loading:before {
   page-break-before: always;
   break-before: page;
 }
+
+textarea {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}

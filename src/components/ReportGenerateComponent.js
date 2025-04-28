@@ -145,6 +145,7 @@ const ReportGenerateComponent = () => {
     const pdfLogo = document.getElementById("pdfLogo");
     const grayBgDivs = document.querySelectorAll(".grayBg");
 
+    // Hide/show elements
     if (downloadButton) downloadButton.style.display = "none";
     if (borderBottom) borderBottom.classList.remove("border-b");
     if (backButton) backButton.style.display = "none";
@@ -153,6 +154,30 @@ const ReportGenerateComponent = () => {
 
     grayBgDivs.forEach((div) => {
       div.classList.remove("bg-gray-100");
+    });
+
+    // Store original textareas and replace with divs
+    const textareaReplacements = [];
+    document.querySelectorAll("textarea").forEach((textarea) => {
+      // Store the original textarea reference
+      textareaReplacements.push({
+        original: textarea,
+        parent: textarea.parentNode,
+        nextSibling: textarea.nextSibling,
+      });
+
+      // Create replacement div
+      const div = document.createElement("div");
+      div.textContent = textarea.value;
+      div.style.whiteSpace = "pre-wrap";
+      div.style.padding = "8px";
+      div.style.borderRadius = "4px";
+      //div.style.border = "1px solid #e5e7eb"; // Match textarea border
+      div.style.minHeight = "100px"; // Match typical textarea height
+      div.style.width = "100%"; // Match textarea width
+
+      // Replace textarea with div
+      textarea.parentNode.replaceChild(div, textarea);
     });
 
     document.querySelectorAll("input, select, textarea").forEach((el) => {
@@ -187,7 +212,7 @@ const ReportGenerateComponent = () => {
       }
 
       if (speedGraphPart) {
-        pdf.addPage(); // <-- Force a new page before speed graph
+        pdf.addPage();
         const canvas2 = await html2canvas(speedGraphPart, {
           scale: 2,
           useCORS: true,
@@ -209,6 +234,19 @@ const ReportGenerateComponent = () => {
     } catch (error) {
       console.error("PDF generation error:", error);
     } finally {
+      // Restore original textareas
+      textareaReplacements.forEach(({ original, parent, nextSibling }) => {
+        const currentDiv = parent.querySelector("div");
+        if (currentDiv) {
+          if (nextSibling) {
+            parent.insertBefore(original, nextSibling);
+          } else {
+            parent.appendChild(original);
+          }
+          parent.removeChild(currentDiv);
+        }
+      });
+
       setLoading(false);
 
       if (downloadButton) downloadButton.style.display = "block";
