@@ -66,104 +66,168 @@ const ReportGenerateComponent = () => {
   });
   const [popup, setPopup] = useState({ show: false, message: "", type: "" });
   const [error, setError] = useState("");
-  // const handleFormChange = useCallback((updatedData) => {
-  //   setFormData((prev) => {
-  //     const newData = { ...prev, ...updatedData };
-
-  //     if (
-  //       newData.trainNo !== "" &&
-  //       newData.trainNo !== "123456" &&
-  //       newData.trainNo.length > 5 &&
-  //       newData.dateOfWorking
-  //     ) {
-  //       setShowUploadBox(true);
-  //     } else {
-  //       setShowUploadBox(false);
-  //     }
-
-  //     return newData;
-  //   });
-  // }, []);
 
   const handleFormChange = useCallback((updatedData) => {
     setFormData((prev) => ({ ...prev, ...updatedData }));
   }, []);
 
-  // const shouldShowUploadBox = useMemo(() => {
-  //   return (
-  //     formData.trainNo !== "" &&
-  //     formData.trainNo !== "NSFTIAFAS" &&
-  //     formData.trainNo.length > 5
-  //   );
-  // }, [formData.trainNo, formData.dateOfWorking]);
+  // const handleDownloadPDF = async () => {
+  //   setLoading(true);
+  //   console.log("loading");
+  //   if (contentRef.current) {
+  //     const input = contentRef.current;
+  //     const downloadButton = document.getElementById("downloadPdfButton");
+  //     if (downloadButton) downloadButton.style.display = "none";
 
-  // useEffect(() => {
-  //   setShowUploadBox(shouldShowUploadBox);
-  // }, [shouldShowUploadBox]);
+  //     const boderBottom = document.getElementById("sectionTitle");
+  //     if (boderBottom) boderBottom.classList.remove("border-b");
+
+  //     const backButton = document.getElementById("backButton");
+  //     if (backButton) backButton.style.display = "none";
+  //     const submitButon = document.getElementById("submitButon");
+  //     if (submitButon) submitButon.style.display = "none";
+  //     const pdfLogo = document.getElementById("pdfLogo");
+  //     if (pdfLogo) pdfLogo.style.display = "flex";
+  //     document.querySelectorAll("input, select, textarea").forEach((el) => {
+  //       el.style.border = "0";
+  //       if (el.hasAttribute("readonly")) {
+  //         el.style.background = "white";
+  //       }
+  //     });
+
+  //     html2canvas(input, { scale: 2, useCORS: true, logging: false }).then(
+  //       (canvas) => {
+  //         const imgData = canvas.toDataURL("image/png");
+  //         const pdf = new jsPDF("p", "mm", "a4");
+
+  //         let position = 0;
+  //         let remainingHeight = (canvas.height * 210) / canvas.width;
+
+  //         while (remainingHeight > 0) {
+  //           pdf.addImage(
+  //             imgData,
+  //             "PNG",
+  //             0,
+  //             position,
+  //             210,
+  //             (canvas.height * 210) / canvas.width
+  //           );
+  //           remainingHeight -= 297;
+  //           position -= 297;
+  //           if (remainingHeight > 0) pdf.addPage();
+  //         }
+
+  //         pdf.save("download.pdf");
+  //         setLoading(false);
+  //         if (downloadButton) downloadButton.style.display = "block";
+  //         if (pdfLogo) pdfLogo.style.display = "none";
+  //         if (backButton) backButton.style.display = "inline-block";
+  //         if (submitButon) submitButon.style.display = "inline-block";
+  //         if (boderBottom) boderBottom.classList.add("border-b");
+  //         document.querySelectorAll("input, select, textarea").forEach((el) => {
+  //           el.style.border = "1px solid #e5e7eb";
+  //           if (el.hasAttribute("readonly")) {
+  //             el.style.background = "#f3f4f6";
+  //           }
+  //         });
+  //       }
+  //     );
+  //   }
+  //   //  setLoading(false);
+  // };
 
   const handleDownloadPDF = async () => {
     setLoading(true);
-    console.log("loading");
-    if (contentRef.current) {
-      const input = contentRef.current;
-      const downloadButton = document.getElementById("downloadPdfButton");
-      if (downloadButton) downloadButton.style.display = "none";
+    const downloadButton = document.getElementById("downloadPdfButton");
+    const borderBottom = document.getElementById("sectionTitle");
+    const backButton = document.getElementById("backButton");
+    const submitButton = document.getElementById("submitButon");
+    const pdfLogo = document.getElementById("pdfLogo");
+    const grayBgDivs = document.querySelectorAll(".grayBg");
 
-      const boderBottom = document.getElementById("sectionTitle");
-      if (boderBottom) boderBottom.classList.remove("border-b");
+    if (downloadButton) downloadButton.style.display = "none";
+    if (borderBottom) borderBottom.classList.remove("border-b");
+    if (backButton) backButton.style.display = "none";
+    if (submitButton) submitButton.style.display = "none";
+    if (pdfLogo) pdfLogo.style.display = "flex";
 
-      const backButton = document.getElementById("backButton");
-      if (backButton) backButton.style.display = "none";
-      const submitButon = document.getElementById("submitButon");
-      if (submitButon) submitButon.style.display = "none";
-      const pdfLogo = document.getElementById("pdfLogo");
-      if (pdfLogo) pdfLogo.style.display = "flex";
-      document.querySelectorAll("input, select, textarea").forEach((el) => {
-        el.style.border = "0";
-        if (el.hasAttribute("readonly")) {
-          el.style.background = "white";
-        }
+    grayBgDivs.forEach((div) => {
+      div.classList.remove("bg-gray-100");
+    });
+
+    document.querySelectorAll("input, select, textarea").forEach((el) => {
+      el.style.border = "0";
+      if (el.hasAttribute("readonly")) {
+        el.style.background = "white";
+      }
+    });
+
+    const pdf = new jsPDF("p", "mm", "a4");
+
+    try {
+      const firstPart = document.getElementById("pdf-first-part");
+      const speedGraphPart = document.getElementById("pdf-speed-graph");
+
+      if (firstPart) {
+        const canvas1 = await html2canvas(firstPart, {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+        });
+        const imgData1 = canvas1.toDataURL("image/png");
+
+        pdf.addImage(
+          imgData1,
+          "PNG",
+          0,
+          0,
+          210,
+          (canvas1.height * 210) / canvas1.width
+        );
+      }
+
+      if (speedGraphPart) {
+        pdf.addPage(); // <-- Force a new page before speed graph
+        const canvas2 = await html2canvas(speedGraphPart, {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+        });
+        const imgData2 = canvas2.toDataURL("image/png");
+
+        pdf.addImage(
+          imgData2,
+          "PNG",
+          0,
+          0,
+          210,
+          (canvas2.height * 210) / canvas2.width
+        );
+      }
+
+      pdf.save("download.pdf");
+    } catch (error) {
+      console.error("PDF generation error:", error);
+    } finally {
+      setLoading(false);
+
+      if (downloadButton) downloadButton.style.display = "block";
+      if (borderBottom) borderBottom.classList.add("border-b");
+      if (backButton) backButton.style.display = "inline-block";
+      if (submitButton) submitButton.style.display = "inline-block";
+      if (pdfLogo) pdfLogo.style.display = "none";
+
+      grayBgDivs.forEach((div) => {
+        div.classList.add("bg-gray-100");
       });
 
-      html2canvas(input, { scale: 2, useCORS: true, logging: false }).then(
-        (canvas) => {
-          const imgData = canvas.toDataURL("image/png");
-          const pdf = new jsPDF("p", "mm", "a4");
-
-          let position = 0;
-          let remainingHeight = (canvas.height * 210) / canvas.width;
-
-          while (remainingHeight > 0) {
-            pdf.addImage(
-              imgData,
-              "PNG",
-              0,
-              position,
-              210,
-              (canvas.height * 210) / canvas.width
-            );
-            remainingHeight -= 297;
-            position -= 297;
-            if (remainingHeight > 0) pdf.addPage();
-          }
-
-          pdf.save("download.pdf");
-          setLoading(false);
-          if (downloadButton) downloadButton.style.display = "block";
-          if (pdfLogo) pdfLogo.style.display = "none";
-          if (backButton) backButton.style.display = "inline-block";
-          if (submitButon) submitButon.style.display = "inline-block";
-          if (boderBottom) boderBottom.classList.add("border-b");
-          document.querySelectorAll("input, select, textarea").forEach((el) => {
-            el.style.border = "1px solid #e5e7eb";
-            if (el.hasAttribute("readonly")) {
-              el.style.background = "#f3f4f6";
-            }
-          });
+      document.querySelectorAll("input, select, textarea").forEach((el) => {
+        el.style.border = "1px solid #e5e7eb";
+        if (el.hasAttribute("readonly")) {
+          el.style.background = "#f3f4f6";
         }
-      );
+      });
     }
-    //  setLoading(false);
   };
 
   const halteTable = useMemo(
@@ -281,24 +345,23 @@ const ReportGenerateComponent = () => {
         ref={contentRef}
         className="w-full bg-[#efefef] p-4 reportGenerateBg reportGenerateMain pt-8 min-h-screen"
       >
-        <Suspense
-          fallback={
-            <div className="loader">
-              <Loader />
-            </div>
-          }
-        >
-          <ReportTable
-            onFormChange={handleFormChange}
-            handleHaltSelectedData={handleHaltSelectedData}
-            handleDownloadPDF={handleDownloadPDF}
-            handleformData={handleformData}
-            currentReport={currentReport}
-          />
-        </Suspense>
+        <div id="pdf-first-part">
+          <Suspense
+            fallback={
+              <div className="loader">
+                <Loader />
+              </div>
+            }
+          >
+            <ReportTable
+              onFormChange={handleFormChange}
+              handleHaltSelectedData={handleHaltSelectedData}
+              handleDownloadPDF={handleDownloadPDF}
+              handleformData={handleformData}
+              currentReport={currentReport}
+            />
+          </Suspense>
 
-        {/* {formData.trainNo === "NSFTIAFAS" && formData.dateOfWorking && ( */}
-        <>
           {currentReport.speed_before_1000m ? (
             <div className="max-w-full mx-auto px-2 mb-4">
               <div className="bg-white w-full p-8 pt-2 rounded-[15px]">
@@ -312,7 +375,8 @@ const ReportGenerateComponent = () => {
               </div>
             </div>
           ) : null}
-
+        </div>
+        <div id="pdf-speed-graph">
           <div className="max-w-full mx-auto px-2 mb-4">
             <div className="bg-white w-full p-8 pb-16 rounded-[15px]">
               <Suspense
@@ -329,41 +393,7 @@ const ReportGenerateComponent = () => {
               </Suspense>
             </div>
           </div>
-          {/* <div className="max-w-full mx-auto px-2 mb-4">
-              <div className="bg-white w-full p-8 pb-16 rounded-[15px]">
-                <div className="w-full flex flex-row justify-between">
-                  <div className="w-[40%]">
-                    <Suspense fallback={<div>Loading analysis...</div>}>
-                      <TableComponent
-                        data={previousAnalysis.data}
-                        colums={previousAnalysis.columns}
-                        tableTitle={"Previous Analysis for The LP- 10 Of 20"}
-                      />
-                    </Suspense>
-                  </div>
-                  <div className="w-[55%]">
-                    <div className="w-full">
-                      <Suspense fallback={<div>Loading TSR...</div>}>
-                        <TableComponent
-                          data={TSRTable.data}
-                          colums={TSRTable.columns}
-                          tableTitle={"TSR FOR THE DAY "}
-                        />
-                      </Suspense>
-                    </div>
-                    <div className="w-full">
-                      <Suspense fallback={<div>Loading speed test...</div>}>
-                        <TableComponent
-                          data={speedTestTable.data}
-                          colums={speedTestTable.columns}
-                          tableTitle={""}
-                        />
-                      </Suspense>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
+
           <div className="max-w-full mx-auto px-2 mb-4">
             <div className="bg-white w-full p-8 pb-16 rounded-[15px]">
               <Suspense fallback={<div>Loading deficiency remarks...</div>}>
@@ -384,7 +414,7 @@ const ReportGenerateComponent = () => {
               </div>
             </div>
           </div>
-        </>
+        </div>
         {showUploadBox && (
           <Suspense
             fallback={

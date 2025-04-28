@@ -174,7 +174,7 @@ const ReportTable = ({
               className="w-full items-center justify-center flex pb-4 hidden border-b border-[#ccc]"
             >
               <div className=" mx-auto flex flex-row justify-between w-full items-center">
-                <div className="h-[90px] logoHeader">
+                <div className="h-[90px] logoHeader mx-auto">
                   <span className="flex flex-row justify-center items-center">
                     <img
                       className="sm:h-[80px] h-[24px] mt-[5px]"
@@ -516,7 +516,7 @@ const ReportTable = ({
                       {formData.psr_violation?.length > 0 ? (
                         formData.psr_violation.map((violation, index) => (
                           <div className="flex flex-row gap-4 mb-2">
-                            <div className="border p-2 rounded bg-gray-100 w-full text-[14px]">
+                            <div className=" p-2 rounded bg-gray-100 w-full text-[14px] grayBg">
                               <h4 className="font-semibold text-[14px] mb-1">
                                 {violation.psr_section}
                               </h4>
@@ -549,7 +549,7 @@ const ReportTable = ({
                         formData.tsr_violation.map((violation, index) => (
                           <div key={index} className="flex flex-col mb-2">
                             <div className="flex flex-row gap-4 mb-2">
-                              <div className="border p-2 rounded bg-gray-100 w-full text-[14px]">
+                              <div className=" p-2 rounded bg-gray-100 w-full text-[14px] grayBg">
                                 <p className="text-[14px] mb-1">
                                   {violation.tsr_section}
                                 </p>
@@ -583,7 +583,7 @@ const ReportTable = ({
                         formData.attacking_speed_violation.map(
                           (violation, index) => (
                             <div key={index} className="flex flex-col mb-2">
-                              <div className="border p-2 rounded bg-gray-100 w-full text-[14px]">
+                              <div className=" p-2 rounded bg-gray-100 w-full text-[14px] grayBg">
                                 <h4 className="font-semibold text-[14px] mb-1">
                                   {violation.violation}
                                 </h4>

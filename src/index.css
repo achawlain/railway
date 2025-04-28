@@ -106,3 +106,8 @@ body.loading:before {
 .colSpaceBottom > div {
   margin-bottom: 25px;
 }
+
+.page-break {
+  page-break-before: always;
+  break-before: page;
+}
