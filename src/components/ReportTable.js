@@ -502,11 +502,11 @@ const ReportTable = ({
                               <div className="border p-2 rounded bg-gray-100 w-full text-[14px]">
                                 <h4 className="font-semibold text-[14px] mb-1">{violation.psr_section}</h4>
                                 <p>
-                                  <span >
+                                  <span className="text-gray-500 text-sm">
                                     <i>{violation.to}</i>
                                   </span>
                                   <span> <b>To</b>  </span>
-                                  <span >
+                                  <span className="text-gray-500 text-sm">
                                     <i>{violation.to}</i>
                                   </span>
                                 </p>
@@ -530,12 +530,12 @@ const ReportTable = ({
                               <div className="border p-2 rounded bg-gray-100 w-full text-[14px]">
                                 <h4 className="font-semibold text-[14px] mb-1">{violation.tsr_section}</h4>
                                 <p>
-                                  <span >
+                                  <span className="text-gray-500 text-sm" >
                                     <i>{violation.to}</i>
                                   </span>
                                   <span> <b>To</b>  </span>
-                                  <span >
-                                    <i>{violation.to}</i>
+                                  <span className="text-gray-500 text-sm">
+                                    <i >{violation.to}</i>
                                   </span>
                                 </p>
                               </div>
