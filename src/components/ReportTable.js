@@ -100,8 +100,7 @@ const ReportTable = ({
       lpCMSID: currentReport.lp_cms_id || prev.lpCMSID,
       psr_violation: currentReport.psr_violation || [],
       tsr_violation: currentReport.tsr_violation || [],
-      attacking_speed_violation:
-        currentReport.attacking_speed_violation || [],
+      attacking_speed_violation: currentReport.attacking_speed_violation || [],
     }));
     setLoading(false);
   };
@@ -169,15 +168,34 @@ const ReportTable = ({
         </div>
       ) : (
         <div className="max-w-full mx-auto px-2 mb-4 reportTableForm">
-          <div className="bg-white w-full p-8 pb-16 rounded-[15px] relative">
+          <div className="bg-[#fff] w-full p-8 pb-16 rounded-[15px] relative">
             <div
               id="pdfLogo"
-              className="w-full items-center justify-center flex pb-4 hidden"
+              className="w-full items-center justify-center flex pb-4 hidden border-b border-[#ccc]"
             >
-              <img className="sm:h-[80px] h-[24px]" src={logo} alt="Logo" />
+              <div className=" mx-auto flex flex-row justify-between w-full items-center">
+                <div className="h-[90px] logoHeader">
+                  <span className="flex flex-row justify-center items-center">
+                    <img
+                      className="sm:h-[80px] h-[24px] mt-[5px]"
+                      src={logo}
+                      alt="Logo"
+                    />
+                    <span className="text-[24px] ml-2 font-semibold flex flex-col">
+                      EASTERN RAILWAY, ASANSOL DIVISION
+                      <span className="text-[18px] font-normal">
+                        Ministry of Railways, Govt of India.
+                      </span>
+                    </span>
+                  </span>
+                </div>
+              </div>
             </div>
             <div>
-              <h3 className="text-center text-xl font-bold mb-8 mt-2 border-b border-[#ccc] relative pt-2 pb-2 mt-4">
+              <h3
+                id="sectionTitle"
+                className="text-center text-xl font-bold mb-8 mt-2 border-b border-[#ccc] relative pt-2 pb-2 mt-4"
+              >
                 <span
                   id="backButton"
                   className="absolute left-0 underline cursor-pointer top-[15px] text-[#000] hover:text-[#000] font-normal"
@@ -346,7 +364,6 @@ const ReportTable = ({
 
                 {/* Row 2 start */}
                 <div className="colSpaceBottom">
-
                   <div className="flex flex-row items-center">
                     <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
                       Train No
@@ -499,19 +516,24 @@ const ReportTable = ({
                       {formData.psr_violation?.length > 0 ? (
                         formData.psr_violation.map((violation, index) => (
                           <div className="flex flex-row gap-4 mb-2">
-                              <div className="border p-2 rounded bg-gray-100 w-full text-[14px]">
-                                <h4 className="font-semibold text-[14px] mb-1">{violation.psr_section}</h4>
-                                <p>
-                                  <span className="text-gray-500 text-sm">
-                                    <i>{violation.from}</i>
-                                  </span>
-                                  <span> <b>To</b>  </span>
-                                  <span className="text-gray-500 text-sm">
-                                    <i>{violation.to}</i>
-                                  </span>
-                                </p>
-                              </div>
+                            <div className="border p-2 rounded bg-gray-100 w-full text-[14px]">
+                              <h4 className="font-semibold text-[14px] mb-1">
+                                {violation.psr_section}
+                              </h4>
+                              <p>
+                                <span className="text-gray-500 text-sm">
+                                  <i>{violation.from}</i>
+                                </span>
+                                <span>
+                                  {" "}
+                                  <b>To</b>{" "}
+                                </span>
+                                <span className="text-gray-500 text-sm">
+                                  <i>{violation.to}</i>
+                                </span>
+                              </p>
                             </div>
+                          </div>
                         ))
                       ) : (
                         <p className="text-gray-800">NIL</p>
@@ -528,14 +550,19 @@ const ReportTable = ({
                           <div key={index} className="flex flex-col mb-2">
                             <div className="flex flex-row gap-4 mb-2">
                               <div className="border p-2 rounded bg-gray-100 w-full text-[14px]">
-                                <p className="text-[14px] mb-1">{violation.tsr_section}</p>
+                                <p className="text-[14px] mb-1">
+                                  {violation.tsr_section}
+                                </p>
                                 <p>
-                                  <span className="text-gray-500 text-sm" >
+                                  <span className="text-gray-500 text-sm">
                                     <i>{violation.from}</i>
                                   </span>
-                                  <span> <b>To</b>  </span>
+                                  <span>
+                                    {" "}
+                                    <b>To</b>{" "}
+                                  </span>
                                   <span className="text-gray-500 text-sm">
-                                    <i >{violation.to}</i>
+                                    <i>{violation.to}</i>
                                   </span>
                                 </p>
                               </div>
@@ -553,14 +580,21 @@ const ReportTable = ({
                     </label>
                     <div className="w-full">
                       {formData.attacking_speed_violation?.length > 0 ? (
-                        formData.attacking_speed_violation.map((violation, index) => (
-                          <div key={index} className="flex flex-col mb-2">
-                            <div className="border p-2 rounded bg-gray-100 w-full text-[14px]">
-                            <h4 className="font-semibold text-[14px] mb-1">{violation.violation}</h4>
-                              <p className="text-gray-500 text-sm"> <i>{violation.time}</i></p>
+                        formData.attacking_speed_violation.map(
+                          (violation, index) => (
+                            <div key={index} className="flex flex-col mb-2">
+                              <div className="border p-2 rounded bg-gray-100 w-full text-[14px]">
+                                <h4 className="font-semibold text-[14px] mb-1">
+                                  {violation.violation}
+                                </h4>
+                                <p className="text-gray-500 text-sm">
+                                  {" "}
+                                  <i>{violation.time}</i>
+                                </p>
+                              </div>
                             </div>
-                          </div>
-                        ))
+                          )
+                        )
                       ) : (
                         <p className="text-gray-800">NIL</p>
                       )}

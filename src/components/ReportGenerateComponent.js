@@ -108,6 +108,10 @@ const ReportGenerateComponent = () => {
       const input = contentRef.current;
       const downloadButton = document.getElementById("downloadPdfButton");
       if (downloadButton) downloadButton.style.display = "none";
+
+      const boderBottom = document.getElementById("sectionTitle");
+      if (boderBottom) boderBottom.classList.remove("border-b");
+
       const backButton = document.getElementById("backButton");
       if (backButton) backButton.style.display = "none";
       const submitButon = document.getElementById("submitButon");
@@ -149,6 +153,7 @@ const ReportGenerateComponent = () => {
           if (pdfLogo) pdfLogo.style.display = "none";
           if (backButton) backButton.style.display = "inline-block";
           if (submitButon) submitButon.style.display = "inline-block";
+          if (boderBottom) boderBottom.classList.add("border-b");
           document.querySelectorAll("input, select, textarea").forEach((el) => {
             el.style.border = "1px solid #e5e7eb";
             if (el.hasAttribute("readonly")) {
