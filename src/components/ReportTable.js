@@ -503,7 +503,7 @@ const ReportTable = ({
                                 <h4 className="font-semibold text-[14px] mb-1">{violation.psr_section}</h4>
                                 <p>
                                   <span className="text-gray-500 text-sm">
-                                    <i>{violation.to}</i>
+                                    <i>{violation.from}</i>
                                   </span>
                                   <span> <b>To</b>  </span>
                                   <span className="text-gray-500 text-sm">
@@ -528,10 +528,10 @@ const ReportTable = ({
                           <div key={index} className="flex flex-col mb-2">
                             <div className="flex flex-row gap-4 mb-2">
                               <div className="border p-2 rounded bg-gray-100 w-full text-[14px]">
-                                <h4 className="font-semibold text-[14px] mb-1">{violation.tsr_section}</h4>
+                                <p className="text-[14px] mb-1">{violation.tsr_section}</p>
                                 <p>
                                   <span className="text-gray-500 text-sm" >
-                                    <i>{violation.to}</i>
+                                    <i>{violation.from}</i>
                                   </span>
                                   <span> <b>To</b>  </span>
                                   <span className="text-gray-500 text-sm">
@@ -555,11 +555,8 @@ const ReportTable = ({
                       {formData.attacking_speed_violation?.length > 0 ? (
                         formData.attacking_speed_violation.map((violation, index) => (
                           <div key={index} className="flex flex-col mb-2">
-                            <div className="border p-2 rounded bg-gray-100 w-full">
-                              <p >
-                                {/* <strong>Violation:</strong>  */}
-                                {violation.violation}
-                              </p>
+                            <div className="border p-2 rounded bg-gray-100 w-full text-[14px]">
+                            <h4 className="font-semibold text-[14px] mb-1">{violation.violation}</h4>
                               <p className="text-gray-500 text-sm"> <i>{violation.time}</i></p>
                             </div>
                           </div>
