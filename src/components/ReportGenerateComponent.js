@@ -55,7 +55,7 @@ const ReportGenerateComponent = () => {
     loco_no: "",
     spm: "",
     deficiency: "",
-    remark: "’",
+    remark: "",
   });
   const [showUploadBox, setShowUploadBox] = useState(false);
   const [loading, setLoading] = useState(false);
