@@ -105,9 +105,13 @@ const ReportTable = ({
     setLoading(false);
   };
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   handleformData(formData, "allFields");
+  // }, [formData]);
+
+  const handleBlur = () => {
     handleformData(formData, "allFields");
-  }, [formData]);
+  };
 
   const formatTime = (time) => {
     if (!time) return "";
@@ -291,6 +295,7 @@ const ReportTable = ({
                       type="text"
                       name="analyzedBy"
                       value={formData.analyzedBy}
+                      onBlur={handleBlur}
                       onChange={handleChange}
                       className="w-full border p-2 rounded focus:outline-none"
                     />
@@ -302,6 +307,7 @@ const ReportTable = ({
                     <input
                       type="text"
                       name="lpCMSID"
+                      onBlur={handleBlur}
                       value={formData.lpCMSID}
                       onChange={handleChange}
                       className="w-full border p-2 rounded focus:outline-none"
@@ -372,6 +378,7 @@ const ReportTable = ({
                       type="text"
                       name="trainNo"
                       value={formData.trainNo}
+                      onBlur={handleBlur}
                       onChange={handleChange}
                       className="w-full border p-2 rounded focus:outline-none"
                     />
@@ -384,6 +391,7 @@ const ReportTable = ({
                       type="text"
                       name="load"
                       value={formData.load}
+                      onBlur={handleBlur}
                       onChange={handleChange}
                       className="w-full border p-2 rounded focus:outline-none"
                     />
@@ -396,6 +404,7 @@ const ReportTable = ({
                       type="text"
                       name="bmbs"
                       value={formData.bmbs}
+                      onBlur={handleBlur}
                       onChange={handleChange}
                       className="w-full border p-2 rounded focus:outline-none"
                     />
@@ -408,6 +417,7 @@ const ReportTable = ({
                       type="text"
                       name="locoNo"
                       value={formData.locoNo}
+                      onBlur={handleBlur}
                       onChange={handleChange}
                       className="w-full border p-2 rounded focus:outline-none"
                     />
@@ -515,7 +525,7 @@ const ReportTable = ({
                     <div className="w-full">
                       {formData.psr_violation?.length > 0 ? (
                         formData.psr_violation.map((violation, index) => (
-                          <div className="flex flex-row gap-4 mb-2">
+                          <div key={index} className="flex flex-row gap-4 mb-2">
                             <div className=" p-2 rounded bg-gray-100 w-full text-[14px] grayBg">
                               <h4 className="font-semibold text-[14px] mb-1">
                                 {violation.psr_section}

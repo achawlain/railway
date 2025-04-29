@@ -6,13 +6,6 @@ const DeficiencyRemark = ({ handleformData, deficiency, remark }) => {
     remark: "",
   });
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   useEffect(() => {
     setFormData({
       deficiency: deficiency || "",
@@ -20,14 +13,20 @@ const DeficiencyRemark = ({ handleformData, deficiency, remark }) => {
     });
   }, [deficiency, remark]);
 
-  useEffect(() => {
-    // console.log("formData", formData);
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleBlur = () => {
     handleformData(formData, "redmarkDeficiency");
-  }, [formData]);
+  };
 
   return (
-    <div className="w-full mx-auto mt-8 p-6 bg-white ">
-      <h2 className="text-xl font-semibold mb-4 text-center ">
+    <div className="w-full mx-auto mt-8 p-6 bg-white">
+      <h2 className="text-xl font-semibold mb-4 text-center">
         Deficiency and Remark
       </h2>
       <form>
@@ -36,10 +35,10 @@ const DeficiencyRemark = ({ handleformData, deficiency, remark }) => {
             Deficiency
           </label>
           <textarea
-            type="text"
             name="deficiency"
             value={formData.deficiency}
             onChange={handleChange}
+            onBlur={handleBlur}
             className="w-full p-2 border border-gray-300 rounded"
             placeholder="Enter deficiency"
             required
@@ -51,10 +50,11 @@ const DeficiencyRemark = ({ handleformData, deficiency, remark }) => {
             name="remark"
             value={formData.remark}
             onChange={handleChange}
+            onBlur={handleBlur}
             className="w-full p-2 border border-gray-300 rounded"
             placeholder="Enter remarks"
             required
-          ></textarea>
+          />
         </div>
       </form>
     </div>
