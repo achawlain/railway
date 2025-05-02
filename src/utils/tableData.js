@@ -38,16 +38,16 @@ export const halteTableData = [
 ];
 
 export const halteTableTitle = [
-  "Halt Station",
-  "Halt Time",
-  "1000m",
-  "500m",
-  "400m",
-  "300m",
-  "200m",
-  "100m",
-  "Halt",
-  "Remark",
+  { label: "Halt Station", key: "halt_name" },
+  { label: "Halt Time", key: "halt_time" },
+  { label: "1000m", key: "1000m" },
+  { label: "500m", key: "500m" },
+  { label: "400m", key: "400m" },
+  { label: "300m", key: "300m" },
+  { label: "200m", key: "200m" },
+  { label: "100m", key: "100m" },
+  { label: "Halt", key: "halt" },
+  { label: "Remark", key: "remark" },
 ];
 
 export const previousAnalysisTitle = ["Date of Wkg", "Loco", "From", "To"];

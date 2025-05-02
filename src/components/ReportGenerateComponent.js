@@ -335,6 +335,9 @@ const ReportGenerateComponent = () => {
         spm: data.spm || prev.spm,
         analyzed_by: data.analyzedBy || prev.analyzed_by,
         lp_cms_id: data.lpCMSID || prev.lp_cms_id,
+        nominated_cli: data.nominatedCLI || prev.nominated_cli,
+        crew_designation: data.designation || prev.crew_designation,
+        crew_name: data.lp || prev.crew_name,
       }));
     }
     if (label === "redmarkDeficiency") {

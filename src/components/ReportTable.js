@@ -80,7 +80,7 @@ const ReportTable = ({
       console.error("Error fetching chart data:", error);
     }
   };
-  console.log("currentReport", currentReport);
+
   const getFormData = async () => {
     setFormData((prev) => ({
       ...prev,
@@ -332,7 +332,7 @@ const ReportTable = ({
                       value={formData.lp}
                       onChange={handleChange}
                       className="w-full border p-2 rounded focus:outline-none"
-                      readOnly
+                      onBlur={handleBlur}
                     />
                   </div>
                   <div className="flex flex-row items-center">
@@ -345,7 +345,7 @@ const ReportTable = ({
                       value={formData.designation}
                       onChange={handleChange}
                       className="w-full border p-2 rounded focus:outline-none"
-                      readOnly
+                      onBlur={handleBlur}
                     />
                   </div>
                   <div className="flex flex-row items-center">
@@ -358,7 +358,7 @@ const ReportTable = ({
                       value={formData.nominatedCLI}
                       onChange={handleChange}
                       className="w-full border p-2 rounded focus:outline-none"
-                      readOnly
+                      onBlur={handleBlur}
                     />
                   </div>
                   <div className="flex flex-row items-center">

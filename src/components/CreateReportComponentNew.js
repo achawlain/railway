@@ -62,7 +62,7 @@ const CreateReportComponentNew = () => {
           }
         );
         const responseData = response?.data || [];
-        console.log(responseData, "json csv data");
+
         if (responseData.length) {
           setStationList(responseData);
         }
