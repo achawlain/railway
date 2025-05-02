@@ -19,10 +19,6 @@ const TemplateCardComponents = ({ item, onDelete, onView }) => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const [template, setTemplate] = useState(
-    getDataFromLocalStorage("currentTemplate")
-  );
-
   const handleClick = () => {
     setDataOnLocalStorage("currentTemplate", item);
     navigate(RAILWAY_CONST.ROUTE.CREATE_REPORT);
@@ -30,13 +26,14 @@ const TemplateCardComponents = ({ item, onDelete, onView }) => {
 
   const hangleShowDataonClickEyeIcon = async (dataSource) => {
     setIsLoading(true);
+    console.log("template.id", item.id);
     try {
       const response = await apiService(
         "get",
         RAILWAY_CONST.API_ENDPOINT.METADATA,
         {},
         {
-          template_id: template.id,
+          template_id: item.id,
           data_src: dataSource,
         }
       );
@@ -72,9 +69,9 @@ const TemplateCardComponents = ({ item, onDelete, onView }) => {
           responseType: "blob", // Important to get file
         },
         {
-          template_id: template.id,
+          template_id: item.id,
           data_src: dataSource,
-          download: template.id,
+          download: item.id,
         }
       );
 
@@ -89,7 +86,7 @@ const TemplateCardComponents = ({ item, onDelete, onView }) => {
 
         const link = document.createElement("a");
         link.href = url;
-        link.download = `${dataSource}_${template.id}.csv`; // You can customize filename
+        link.download = `${dataSource}_${item.id}.csv`; // You can customize filename
         document.body.appendChild(link);
         link.click();
 
