@@ -140,7 +140,7 @@ const TemplateCardComponents = ({ item, onDelete, onView }) => {
                     className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
                     onClick={(e) => {
                       e.stopPropagation();
-                      hangleShowDataonClickEyeIcon("attacking_file");
+                      hangleShowDataonClickEyeIcon("attacking_speed_file");
                     }}
                   >
                     <i className="fa fa-eye"></i>
@@ -149,7 +149,7 @@ const TemplateCardComponents = ({ item, onDelete, onView }) => {
                     className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110 mt-[2px]"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleDownloadFile("attacking_file");
+                      handleDownloadFile("attacking_speed_file");
                     }}
                   >
                     <i className="fa fa-download"></i>

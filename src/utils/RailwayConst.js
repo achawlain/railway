@@ -7,7 +7,7 @@ const RAILWAY_CONST = {
     CREW_ID: "/crew_id/",
     STAT_SPEED_BEFORE_HALT: "/stat_speed_before_halt",
     REPORTS: "reports",
-    TEMPLATE: "templates",
+    TEMPLATE: "metadata/templates",
     GET_STATION: "get_station",
     NEW_REPORT: "new_report",
     UPDATE_REPORT: "update_report",

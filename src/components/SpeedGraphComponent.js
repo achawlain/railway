@@ -30,33 +30,33 @@ const SpeedGraphComponent = ({ speed_before_1000m, haltStation }) => {
   const getChartSpeedTimeData = async (limitedHaltStation) => {
     const url =
       limitedHaltStation && haltStation?.from && haltStation?.to
-        ? `${RAILWAY_CONST.API_ENDPOINT.CHART_SPEED_TIME}?id=${id}&from_station=${haltStation.from}&to_station=${haltStation.to}`
-        : `${RAILWAY_CONST.API_ENDPOINT.CHART_SPEED_TIME}?id=${id}`;
+        ? `${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${id}${RAILWAY_CONST.API_ENDPOINT.CHART_SPEED_TIME}?from_station=${haltStation.from}&to_station=${haltStation.to}`
+        : `${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${id}${RAILWAY_CONST.API_ENDPOINT.CHART_SPEED_TIME}`;
 
     try {
       const response = await apiService("get", url);
 
-      setChartSpeedTimeData(JSON.parse(response));
+      setChartSpeedTimeData(JSON.parse(response.data));
     } catch (error) {
       console.error("Error fetching chart data:", error);
     }
   };
 
   const getChartSpeedBeforeHaltData = async (limitedHaltStation) => {
-    if (!speed_before_1000m) {
-      console.warn("No  API call.");
-      return;
-    }
+    // if (!speed_before_1000m) {
+    //   console.warn("No  API call.");
+    //   return;
+    // }
 
     const url =
       limitedHaltStation && haltStation?.from && haltStation?.to
-        ? `${RAILWAY_CONST.API_ENDPOINT.SPEED_BEFORE_HALT}?id=${id}&from_station=${haltStation.from}&to_station=${haltStation.to}`
-        : `${RAILWAY_CONST.API_ENDPOINT.SPEED_BEFORE_HALT}?id=${id}`;
+        ? `${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${id}${RAILWAY_CONST.API_ENDPOINT.SPEED_BEFORE_HALT}?from_station=${haltStation.from}&to_station=${haltStation.to}`
+        : `${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${id}${RAILWAY_CONST.API_ENDPOINT.SPEED_BEFORE_HALT}`;
 
     try {
       const response = await apiService("get", url);
 
-      setChartSpeedBeforHaltData(JSON.parse(response));
+      setChartSpeedBeforHaltData(JSON.parse(response.data));
     } catch (error) {
       console.error("Error fetching chart data:", error);
     }
@@ -71,12 +71,16 @@ const SpeedGraphComponent = ({ speed_before_1000m, haltStation }) => {
           </div>
         ) : (
           <div style={{ overflowX: "auto", width: "100%" }}>
-            {speed_before_1000m ? (
+            {/* {speed_before_1000m ? (
               <ChartComponent
                 loading={loading}
                 chartData={chartSpeedBeforHaltData}
               />
-            ) : null}
+            ) : null} */}
+            <ChartComponent
+              loading={loading}
+              chartData={chartSpeedBeforHaltData}
+            />
           </div>
         )}
         <h3 className="text-center text-xl font-bold mb-4 mt-2">

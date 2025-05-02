@@ -62,10 +62,10 @@ const ReportTable = ({
     try {
       const stations = await apiService(
         "get",
-        `${RAILWAY_CONST.API_ENDPOINT.GET_STATION}?id=${id} `
+        `${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${id}/stations`
       );
       if (stations) {
-        setStationList(stations);
+        setStationList(stations.data);
       }
     } catch (error) {
       console.error("Error fetching chart data:", error);

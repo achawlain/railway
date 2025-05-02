@@ -27,7 +27,7 @@ const TemplateComponent = () => {
         RAILWAY_CONST.API_ENDPOINT.TEMPLATE
       );
       setTemplates(
-        Array.isArray(response) ? response : response.templates || []
+        Array.isArray(response.data) ? response.data : response.templates || []
       );
     } catch (error) {
       console.error("Error fetching templates:", error);

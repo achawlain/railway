@@ -304,18 +304,19 @@ const ReportGenerateComponent = () => {
   }, [haltStation]);
 
   const getHaltTableData = async (limitedHaltStation) => {
-    if (currentReport?.speed_before_1000m) {
-      const url =
-        limitedHaltStation && haltStation && haltStation.from && haltStation.to
-          ? `${RAILWAY_CONST.API_ENDPOINT.STAT_SPEED_BEFORE_HALT}?id=${id}&from_station=${haltStation.from}&to_station=${haltStation.to}`
-          : `${RAILWAY_CONST.API_ENDPOINT.STAT_SPEED_BEFORE_HALT}?id=${id}`;
-      try {
-        const response = await apiService("get", url);
-        setHalteTableData(response);
-        // setDataOnLocalStorage("reportList", response);
-      } catch (error) {
-        console.error("Error fetching chart data:", error);
-      }
+    // if (currentReport?.speed_before_1000m) {
+
+    // }
+    const url =
+      limitedHaltStation && haltStation && haltStation.from && haltStation.to
+        ? `${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${id}${RAILWAY_CONST.API_ENDPOINT.STAT_SPEED_BEFORE_HALT}?from_station=${haltStation.from}&to_station=${haltStation.to}`
+        : `${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${id}${RAILWAY_CONST.API_ENDPOINT.STAT_SPEED_BEFORE_HALT}`;
+    try {
+      const response = await apiService("get", url);
+      setHalteTableData(response.data);
+      // setDataOnLocalStorage("reportList", response);
+    } catch (error) {
+      console.error("Error fetching chart data:", error);
     }
   };
 
@@ -349,8 +350,8 @@ const ReportGenerateComponent = () => {
     setLoading(true);
     try {
       const response = await apiService(
-        "POST",
-        RAILWAY_CONST.API_ENDPOINT.UPDATE_REPORT,
+        "PUT",
+        RAILWAY_CONST.API_ENDPOINT.REPORTS,
         fullFormData
       );
       navigate(RAILWAY_CONST.ROUTE.DASHBOARD);
@@ -400,7 +401,7 @@ const ReportGenerateComponent = () => {
             />
           </Suspense>
 
-          {currentReport.speed_before_1000m ? (
+          {/* {currentReport.speed_before_1000m ? (
             <div className="max-w-full mx-auto px-2 mb-4">
               <div className="bg-white w-full p-8 pt-2 rounded-[15px]">
                 <Suspense fallback={<div>Loading table...</div>}>
@@ -412,7 +413,18 @@ const ReportGenerateComponent = () => {
                 </Suspense>
               </div>
             </div>
-          ) : null}
+          ) : null} */}
+          <div className="max-w-full mx-auto px-2 mb-4">
+            <div className="bg-white w-full p-8 pt-2 rounded-[15px]">
+              <Suspense fallback={<div>Loading table...</div>}>
+                <TableComponent
+                  data={halteTable.data}
+                  colums={halteTable.columns}
+                  tableTitle={"Speed From 1000 m in rear of halts"}
+                />
+              </Suspense>
+            </div>
+          </div>
         </div>
         <div id="pdf-speed-graph">
           <div className="max-w-full mx-auto px-2 mb-4">

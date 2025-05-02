@@ -25,7 +25,9 @@ const DashboardComponent = () => {
         "get",
         RAILWAY_CONST.API_ENDPOINT.REPORTS
       );
-      setReports(Array.isArray(response) ? response : response.reports || []);
+      setReports(
+        Array.isArray(response.data) ? response.data : response.reports || []
+      );
     } catch (error) {
       console.error("Error fetching reports:", error);
     }
