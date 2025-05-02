@@ -8,9 +8,18 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../src/images/railwayLogo.png";
 
 const getLocalISOTime = () => {
+  // const now = new Date();
+  // const offset = now.getTimezoneOffset() * 60000; // Convert offset to milliseconds
+  // return new Date(now - offset).toISOString().slice(0, 16); // Convert to local ISO string
+
   const now = new Date();
-  const offset = now.getTimezoneOffset() * 60000; // Convert offset to milliseconds
-  return new Date(now - offset).toISOString().slice(0, 16); // Convert to local ISO string
+  const day = String(now.getDate()).padStart(2, "0");
+  const month = String(now.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+  const year = now.getFullYear();
+  const hours = String(now.getHours()).padStart(2, "0");
+  const minutes = String(now.getMinutes()).padStart(2, "0");
+
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
 };
 
 const ReportTable = ({
@@ -71,7 +80,7 @@ const ReportTable = ({
       console.error("Error fetching chart data:", error);
     }
   };
-
+  console.log("currentReport", currentReport);
   const getFormData = async () => {
     setFormData((prev) => ({
       ...prev,
