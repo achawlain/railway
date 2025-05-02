@@ -40,7 +40,7 @@ const CreateReportComponentNew = () => {
   const [columns, setColumns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isTableVisible, setTableVisible] = useState(false);
-  const [stationList, setStationList] = useState("");
+  const [stationList, setStationList] = useState([]);
 
   const navigate = useNavigate();
 
@@ -51,24 +51,30 @@ const CreateReportComponentNew = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await getStationList();
+      try {
+        const response = await apiService(
+          "get",
+          RAILWAY_CONST.API_ENDPOINT.METADATA,
+          {},
+          {
+            template_id: template.id,
+            data_src: "station_file",
+          }
+        );
+        const responseData = response?.data || [];
+        console.log(responseData, "json csv data");
+        if (responseData.length) {
+          setStationList(responseData);
+        }
+      } catch (error) {
+        console.error("Error fetching csv data:", error);
+        setError("Failed to fetch csv data. Please try again later.");
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchData();
   }, []);
-
-  const getStationList = async () => {
-    try {
-      const stations = await apiService(
-        "get",
-        `${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${currentReprot.id}/stations`
-      );
-      if (stations) {
-        setStationList(stations.data);
-      }
-    } catch (error) {
-      console.error("Error fetching chart data:", error);
-    }
-  };
 
   const fetchSPMOptions = async () => {
     try {
