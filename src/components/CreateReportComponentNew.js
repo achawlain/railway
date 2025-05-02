@@ -11,6 +11,9 @@ const CreateReportComponentNew = () => {
   const [template, setTemplate] = useState(
     getDataFromLocalStorage("currentTemplate")
   );
+  const [currentReprot, setCurrentReprot] = useState(
+    getDataFromLocalStorage("currentReport")
+  );
   const [formData, setFormData] = useState({
     title: "",
     lp_cms_id: "",
@@ -19,6 +22,7 @@ const CreateReportComponentNew = () => {
     bmbs: "",
     loco_no: "",
     spm: "",
+    starts_from: "",
     station_file: null,
     isd_file: null,
     psr_file: null,
@@ -36,12 +40,34 @@ const CreateReportComponentNew = () => {
   const [columns, setColumns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isTableVisible, setTableVisible] = useState(false);
+  const [stationList, setStationList] = useState("");
 
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getStationList();
+    };
+    fetchData();
+  }, []);
+
+  const getStationList = async () => {
+    try {
+      const stations = await apiService(
+        "get",
+        `${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${currentReprot.id}/stations`
+      );
+      if (stations) {
+        setStationList(stations.data);
+      }
+    } catch (error) {
+      console.error("Error fetching chart data:", error);
+    }
   };
 
   const fetchSPMOptions = async () => {
@@ -139,8 +165,11 @@ const CreateReportComponentNew = () => {
 
   // Handle dropdown change
   const handleDropdownChange = (e) => {
-    const selectedKey = e.target.value;
-    setFormData((prev) => ({ ...prev, spm: selectedKey }));
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleFileDrop = (name) => (acceptedFiles) => {
@@ -246,6 +275,11 @@ const CreateReportComponentNew = () => {
       return;
     }
 
+    if (!formData.starts_from) {
+      showPopup("Starts From is required!", "error");
+      return;
+    }
+
     setIsSubmitting(true);
 
     const submission = new FormData();
@@ -256,6 +290,7 @@ const CreateReportComponentNew = () => {
     submission.append("bmbs", formData.bmbs);
     submission.append("loco_no", formData.loco_no);
     submission.append("spm", formData.spm);
+    submission.append("starts_from", formData.starts_from);
     submission.append("report_title", formData.title);
     submission.append("goods", formData.goods ? "true" : "false");
 
@@ -436,13 +471,7 @@ const CreateReportComponentNew = () => {
               <label className="block font-medium mb-1 mr-4 w-40 text-right">
                 SPM <span className="text-red-500">*</span>
               </label>
-              {/* <input
-                type="dropdown"
-                name="spm"
-                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
-                value={formData.spm}
-                onChange={handleInputChange}
-              /> */}
+
               <select
                 name="spm"
                 value={formData.spm}
@@ -457,6 +486,26 @@ const CreateReportComponentNew = () => {
                     {option.source_value}
                   </option>
                 ))}
+              </select>
+            </div>
+            <div className="mb-4 flex items-center">
+              <label className="block font-medium mb-1 mr-4 w-40 text-right">
+                Starts From <span className="text-red-500">*</span>
+              </label>
+
+              <select
+                name="starts_from"
+                value={formData.starts_from}
+                onChange={handleDropdownChange}
+                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
+              >
+                <option value="">Select From</option>
+                {stationList &&
+                  stationList.map((loc, i) => (
+                    <option key={i} value={loc.station}>
+                      {loc.station}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="mb-4 flex items-center">
