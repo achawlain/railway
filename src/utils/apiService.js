@@ -21,7 +21,9 @@ export const DataTable = ({ columns, data, onClose }) => (
     <div className="reportGenerateBg rounded-lg shadow-lg w-3/4 max-h-[80vh] overflow-auto relative">
       <button
         className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-        onClick={onClose}
+        onClick={(e) => {
+          onClose(e);
+        }}
       >
         ✕
       </button>
@@ -42,10 +44,7 @@ export const DataTable = ({ columns, data, onClose }) => (
           {data.map((row, index) => (
             <tr key={index}>
               {columns.map((column) => (
-                <td
-                  key={column}
-                  className="border border-gray-300 px-4 py-2"
-                >
+                <td key={column} className="border border-gray-300 px-4 py-2">
                   {row[column]}
                 </td>
               ))}
@@ -56,4 +55,3 @@ export const DataTable = ({ columns, data, onClose }) => (
     </div>
   </div>
 );
-

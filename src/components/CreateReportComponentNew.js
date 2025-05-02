@@ -37,8 +37,6 @@ const CreateReportComponentNew = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isTableVisible, setTableVisible] = useState(false);
 
-
-
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -50,9 +48,10 @@ const CreateReportComponentNew = () => {
     try {
       const response = await apiService(
         "get",
-        RAILWAY_CONST.API_ENDPOINT.SUPPORTED_DATA_SOURCES);
+        RAILWAY_CONST.API_ENDPOINT.SUPPORTED_DATA_SOURCES
+      );
       // Transform the data to match spmOption format
-      const options = response.sources.map(source => ({
+      const options = response.sources.map((source) => ({
         source_key: source.source_key,
         source_value: source.source_value,
       }));
@@ -80,24 +79,58 @@ const CreateReportComponentNew = () => {
       if (responseData.length) {
         setColumns(Object.keys(responseData[0])); // Get column names dynamically
         setData(responseData);
-        setTableVisible(true)
+        setTableVisible(true);
       } else {
         setColumns([]);
         setData([]);
       }
-
     } catch (error) {
       console.error("Error fetching csv data:", error);
       setError("Failed to fetch csv data. Please try again later.");
-    }
-    finally {
+    } finally {
       setIsLoading(false);
     }
-  }
+  };
+
+  const handleDownloadFile = async (dataSource) => {
+    setIsLoading(true);
+    try {
+      const response = await apiService(
+        "get",
+        RAILWAY_CONST.API_ENDPOINT.METADATA,
+        {
+          responseType: "blob", // Important to get file
+        },
+        {
+          template_id: template.id,
+          data_src: dataSource,
+          download: template.id,
+        }
+      );
+
+      const blob = new Blob([response.data], { type: "text/csv" }); // or whatever the file type is
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${dataSource}_${template.id}.csv`; // You can customize filename
+      document.body.appendChild(link);
+      link.click();
+
+      // Cleanup
+      window.URL.revokeObjectURL(url);
+      link.remove();
+    } catch (error) {
+      console.error("Error fetching csv data:", error);
+      setError("Failed to fetch csv data. Please try again later.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // useEffect(() => {
   //   console.log("spmOption", spmOption);
-  // }, [spmOption]); 
+  // }, [spmOption]);
 
   // Call fetchSPMOptions when the component mounts
   useEffect(() => {
@@ -109,8 +142,6 @@ const CreateReportComponentNew = () => {
     const selectedKey = e.target.value;
     setFormData((prev) => ({ ...prev, spm: selectedKey }));
   };
-
-
 
   const handleFileDrop = (name) => (acceptedFiles) => {
     setFormData((pre) => ({
@@ -228,7 +259,6 @@ const CreateReportComponentNew = () => {
     submission.append("report_title", formData.title);
     submission.append("goods", formData.goods ? "true" : "false");
 
-
     const fileFields = [
       // "station_file",
       // "isd_file",
@@ -281,7 +311,7 @@ const CreateReportComponentNew = () => {
       setIsSubmitting(false);
     }
   };
-  useEffect(() => { });
+  useEffect(() => {});
 
   return (
     <div className="w-full bg-[#efefef] p-4 reportGenerateBg pt-8 min-h-screen">
@@ -423,14 +453,17 @@ const CreateReportComponentNew = () => {
                   Select SPM
                 </option>
                 {spmOption.map((option) => (
-                  <option key={option.source_key} value={option.source_key} >
+                  <option key={option.source_key} value={option.source_key}>
                     {option.source_value}
                   </option>
                 ))}
               </select>
             </div>
             <div className="mb-4 flex items-center">
-             <label htmlFor="goods" className="block font-medium mb-1 mr-4 w-40 text-right">
+              <label
+                htmlFor="goods"
+                className="block font-medium mb-1 mr-4 w-40 text-right"
+              >
                 Goods
               </label>
               <input
@@ -438,7 +471,9 @@ const CreateReportComponentNew = () => {
                 id="goods"
                 name="goods"
                 checked={formData.goods}
-                onChange={(e) => setFormData({ ...formData, goods: e.target.checked })}
+                onChange={(e) =>
+                  setFormData({ ...formData, goods: e.target.checked })
+                }
                 className="p-2 border rounded cursor-pointer transition-all w-5 h-5 border-gray-300 accent-[#4f46e5]"
               />
             </div>
@@ -461,10 +496,19 @@ const CreateReportComponentNew = () => {
                 <label className="block font-medium mb-1 mr-4 w-40 text-right">
                   Station File
                 </label>
-                <span className="text-[#777]">{template.station_file}</span>
+                {/* <span className="text-[#777]">{template.station_file}</span> */}
                 <span
                   className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
-                  onClick={() => hangleShowDataonClickEyeIcon('station_file')}><i class="fa fa-eye" ></i></span>
+                  onClick={() => hangleShowDataonClickEyeIcon("station_file")}
+                >
+                  <i className="fa fa-eye"></i>
+                </span>
+                <span
+                  className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110 mt-[4px]"
+                  onClick={() => handleDownloadFile("station_file")}
+                >
+                  <i className="fa fa-download"></i>
+                </span>
               </div>
             )}
 
@@ -473,10 +517,19 @@ const CreateReportComponentNew = () => {
                 <label className="block font-medium mb-1 mr-4 w-40 text-right">
                   ISD File
                 </label>
-                <span className="text-[#777]">{template.isd_file}</span>
+                {/* <span className="text-[#777]">{template.isd_file}</span> */}
                 <span
                   className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
-                  onClick={() => hangleShowDataonClickEyeIcon('isd_file')}><i class="fa fa-eye" ></i></span>
+                  onClick={() => hangleShowDataonClickEyeIcon("isd_file")}
+                >
+                  <i className="fa fa-eye"></i>
+                </span>
+                <span
+                  className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110 mt-[4px]"
+                  onClick={() => handleDownloadFile("isd_file")}
+                >
+                  <i className="fa fa-download"></i>
+                </span>
               </div>
             )}
 
@@ -485,10 +538,19 @@ const CreateReportComponentNew = () => {
                 <label className="block font-medium mb-1 mr-4 w-40 text-right">
                   PSR File
                 </label>
-                <span className="text-[#777]">{template.psr_file}</span>
+                {/* <span className="text-[#777]">{template.psr_file}</span> */}
                 <span
                   className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
-                  onClick={() => hangleShowDataonClickEyeIcon('psr_file')}><i class="fa fa-eye" ></i></span>
+                  onClick={() => hangleShowDataonClickEyeIcon("psr_file")}
+                >
+                  <i className="fa fa-eye"></i>
+                </span>
+                <span
+                  className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110 mt-[4px]"
+                  onClick={() => handleDownloadFile("psr_file")}
+                >
+                  <i className="fa fa-download"></i>
+                </span>
               </div>
             )}
 
@@ -497,10 +559,19 @@ const CreateReportComponentNew = () => {
                 <label className="block font-medium mb-1 mr-4 w-40 text-right">
                   Gradient File
                 </label>
-                <span className="text-[#777]">{template.gradient_file}</span>
+                {/* <span className="text-[#777]">{template.gradient_file}</span> */}
                 <span
                   className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
-                  onClick={() => hangleShowDataonClickEyeIcon('gradient_file')}><i class="fa fa-eye" ></i></span>
+                  onClick={() => hangleShowDataonClickEyeIcon("gradient_file")}
+                >
+                  <i className="fa fa-eye"></i>
+                </span>
+                <span
+                  className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110 mt-[4px]"
+                  onClick={() => handleDownloadFile("gradient_file")}
+                >
+                  <i className="fa fa-download"></i>
+                </span>
               </div>
             )}
 
@@ -514,7 +585,12 @@ const CreateReportComponentNew = () => {
                 </span>
                 <span
                   className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
-                  onClick={() => hangleShowDataonClickEyeIcon('attacking_speed_file')}><i class="fa fa-eye" ></i></span>
+                  onClick={() =>
+                    hangleShowDataonClickEyeIcon("attacking_speed_file")
+                  }
+                >
+                  <i className="fa fa-eye"></i>
+                </span>
               </div>
             )}
 
@@ -552,7 +628,7 @@ const CreateReportComponentNew = () => {
         </>
       ) : (
         // <p>No data available.</p>
-        ''
+        ""
       )}
     </div>
   );
