@@ -632,21 +632,23 @@ const CreateReportComponentNew = () => {
 
             {formData.goods && template.attacking_speed_file && (
               <div className="mb-4 flex items-center">
-                <label className="block font-medium mb-1 mr-4 w-40 text-right">
-                  Attacking Speed File
-                </label>
-                <span className="text-[#777]">
-                  {template.attacking_speed_file}
-                </span>
-                <span
-                  className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
-                  onClick={() =>
-                    hangleShowDataonClickEyeIcon("attacking_speed_file")
-                  }
-                >
-                  <i className="fa fa-eye"></i>
-                </span>
-              </div>
+              <label className="block font-medium mb-1 mr-4 w-40 text-right">
+              Attacking Speed File
+              </label>
+              {/* <span className="text-[#777]">{template.gradient_file}</span> */}
+              <span
+                className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
+                onClick={() => hangleShowDataonClickEyeIcon("attacking_speed_file")}
+              >
+                <i className="fa fa-eye"></i>
+              </span>
+              <span
+                className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110 mt-[4px]"
+                onClick={() => handleDownloadFile("attacking_speed_file")}
+              >
+                <i className="fa fa-download"></i>
+              </span>
+            </div>
             )}
 
             <div className="w-full flex justify-center items-center ">

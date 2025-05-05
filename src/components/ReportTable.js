@@ -6,6 +6,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import Loader from "./Loader";
 import { useNavigate } from "react-router-dom";
 import logo from "../../src/images/railwayLogo.png";
+import { baseUrl } from "../config/apiConfig";
 
 const getLocalISOTime = () => {
   // const now = new Date();
@@ -216,13 +217,24 @@ const ReportTable = ({
                   <button onClick={() => navigate(-1)}>Back</button>
                 </span>
                 {currentReport.title}
-                <button
+                {/* <button
                   className="bg-[#2c215d] absolute top-1 right-[0] h-[32px] w-[120px] font-normal text-[16px] text-white absolute right-8"
                   onClick={handleDownloadPDF}
                   id="downloadPdfButton"
                 >
                   Download PDF
+                </button> */}
+                <a href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${currentReport.id}/download?report_file_type=pdf&from_station=${currentReport.stn_from}&to_station=${currentReport.stn_to}`} download>
+                <button
+                  className="bg-[#2c215d] absolute top-1 right-[0] h-[32px] w-[150px] font-normal text-[16px] text-white absolute right-8 cursor-pointer"
+                  // onClick={() => {
+                  //   downloadFiles(currentReport.stn_from, currentReport.stn_to);
+                  // }}
+                  // id="downloadPdfButton"
+                >
+                  Download Report
                 </button>
+                </a>
               </h3>
 
               <form className="grid grid-cols-3 gap-8">
