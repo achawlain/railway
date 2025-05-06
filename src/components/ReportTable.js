@@ -224,16 +224,27 @@ const ReportTable = ({
                 >
                   Download PDF
                 </button> */}
-                <a href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${currentReport.id}/download?report_file_type=pdf&from_station=${currentReport.stn_from}&to_station=${currentReport.stn_to}`} download>
-                <button
-                  className="bg-[#2c215d] absolute top-1 right-[0] h-[32px] w-[150px] font-normal text-[16px] text-white absolute right-8 cursor-pointer"
-                  // onClick={() => {
-                  //   downloadFiles(currentReport.stn_from, currentReport.stn_to);
-                  // }}
-                  // id="downloadPdfButton"
+                <a
+                  href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${
+                    currentReport.id
+                  }/download?report_file_type=pdf&from_station=${
+                    currentReport.stn_from
+                      ? currentReport.stn_from
+                      : formData.from
+                  }&to_station=${
+                    currentReport.stn_to ? currentReport.stn_to : formData.to
+                  }`}
+                  download
                 >
-                  Download Report
-                </button>
+                  <button
+                    className="bg-[#2c215d] absolute top-1 right-[0] h-[32px] w-[150px] font-normal text-[16px] text-white absolute right-8 cursor-pointer"
+                    // onClick={() => {
+                    //   downloadFiles(currentReport.stn_from, currentReport.stn_to);
+                    // }}
+                    // id="downloadPdfButton"
+                  >
+                    Download Report
+                  </button>
                 </a>
               </h3>
 
