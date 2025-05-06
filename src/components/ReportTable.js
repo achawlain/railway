@@ -224,7 +224,7 @@ const ReportTable = ({
                 >
                   Download PDF
                 </button> */}
-                <a
+                {/* <a
                   href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${
                     currentReport.id
                   }/download?report_file_type=pdf&from_station=${
@@ -234,6 +234,14 @@ const ReportTable = ({
                   }&to_station=${
                     currentReport.stn_to ? currentReport.stn_to : formData.to
                   }`}
+                  download
+                > */}
+                <a
+                  href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${
+                    currentReport.id
+                  }/download?report_file_type=pdf&from_station=${
+                    formData.from || currentReport.stn_from || ""
+                  }&to_station=${formData.to || currentReport.stn_to || ""}`}
                   download
                 >
                   <button
