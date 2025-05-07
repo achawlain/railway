@@ -5,8 +5,8 @@ const Footer = () => {
     <div>
       <div className="footerBoxMain">
         <div className="footerBox">
-          <div className="subFooterBox">
-            <p>© 2024 Railway | All Rights Reserved</p>
+          <div className="subFooterBox text-center py-2">
+            <p>© 2025 Railway | All Rights Reserved</p>
           </div>
         </div>
       </div>

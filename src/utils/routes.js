@@ -22,11 +22,7 @@ const router = createBrowserRouter([
         path: RAILWAY_CONST.ROUTE.ROOT,
         element: (
           <Navigate
-            to={
-              user
-                ? RAILWAY_CONST.ROUTE.DASHBOARD
-                : RAILWAY_CONST.ROUTE.DASHBOARD
-            }
+            to={user ? RAILWAY_CONST.ROUTE.HOME : RAILWAY_CONST.ROUTE.HOME}
           />
         ),
       },
@@ -46,13 +42,13 @@ const router = createBrowserRouter([
         path: RAILWAY_CONST.ROUTE.CREATE_REPORT,
         element: <CreateReport />,
       },
+      { path: RAILWAY_CONST.ROUTE.HOME, element: <HomeComponent /> },
     ],
   },
   {
     element: <WithoutHeaderLayout />,
     children: [
       { path: RAILWAY_CONST.ROUTE.LOGIN, element: <Login /> }, // ✅ Fixed Login route
-      { path: RAILWAY_CONST.ROUTE.HOME, element: <HomeComponent /> },
     ],
   },
 ]);

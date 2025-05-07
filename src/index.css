@@ -116,3 +116,40 @@ textarea {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
+
+.banner {
+  position: relative; /* Make sure the parent element is positioned */
+  width: 100%;
+  height: 100%;
+  /* background: rgba(0, 0, 0, 0.3); */
+}
+.banner:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 10;
+}
+
+.banner:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.6) 3%, transparent 80%);
+  z-index: 1; /* Lower than .block content */
+}
+
+.powerfulDataBox ul li {
+  margin-top: 20px;
+  margin-bottom: 25px;
+}
+
+.powerfulDataBox ul li h4 {
+  font-weight: bold;
+}
