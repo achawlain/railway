@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import banner from "../../src/images/bannerRailwayN.png";
 import sideBanner from "../../src/images/railwaySideBanner.png";
 import sideBanner2 from "../../src/images/railwaySideBanner2.png";
 import DemoRequestForm from "../components/DemoRequestForm";
+import { getDataFromLocalStorage } from "../utils/localStorage";
 
 const HomeComponent = () => {
   const [showDemoForm, setShowDemoForm] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
+  useEffect(() => {
+    const user = getDataFromLocalStorage("userInfo");
+    setUserInfo(user);
+  }, []);
+
   return (
     <div>
       <div className="bannerTitle  w-full block max-w-[1080px] mx-auto pt-[250px] p-[50px] pt-[0px] text-white absolute z-[11]">
@@ -17,15 +24,17 @@ const HomeComponent = () => {
           Analyze, improve, and guide loco pilots with real-time insights for
           safer, more efficient railway operations across India.
         </p>
-        <div>
-          <span
-            onClick={() => setShowDemoForm(true)}
-            id="getStartedButton"
-            className=" cursor-pointer reportGenerateBg rounded-[4px] text-[#fff] sm:text-[16px] text-[14px] sm:px-[15px] px-[12px] py-[8px] sm:py-[15px] inline-block mt-[20px]"
-          >
-            REQUEST A DEMO
-          </span>
-        </div>
+        {!userInfo && (
+          <div>
+            <span
+              onClick={() => setShowDemoForm(true)}
+              id="getStartedButton"
+              className=" cursor-pointer reportGenerateBg rounded-[4px] text-[#fff] sm:text-[16px] text-[14px] sm:px-[15px] px-[12px] py-[8px] sm:py-[15px] inline-block mt-[20px]"
+            >
+              REQUEST A DEMO
+            </span>
+          </div>
+        )}
       </div>
       <div className="w-full">
         <div className="banner">

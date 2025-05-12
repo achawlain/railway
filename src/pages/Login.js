@@ -3,12 +3,16 @@ import { apiService, apiServiceWithOutToken } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import { useNavigate } from "react-router-dom";
 import { setDataOnLocalStorage } from "../utils/localStorage";
+import ErrorPopUpComponent from "../components/ErrorPopUpComponent";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
+  const [errorPopupState, setErrorPopupState] = useState({
+    isShow: false,
+    message: "",
+  });
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -23,11 +27,32 @@ const Login = () => {
     // Call API for login
     await getChartSpeedBeforeHaltData();
   };
+  // const getChartSpeedBeforeHaltData = async () => {
+  //   let data = {
+  //     username: email,
+  //     password: password,
+  //   };
+  //   try {
+  //     const response = await apiServiceWithOutToken(
+  //       "post",
+  //       RAILWAY_CONST.API_ENDPOINT.LOGIN,
+  //       data
+  //     );
+  //     const userObj = response.data;
+
+  //     setDataOnLocalStorage("userInfo", userObj);
+  //     navigate(RAILWAY_CONST.ROUTE.HOME);
+  //   } catch (error) {
+  //     console.error("Error fetching chart data:", error);
+  //   }
+  // };
+
   const getChartSpeedBeforeHaltData = async () => {
     let data = {
       username: email,
       password: password,
     };
+
     try {
       const response = await apiServiceWithOutToken(
         "post",
@@ -35,11 +60,27 @@ const Login = () => {
         data
       );
       const userObj = response.data;
+      console.log("response.data", response.data);
 
-      setDataOnLocalStorage("userInfo", userObj);
-      navigate(RAILWAY_CONST.ROUTE.HOME);
+      if (response.data) {
+        setDataOnLocalStorage("userInfo", userObj);
+        navigate(RAILWAY_CONST.ROUTE.HOME); // ✅ Only redirects on success
+      } else {
+        setErrorPopupState({
+          isShow: true,
+          message: response?.message,
+        });
+      }
     } catch (error) {
-      console.error("Error fetching chart data:", error);
+      console.error("Login error:", error);
+
+      const errorMessage =
+        error.response?.data?.message || "Login failed. Please try again.";
+
+      setErrorPopupState({
+        isShow: true,
+        message: errorMessage,
+      });
     }
   };
 
@@ -77,6 +118,11 @@ const Login = () => {
           </button>
         </form>
       </div>
+      <ErrorPopUpComponent
+        isErrorShow={errorPopupState.isShow}
+        errorMessage={errorPopupState.message}
+        redirect={""}
+      />
     </div>
   );
 };
