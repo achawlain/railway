@@ -35,7 +35,6 @@ const Login = () => {
         data
       );
       const userObj = response.data;
-      console.log("userObj", userObj);
 
       setDataOnLocalStorage("userInfo", userObj);
       navigate(RAILWAY_CONST.ROUTE.HOME);

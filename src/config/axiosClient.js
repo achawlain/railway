@@ -35,7 +35,6 @@ secureClient.interceptors.request.use(
   (config) => {
     try {
       const userInfo = getDataFromLocalStorage("userInfo");
-      console.log("userInfo from localStorage: ", userInfo);
 
       if (userInfo?.access_token) {
         config.headers["Authorization"] = `Bearer ${userInfo.access_token}`;

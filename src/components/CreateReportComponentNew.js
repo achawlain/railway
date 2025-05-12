@@ -107,7 +107,6 @@ const CreateReportComponentNew = () => {
         }
       );
       const responseData = response?.data || [];
-      console.log(responseData, "json csv data");
       if (responseData.length) {
         setColumns(Object.keys(responseData[0])); // Get column names dynamically
         setData(responseData);
@@ -186,7 +185,6 @@ const CreateReportComponentNew = () => {
   };
 
   useEffect(() => {
-    console.log("template", template);
     if (template) {
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -315,7 +313,7 @@ const CreateReportComponentNew = () => {
         submission.append(key, formData[key]);
       }
     });
-    console.log("submission", submission);
+
     try {
       const response = await apiService(
         "POST",
@@ -632,23 +630,25 @@ const CreateReportComponentNew = () => {
 
             {formData.goods && template.attacking_speed_file && (
               <div className="mb-4 flex items-center">
-              <label className="block font-medium mb-1 mr-4 w-40 text-right">
-              Attacking Speed File
-              </label>
-              {/* <span className="text-[#777]">{template.gradient_file}</span> */}
-              <span
-                className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
-                onClick={() => hangleShowDataonClickEyeIcon("attacking_speed_file")}
-              >
-                <i className="fa fa-eye"></i>
-              </span>
-              <span
-                className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110 mt-[4px]"
-                onClick={() => handleDownloadFile("attacking_speed_file")}
-              >
-                <i className="fa fa-download"></i>
-              </span>
-            </div>
+                <label className="block font-medium mb-1 mr-4 w-40 text-right">
+                  Attacking Speed File
+                </label>
+                {/* <span className="text-[#777]">{template.gradient_file}</span> */}
+                <span
+                  className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
+                  onClick={() =>
+                    hangleShowDataonClickEyeIcon("attacking_speed_file")
+                  }
+                >
+                  <i className="fa fa-eye"></i>
+                </span>
+                <span
+                  className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110 mt-[4px]"
+                  onClick={() => handleDownloadFile("attacking_speed_file")}
+                >
+                  <i className="fa fa-download"></i>
+                </span>
+              </div>
             )}
 
             <div className="w-full flex justify-center items-center ">

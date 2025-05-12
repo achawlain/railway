@@ -26,7 +26,7 @@ const TemplateCardComponents = ({ item, onDelete, onView }) => {
 
   const hangleShowDataonClickEyeIcon = async (dataSource) => {
     setIsLoading(true);
-    console.log("template.id", item.id);
+
     try {
       const response = await apiService(
         "get",
