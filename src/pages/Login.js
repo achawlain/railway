@@ -89,6 +89,11 @@ const Login = () => {
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
         <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+        {errorPopupState.isShow && (
+          <div className="text-red-500 text-sm mt-2 text-center mb-[20px]">
+            {errorPopupState.message}
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700 font-medium">Email</label>
@@ -118,11 +123,6 @@ const Login = () => {
           </button>
         </form>
       </div>
-      <ErrorPopUpComponent
-        isErrorShow={errorPopupState.isShow}
-        errorMessage={errorPopupState.message}
-        redirect={""}
-      />
     </div>
   );
 };
