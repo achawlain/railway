@@ -7,7 +7,7 @@ import Loader from "./Loader";
 import { useNavigate } from "react-router-dom";
 import logo from "../../src/images/railwayLogo.png";
 import { baseUrl } from "../config/apiConfig";
-
+import { getDataFromLocalStorage } from "../utils/localStorage";
 const getLocalISOTime = () => {
   // const now = new Date();
   // const offset = now.getTimezoneOffset() * 60000; // Convert offset to milliseconds
@@ -33,6 +33,7 @@ const ReportTable = ({
   // const [locations, setLocations] = useState(locations);
   const [isDatat, setIsData] = useState(false);
   const [loading, setLoading] = useState(true); // State for loader
+  const [userInfo, setUserInfo] = useState(getDataFromLocalStorage("userInfo"));
   const [stationList, setStationList] = useState("");
   const [formData, setFormData] = useState({
     dateOfAnalysis: getLocalISOTime(),
@@ -241,7 +242,9 @@ const ReportTable = ({
                     currentReport.id
                   }/download?report_file_type=pdf&from_station=${
                     formData.from || currentReport.stn_from || ""
-                  }&to_station=${formData.to || currentReport.stn_to || ""}`}
+                  }&to_station=${
+                    formData.to || currentReport.stn_to || ""
+                  }&jwt=${userInfo.access_token || ""}`}
                   download
                 >
                   <button

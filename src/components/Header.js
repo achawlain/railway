@@ -142,26 +142,6 @@ const Header = () => {
                     className={`${isNavListVisible ? "active" : ""} navList`}
                   >
                     {userInfo ? (
-                      <ul className="flex flex-col md:flex-row">
-                        <li
-                          className="mx-4"
-                          onClick={() => setIsNavListVisible(false)}
-                        >
-                          <NavLink
-                            to={RAILWAY_CONST.ROUTE.DASHBOARD}
-                            className={({ isActive }) =>
-                              `transition ${
-                                isActive
-                                  ? "text-blue-500" // Active styles
-                                  : "hover:text-[9b4b90]" // Default and hover styles
-                              }`
-                            }
-                          >
-                            Dashboard
-                          </NavLink>
-                        </li>
-                      </ul>
-                    ) : (
                       <ul className="flex flex-col md:flex-row space-x-4">
                         <li onClick={() => setIsNavListVisible(false)}>
                           <Link
@@ -172,7 +152,7 @@ const Header = () => {
                           </Link>
                         </li>
                       </ul>
-                    )}
+                    ) : null}
                   </span>
                 )}
               </nav>

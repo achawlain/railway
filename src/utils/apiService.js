@@ -1,4 +1,25 @@
-import { secureClient } from "../config/axiosClient";
+import { secureClient, client } from "../config/axiosClient";
+
+export const apiServiceWithOutToken = async (
+  method,
+  url,
+  data = {},
+  params = {}
+) => {
+  try {
+    const config = {
+      method,
+      url,
+      ...(method === "get" ? { params } : { data }),
+    };
+
+    const response = await client(config);
+    return response.data;
+  } catch (error) {
+    console.error(`${method.toUpperCase()} Error:`, error);
+    throw error;
+  }
+};
 
 export const apiService = async (method, url, data = {}, params = {}) => {
   try {

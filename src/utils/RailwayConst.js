@@ -1,6 +1,6 @@
 const RAILWAY_CONST = {
   API_ENDPOINT: {
-    LOGIN: "/login",
+    LOGIN: "/users/login",
     CHART_SPEED_TIME: "/chart_speed_time",
     SPEED_BEFORE_HALT: "/speed_before_halt",
     STAT: "/stat",
