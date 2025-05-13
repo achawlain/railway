@@ -110,11 +110,11 @@ const TemplateCardComponents = ({ item, onDelete, onView }) => {
       <div>
         <div>
           <div className="text-[18px] reportGenerateBg bg-[#30424c] rounded-t-[10px] px-4 pt-2 pb-2 font-medium text-[#fff] text-ellipsis overflow-hidden w-[100%] border-b border[#fefefe] truncate">
-            {item.title}
+           [{item.id}] {item.title}
           </div>
           <div className="px-4">
             <ul>
-              {item?.id && (
+              {/* {item?.id && (
                 <li className="mt-2 text-[#000] font-bold flex">
                   <span className="mr-1 text-[#414141] font-medium shrink-0 mr-auto">
                     Id:
@@ -123,7 +123,7 @@ const TemplateCardComponents = ({ item, onDelete, onView }) => {
                     {item.id}
                   </span>
                 </li>
-              )}
+              )} */}
 
               {item?.attacking_speed_file && (
                 <li className="mt-2 text-[#000] font-bold flex">

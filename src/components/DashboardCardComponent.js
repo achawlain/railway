@@ -20,7 +20,7 @@ const DashboardCardComponent = ({ item, onDelete, onView }) => {
       <div>
         <div>
           <div className="text-[18px] reportGenerateBg bg-[#30424c] rounded-t-[10px] px-4 pt-2 pb-2 font-medium text-[#fff] text-ellipsis overflow-hidden w-[100%] border-b border[#fefefe] truncate">
-            {item.title}
+           [{item.id}] {item.title}
           </div>
           <div className="px-4">
             <ul>

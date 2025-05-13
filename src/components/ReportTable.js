@@ -217,7 +217,7 @@ const ReportTable = ({
                 >
                   <button onClick={() => navigate(-1)}>Back</button>
                 </span>
-                {currentReport.title}
+                [{currentReport.id}] {currentReport.title}
                 {/* <button
                   className="bg-[#2c215d] absolute top-1 right-[0] h-[32px] w-[120px] font-normal text-[16px] text-white absolute right-8"
                   onClick={handleDownloadPDF}
