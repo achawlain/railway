@@ -28,19 +28,19 @@ const router = createBrowserRouter([
       },
       {
         path: `${RAILWAY_CONST.ROUTE.REPORTS}/:id`,
-        element: <ReportGenerateComponent />,
+        element: <PrivateRoute element={<ReportGenerateComponent />} />,
       },
       {
         path: RAILWAY_CONST.ROUTE.DASHBOARD,
-        element: <Dashboard />,
+        element: <PrivateRoute element={<Dashboard />} />,
       },
       {
         path: RAILWAY_CONST.ROUTE.TEMPLATE,
-        element: <Template />,
+        element: <PrivateRoute element={<Template />} />,
       },
       {
         path: RAILWAY_CONST.ROUTE.CREATE_REPORT,
-        element: <CreateReport />,
+        element: <PrivateRoute element={<CreateReport />} />,
       },
       { path: RAILWAY_CONST.ROUTE.HOME, element: <HomeComponent /> },
     ],

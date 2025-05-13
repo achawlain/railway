@@ -99,7 +99,7 @@ const HomeComponent = () => {
                 <li className="flex flex-row mr-2 w-[40%] mb-4">
                   <span className="w-[32px] mr-2">
                     <svg
-                      class="colorable-icon w-[32px] h-[32px] mt-2 mr-4"
+                      className="colorable-icon w-[32px] h-[32px] mt-2 mr-4"
                       viewBox="0 0 512 512"
                       xmlns="http://www.w3.org/2000/svg"
                       data-icon="chart-line-up-down"
@@ -125,7 +125,7 @@ const HomeComponent = () => {
                 <li className="flex flex-row mr-2 w-[40%]  mb-4">
                   <span className="w-[32px] mr-2">
                     <svg
-                      class="colorable-icon w-[32px] h-[32px] mt-2 mr-4"
+                      className="colorable-icon w-[32px] h-[32px] mt-2 mr-4"
                       viewBox="0 0 512 512"
                       xmlns="http://www.w3.org/2000/svg"
                       data-icon="chart-line-up"
