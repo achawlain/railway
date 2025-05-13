@@ -213,9 +213,10 @@ const ReportTable = ({
               >
                 <span
                   id="backButton"
-                  className="absolute left-0 underline cursor-pointer top-[15px] text-[#000] hover:text-[#000] font-normal"
+                  onClick={() => navigate(-1)}
+                  className="absolute left-0 px-[10px] border border-[#000] cursor-pointer top-[10px] text-[#000] hover:text-[#000] font-normal flex items-start "
                 >
-                  <button onClick={() => navigate(-1)}>Back</button>
+                  <button>Back</button>
                 </span>
                 [{currentReport.id}] {currentReport.title}
                 {/* <button

@@ -11,6 +11,7 @@ import Dashboard from "../pages/Dashboard";
 import CreateReport from "../pages/CreateReport";
 import { getDataFromLocalStorage } from "./localStorage";
 import Template from "../pages/Template";
+import CreateTemplateComponent from "../components/CreateTemplateComponent";
 
 const user = getDataFromLocalStorage("userInfo");
 
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: `${RAILWAY_CONST.ROUTE.REPORTS}/:id`,
         element: <PrivateRoute element={<ReportGenerateComponent />} />,
+      },
+      {
+        path: `${RAILWAY_CONST.ROUTE.CREATE_TEMPLATE}`,
+        element: <PrivateRoute element={<CreateTemplateComponent />} />,
       },
       {
         path: RAILWAY_CONST.ROUTE.DASHBOARD,

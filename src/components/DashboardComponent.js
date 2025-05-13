@@ -55,7 +55,7 @@ const DashboardComponent = () => {
                     Generated Reports
                     <Link to={RAILWAY_CONST.ROUTE.TEMPLATE}>
                       <span className="absolute top-2 right-0 flex flex-row sm:text-[18px] text-[14px] items-center justify-center text-[#30424c] hover:text-[#000]">
-                        + Analyz New
+                        + Analyze New
                       </span>
                     </Link>
                   </h1>

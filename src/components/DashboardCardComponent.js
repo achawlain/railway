@@ -20,7 +20,7 @@ const DashboardCardComponent = ({ item, onDelete, onView }) => {
       <div>
         <div>
           <div className="text-[18px] reportGenerateBg bg-[#30424c] rounded-t-[10px] px-4 pt-2 pb-2 font-medium text-[#fff] text-ellipsis overflow-hidden w-[100%] border-b border[#fefefe] truncate">
-           [{item.id}] {item.title}
+            [{item.id}] {item.title}
           </div>
           <div className="px-4">
             <ul>
@@ -30,12 +30,12 @@ const DashboardCardComponent = ({ item, onDelete, onView }) => {
                 </span>
                 {item?.analyzed_by}
               </li>
-              <li className="mt-2 text-[#000] font-bold">
+              {/* <li className="mt-2 text-[#000] font-bold">
                 <span className="mr-1 text-[#414141] font-medium">
                   Train :{" "}
                 </span>
                 {item?.train_id}
-              </li>
+              </li> */}
               {/* <li className="mt-2 text-[#000] font-bold">
                 <span className="mr-1 text-[#414141] font-medium">
                   Date of Working :{" "}
@@ -43,40 +43,61 @@ const DashboardCardComponent = ({ item, onDelete, onView }) => {
                 {item?.date_of_working}
               </li> */}
               <li className="mt-2 text-[#000] font-bold">
-                <span className="mr-1 text-[#414141] font-medium">
-                  From:{" "}
-                </span>
-                {item?.stn_from}                
+                <span className="mr-1 text-[#414141] font-medium">From: </span>
+                {item?.stn_from}
               </li>
               <li className="mt-2 text-[#000] font-bold">
-                <span className="mr-1 text-[#414141] font-medium">
-                  To :{" "}
-                </span>
+                <span className="mr-1 text-[#414141] font-medium">To : </span>
                 {item?.stn_to}
               </li>
               <li className="mt-2 text-[#000] font-bold">
                 <span className="mr-1 text-[#414141] font-medium">
-                Departure Time :{" "}
+                  Departure Time :{" "}
                 </span>
                 {item?.departure_time}
               </li>
               <li className="mt-2 text-[#000] font-bold">
                 <span className="mr-1 text-[#414141] font-medium">
-                Arrival Time :{" "}
+                  Arrival Time :{" "}
                 </span>
-                {item?.arrival_time}                
+                {item?.arrival_time}
               </li>
               <li className="mt-2 text-[#000] font-bold">
                 <span className="mr-1 text-[#414141] font-medium">
-                Average Speed :{" "}
+                  Average Speed :{" "}
                 </span>
-                {item?.avg_speed}                
+                {item?.avg_speed}
               </li>
               <li className="mt-2 text-[#000] font-bold">
                 <span className="mr-1 text-[#414141] font-medium">
-                Total Distance (KM) :{" "}
+                  Total Distance (KM) :{" "}
                 </span>
                 {item?.total_distance}
+              </li>
+              <li className="mt-2 text-[#000] font-bold">
+                <span className="mr-1 text-[#414141] font-medium">
+                  PSR Violation :
+                </span>
+                {item?.psr_violation == null || item.psr_violation.length === 0
+                  ? "Nil"
+                  : item.psr_violation.length}
+              </li>
+              <li className="mt-2 text-[#000] font-bold">
+                <span className="mr-1 text-[#414141] font-medium">
+                  TSR Violation :
+                </span>
+                {item?.tsr_violation == null || item.tsr_violation.length === 0
+                  ? "Nil"
+                  : item.tsr_violation.length}
+              </li>
+              <li className="mt-2 text-[#000] font-bold">
+                <span className="mr-1 text-[#414141] font-medium">
+                  Attacking Speed Violation :
+                </span>
+                {item?.attacking_speed_violation == null ||
+                item.attacking_speed_violation.length === 0
+                  ? "Nil"
+                  : item.attacking_speed_violation.length}
               </li>
             </ul>
           </div>
