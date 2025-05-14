@@ -78,26 +78,56 @@ const DashboardCardComponent = ({ item, onDelete, onView }) => {
                 <span className="mr-1 text-[#414141] font-medium">
                   PSR Violation :
                 </span>
-                {item?.psr_violation == null || item.psr_violation.length === 0
-                  ? "Nil"
-                  : item.psr_violation.length}
+                <span
+                  className={`${
+                    item?.psr_violation == null ||
+                    item?.psr_violation.length === 0
+                      ? "text-black"
+                      : "text-[red]"
+                  }`}
+                >
+                  {item?.psr_violation == null ||
+                  item?.psr_violation.length === 0
+                    ? "Nil"
+                    : item?.psr_violation.length}
+                </span>
               </li>
               <li className="mt-2 text-[#000] font-bold">
                 <span className="mr-1 text-[#414141] font-medium">
                   TSR Violation :
                 </span>
-                {item?.tsr_violation == null || item.tsr_violation.length === 0
-                  ? "Nil"
-                  : item.tsr_violation.length}
+                <span
+                  className={`${
+                    item?.tsr_violation == null ||
+                    item?.tsr_violation.length === 0
+                      ? "text-black"
+                      : "text-[red]"
+                  }`}
+                >
+                  {item?.tsr_violation == null ||
+                  item?.tsr_violation.length === 0
+                    ? "Nil"
+                    : item?.tsr_violation.length}
+                </span>
               </li>
               <li className="mt-2 text-[#000] font-bold">
                 <span className="mr-1 text-[#414141] font-medium">
                   Attacking Speed Violation :
                 </span>
-                {item?.attacking_speed_violation == null ||
-                item.attacking_speed_violation.length === 0
-                  ? "Nil"
-                  : item.attacking_speed_violation.length}
+                <span
+                  className={`${
+                    item?.attacking_speed_violation == null ||
+                    item?.attacking_speed_violation.length === 0
+                      ? "text-black"
+                      : "text-[red]"
+                  }`}
+                >
+                  {" "}
+                  {item?.attacking_speed_violation == null ||
+                  item?.attacking_speed_violation.length === 0
+                    ? "Nil"
+                    : item?.attacking_speed_violation.length}
+                </span>
               </li>
             </ul>
           </div>
