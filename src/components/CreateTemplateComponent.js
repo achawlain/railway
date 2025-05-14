@@ -194,7 +194,7 @@ const CreateTemplateComponent = () => {
       setPopup({ show: false, message: "", type: "" });
       if ((type = "success" && message === "Upload successful!")) {
         setIsSubmitting(false);
-        navigate(RAILWAY_CONST.ROUTE.DASHBOARD);
+        navigate(RAILWAY_CONST.ROUTE.TEMPLATE);
       }
     }, 4000);
   };
@@ -211,7 +211,7 @@ const CreateTemplateComponent = () => {
 
     const submission = new FormData();
 
-    submission.append("report_title", formData.title);
+    submission.append("title", formData.title);
 
     const fileFields = [
       "station_file",
@@ -304,7 +304,6 @@ const CreateTemplateComponent = () => {
               label="Station File"
               file={formData.station_file}
               onDrop={handleFileDrop("station_file")}
-              required
             />
 
             <FileDropzone
