@@ -8,6 +8,7 @@ import {
 import deleteIcon from "../images/delete-icon.svg";
 import downloadIcon from "../images/downloadIcon.svg";
 import viewIcon from "../images/viewIcon.svg";
+import useIt from "../images/useIt.png";
 
 import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
@@ -308,10 +309,10 @@ const TemplateCardComponents = ({
           >
             <img
               alt="view icon"
-              src={viewIcon}
+              src={useIt}
               className="cursor-pointer leading-[13px] w-[21px] mr-[2px] mb-1"
             />
-            View
+            Use It
           </span>
         </div>
         {popup.show && (

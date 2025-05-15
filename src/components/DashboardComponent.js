@@ -52,7 +52,7 @@ const DashboardComponent = () => {
               <div className="max-w-full mx-auto px-2 mb-4">
                 <div className="bg-white w-full p-8 pt-2 rounded-[15px]">
                   <h1 className="text-[22px] text-[#30424c] font-medium mb-8 border-b border-[#ccc] pb-2 relative pt-2">
-                    Generated Reports
+                    Reports
                     <Link to={RAILWAY_CONST.ROUTE.TEMPLATE}>
                       <span className="absolute top-2 right-0 flex flex-row sm:text-[18px] text-[14px] items-center justify-center text-[#30424c] hover:text-[#000]">
                         + Analyze New
