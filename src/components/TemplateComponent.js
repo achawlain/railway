@@ -69,6 +69,7 @@ const TemplateComponent = () => {
                           item={item}
                           onDelete={handleDeleteItem}
                           onView={goToPdfView}
+                          refreshTemplates={gettemplates}
                         />
                       ))
                     ) : (

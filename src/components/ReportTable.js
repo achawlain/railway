@@ -37,6 +37,7 @@ const ReportTable = ({
   const [stationList, setStationList] = useState("");
   const [formData, setFormData] = useState({
     dateOfAnalysis: getLocalISOTime(),
+    title: "",
     analyzedBy: "",
     lp: "",
     designation: "",
@@ -87,6 +88,7 @@ const ReportTable = ({
     setFormData((prev) => ({
       ...prev,
       analyzedBy: currentReport.analyzed_by || prev.analyzedBy,
+      title: currentReport.title || prev.title,
       spm: currentReport.spm || prev.spm,
       dateOfAnalysis: currentReport.date_of_analysis || prev.dateOfAnalysis,
       dateOfWorking: currentReport.date_of_working || prev.dateOfWorking,
@@ -265,6 +267,19 @@ const ReportTable = ({
                 <div className="colSpaceBottom">
                   <div className="flex flex-row items-center">
                     <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Title
+                    </label>
+                    <input
+                      type="text"
+                      name="title"
+                      value={formData.title}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
                       Date of Analysis
                     </label>
                     <input
@@ -318,19 +333,7 @@ const ReportTable = ({
                       readOnly
                     />
                   </div>
-                  <div className="flex flex-row items-center">
-                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                      Running Time
-                    </label>
-                    <input
-                      type="text"
-                      name="runningTime"
-                      value={formData.runningTime}
-                      onChange={handleChange}
-                      className="w-full border p-2 rounded focus:outline-none"
-                      readOnly
-                    />
-                  </div>
+
                   <div className="flex flex-row items-center">
                     <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
                       Analyzed By
@@ -396,6 +399,11 @@ const ReportTable = ({
                       onBlur={handleBlur}
                     />
                   </div>
+                </div>
+                {/* Row 1 end */}
+
+                {/* Row 2 start */}
+                <div className="colSpaceBottom">
                   <div className="flex flex-row items-center">
                     <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
                       SPM
@@ -409,11 +417,6 @@ const ReportTable = ({
                       readOnly
                     />
                   </div>
-                </div>
-                {/* Row 1 end */}
-
-                {/* Row 2 start */}
-                <div className="colSpaceBottom">
                   <div className="flex flex-row items-center">
                     <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
                       Train No
@@ -487,6 +490,19 @@ const ReportTable = ({
                       type="text"
                       name="averageSpeed"
                       value={formData.averageSpeed}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Running Time
+                    </label>
+                    <input
+                      type="text"
+                      name="runningTime"
+                      value={formData.runningTime}
                       onChange={handleChange}
                       className="w-full border p-2 rounded focus:outline-none"
                       readOnly

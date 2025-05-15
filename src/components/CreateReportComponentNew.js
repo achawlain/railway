@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { apiService, DataTable } from "../utils/apiService";
+import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import FileDropzone from "./FileDropzone";
 import ShowMessagePopUp from "./ShowMessagePopUp";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "./Loader";
 import { getDataFromLocalStorage } from "../utils/localStorage";
-
+import DataTable from "./DataTable";
 const CreateReportComponentNew = () => {
   const [template, setTemplate] = useState(
     getDataFromLocalStorage("currentTemplate")

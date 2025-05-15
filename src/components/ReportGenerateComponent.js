@@ -328,6 +328,7 @@ const ReportGenerateComponent = () => {
     if (label === "allFields") {
       setFullFormData((prev) => ({
         ...prev,
+        title: data.title || prev.title,
         train_id: data.trainNo || prev.train_id,
         load: data.load || prev.load,
         bmbs: data.bmbs || prev.bmbs,

@@ -68,6 +68,7 @@ const DashboardComponent = () => {
                           item={item}
                           onDelete={handleDeleteItem}
                           onView={goToPdfView}
+                          refreshReports={getReports}
                         />
                       ))
                     ) : (
