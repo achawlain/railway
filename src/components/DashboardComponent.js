@@ -23,7 +23,7 @@ const DashboardComponent = () => {
     try {
       const response = await apiService(
         "get",
-        RAILWAY_CONST.API_ENDPOINT.REPORTS
+        RAILWAY_CONST.API_ENDPOINT.REPORTS_SLASH
       );
       setReports(
         Array.isArray(response.data) ? response.data : response.reports || []
