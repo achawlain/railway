@@ -60,7 +60,8 @@ const DashboardComponent = () => {
                     </Link>
                   </h1>
 
-                  <div className="listTable w-full flex flex-row flex-wrap mb-[50px]">
+                  {/* <div className="listTable w-full flex flex-row flex-wrap mb-[50px]"> */}
+                  <div className="listTable w-full flex flex-wrap mb-[50px]">
                     {reports.length > 0 ? (
                       reports.map((item) => (
                         <DashboardCardComponent

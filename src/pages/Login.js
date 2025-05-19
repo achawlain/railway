@@ -85,7 +85,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen reportGenerateBg mt-8">
+    <div className="flex items-center justify-center h-screen reportGenerateBg mt-8 p-2">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
         <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}

@@ -324,7 +324,9 @@ const TemplateCardComponents = ({
         )}
 
         {isLoading ? (
-          <Loader />
+          <div className="cardLoader">
+            <Loader />
+          </div>
         ) : data.length > 0 ? (
           <>
             {isTableVisible && (

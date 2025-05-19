@@ -16,21 +16,6 @@ export const secureClient = axios.create({
   },
 });
 
-// secureClient.interceptors.request.use(
-//   (config) => {
-//     const userInfo = getDataFromLocalStorage("userInfo");
-//     console.log("userInfo", userInfo);
-//     if (userInfo && userInfo.access_token) {
-//       config.headers["Authorization"] = userInfo.access_token;
-//       // config.headers["id-token"] = userInfo.id_token; // Only if id_token exists
-//       return config;
-//     }
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
-
 secureClient.interceptors.request.use(
   (config) => {
     try {

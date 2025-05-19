@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import logo from "../../src/images/railwayLogo.png";
+import logo from "../../src/images/logo.png";
 import RAILWAY_CONST from "../utils/RailwayConst";
 
 import { Link, useNavigate, NavLink } from "react-router-dom";
@@ -105,25 +105,28 @@ const Header = () => {
                   userInfo ? RAILWAY_CONST.ROUTE.HOME : RAILWAY_CONST.ROUTE.HOME
                 }
               >
-                <span className="flex flex-row justify-center items-center">
+                {/* <span className="flex flex-row justify-center items-center">
                   <img
                     className="sm:h-[80px] h-[24px] mt-[5px]"
                     src={logo}
                     alt="Logo"
                   />
-                  <span className="text-[24px] ml-2 font-semibold flex flex-col">
+                  <span className="text-[24px] ml-2 font-semibold flex flex-col logoText">
                     EASTERN RAILWAY, ASANSOL DIVISION
                     <span className="text-[18px] font-normal">
                       Ministry of Railways, Govt of India.
                     </span>
                   </span>
+                </span> */}
+                <span>
+                  <img src={logo} alt="logo" className="logo" />
                 </span>
               </Link>
             </div>
 
             <div className="flex flex-row items-center">
-              <nav className="h-[30px]" ref={navListRef}>
-                {/* <span
+              <nav className="h-[30px] relative" ref={navListRef}>
+                <span
                   className="navIcon cursor-pointer"
                   onClick={toggleNavList}
                 >
@@ -136,7 +139,7 @@ const Header = () => {
                   ) : (
                     <img alt="navIcon" src={navIcon} className="h-[30px]" />
                   )}
-                </span> */}
+                </span>
                 {(isNavListVisible || window.innerWidth > 788) && (
                   <span
                     className={`${isNavListVisible ? "active" : ""} navList`}
@@ -162,7 +165,7 @@ const Header = () => {
                 onClick={toggleUserInfo}
               >
                 {userInfo ? (
-                  <div>
+                  <div className="h-[36px]">
                     <span className="headerUserIcon relative pr-[15px] inline-block">
                       <img
                         src={userIcon}
@@ -175,11 +178,11 @@ const Header = () => {
                     {isUserInfoVisible && (
                       <div className="absolute userInfoCol right-[10px] bg-white top-[40px] shadow-md z-10">
                         <ul className="w-[200px]">
-                          <li className="w-full px-4 py-2 border-b border-[#efefef]">
-                            <span className="text-gray-700 font-medium block">
-                              {userInfo?.name}
-                            </span>
-                          </li>
+                          {userInfo?.name && (
+                            <li className="w-full px-4 py-2 border-b border-[#efefef]">
+                              <span className="text-gray-700 font-medium block"></span>
+                            </li>
+                          )}
                           <li
                             onClick={logout}
                             className="w-full px-4 py-2 border-b hover:bg-[#f1f1f1] cursor-pointer"

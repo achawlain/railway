@@ -16,38 +16,38 @@ const HomeComponent = () => {
 
   return (
     <div>
-      <div className="bannerTitle  w-full block max-w-[1080px] mx-auto pt-[250px] p-[50px] pt-[0px] text-white absolute z-[11]">
-        <h1 className="text-[56px] pb-[15px] text-[#fff]">
-          Powerful Data Analytics for Railways
-        </h1>
-        <p className="max-w-[675px] text-[17px] mb-[15px]">
-          Analyze, improve, and guide loco pilots with real-time insights for
-          safer, more efficient railway operations across India.
-        </p>
-        {!userInfo && (
-          <div>
-            <span
-              onClick={() => setShowDemoForm(true)}
-              id="getStartedButton"
-              className=" cursor-pointer reportGenerateBg rounded-[4px] text-[#fff] sm:text-[16px] text-[14px] sm:px-[15px] px-[12px] py-[8px] sm:py-[15px] inline-block mt-[20px]"
-            >
-              REQUEST A DEMO
-            </span>
-          </div>
-        )}
-      </div>
-      <div className="w-full">
+      <div className="w-full flex items-center ">
+        <div className="bannerTitle w-full block max-w-[1080px] mx-auto  p-[50px] pt-[0px] text-white absolute z-[11]">
+          <h1 className="text-[56px] pb-[15px] text-[#fff]">
+            Powerful Data Analytics for Railways
+          </h1>
+          <p className="max-w-[675px] text-[17px] mb-[15px]">
+            Analyze, improve, and guide loco pilots with real-time insights for
+            safer, more efficient railway operations across India.
+          </p>
+          {!userInfo && (
+            <div>
+              <span
+                onClick={() => setShowDemoForm(true)}
+                id="getStartedButton"
+                className=" cursor-pointer reportGenerateBg rounded-[4px] text-[#fff] sm:text-[16px] text-[14px] sm:px-[15px] px-[12px] py-[8px] sm:py-[15px] inline-block mt-[20px]"
+              >
+                REQUEST A DEMO
+              </span>
+            </div>
+          )}
+        </div>
         <div className="banner">
           <img src={banner} className="w-full" />
         </div>
       </div>
       <div className="w-full">
-        <div className="max-w-[1200px] w-full mx-auto my-[80px]">
+        <div className="max-w-[1200px] w-full mx-auto my-[80px] px-4">
           <div className="w-full powerfulDataBox">
             {/* <h3 className="text-[34px] font-semibold">
               Powerful Data Analytics for Railways
             </h3> */}
-            <div className="w-full flex flex-row">
+            <div className="w-full flex flex-row speedTimeGraph">
               <div className="w-[60%] pr-[20px]">
                 <ul>
                   <li>
@@ -81,7 +81,7 @@ const HomeComponent = () => {
                   </li>
                 </ul>
               </div>
-              <div className="w-[40%] pl-[20px]">
+              <div className="w-[40%] speedTimeBanner pl-[20px]">
                 <img src={sideBanner} className="w-full" />
               </div>
             </div>
@@ -89,8 +89,8 @@ const HomeComponent = () => {
         </div>
       </div>
       <div className="w-full reportGenerateBg">
-        <div className="max-w-[1200px] w-full mx-auto my-[80px] py-16">
-          <div className="bg-white my-4 p-2 rounded-[10px]">
+        <div className="max-w-[1200px] w-full mx-auto my-[80px] py-16 px-4">
+          <div className="bg-white my-4 p-2 rounded-[10px] insightFlSpeedCol">
             <h3 className="text-[30px] text-center py-4 text-[#9b4b90] font-semibold">
               Insightful Speed-Time Curve Comparison
             </h3>
@@ -154,9 +154,9 @@ const HomeComponent = () => {
         </div>
       </div>
       <div className="w-full">
-        <div className="max-w-[1200px] w-full mx-auto my-[80px]">
+        <div className="max-w-[1200px] w-full mx-auto my-[80px] px-4">
           <div className="w-full powerfulDataBox">
-            <div className="w-full flex flex-row">
+            <div className="w-full flex flex-row breakzoneBox">
               <div className="w-[40%] pl-[20px]">
                 <img src={sideBanner2} className="w-full" />
               </div>
@@ -185,8 +185,8 @@ const HomeComponent = () => {
         </div>
       </div>
       <div className="w-full bg-[#efefef]">
-        <div className="max-w-[1200px] w-full mx-auto py-[80px]">
-          <div className="w-full p-2">
+        <div className="max-w-[1200px] w-full mx-auto py-[80px] px-4">
+          <div className="w-full p-2 drivingPatternBox">
             <h3 className="text-center text-[26px] mb-8 font-semibold">
               Driving Pattern Suggestions
             </h3>

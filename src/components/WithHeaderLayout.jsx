@@ -8,7 +8,7 @@ const WithHeaderLayout = () => {
   return (
     <div>
       <Header/>
-      <div className=" mt-[60px] w-full pt-[30px]">
+      <div className="containerLayout mt-[60px] w-full pt-[30px]">
       <Outlet />
       </div>
       {showFooter && <Footer />} 

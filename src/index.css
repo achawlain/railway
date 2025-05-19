@@ -36,6 +36,17 @@
     transform: rotate(1turn);
   }
 }
+.logoHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo {
+  width: 350px;
+}
+.navIcon {
+  display: none;
+}
 
 .loader {
   position: fixed;
@@ -166,4 +177,136 @@ span#backButton:before {
   position: static;
   margin-right: 2px;
   margin-top: 10px;
+}
+
+.cardLoader {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cardLoader img {
+  width: 110px;
+}
+
+@media (max-width: 980px) {
+  .bannerTitle h1 {
+    font-size: 35px;
+  }
+}
+
+@media (max-width: 767px) {
+  .breakzoneBox,
+  .speedTimeGraph,
+  .drivingPatternBox {
+    display: flex;
+    flex-direction: column;
+  }
+  .speedTimeBanner {
+    order: -1;
+    padding-left: 0px;
+  }
+  .drivingPatternBox ul {
+    flex-direction: column;
+  }
+  .drivingPatternBox li {
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 10px;
+  }
+  .banner {
+    display: none;
+  }
+  .bannerTitle {
+    position: static;
+    color: #000;
+    background: #f1f1f1;
+  }
+  .bannerTitle h1 {
+    color: #000;
+    margin-top: 50px;
+  }
+
+  .logoHeader {
+    height: 70px;
+  }
+  .logoText {
+    font-size: 18px;
+  }
+  .containerLayout {
+    margin-top: 45px;
+  }
+  .navIcon {
+    display: flex;
+  }
+  .navList {
+    position: absolute;
+    right: 0px;
+    width: 200px;
+    background: #fff;
+    --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+      0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
+      0 2px 4px -2px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+      var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    padding: 10px;
+    border-radius: 5px;
+    top: 45px;
+  }
+  .navList:before {
+    content: "";
+    height: 0px;
+    width: 0px;
+    border-width: 10px;
+    border-color: transparent transparent #f1f1f1 transparent;
+    position: absolute;
+    top: -20px;
+    right: 7px;
+  }
+}
+
+@media (max-width: 600px) {
+  .bannerTitle h1 {
+    font-size: 25px;
+    line-height: 35px;
+    margin-top: 0px;
+  }
+  .bannerTitle {
+    padding: 40px;
+  }
+  .speedTimeGraph > div {
+    width: 100%;
+  }
+  .insightFlSpeedCol ul {
+    flex-direction: column;
+  }
+  .insightFlSpeedCol ul li {
+    flex-direction: column;
+    width: 100%;
+  }
+  .breakzoneBox > div {
+    width: 100%;
+    padding-left: 0px;
+  }
+  .insightFlSpeedCol h3 {
+    font-size: 22px;
+  }
+  .breakzoneBox h3 {
+    font-size: 22px;
+    margin-top: 20px;
+  }
+  .drivingPatternBox h3 {
+    font-size: 22px;
+  }
+  .logo {
+    width: 220px;
+  }
+  .headerUserIcon {
+    padding-right: 0px;
+  }
 }
