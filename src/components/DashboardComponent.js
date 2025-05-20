@@ -48,9 +48,9 @@ const DashboardComponent = () => {
       ) : (
         <>
           <div>
-            <div className="w-full bg-[#efefef] p-4 reportGenerateBg pt-8 min-h-screen">
+            <div className="w-full bg-[#efefef] sm:p-4 p-2 reportGenerateBg pt-8 min-h-screen">
               <div className="max-w-full mx-auto px-2 mb-4">
-                <div className="bg-white w-full p-8 pt-2 rounded-[15px]">
+                <div className="bg-white w-full sm:p-8 p-4  pt-2 rounded-[15px]">
                   <h1 className="text-[22px] text-[#30424c] font-medium mb-8 border-b border-[#ccc] pb-2 relative pt-2">
                     Reports
                     <Link to={RAILWAY_CONST.ROUTE.TEMPLATE}>

@@ -262,7 +262,7 @@ const ReportTable = ({
                 </a>
               </h3>
 
-              <form className="grid grid-cols-3 gap-8">
+              <form className="grid grid-cols-3 gap-8 formBox">
                 {/* Row 1 start */}
                 <div className="colSpaceBottom">
                   <div className="flex flex-row items-center">

@@ -42,7 +42,7 @@ const HomeComponent = () => {
         </div>
       </div>
       <div className="w-full">
-        <div className="max-w-[1200px] w-full mx-auto my-[80px] px-4">
+        <div className="max-w-[1200px] w-full mx-auto sm:my-[80px] my-[40px] px-4">
           <div className="w-full powerfulDataBox">
             {/* <h3 className="text-[34px] font-semibold">
               Powerful Data Analytics for Railways
@@ -89,8 +89,8 @@ const HomeComponent = () => {
         </div>
       </div>
       <div className="w-full reportGenerateBg">
-        <div className="max-w-[1200px] w-full mx-auto my-[80px] py-16 px-4">
-          <div className="bg-white my-4 p-2 rounded-[10px] insightFlSpeedCol">
+        <div className="max-w-[1200px] w-full mx-auto sm:my-[80px] my-[40px] py-16 px-4">
+          <div className="bg-white sm:my-4 my-0 p-2 rounded-[10px] insightFlSpeedCol">
             <h3 className="text-[30px] text-center py-4 text-[#9b4b90] font-semibold">
               Insightful Speed-Time Curve Comparison
             </h3>
@@ -154,7 +154,7 @@ const HomeComponent = () => {
         </div>
       </div>
       <div className="w-full">
-        <div className="max-w-[1200px] w-full mx-auto my-[80px] px-4">
+        <div className="max-w-[1200px] w-full mx-auto sm:my-[80px] my-[40px] px-4">
           <div className="w-full powerfulDataBox">
             <div className="w-full flex flex-row breakzoneBox">
               <div className="w-[40%] pl-[20px]">
@@ -185,7 +185,7 @@ const HomeComponent = () => {
         </div>
       </div>
       <div className="w-full bg-[#efefef]">
-        <div className="max-w-[1200px] w-full mx-auto py-[80px] px-4">
+        <div className="max-w-[1200px] w-full mx-auto sm:py-[80px] py-[40px] px-4">
           <div className="w-full p-2 drivingPatternBox">
             <h3 className="text-center text-[26px] mb-8 font-semibold">
               Driving Pattern Suggestions

@@ -193,9 +193,25 @@ span#backButton:before {
   width: 110px;
 }
 
+@media (max-width: 1250px) {
+  .colSpaceBottom > div {
+    flex-direction: column;
+  }
+  .colSpaceBottom > div label {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 4px;
+  }
+}
+
 @media (max-width: 980px) {
   .bannerTitle h1 {
     font-size: 35px;
+  }
+
+  .formBox {
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -308,5 +324,21 @@ span#backButton:before {
   }
   .headerUserIcon {
     padding-right: 0px;
+  }
+  .speedTimeGraph h4 {
+    font-size: 20px;
+  }
+
+  .insightFlSpeedCol li h4 {
+    font-size: 20px;
+    margin-top: 5px;
+  }
+
+  .drivingPatternBox h4 {
+    font-size: 18px;
+  }
+
+  .dashboardCard {
+    min-width: 100%;
   }
 }

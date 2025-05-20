@@ -317,7 +317,7 @@ const CreateReportComponentNew = () => {
     try {
       const response = await apiService(
         "POST",
-        RAILWAY_CONST.API_ENDPOINT.REPORTS,
+        RAILWAY_CONST.API_ENDPOINT.REPORTS_SLASH,
         submission
         // {
         //   headers: {
