@@ -184,8 +184,8 @@ const ReportTable = ({
           <Loader />
         </div>
       ) : (
-        <div className="max-w-full mx-auto px-2 mb-4 reportTableForm">
-          <div className="bg-[#fff] w-full p-8 pb-16 rounded-[15px] relative">
+        <div className="max-w-full mx-auto sm:px-2 px-0 mb-4 reportTableForm">
+          <div className="bg-[#fff] w-full sm:p-8 p-2 sm:pb-16 pb-4 rounded-[15px] relative">
             <div
               id="pdfLogo"
               className="w-full items-center justify-center flex pb-4 hidden border-b border-[#ccc]"
@@ -211,12 +211,12 @@ const ReportTable = ({
             <div>
               <h3
                 id="sectionTitle"
-                className="text-center text-xl font-bold mb-8 mt-2 border-b border-[#ccc] relative pt-2 pb-2 mt-4"
+                className="text-center sm:text-xl text-[14px] font-bold mb-8 mt-2 border-b border-[#ccc] relative pt-2 pb-2 mt-4"
               >
                 <span
                   id="backButton"
                   onClick={() => navigate(-1)}
-                  className="absolute left-0 px-[10px] border border-[#000] cursor-pointer top-[10px] text-[#000] hover:text-[#000] font-normal flex items-start "
+                  className="absolute left-0 px-[10px] py-[5px] sm:py-[0px] border border-[#000] sm:text-[20px] text-[12px] cursor-pointer sm:top-[10px] top-[3px] text-[#000] hover:text-[#000] font-normal flex items-start "
                 >
                   <button>Back</button>
                 </span>
@@ -251,7 +251,7 @@ const ReportTable = ({
                   download
                 >
                   <button
-                    className="bg-[#2c215d] absolute top-1 right-[0] h-[32px] w-[150px] font-normal text-[16px] text-white absolute right-8 cursor-pointer"
+                    className="bg-[#2c215d] absolute top-1 right-[0] sm:h-[32px] h-[30px] sm:w-[150px] w-[110px] font-normal sm:text-[16px] text-[12px] text-white absolute right-8 cursor-pointer"
                     // onClick={() => {
                     //   downloadFiles(currentReport.stn_from, currentReport.stn_to);
                     // }}

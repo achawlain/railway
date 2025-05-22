@@ -125,7 +125,7 @@ const Header = () => {
             </div>
 
             <div className="flex flex-row items-center">
-              <nav className="h-[30px] relative" ref={navListRef}>
+              <nav className="relative" ref={navListRef}>
                 <span
                   className="navIcon cursor-pointer"
                   onClick={toggleNavList}
@@ -149,7 +149,7 @@ const Header = () => {
                         <li onClick={() => setIsNavListVisible(false)}>
                           <Link
                             to={RAILWAY_CONST.ROUTE.DASHBOARD}
-                            className="hover:text-[#9b4b90] transition"
+                            className="hover:text-[#9b4b90] transition p-[10px] inline-block"
                           >
                             Dashboard
                           </Link>

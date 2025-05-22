@@ -24,15 +24,15 @@ const DataTable = ({ columns, data, onClose }) => {
     >
       <div className="reportGenerateBg rounded-lg shadow-lg w-3/4 max-h-[80vh] overflow-auto relative">
         <button
-          className="absolute top-2 right-[26px] text-gray-500 hover:text-gray-800"
+          className="absolute sm:top-2 top-[3px] leading-[12px] right-[26px] text-gray-500 hover:text-gray-800 z-20 bg-gray-100 w-[20px] h-[20px] rounded-sm"
           onClick={(e) => {
             onClose(e);
           }}
         >
           ✕
         </button>
-        <table className="table-auto w-full border-collapse border border-gray-300">
-          <thead>
+        <table className="table-auto w-full border-collapse border border-gray-300 responsiveTable">
+          <thead className="hidden sm:table-header-group">
             <tr>
               {columns.map((column) => (
                 <th
@@ -46,9 +46,16 @@ const DataTable = ({ columns, data, onClose }) => {
           </thead>
           <tbody className="text-white">
             {data.map((row, index) => (
-              <tr key={index}>
+              <tr
+                key={index}
+                className="block sm:table-row border-b sm:border-0 mb-4 sm:mb-0"
+              >
                 {columns.map((column) => (
-                  <td key={column} className="border border-gray-300 px-4 py-2">
+                  <td
+                    key={column}
+                    className="block sm:table-cell border border-gray-300 px-4 py-2 relative sm:static"
+                    data-label={column}
+                  >
                     {row[column]}
                   </td>
                 ))}

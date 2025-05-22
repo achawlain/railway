@@ -269,14 +269,14 @@ const CreateTemplateComponent = () => {
       )}
 
       <div className="max-w-[1200px] mx-auto px-2 mb-4">
-        <div className="bg-white w-full p-8 pt-2 rounded-[15px] min-h-[600px] relative ">
-          <h1 className="text-[22px] text-[#30424c] font-medium text-center mb-8 border-b border-[#ccc] pb-2 relative pt-2">
+        <div className="bg-white w-full sm:p-8 p-2 pt-2 rounded-[15px] min-h-[600px] relative ">
+          <h1 className="sm:text-[22px] text-[18px] text-[#30424c] font-medium text-center sm:mb-8 mb-4 border-b border-[#ccc] pb-2 relative pt-2">
             <span
               id="backButton"
-              className="absolute left-0 text-white pr-4 top-[5px] underline cursor-pointer px-[10px] border border-[#000] flex"
+              className="absolute left-0 px-[10px] py-[5px] sm:py-[0px] border border-[#000] sm:text-[20px] text-[12px] cursor-pointer sm:top-[10px] top-[10px] text-[#000] hover:text-[#000] font-normal flex items-start "
               onClick={() => navigate(-1)}
             >
-              <button className="text-[18px] text-[#000] hover:text-[#000] ">
+              <button className="sm:text-[18px] text-[12px] text-[#000] hover:text-[#000] ">
                 Back
               </button>
             </span>
@@ -285,7 +285,7 @@ const CreateTemplateComponent = () => {
 
           <form
             onSubmit={handleSubmit}
-            className="max-w-xl mx-auto p-6 bg-white rounded shadow"
+            className="max-w-xl mx-auto sm:p-6 p-4 bg-white rounded shadow createReportForm"
           >
             <div className="mb-4 flex items-center">
               <label className="block font-medium mb-1 mr-4 w-40 text-right">

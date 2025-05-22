@@ -52,7 +52,7 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
             [{item.id}] {item.title}
           </div>
           <div className="px-4">
-            <ul>
+            <ul className="dashboardCardUi">
               <li className="mt-2 text-[#000] font-bold">
                 <span className="mr-1 text-[#414141] font-medium">
                   Analyzed By :
@@ -72,13 +72,10 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
                 {item?.date_of_working}
               </li> */}
               <li className="mt-2 text-[#000] font-bold">
-                <span className="mr-1 text-[#414141] font-medium">From: </span>
-                {item?.stn_from}
+                <span className="mr-1 text-[#414141] font-medium">Route: </span>
+                {item?.stn_from} &rarr; {item?.stn_to}
               </li>
-              <li className="mt-2 text-[#000] font-bold">
-                <span className="mr-1 text-[#414141] font-medium">To : </span>
-                {item?.stn_to}
-              </li>
+
               <li className="mt-2 text-[#000] font-bold">
                 <span className="mr-1 text-[#414141] font-medium">
                   Departure Time :{" "}
@@ -162,7 +159,7 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
           </div>
         </div>
       </div>
-      <div className="absolute border-t-2 border-t-[#ccc] pt-[5px] w-full bottom-0 pb-2 flex flex-row left-0">
+      <div className="absolute border-t-2 border-t-[#ccc] sm:pt-[5px] pt-[1px] w-full bottom-0 pb-2 flex flex-row left-0">
         <div
           className="flex w-[50%] text-[13px] opacity-[.8]  text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"
           onClick={handleDeleteClick}

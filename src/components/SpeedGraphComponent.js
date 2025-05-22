@@ -64,7 +64,7 @@ const SpeedGraphComponent = ({ speed_before_1000m, haltStation }) => {
 
   return (
     <>
-      <div className="bg-white p-8">
+      <div className="bg-white sm:p-8 p-2">
         {loading ? (
           <div className="componentLoader">
             <Loader />

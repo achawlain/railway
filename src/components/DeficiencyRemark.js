@@ -25,7 +25,7 @@ const DeficiencyRemark = ({ handleformData, deficiency, remark }) => {
   };
 
   return (
-    <div className="w-full mx-auto mt-8 p-6 bg-white">
+    <div className="w-full mx-auto mt-8 sm:p-6 p-2 bg-white">
       <h2 className="text-xl font-semibold mb-4 text-center">
         Deficiency and Remark
       </h2>

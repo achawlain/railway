@@ -9,7 +9,7 @@ const FileDropzone = ({ label, onDrop, file, required = false }) => {
   });
 
   return (
-    <div className="mb-4 flex items-center">
+    <div className="mb-4 flex items-center dragDropCol">
       {" "}
       {/* Use flex to align label and dropzone */}
       <label className="block font-medium mb-1 mr-4 w-40 text-right">

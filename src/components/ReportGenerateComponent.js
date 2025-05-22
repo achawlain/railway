@@ -418,8 +418,8 @@ const ReportGenerateComponent = () => {
               </div>
             </div>
           ) : null} */}
-          <div className="max-w-full mx-auto px-2 mb-4">
-            <div className="bg-white w-full p-8 pt-2 rounded-[15px]">
+          <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
+            <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
               <Suspense fallback={<div>Loading table...</div>}>
                 <TableComponent
                   data={halteTable.data}
@@ -432,7 +432,7 @@ const ReportGenerateComponent = () => {
         </div>
         <div id="pdf-speed-graph">
           <div className="max-w-full mx-auto px-2 mb-4">
-            <div className="bg-white w-full p-8 pb-16 rounded-[15px]">
+            <div className="bg-white w-full sm:p-8 p-2 sm:pb-16 pb-4 rounded-[15px]">
               <Suspense
                 fallback={
                   <div className="loader">
@@ -449,7 +449,7 @@ const ReportGenerateComponent = () => {
           </div>
 
           <div className="max-w-full mx-auto px-2 mb-4">
-            <div className="bg-white w-full p-8 pb-16 rounded-[15px]">
+            <div className="bg-white w-full  sm:p-8 p-2 pb-16 rounded-[15px]">
               <Suspense fallback={<div>Loading deficiency remarks...</div>}>
                 <DeficiencyRemark
                   handleformData={handleformData}

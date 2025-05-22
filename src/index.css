@@ -47,7 +47,10 @@
 .navIcon {
   display: none;
 }
-
+.dashboardCardUi li {
+  display: flex;
+  justify-content: space-between;
+}
 .loader {
   position: fixed;
   z-index: 77;
@@ -270,7 +273,7 @@ span#backButton:before {
       0 2px 4px -2px var(--tw-shadow-color);
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
       var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-    padding: 10px;
+
     border-radius: 5px;
     top: 45px;
   }
@@ -340,5 +343,45 @@ span#backButton:before {
 
   .dashboardCard {
     min-width: 100%;
+  }
+  span#backButton:before {
+    margin-top: 6px;
+    height: 7px;
+    width: 7px;
+  }
+  .createReportForm > div {
+    display: flex;
+    flex-direction: column;
+  }
+  .createReportForm > div label {
+    width: 100%;
+    text-align: left;
+    margin-right: 0px;
+    font-size: 14px;
+  }
+  .createReportForm > div input,
+  .createReportForm > div select {
+    width: 100%;
+  }
+  .createReportForm > div.goodColum input {
+    width: auto;
+  }
+  .createReportForm > div.goodColum {
+    display: inline-block;
+    text-align: left;
+  }
+  .dragDropCol > div {
+    width: 100%;
+  }
+
+  td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #ddd;
+  }
+  .responsiveTable tr {
+    padding: 10px;
   }
 }
