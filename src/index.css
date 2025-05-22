@@ -196,6 +196,40 @@ span#backButton:before {
   width: 110px;
 }
 
+.filterCol .react-datepicker-wrapper {
+  font-size: 16px;
+  padding: 0px;
+}
+
+.filterCol input {
+  padding: 5px 0px;
+  border-radius: 0px;
+  border: 0px;
+  border-bottom: 1px solid #000;
+  background: transparent;
+  margin-bottom: 5px;
+}
+
+.react-datepicker-wrapper {
+  display: inline-block;
+  width: 100%;
+}
+.react-datepicker__input-container input {
+  width: 100%;
+}
+
+.filterDropDown:before {
+  content: "";
+  height: 0px;
+  width: 0px;
+  border-width: 10px;
+  position: absolute;
+  border-color: transparent transparent #f6f6f6;
+  right: 38px;
+  top: -20px;
+  border-style: solid;
+}
+
 @media (max-width: 1250px) {
   .colSpaceBottom > div {
     flex-direction: column;
@@ -383,5 +417,12 @@ span#backButton:before {
   }
   .responsiveTable tr {
     padding: 10px;
+  }
+  .dashboardCardOnlyRes ul li {
+    display: flex;
+    flex-direction: column;
+  }
+  .filterDropDown:before {
+    right: 115px;
   }
 }
