@@ -152,6 +152,12 @@ const Header = () => {
                             className="hover:text-[#9b4b90] transition p-[10px] inline-block"
                           >
                             Dashboard
+                          </Link> |
+                          <Link
+                            to={RAILWAY_CONST.ROUTE.REPORTS}
+                            className="hover:text-[#9b4b90] transition p-[10px] inline-block"
+                          >
+                            Reports
                           </Link>
                         </li>
                       </ul>

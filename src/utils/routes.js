@@ -12,6 +12,7 @@ import CreateReport from "../pages/CreateReport";
 import { getDataFromLocalStorage } from "./localStorage";
 import Template from "../pages/Template";
 import CreateTemplateComponent from "../components/CreateTemplateComponent";
+import ReportsChart from "../components/ReportsChart";
 
 const user = getDataFromLocalStorage("userInfo");
 
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
         element: <PrivateRoute element={<CreateReport />} />,
       },
       { path: RAILWAY_CONST.ROUTE.HOME, element: <HomeComponent /> },
+      {
+        path: RAILWAY_CONST.ROUTE.REPORTS,
+        element: <PrivateRoute element={<ReportsChart />} />,
+      },
     ],
   },
   {
