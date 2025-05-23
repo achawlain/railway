@@ -1,14 +1,19 @@
-import React, { useState, useEffect, useRef, } from "react";
+import React, { useState, useEffect, useRef, use, } from "react";
 import ChartComponent from "./ChartComponent";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import { apiService } from "../utils/apiService";
 import { format, subDays } from "date-fns";
 import { DateRange } from "react-date-range";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+
+import "primereact/resources/themes/lara-light-cyan/theme.css";
 
 function ReportsChart() {
 
     const [loading, setLoading] = useState(false);
     const [chartReportsData, setChartReportData] = useState(null);
+    const [reportTableData, setReportTableData] = useState([]); // DataTable state
     const [range, setRange] = useState([
         {
             startDate: subDays(new Date(), 30),
@@ -29,12 +34,26 @@ function ReportsChart() {
         }
     };
 
-   
+
+    const getreportDataTable = async (start_date, end_date) => {
+        const url = `${RAILWAY_CONST.API_ENDPOINT.MANAGEMENT_lP_SUMMARY}?start_date=${start_date}&end_date=${end_date}`
+        try {
+            const response = await apiService("get", url);
+            setReportTableData(response.data);
+            console.log("response 1", (response.data));
+        } catch (error) {
+            console.error("Error fetching chart data:", error);
+        }
+    }
+
+
+
     useEffect(() => {
         // Initial fetch for default date range
         const formattedStartDate = format(range[0].startDate, "yyyy-MM-dd");
         const formattedEndDate = format(range[0].endDate, "yyyy-MM-dd");
         getChartReportData(formattedStartDate, formattedEndDate);
+        getreportDataTable(formattedStartDate, formattedEndDate);
     }, []);
 
 
@@ -42,11 +61,12 @@ function ReportsChart() {
         setRange([item.selection]);
         const formattedStartDate = format(item.selection.startDate, "yyyy-MM-dd");
         const formattedEndDate = format(item.selection.endDate, "yyyy-MM-dd");
-      
-        getChartReportData(formattedStartDate, formattedEndDate);
+
+        // getChartReportData(formattedStartDate, formattedEndDate);
         if (formattedStartDate && formattedEndDate && formattedStartDate !== formattedEndDate) {
-           setRange([item.selection]);
-           setOpen(false);
+            setRange([item.selection]);
+            getChartReportData(formattedStartDate, formattedEndDate);
+            setOpen(false);
         }
 
     };
@@ -114,6 +134,24 @@ function ReportsChart() {
                             chartData={chartReportsData}
 
                         />
+                    </div>
+
+                </div>
+                <div className="bg-white w-full p-8 pt-4 rounded-[15px] min-h-[900px] mt-8">
+                    <div style={{ overflowX: "auto", width: "100%", marginTop: "20px" }}>
+                        <h2 className="text-[18px] text-[#30424c] font-medium mb-4">Report Data Table</h2>
+
+                        <DataTable value={reportTableData} paginator rows={10} dataKey="id" filterDisplay="row" loading={loading} emptyMessage="No data found"
+                            globalFilterFields={['crew_name', 'p_cms_id', 'attacking_speed_violation_count', 'psr_err_count']}  >
+                            <Column field="crew_name" header="Crew Name" filter />
+                            <Column field="lp_cms_id" header="LP CMS ID" filter />
+                            <Column
+                                field="attacking_speed_violation_count"
+                                header="Speed Violations" filter
+                            />
+                            <Column field="psr_err_count" header="PSR Errors" filter />
+                            {/* Add more columns based on your data */}
+                        </DataTable>
                     </div>
                 </div>
             </div>

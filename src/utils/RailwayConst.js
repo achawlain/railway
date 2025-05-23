@@ -15,6 +15,8 @@ const RAILWAY_CONST = {
     SUPPORTED_DATA_SOURCES: "supported_data_sources",
     METADATA: "/metadata",
     MANAGEMENT_SUMMARY: "/management/reports/summary",
+    MANAGEMENT_lP_SUMMARY: "/management/reports/lp_summary",
+
   },
 
   ROUTE: {
