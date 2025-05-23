@@ -6,6 +6,7 @@ import { format, subDays } from "date-fns";
 import { DateRange } from "react-date-range";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { InputText } from "primereact/inputtext";
 
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 
@@ -21,6 +22,10 @@ function ReportsChart() {
             key: "selection",
         },
     ]);
+    const [filters, setFilters] = useState({
+        global: { value: null, matchMode: "contains" },
+    });
+    const [globalFilterValue, setGlobalFilterValue] = useState("");
     const [open, setOpen] = useState(false);
     const ref = useRef();
 
@@ -70,8 +75,8 @@ function ReportsChart() {
         }
 
     };
-    
-        
+
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (ref.current && !ref.current.contains(event.target)) {
@@ -88,7 +93,14 @@ function ReportsChart() {
         };
     }, [open]);
 
-
+    const onGlobalFilterChange = (e) => {
+        const value = e.target.value;
+        setFilters({
+            ...filters,
+            global: { value, matchMode: "contains" },
+        });
+        setGlobalFilterValue(value);
+    };
 
 
     return (
@@ -116,6 +128,7 @@ function ReportsChart() {
                                 ref={ref}
                                 className="absolute z-10 mt-[44px] shadow-lg border bg-white"
                             >
+
                                 <DateRange
                                     editableDateInputs
                                     onChange={handleSelect}
@@ -126,7 +139,7 @@ function ReportsChart() {
                                 />
                             </div>
                         )}
-                        
+
                     </div>
                     <div style={{ overflowX: "auto", width: "100%" }}>
                         <ChartComponent
@@ -139,17 +152,32 @@ function ReportsChart() {
                 </div>
                 <div className="bg-white w-full p-8 pt-4 rounded-[15px] min-h-[900px] mt-8">
                     <div style={{ overflowX: "auto", width: "100%", marginTop: "20px" }}>
-                        <h2 className="text-[18px] text-[#30424c] font-medium mb-4">Report Data Table</h2>
-
-                        <DataTable value={reportTableData} paginator rows={10} dataKey="id" filterDisplay="row" loading={loading} emptyMessage="No data found"
-                            globalFilterFields={['crew_name', 'p_cms_id', 'attacking_speed_violation_count', 'psr_err_count']}  >
-                            <Column field="crew_name" header="Crew Name" filter />
-                            <Column field="lp_cms_id" header="LP CMS ID" filter />
-                            <Column
-                                field="attacking_speed_violation_count"
-                                header="Speed Violations" filter
+                        <h2 className="text-[18px] text-[#30424c] font-medium mb-4">Loco Pilot Report</h2>
+                        <div className="flex justify-between items-center mb-4">
+                            <div></div> {/* Placeholder for left-side content, if needed */}
+                            <InputText
+                                value={globalFilterValue}
+                                onChange={onGlobalFilterChange}
+                                placeholder="Search for any field"
+                                className="w-56 h-12 inline-block border border-gray-300 rounded-md pl-2 box-shadow-none"
+                                style={{ marginLeft: "auto", marginRight: "20px" }}
                             />
-                            <Column field="psr_err_count" header="PSR Errors" filter />
+                        </div>
+                        <DataTable
+                            value={reportTableData}
+                            paginator
+                            rows={10}
+                            dataKey="id"
+                            filters={filters}
+                            filterDisplay="row"
+                            loading={loading}
+                            emptyMessage="No data found"
+                            globalFilterFields={['crew_name', 'p_cms_id', 'attacking_speed_violation_count', 'psr_err_count']}
+                        >
+                            <Column field="crew_name" header="Crew Name" />
+                            <Column field="lp_cms_id" header="LP CMS ID" />
+                            <Column field="attacking_speed_violation_count" header="Speed Violations" />
+                            <Column field="psr_err_count" header="PSR Errors" />
                             {/* Add more columns based on your data */}
                         </DataTable>
                     </div>
