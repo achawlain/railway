@@ -202,7 +202,7 @@ span#backButton:before {
 }
 
 .filterCol input {
-  padding: 5px 0px;
+  padding: 5px;
   border-radius: 0px;
   border: 0px;
   border-bottom: 1px solid #000;
@@ -228,6 +228,33 @@ span#backButton:before {
   right: 38px;
   top: -20px;
   border-style: solid;
+}
+
+.filterDropDown label {
+  margin-right: 5px;
+  margin-top: 5px;
+  min-width: 100px;
+  text-align: right;
+}
+
+.filterDropDown input {
+  border: 0px;
+  border-bottom: 1px solid #ccc;
+  border-radius: 0px;
+  background: transparent;
+}
+
+.filterDropDown input:focus-visible {
+  outline: none;
+}
+
+.datePickerCol {
+  height: 35px;
+}
+
+.datePickerCol input.inputbox {
+  background: url("../src/images/calenderIcon1.png") right center no-repeat;
+  background-size: 18px;
 }
 
 @media (max-width: 1250px) {

@@ -97,7 +97,7 @@ const Header = () => {
   return (
     <div>
       <>
-        <header className="headerRow top-0 z-20 fixed bg-white w-full flex justify-between items-center px-4 shadow-md">
+        <header className="headerRow top-0 z-40 fixed bg-white w-full flex justify-between items-center px-4 shadow-md">
           <div className="max-w-[1300px] mx-auto flex flex-row justify-between w-full items-center">
             <div className="h-[90px] logoHeader">
               <Link
