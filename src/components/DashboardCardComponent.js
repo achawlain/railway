@@ -45,7 +45,7 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
   };
 
   return (
-    <div className="relative dashboardCard pb-[65px] min-h-[240px] max-w-sm relative docCol w-[100%] min-w-[385px] mx-[.5%] mb-[20px] bg-[#f1f1f1] rounded-[10px] shadow-md hover:shadow-lg">
+    <div className="relative dashboardCard dashboardCardOnlyRes pb-[65px] min-h-[240px] max-w-sm relative docCol w-[100%] min-w-[385px] mx-[.5%] mb-[20px] bg-[#f1f1f1] rounded-[10px] shadow-md hover:shadow-lg">
       <div>
         <div>
           <div className="text-[18px] reportGenerateBg bg-[#30424c] rounded-t-[10px] px-4 pt-2 pb-2 font-medium text-[#fff] text-ellipsis overflow-hidden w-[100%] border-b border[#fefefe] truncate">
