@@ -493,4 +493,13 @@ span#backButton:before {
   .filterDropDown:before {
     right: 115px;
   }
+
+  .reportViewTitle {
+    text-align: left;
+    padding-top: 50px;
+    margin-top: 0px;
+  }
+  .reportViewTitle button {
+    top: 40px;
+  }
 }
