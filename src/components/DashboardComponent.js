@@ -190,7 +190,11 @@ const DashboardComponent = () => {
                                 moveRangeOnFirstSelection={false}
                                 ranges={range}
                                 months={2} // <-- Shows 2 months
-                                direction="horizontal"
+                                direction={
+                                  window.innerWidth > 600
+                                    ? "horizontal"
+                                    : "vertical"
+                                }
                               />
                             </div>
                           )}
