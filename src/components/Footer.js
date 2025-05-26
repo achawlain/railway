@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="footerBoxMain">
         <div className="footerBox">
           <div className="subFooterBox text-center py-2">
-            <p>© 2025 Railway | All Rights Reserved</p>
+            <p>© 2025 Orryworx | All Rights Reserved</p>
           </div>
         </div>
       </div>

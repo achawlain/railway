@@ -155,7 +155,16 @@ const Header = () => {
                           </Link>
                         </li>
                       </ul>
-                    ) : null}
+                    ) : (
+                      <Link
+                        to="/login"
+                        className="hover:text-[#9b4b90] transition p-[10px] inline-block"
+                      >
+                        <span className="font-medium loginText text-[#cc1919] ml-2">
+                          Login
+                        </span>
+                      </Link>
+                    )}
                   </span>
                 )}
               </nav>
