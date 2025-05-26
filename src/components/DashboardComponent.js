@@ -143,7 +143,7 @@ const DashboardComponent = () => {
                     </div>
                   </h1>
                   <div className="w-full flex justify-end mb-2">
-                    <div className=" flex flex-col top-[32px]  filterDropDown  max-w-[1000px] ">
+                    <div className=" flex flex-col top-[32px] filterDropDown  max-w-[1000px] ">
                       <span className="flex flex-row bg-[#f6f6f6] pt-[10px] mb-4 px-4">
                         {/* <div className="flex flex-row w-full mb-2 mr-2">
                           <label className="text-[16px]">Start Date: </label>
@@ -195,7 +195,7 @@ const DashboardComponent = () => {
                             </div>
                           )}
                         </div>
-                        <div className="flex flex-row w-full mb-2">
+                        <div className="flex flex-row w-full mb-2 lpCmsCol">
                           <label className="text-[16px] inline-block min-w-[80px]">
                             LP CMS :
                           </label>
@@ -207,7 +207,7 @@ const DashboardComponent = () => {
                             onChange={(e) => setLp_cms_id(e.target.value)}
                           />
                         </div>
-                        <div className="w-full flex justify-end mb-2">
+                        <div className="w-full flex justify-end mb-2 filterButtonCol">
                           <button
                             onClick={handleFilterData}
                             className="bg-[#9b4b90] h-[32px] text-white px-8 py-1 sm:mt-0 text-[16px] ml-4"

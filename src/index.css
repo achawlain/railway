@@ -277,6 +277,22 @@ span#backButton:before {
     display: flex;
     flex-direction: column;
   }
+
+  .filterDropDown span {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .lpCmsCol,
+  .datePickerCol {
+    width: 50%;
+  }
+  .filterButtonCol {
+    margin: 20px 0px;
+  }
+  .datePickerCol input.inputbox {
+    padding-right: 27px;
+  }
 }
 
 @media (max-width: 767px) {
@@ -347,6 +363,31 @@ span#backButton:before {
     position: absolute;
     top: -20px;
     right: 7px;
+  }
+
+  .filterDropDown {
+    width: 100%;
+  }
+
+  .filterDropDown label {
+    text-align: left;
+  }
+
+  .filterDropDown span {
+    flex-direction: column;
+  }
+  .lpCmsCol,
+  .datePickerCol {
+    width: 100%;
+  }
+  .datePickerCol input.inputbox {
+    width: 100%;
+  }
+
+  .datePickerCol {
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 20px;
   }
 }
 
