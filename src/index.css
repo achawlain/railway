@@ -523,4 +523,7 @@ span#backButton:before {
   .reportViewTitle button {
     top: 40px;
   }
+  .dateRangeCal {
+    right: -20px;
+  }
 }
