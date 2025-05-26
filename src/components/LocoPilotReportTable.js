@@ -158,8 +158,10 @@ export default function LocoPilotReportTable() {
                     >
                         <Column field="crew_name" header="Crew Name" sortable />
                         <Column field="lp_cms_id" header="LP CMS ID" sortable />
-                        <Column field="attacking_speed_violation_count" header="Speed Violations" sortable />
-                        <Column field="psr_err_count" header="PSR Errors" sortable />
+                        <Column field="psr_err_count" header="PSR Violation" sortable />
+                        <Column field="tsr_err_count" header="TSR Violation" sortable />
+                        <Column field="attacking_speed_violation_count" header="Attacking Speed Violation" sortable />
+
                         {/* Add more columns based on your data */}
                     </DataTable>
                 </div>
