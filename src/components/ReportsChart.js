@@ -71,6 +71,7 @@ function ReportsChart() {
         if (formattedStartDate && formattedEndDate && formattedStartDate !== formattedEndDate) {
             setRange([item.selection]);
             getChartReportData(formattedStartDate, formattedEndDate);
+            getreportDataTable(formattedStartDate, formattedEndDate);
             setOpen(false);
         }
 
@@ -159,7 +160,7 @@ function ReportsChart() {
                                 value={globalFilterValue}
                                 onChange={onGlobalFilterChange}
                                 placeholder="Search for any field"
-                                className="w-56 h-12 inline-block border border-gray-300 rounded-md pl-2 box-shadow-none"
+                                className="w-56 h-12 inline-block border border-gray-300 rounded-md pl-2 globleFilter"
                                 style={{ marginLeft: "auto", marginRight: "20px" }}
                             />
                         </div>
@@ -172,7 +173,7 @@ function ReportsChart() {
                             filterDisplay="row"
                             loading={loading}
                             emptyMessage="No data found"
-                            globalFilterFields={['crew_name', 'p_cms_id', 'attacking_speed_violation_count', 'psr_err_count']}
+                            globalFilterFields={['crew_name', 'lp_cms_id',]}
                         >
                             <Column field="crew_name" header="Crew Name" />
                             <Column field="lp_cms_id" header="LP CMS ID" />
