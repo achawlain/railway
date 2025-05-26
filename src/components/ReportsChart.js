@@ -4,17 +4,12 @@ import RAILWAY_CONST from "../utils/RailwayConst";
 import { apiService } from "../utils/apiService";
 import { format, subDays } from "date-fns";
 import { DateRange } from "react-date-range";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
-import { InputText } from "primereact/inputtext";
-
-import "primereact/resources/themes/lara-light-cyan/theme.css";
+import LocoPilotReportTable from "./LocoPilotReportTable";
 
 function ReportsChart() {
 
     const [loading, setLoading] = useState(false);
     const [chartReportsData, setChartReportData] = useState(null);
-    const [reportTableData, setReportTableData] = useState([]); // DataTable state
     const [range, setRange] = useState([
         {
             startDate: subDays(new Date(), 30),
@@ -22,10 +17,7 @@ function ReportsChart() {
             key: "selection",
         },
     ]);
-    const [filters, setFilters] = useState({
-        global: { value: null, matchMode: "contains" },
-    });
-    const [globalFilterValue, setGlobalFilterValue] = useState("");
+
     const [open, setOpen] = useState(false);
     const ref = useRef();
 
@@ -40,25 +32,12 @@ function ReportsChart() {
     };
 
 
-    const getreportDataTable = async (start_date, end_date) => {
-        const url = `${RAILWAY_CONST.API_ENDPOINT.MANAGEMENT_lP_SUMMARY}?start_date=${start_date}&end_date=${end_date}`
-        try {
-            const response = await apiService("get", url);
-            setReportTableData(response.data);
-            console.log("response 1", (response.data));
-        } catch (error) {
-            console.error("Error fetching chart data:", error);
-        }
-    }
-
-
 
     useEffect(() => {
         // Initial fetch for default date range
         const formattedStartDate = format(range[0].startDate, "yyyy-MM-dd");
         const formattedEndDate = format(range[0].endDate, "yyyy-MM-dd");
         getChartReportData(formattedStartDate, formattedEndDate);
-        getreportDataTable(formattedStartDate, formattedEndDate);
     }, []);
 
 
@@ -67,11 +46,9 @@ function ReportsChart() {
         const formattedStartDate = format(item.selection.startDate, "yyyy-MM-dd");
         const formattedEndDate = format(item.selection.endDate, "yyyy-MM-dd");
 
-        // getChartReportData(formattedStartDate, formattedEndDate);
         if (formattedStartDate && formattedEndDate && formattedStartDate !== formattedEndDate) {
             setRange([item.selection]);
             getChartReportData(formattedStartDate, formattedEndDate);
-            getreportDataTable(formattedStartDate, formattedEndDate);
             setOpen(false);
         }
 
@@ -94,16 +71,6 @@ function ReportsChart() {
         };
     }, [open]);
 
-    const onGlobalFilterChange = (e) => {
-        const value = e.target.value;
-        setFilters({
-            ...filters,
-            global: { value, matchMode: "contains" },
-        });
-        setGlobalFilterValue(value);
-    };
-
-
     return (
         <>
             <div className="w-full bg-[#efefef] p-4 reportGenerateBg pt-8 min-h-screen">
@@ -122,7 +89,7 @@ function ReportsChart() {
                                 "dd/MM/yyyy"
                             )}`}
                             onClick={() => setOpen(!open)}
-                            className="border px-1 py-2 rounded-md w-[250px] cursor-pointer inputbox pl-2"
+                            className="border px-1 py-2 rounded-md w-[250px] cursor-pointer inputbox pl-2 -mt-1"
                         />
                         {open && (
                             <div
@@ -151,37 +118,8 @@ function ReportsChart() {
                     </div>
 
                 </div>
-                <div className="bg-white w-full p-8 pt-4 rounded-[15px] min-h-[900px] mt-8">
-                    <div style={{ overflowX: "auto", width: "100%", marginTop: "20px" }}>
-                        <h2 className="text-[18px] text-[#30424c] font-medium mb-4">Loco Pilot Report</h2>
-                        <div className="flex justify-between items-center mb-4">
-                            <div></div> {/* Placeholder for left-side content, if needed */}
-                            <InputText
-                                value={globalFilterValue}
-                                onChange={onGlobalFilterChange}
-                                placeholder="Search for any field"
-                                className="w-56 h-12 inline-block border border-gray-300 rounded-md pl-2 globleFilter"
-                                style={{ marginLeft: "auto", marginRight: "20px" }}
-                            />
-                        </div>
-                        <DataTable
-                            value={reportTableData}
-                            paginator
-                            rows={10}
-                            dataKey="id"
-                            filters={filters}
-                            filterDisplay="row"
-                            loading={loading}
-                            emptyMessage="No data found"
-                            globalFilterFields={['crew_name', 'lp_cms_id',]}
-                        >
-                            <Column field="crew_name" header="Crew Name" />
-                            <Column field="lp_cms_id" header="LP CMS ID" />
-                            <Column field="attacking_speed_violation_count" header="Speed Violations" />
-                            <Column field="psr_err_count" header="PSR Errors" />
-                            {/* Add more columns based on your data */}
-                        </DataTable>
-                    </div>
+                <div>
+                    <LocoPilotReportTable />
                 </div>
             </div>
         </>
