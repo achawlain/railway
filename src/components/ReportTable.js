@@ -211,7 +211,7 @@ const ReportTable = ({
             <div>
               <h3
                 id="sectionTitle"
-                className="text-center sm:text-xl text-[14px] font-bold mb-8 mt-2 border-b border-[#ccc] relative pt-2 pb-2 mt-4 reportViewTitle"
+                className="text-center sm:text-xl text-[16px] font-bold mb-8 mt-2 border-b border-[#ccc] relative pt-2 pb-2 mt-4 reportViewTitle"
               >
                 <span
                   id="backButton"

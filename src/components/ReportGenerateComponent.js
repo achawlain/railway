@@ -431,7 +431,7 @@ const ReportGenerateComponent = () => {
           </div>
         </div>
         <div id="pdf-speed-graph">
-          <div className="max-w-full mx-auto px-2 mb-4">
+          <div className="max-w-full mx-auto px-0 mb-4">
             <div className="bg-white w-full sm:p-8 p-2 sm:pb-16 pb-4 rounded-[15px]">
               <Suspense
                 fallback={

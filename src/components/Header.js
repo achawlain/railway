@@ -145,18 +145,22 @@ const Header = () => {
                     className={`${isNavListVisible ? "active" : ""} navList`}
                   >
                     {userInfo ? (
-                      <ul className="flex flex-col md:flex-row space-x-4">
+                      <ul className="flex flex-col md:flex-row ">
                         <li onClick={() => setIsNavListVisible(false)}>
                           <Link
                             to={RAILWAY_CONST.ROUTE.DASHBOARD}
-                            className="hover:text-[#9b4b90] transition p-[10px] inline-block"
+                            className="hover:text-[#9b4b90] transition p-[10px] block"
                           >
                             Dashboard
                           </Link>{" "}
-                          |
+                        </li>
+                        <li
+                          className="ml-0 pl-0 border-t sm:border-t sm:border-transparent border-[#efefef]"
+                          onClick={() => setIsNavListVisible(false)}
+                        >
                           <Link
                             to={RAILWAY_CONST.ROUTE.REPORTS}
-                            className="hover:text-[#9b4b90] transition p-[10px] inline-block"
+                            className="hover:text-[#9b4b90] transition p-[10px] block ml-0"
                           >
                             Reports
                           </Link>
@@ -167,7 +171,7 @@ const Header = () => {
                         to="/login"
                         className="hover:text-[#9b4b90] transition p-[10px] inline-block"
                       >
-                        <span className="font-medium loginText text-[#cc1919] ml-2">
+                        <span className="font-medium loginText hover:text-[#9b4b90] text-[#000] ml-2">
                           Login
                         </span>
                       </Link>
