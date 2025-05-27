@@ -35,6 +35,7 @@ const ReportTable = ({
   const [loading, setLoading] = useState(true); // State for loader
   const [userInfo, setUserInfo] = useState(getDataFromLocalStorage("userInfo"));
   const [stationList, setStationList] = useState("");
+  const [borderBox, setBorderBox] = useState(false);
   const [formData, setFormData] = useState({
     dateOfAnalysis: getLocalISOTime(),
     title: "",
@@ -83,6 +84,35 @@ const ReportTable = ({
       console.error("Error fetching chart data:", error);
     }
   };
+
+  const getLocoPilotDetails = async (CMS_ID) => {
+    try {
+      const response = await apiService(
+        "get",
+        `${RAILWAY_CONST.API_ENDPOINT.CREW}?cms_id=${CMS_ID}`
+      );
+      if (response && response.data) {
+        setFormData((prev) => ({
+          ...prev,
+          lp: response.data?.name,
+          designation: response.data?.designation,
+          nominatedCLI: response.data?.nli,
+        }))
+        setBorderBox(false);
+      } else {
+        setFormData((prev) => ({
+          ...prev,
+          lp: '',
+          designation: '',
+          nominatedCLI: '',
+        }))
+        setBorderBox(true)
+      }
+    } catch (error) {
+      console.error("Error fetching chart data:", error);
+    }
+  };
+
 
   const getFormData = async () => {
     setFormData((prev) => ({
@@ -152,6 +182,14 @@ const ReportTable = ({
       );
     }
   };
+
+  const handleLocoPilotDetails = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === "lpCMSID") {
+      getLocoPilotDetails(value);
+    }
+  }
 
   // useEffect(() => {
   //   getChartSpeedBeforeHaltData();
@@ -241,21 +279,18 @@ const ReportTable = ({
                   download
                 > */}
                 <a
-                  href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${
-                    currentReport.id
-                  }/download?report_file_type=pdf&from_station=${
-                    formData.from || currentReport.stn_from || ""
-                  }&to_station=${
-                    formData.to || currentReport.stn_to || ""
-                  }&jwt=${userInfo.access_token || ""}`}
+                  href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${currentReport.id
+                    }/download?report_file_type=pdf&from_station=${formData.from || currentReport.stn_from || ""
+                    }&to_station=${formData.to || currentReport.stn_to || ""
+                    }&jwt=${userInfo.access_token || ""}`}
                   download
                 >
                   <button
                     className="bg-[#2c215d] absolute top-1 right-[0] sm:h-[32px] h-[30px] sm:w-[150px] w-[110px] font-normal sm:text-[16px] text-[12px] text-white absolute right-8 cursor-pointer"
-                    // onClick={() => {
-                    //   downloadFiles(currentReport.stn_from, currentReport.stn_to);
-                    // }}
-                    // id="downloadPdfButton"
+                  // onClick={() => {
+                  //   downloadFiles(currentReport.stn_from, currentReport.stn_to);
+                  // }}
+                  // id="downloadPdfButton"
                   >
                     Download Report
                   </button>
@@ -354,10 +389,10 @@ const ReportTable = ({
                     <input
                       type="text"
                       name="lpCMSID"
-                      onBlur={handleBlur}
+                      onBlur={handleLocoPilotDetails}
                       value={formData.lpCMSID}
                       onChange={handleChange}
-                      className="w-full border p-2 rounded focus:outline-none"
+                      className={`w-full border p-2 rounded focus:outline-none`}
                     />
                   </div>
                   <div className="flex flex-row items-center">
@@ -369,7 +404,7 @@ const ReportTable = ({
                       name="lp"
                       value={formData.lp}
                       onChange={handleChange}
-                      className="w-full border p-2 rounded focus:outline-none"
+                      className={`w-full border p-2 rounded focus:outline-none ${borderBox && formData.lp === '' ? "border-red-500" : ""}`}
                       onBlur={handleBlur}
                     />
                   </div>
@@ -382,7 +417,7 @@ const ReportTable = ({
                       name="designation"
                       value={formData.designation}
                       onChange={handleChange}
-                      className="w-full border p-2 rounded focus:outline-none"
+                      className={`w-full border p-2 rounded focus:outline-none ${borderBox && formData.designation === '' ? "border-red-500" : ""}`}
                       onBlur={handleBlur}
                     />
                   </div>
@@ -395,7 +430,7 @@ const ReportTable = ({
                       name="nominatedCLI"
                       value={formData.nominatedCLI}
                       onChange={handleChange}
-                      className="w-full border p-2 rounded focus:outline-none"
+                      className={`w-full border p-2 rounded focus:outline-none ${borderBox && formData.nominatedCLI === '' ? "border-red-500" : ""}`}
                       onBlur={handleBlur}
                     />
                   </div>

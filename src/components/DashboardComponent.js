@@ -182,7 +182,7 @@ const DashboardComponent = () => {
                           {open && (
                             <div
                               ref={ref}
-                              className="absolute z-10 mt-[44px] shadow-lg border bg-white"
+                              className="absolute z-10 mt-[44px] shadow-lg border bg-white dateRangeCal"
                             >
                               <DateRange
                                 onChange={handleSelect}

@@ -256,9 +256,26 @@ span#backButton:before {
   background: url("../src/images/calenderIcon1.png") right center no-repeat;
   background-size: 18px;
 }
+
+/* css for report tab by saurabh */
 .globleFilter:focus-visible {
   outline: none;
   box-shadow: none;
+}
+
+.p-filter-column .p-sortable-column {
+  background-color: #949090;
+}
+.p-datatable .p-sortable-column.p-highlight:focus {
+  background: #949090;
+  color: rgb(55, 65, 81);
+}
+.p-datatable .p-sortable-column.p-highlight {
+  background: #949090;
+  color: rgb(55, 65, 81);
+}
+.p-datatable .p-sortable-column.p-highlight .p-sortable-column-icon {
+  color: #9b4b90;
 }
 
 @media (max-width: 1250px) {
@@ -354,7 +371,7 @@ span#backButton:before {
       0 2px 4px -2px var(--tw-shadow-color);
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
       var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-
+    z-index: 40;
     border-radius: 5px;
     top: 45px;
   }
@@ -505,5 +522,8 @@ span#backButton:before {
   }
   .reportViewTitle button {
     top: 40px;
+  }
+  .dateRangeCal {
+    right: -20px;
   }
 }

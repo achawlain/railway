@@ -48,8 +48,12 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
     <div className="relative dashboardCard dashboardCardOnlyRes pb-[65px] min-h-[240px] max-w-sm relative docCol w-[100%] min-w-[385px] mx-[.5%] mb-[20px] bg-[#f1f1f1] rounded-[10px] shadow-md hover:shadow-lg">
       <div>
         <div>
-          <div className="text-[18px] reportGenerateBg bg-[#30424c] rounded-t-[10px] px-4 pt-2 pb-2 font-medium text-[#fff] text-ellipsis overflow-hidden w-[100%] border-b border[#fefefe] truncate">
-            [{item.id}] {item.title}
+          <div className="text-[32px] leading-[28px] flex justify-between reportGenerateBg bg-[#30424c] rounded-t-[10px] px-4 pt-2 pb-2 font-medium text-[#fff] text-ellipsis overflow-hidden w-[100%] border-b border[#fefefe] truncate">
+            <span className="mt-[4px]">{item.id}</span>
+            <span className="text-[18px] leading-[20px] text-right">
+              {item.title}
+              <span className="block text-[13px]">{item.date_of_analysis}</span>
+            </span>
           </div>
           <div className="px-4">
             <ul className="dashboardCardUi">
@@ -75,7 +79,18 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
                 <span className="mr-1 text-[#414141] font-medium">Route: </span>
                 {item?.stn_from} &rarr; {item?.stn_to}
               </li>
-
+              <li className="mt-2 text-[#000] font-bold">
+                <span className="mr-1 text-[#414141] font-medium">
+                  LP ID :{" "}
+                </span>
+                {item?.lp_cms_id}
+              </li>
+              <li className="mt-2 text-[#000] font-bold">
+                <span className="mr-1 text-[#414141] font-medium">
+                  LP Name :{" "}
+                </span>
+                {item?.crew_name}
+              </li>
               <li className="mt-2 text-[#000] font-bold">
                 <span className="mr-1 text-[#414141] font-medium">
                   Departure Time :{" "}

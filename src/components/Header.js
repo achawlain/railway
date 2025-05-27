@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import logo from "../../src/images/logo.png";
 import RAILWAY_CONST from "../utils/RailwayConst";
-
-import { Link, useNavigate, NavLink } from "react-router-dom";
-
-import phone from "../../src/images/phone.webp";
+import { Link, useNavigate } from "react-router-dom";
 import userIcon from "../../src/images/user.svg";
 import { getDataFromLocalStorage } from "../utils/localStorage";
 import { useLocation } from "react-router-dom";
@@ -144,7 +141,7 @@ const Header = () => {
                   <span
                     className={`${isNavListVisible ? "active" : ""} navList`}
                   >
-                    {userInfo ? (
+                    {userInfo  ? (
                       <ul className="flex flex-col md:flex-row space-x-4">
                         <li onClick={() => setIsNavListVisible(false)}>
                           <Link
@@ -152,7 +149,8 @@ const Header = () => {
                             className="hover:text-[#9b4b90] transition p-[10px] inline-block"
                           >
                             Dashboard
-                          </Link> |
+                          </Link>{" "}
+                          |
                           <Link
                             to={RAILWAY_CONST.ROUTE.REPORTS}
                             className="hover:text-[#9b4b90] transition p-[10px] inline-block"
@@ -208,29 +206,7 @@ const Header = () => {
                       </div>
                     )}
                   </div>
-                ) : (
-                  <>
-                    <Link
-                      to="/login"
-                      className="hover:text-blue-500 transition flex justify-center items-center"
-                    >
-                      {/* <span className="headerUserIcon hideDrorpDown relative pr-[15px] inline-block">
-                        <img
-                          src={userIcon}
-                          alt="User Icon"
-                          className="mr-2 rounded-full cursor-pointer"
-                          height={35}
-                          width={35}
-                        />
-                      </span> */}
-                      {window.innerWidth > 788 && (
-                        <span className="font-medium loginText text-[#cc1919] ml-2">
-                          Login
-                        </span>
-                      )}
-                    </Link>
-                  </>
-                )}
+                ) : null}
               </div>
             </div>
           </div>
