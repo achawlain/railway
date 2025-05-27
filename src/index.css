@@ -541,4 +541,11 @@ span#backButton:before {
   .filterDropDown label {
     position: relative;
   }
+  .searchCol {
+    margin-top: 10px;
+    padding-left: 0px;
+  }
+  .searchCol input {
+    width: 100%;
+  }
 }
