@@ -149,7 +149,8 @@ const Header = () => {
                             className="hover:text-[#9b4b90] transition p-[10px] inline-block"
                           >
                             Dashboard
-                          </Link> |
+                          </Link>{" "}
+                          |
                           <Link
                             to={RAILWAY_CONST.ROUTE.REPORTS}
                             className="hover:text-[#9b4b90] transition p-[10px] inline-block"
@@ -205,29 +206,7 @@ const Header = () => {
                       </div>
                     )}
                   </div>
-                ) : (
-                  <>
-                    <Link
-                      to="/login"
-                      className="hover:text-blue-500 transition flex justify-center items-center"
-                    >
-                      {/* <span className="headerUserIcon hideDrorpDown relative pr-[15px] inline-block">
-                        <img
-                          src={userIcon}
-                          alt="User Icon"
-                          className="mr-2 rounded-full cursor-pointer"
-                          height={35}
-                          width={35}
-                        />
-                      </span> */}
-                      {window.innerWidth > 788 && (
-                        <span className="font-medium loginText text-[#cc1919] ml-2">
-                          Login
-                        </span>
-                      )}
-                    </Link>
-                  </>
-                )}
+                ) : null}
               </div>
             </div>
           </div>
