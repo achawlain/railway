@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef, use, } from "react";
-import ChartComponent from "./ChartComponent";
+import React, { useState, useEffect, useRef, } from "react";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import { apiService } from "../utils/apiService";
 import { format, subDays } from "date-fns";
@@ -148,16 +147,17 @@ export default function LocoPilotReportTable() {
                         rows={10}
                         stripedRows
                         sortMode="multiple"
-                        dataKey="id"
+                        dataKey={reportTableData.id}
                         filters={filters}
                         filterDisplay="row"
                         loading={loading}
                         emptyMessage="No data found"
                         globalFilterFields={['crew_name', 'lp_cms_id',]}
                         className="mt-10"
+                        
                     >
-                        <Column field="crew_name" header="Crew Name" sortable />
                         <Column field="lp_cms_id" header="LP CMS ID" sortable />
+                        <Column field="crew_name" header="Crew Name" sortable />
                         <Column field="psr_err_count" header="PSR Violation" sortable />
                         <Column field="tsr_err_count" header="TSR Violation" sortable />
                         <Column field="attacking_speed_violation_count" header="Attacking Speed Violation" sortable />

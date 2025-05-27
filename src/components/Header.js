@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import logo from "../../src/images/logo.png";
 import RAILWAY_CONST from "../utils/RailwayConst";
-
-import { Link, useNavigate, NavLink } from "react-router-dom";
-
-import phone from "../../src/images/phone.webp";
+import { Link, useNavigate } from "react-router-dom";
 import userIcon from "../../src/images/user.svg";
 import { getDataFromLocalStorage } from "../utils/localStorage";
 import { useLocation } from "react-router-dom";
