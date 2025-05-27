@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import logo from "../../src/images/logo.png";
 import RAILWAY_CONST from "../utils/RailwayConst";
-
-import { Link, useNavigate, NavLink } from "react-router-dom";
-
-import phone from "../../src/images/phone.webp";
+import { Link, useNavigate } from "react-router-dom";
 import userIcon from "../../src/images/user.svg";
 import { getDataFromLocalStorage } from "../utils/localStorage";
 import { useLocation } from "react-router-dom";
@@ -144,7 +141,7 @@ const Header = () => {
                   <span
                     className={`${isNavListVisible ? "active" : ""} navList`}
                   >
-                    {userInfo ? (
+                    {userInfo  ? (
                       <ul className="flex flex-col md:flex-row space-x-4">
                         <li onClick={() => setIsNavListVisible(false)}>
                           <Link
