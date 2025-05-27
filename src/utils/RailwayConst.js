@@ -5,6 +5,7 @@ const RAILWAY_CONST = {
     SPEED_BEFORE_HALT: "/speed_before_halt",
     STAT: "/stat",
     CREW_ID: "/crew_id/",
+    CREW: "/crew",
     STAT_SPEED_BEFORE_HALT: "/stat_speed_before_halt",
     REPORTS: "reports",
     REPORTS_SLASH: "reports/",
