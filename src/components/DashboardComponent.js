@@ -18,9 +18,11 @@ import { baseUrl } from "../config/apiConfig";
 
 const DashboardComponent = () => {
   const [reports, setReports] = useState([]);
-  const [start_date, setstart_date] = useState(null);
+  const [start_date, setstart_date] = useState(
+    format(new Date(), "yyyy-MM-dd")
+  );
   const [lp_cms_id, setLp_cms_id] = useState("");
-  const [end_date, setEnd_date] = useState(null);
+  const [end_date, setEnd_date] = useState(format(new Date(), "yyyy-MM-dd"));
   const [showFilter, setShowFilter] = useState(false);
   const [loading, setLoading] = useState(true); // State for loader
   const [userInfo, setUserInfo] = useState(getDataFromLocalStorage("userInfo"));
