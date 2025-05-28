@@ -33,6 +33,7 @@ const ReportTable = ({
   // const [locations, setLocations] = useState(locations);
   const [isDatat, setIsData] = useState(false);
   const [loading, setLoading] = useState(true); // State for loader
+  const [formInitialized, setFormInitialized] = useState(false);
   const [userInfo, setUserInfo] = useState(getDataFromLocalStorage("userInfo"));
   const [stationList, setStationList] = useState("");
   const [borderBox, setBorderBox] = useState(false);
@@ -97,25 +98,26 @@ const ReportTable = ({
           lp: response.data?.name,
           designation: response.data?.designation,
           nominatedCLI: response.data?.nli,
-        }))
+        }));
         setBorderBox(false);
       } else {
         setFormData((prev) => ({
           ...prev,
-          lp: '',
-          designation: '',
-          nominatedCLI: '',
-        }))
-        setBorderBox(true)
+          lp: "",
+          designation: "",
+          nominatedCLI: "",
+        }));
+        setBorderBox(true);
       }
     } catch (error) {
       console.error("Error fetching chart data:", error);
     }
   };
 
-
   const getFormData = async () => {
-    setFormData((prev) => ({
+    const prev = formData;
+
+    const updatedForm = {
       ...prev,
       analyzedBy: currentReport.analyzed_by || prev.analyzedBy,
       title: currentReport.title || prev.title,
@@ -144,13 +146,18 @@ const ReportTable = ({
       psr_violation: currentReport.psr_violation || [],
       tsr_violation: currentReport.tsr_violation || [],
       attacking_speed_violation: currentReport.attacking_speed_violation || [],
-    }));
+    };
+
+    setFormData(updatedForm);
+    setFormInitialized(true); // <-- flag true when initialized
     setLoading(false);
   };
 
-  // useEffect(() => {
-  //   handleformData(formData, "allFields");
-  // }, [formData]);
+  useEffect(() => {
+    if (formInitialized) {
+      handleformData(formData, "allFields");
+    }
+  }, [formData, formInitialized]);
 
   const handleBlur = () => {
     handleformData(formData, "allFields");
@@ -189,7 +196,7 @@ const ReportTable = ({
     if (name === "lpCMSID") {
       getLocoPilotDetails(value);
     }
-  }
+  };
 
   // useEffect(() => {
   //   getChartSpeedBeforeHaltData();
@@ -279,18 +286,21 @@ const ReportTable = ({
                   download
                 > */}
                 <a
-                  href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${currentReport.id
-                    }/download?report_file_type=pdf&from_station=${formData.from || currentReport.stn_from || ""
-                    }&to_station=${formData.to || currentReport.stn_to || ""
-                    }&jwt=${userInfo.access_token || ""}`}
+                  href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${
+                    currentReport.id
+                  }/download?report_file_type=pdf&from_station=${
+                    formData.from || currentReport.stn_from || ""
+                  }&to_station=${
+                    formData.to || currentReport.stn_to || ""
+                  }&jwt=${userInfo.access_token || ""}`}
                   download
                 >
                   <button
                     className="bg-[#2c215d] absolute top-1 right-[0] sm:h-[32px] h-[30px] sm:w-[150px] w-[110px] font-normal sm:text-[16px] text-[12px] text-white absolute right-8 cursor-pointer"
-                  // onClick={() => {
-                  //   downloadFiles(currentReport.stn_from, currentReport.stn_to);
-                  // }}
-                  // id="downloadPdfButton"
+                    // onClick={() => {
+                    //   downloadFiles(currentReport.stn_from, currentReport.stn_to);
+                    // }}
+                    // id="downloadPdfButton"
                   >
                     Download Report
                   </button>
@@ -404,7 +414,9 @@ const ReportTable = ({
                       name="lp"
                       value={formData.lp}
                       onChange={handleChange}
-                      className={`w-full border p-2 rounded focus:outline-none ${borderBox && formData.lp === '' ? "border-red-500" : ""}`}
+                      className={`w-full border p-2 rounded focus:outline-none ${
+                        borderBox && formData.lp === "" ? "border-red-500" : ""
+                      }`}
                       onBlur={handleBlur}
                     />
                   </div>
@@ -417,7 +429,11 @@ const ReportTable = ({
                       name="designation"
                       value={formData.designation}
                       onChange={handleChange}
-                      className={`w-full border p-2 rounded focus:outline-none ${borderBox && formData.designation === '' ? "border-red-500" : ""}`}
+                      className={`w-full border p-2 rounded focus:outline-none ${
+                        borderBox && formData.designation === ""
+                          ? "border-red-500"
+                          : ""
+                      }`}
                       onBlur={handleBlur}
                     />
                   </div>
@@ -430,7 +446,11 @@ const ReportTable = ({
                       name="nominatedCLI"
                       value={formData.nominatedCLI}
                       onChange={handleChange}
-                      className={`w-full border p-2 rounded focus:outline-none ${borderBox && formData.nominatedCLI === '' ? "border-red-500" : ""}`}
+                      className={`w-full border p-2 rounded focus:outline-none ${
+                        borderBox && formData.nominatedCLI === ""
+                          ? "border-red-500"
+                          : ""
+                      }`}
                       onBlur={handleBlur}
                     />
                   </div>
