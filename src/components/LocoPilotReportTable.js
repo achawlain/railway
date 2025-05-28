@@ -89,7 +89,7 @@ export default function LocoPilotReportTable() {
     <>
       <div className="bg-white w-full sm:p-8 p-4 pt-4 rounded-[15px] min-h-[900px] mt-8">
         <div style={{ overflowX: "auto", width: "100%", marginTop: "20px" }}>
-          <h1 className="text-[22px] text-[#30424c] font-medium mb-8 border-b border-[#ccc] pb-2 relative pt-2">
+          <h1 className="sm:text-[22px] text-[18px] text-[#30424c] font-medium mb-8 border-b border-[#ccc] pb-2 relative pt-2">
             Loco Pilot Report
           </h1>
           <div className="relative flex flow-row datePickerCol">
