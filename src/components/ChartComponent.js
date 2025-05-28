@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import Loader from "./Loader";
 
 const ChartComponent = ({ chartData }) => {
+  const [chartInfo, setChartInfo] = useState(null);
+
+  useEffect(() => {
+    setChartInfo(chartData);
+    if (window.innerWidth < 600) {
+      let chartWidth = chartData;
+      if (chartData && chartData.layout) {
+        chartData.layout.width = "100%";
+        chartData.layout.height = "auto";
+      }
+      setChartInfo(chartWidth);
+    }
+  }, [chartData]);
+
   if (!chartData) {
     return (
       <div>
@@ -12,7 +26,8 @@ const ChartComponent = ({ chartData }) => {
       </div>
     );
   }
-
+  console.log("chartData", chartData.layout.width);
+  console.log("chartData", chartData.layout);
   return (
     <Plot
       data={chartData.data}

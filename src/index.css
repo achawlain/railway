@@ -363,7 +363,7 @@ span#backButton:before {
   .navList {
     position: absolute;
     right: 0px;
-    width: 200px;
+    width: 230px;
     background: #fff;
     --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
       0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -521,9 +521,31 @@ span#backButton:before {
     margin-top: 0px;
   }
   .reportViewTitle button {
-    top: 40px;
+    top: 48px;
   }
   .dateRangeCal {
     right: -20px;
+  }
+  .datePickerCol,
+  .lpCmsCol {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+  .lpCmsCol input {
+    width: 100%;
+  }
+  .datePickerCol {
+    margin: 5px 0px 10px 0px;
+  }
+  .filterDropDown label {
+    position: relative;
+  }
+  .searchCol {
+    margin-top: 10px;
+    padding-left: 0px;
+  }
+  .searchCol input {
+    width: 100%;
   }
 }
