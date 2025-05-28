@@ -261,7 +261,7 @@ const ReportTable = ({
               >
                 <span
                   id="backButton"
-                  onClick={() => navigate(-1)}
+                  onClick={() => navigate(RAILWAY_CONST.ROUTE.DASHBOARD)}
                   className="absolute left-0 px-[10px] py-[5px] sm:py-[0px] border border-[#000] sm:text-[20px] text-[12px] cursor-pointer sm:top-[10px] top-[3px] text-[#000] hover:text-[#000] font-normal flex items-start "
                 >
                   <button>Back</button>
