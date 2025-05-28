@@ -193,8 +193,9 @@ const ReportTable = ({
   const handleLocoPilotDetails = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (name === "lpCMSID") {
+    if (name === "lpCMSID" && value.length > 0) {
       getLocoPilotDetails(value);
+      handleformData(formData, "allFields");
     }
   };
 
