@@ -5,11 +5,16 @@ import RAILWAY_CONST from "../utils/RailwayConst";
 import DashboardCardComponent from "./DashboardCardComponent";
 import ErrorPopUpComponent from "./ErrorPopUpComponent";
 import Loader from "./Loader"; // Import the Loader component
+import {
+  getDataFromLocalStorage,
+  setDataOnLocalStorage,
+} from "../utils/localStorage";
 
 import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main style
 import "react-date-range/dist/theme/default.css"; // theme
+import { baseUrl } from "../config/apiConfig";
 
 const DashboardComponent = () => {
   const [reports, setReports] = useState([]);
@@ -18,6 +23,7 @@ const DashboardComponent = () => {
   const [end_date, setEnd_date] = useState(null);
   const [showFilter, setShowFilter] = useState(false);
   const [loading, setLoading] = useState(true); // State for loader
+  const [userInfo, setUserInfo] = useState(getDataFromLocalStorage("userInfo"));
   const [errorPopupState, setErrorPopupState] = useState({
     isShow: false,
     message: "",
@@ -143,7 +149,7 @@ const DashboardComponent = () => {
                     </div>
                   </h1>
                   <div className="w-full flex justify-end mb-2">
-                    <div className=" flex flex-col top-[32px] filterDropDown  max-w-[1000px] ">
+                    <div className=" flex flex-col top-[32px] filterDropDown  max-w-[1060px] ">
                       <span className="flex flex-row bg-[#f6f6f6] pt-[10px] mb-4 px-4">
                         {/* <div className="flex flex-row w-full mb-2 mr-2">
                           <label className="text-[16px]">Start Date: </label>
@@ -231,6 +237,37 @@ const DashboardComponent = () => {
                           >
                             Clear
                           </button>
+                          <Link
+                            to={`${baseUrl}/${
+                              RAILWAY_CONST.API_ENDPOINT.REPORTS
+                            }/${
+                              RAILWAY_CONST.API_ENDPOINT.BULK_DOWNLOAD
+                            }?start_date=${
+                              start_date
+                                ? format(start_date, "yyyy-MM-dd")
+                                : null
+                            }&end_date=${
+                              end_date ? format(end_date, "yyyy-MM-dd") : null
+                            }&lp_cms_id=${lp_cms_id || ""}&jwt=${
+                              userInfo.access_token || ""
+                            }`}
+                            // onClick={() => onView(item)}
+                            className="flex w-[50%] text-[13px] opacity-[.8] text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"
+                          >
+                            <button
+                              onClick={() => {
+                                setstart_date(null);
+                                setEnd_date(null);
+                                setLp_cms_id("");
+                                setShowFilter(false); // optionally close the filter box
+                                getReports(); // reload full data
+                                setOpen(false);
+                              }}
+                              className="border-[#000] min-w-[170px] border-2 text-[#2c215d] h-[32p px-4 py-0 sm:mt-0 text-[15px] ml-[10px] h-[32px]"
+                            >
+                              Download All PDF
+                            </button>
+                          </Link>
                         </div>
                       </span>
                     </div>
