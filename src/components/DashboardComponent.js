@@ -256,17 +256,7 @@ const DashboardComponent = () => {
                             // onClick={() => onView(item)}
                             className="flex w-[50%] text-[13px] opacity-[.8] text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"
                           >
-                            <button
-                              onClick={() => {
-                                setstart_date(null);
-                                setEnd_date(null);
-                                setLp_cms_id("");
-                                setShowFilter(false); // optionally close the filter box
-                                getReports(); // reload full data
-                                setOpen(false);
-                              }}
-                              className="border-[#000] min-w-[170px] border-2 text-[#2c215d] h-[32p px-4 py-0 sm:mt-0 text-[15px] ml-[10px] h-[32px]"
-                            >
+                            <button className="border-[#000] min-w-[170px] border-2 text-[#2c215d] h-[32p px-4 py-0 sm:mt-0 text-[15px] ml-[10px] h-[32px]">
                               Download All PDF
                             </button>
                           </Link>
