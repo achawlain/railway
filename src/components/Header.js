@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import logo from "../../src/images/logo.png";
+import logoRail from "../../src/images/logo.png";
+import RailPulsLogoText from "../../src/images/railpulsLogo-Top.png";
+import railpulsLogo from "../../src/images/railpulsLogo.png";
+import RailPulseTextLogo from "../../src/images/RailPulseTextLogo.png";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import { Link, useNavigate } from "react-router-dom";
 import userIcon from "../../src/images/user.svg";
@@ -10,6 +13,7 @@ import navCloseIcon from "../../src/images/closeIcon.svg";
 
 const Header = () => {
   const location = useLocation();
+  const [logo, setLogo] = useState("");
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
   const [isAdminRoute, setIsAdminRoute] = useState(false);
@@ -45,6 +49,14 @@ const Header = () => {
 
   useEffect(() => {
     const user = getDataFromLocalStorage("userInfo");
+    console.log("user", user);
+    if (user) {
+      if (user.user_details.org_id == "1") {
+        setLogo(logoRail);
+      }
+    } else {
+      setLogo(RailPulsLogoText);
+    }
     setUserInfo(user);
   }, []);
 
@@ -98,26 +110,35 @@ const Header = () => {
           <div className="max-w-[1300px] mx-auto flex flex-row justify-between w-full items-center">
             <div className="h-[90px] logoHeader">
               <Link
+                className="text-center"
                 to={
                   userInfo ? RAILWAY_CONST.ROUTE.HOME : RAILWAY_CONST.ROUTE.HOME
                 }
               >
-                {/* <span className="flex flex-row justify-center items-center">
+                <span className="flex justify-center">
                   <img
-                    className="sm:h-[80px] h-[24px] mt-[5px]"
-                    src={logo}
-                    alt="Logo"
+                    src={railpulsLogo}
+                    alt="logo"
+                    className={userInfo ? "logo" : "w-[85px]"}
                   />
-                  <span className="text-[24px] ml-2 font-semibold flex flex-col logoText">
-                    EASTERN RAILWAY, ASANSOL DIVISION
-                    <span className="text-[18px] font-normal">
-                      Ministry of Railways, Govt of India.
+                </span>
+
+                {userInfo ? (
+                  <span className="flex flex-row justify-center items-center">
+                    <span className="text-[16px] ml-2 font-semibold flex flex-col logoText">
+                      EASTERN RAILWAY, ASANSOL DIVISION
+                      <span className="text-[12px] font-normal">
+                        Ministry of Railways, Govt of India.
+                      </span>
                     </span>
                   </span>
-                </span> */}
-                <span>
-                  <img src={logo} alt="logo" className="logo" />
-                </span>
+                ) : (
+                  <img
+                    src={RailPulseTextLogo}
+                    alt="logo"
+                    className="w-[150px] mt-[8px]"
+                  />
+                )}
               </Link>
             </div>
 

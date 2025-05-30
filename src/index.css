@@ -41,8 +41,13 @@
   align-items: center;
   justify-content: center;
 }
+.logoText {
+  font-size: 14px;
+  line-height: 16px;
+  margin-top: 4px;
+}
 .logo {
-  width: 350px;
+  width: 106px;
 }
 .navIcon {
   display: none;
