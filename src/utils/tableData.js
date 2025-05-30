@@ -39,7 +39,7 @@ export const halteTableData = [
 
 export const halteTableTitle = [
   { label: "Halt Station", key: "halt_name" },
-  { label: "Halt Time", key: "halt_time" },
+  // { label: "Halt Time", key: "halt_time" },
   { label: "1800m", key: "1800m" },
   { label: "1500m", key: "1500m" },
   { label: "1000m", key: "1000m" },
