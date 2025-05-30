@@ -14,6 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   // halteTableData,
   halteTableTitle,
+  halteTableTitleAfter,
   previousAnalysisData,
   previousAnalysisTitle,
   TSRTableData,
@@ -60,6 +61,8 @@ const ReportGenerateComponent = () => {
   const [showUploadBox, setShowUploadBox] = useState(false);
   const [loading, setLoading] = useState(false);
   const [halteTableData, setHalteTableData] = useState(null);
+  const [halteTableDataAfter, setHalteTableDataAfter] = useState(null);
+
   const [formData, setFormData] = useState({
     dateofWorking: "",
     trainNo: "",
@@ -273,6 +276,13 @@ const ReportGenerateComponent = () => {
     [halteTableData, halteTableTitle]
   );
 
+
+  const halteTableAfter = useMemo(
+    () => ({ data: halteTableDataAfter, columns: halteTableTitleAfter }),
+    [halteTableData, halteTableTitle]
+  );
+  
+
   const previousAnalysis = useMemo(
     () => ({ data: previousAnalysisData, columns: previousAnalysisTitle }),
     []
@@ -303,6 +313,10 @@ const ReportGenerateComponent = () => {
     getHaltTableData(!!haltStation?.from && !!haltStation?.to);
   }, [haltStation]);
 
+  useEffect(() => {
+    getHaltTableDataAfter(!!haltStation?.from && !!haltStation?.to);
+  }, [haltStation]);
+
   const getHaltTableData = async (limitedHaltStation) => {
     // if (currentReport?.speed_before_1000m) {
 
@@ -314,6 +328,23 @@ const ReportGenerateComponent = () => {
     try {
       const response = await apiService("get", url);
       setHalteTableData(response.data);
+      // setDataOnLocalStorage("reportList", response);
+    } catch (error) {
+      console.error("Error fetching chart data:", error);
+    }
+  };
+
+  const getHaltTableDataAfter = async (limitedHaltStation) => {
+    // if (currentReport?.speed_before_1000m) {
+
+    // }
+    const url =
+      limitedHaltStation && haltStation && haltStation.from && haltStation.to
+        ? `${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${id}${RAILWAY_CONST.API_ENDPOINT.STAT_SPEED_AFTER_HALT}?from_station=${haltStation.from}&to_station=${haltStation.to}`
+        : `${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${id}${RAILWAY_CONST.API_ENDPOINT.STAT_SPEED_AFTER_HALT}`;
+    try {
+      const response = await apiService("get", url);
+      setHalteTableDataAfter(response.data);
       // setDataOnLocalStorage("reportList", response);
     } catch (error) {
       console.error("Error fetching chart data:", error);
@@ -425,6 +456,18 @@ const ReportGenerateComponent = () => {
                   data={halteTable.data}
                   colums={halteTable.columns}
                   tableTitle={"Speed From 1800 m in rear of halts"}
+                />
+              </Suspense>
+            </div>
+          </div>
+
+          <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
+            <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
+              <Suspense fallback={<div>Loading table...</div>}>
+                <TableComponent
+                  data={halteTableAfter.data}
+                  colums={halteTableAfter.columns}
+                  tableTitle={"Speed After 1800 m in rear of halts"}
                 />
               </Suspense>
             </div>
