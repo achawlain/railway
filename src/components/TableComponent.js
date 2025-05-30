@@ -15,7 +15,7 @@ import React from "react";
 };
 
 const TableComponent = ({ colums = [], data = [], tableTitle }) => {
-    const transformedData = data.map(transformData);
+  const transformedData = (data || []).map(transformData);
 
   return (
     <div className="overflow-x-auto bg-white pb-8 mt-4">
