@@ -53,17 +53,18 @@ export const halteTableTitle = [
 ];
 
 export const halteTableTitleAfter = [
-  { label: "Halt Station", key: "halt_name" },
-  { label: "1800m", key: "1800m" },
-  { label: "1500m", key: "1500m" },
-  { label: "1000m", key: "1000m" },
-  { label: "500m", key: "500m" },
-  { label: "400m", key: "400m" },
-  { label: "300m", key: "300m" },
-  { label: "200m", key: "200m" },
-  { label: "100m", key: "100m" },
+  { label: "Halt Station", key: "halt_name" }, // Keep this first
   { label: "Halt", key: "halt" },
+  { label: "100m", key: "100m" },
+  { label: "200m", key: "200m" },
+  { label: "300m", key: "300m" },
+  { label: "400m", key: "400m" },
+  { label: "500m", key: "500m" },
+  { label: "1000m", key: "1000m" },
+  { label: "1500m", key: "1500m" },
+  { label: "1800m", key: "1800m" }
 ];
+
 
 
 
