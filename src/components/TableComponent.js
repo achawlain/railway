@@ -2,17 +2,37 @@ import React from "react";
 
   const transformData = (rawData) => {
   return Object.entries(rawData).reduce((acc, [key, value]) => {
-    if (key.endsWith('_time')) {
-      const baseKey = key.replace('_time', '');
+    if (key.endsWith("_time")) {
+      const baseKey = key.replace("_time", "");
       if (rawData[baseKey] !== undefined) {
-        acc[baseKey] = `${rawData[baseKey]} | ${value}`;
+        acc[baseKey] = (
+          <span>
+            <span
+            >
+              {rawData[baseKey]}
+            </span>
+            {"  "}
+            <br />
+            <span
+              style={{
+                color: "gray", // Color for `value`
+                fontStyle: "italic", // Example design for `value`
+                fontSize: "0.875rem", // Smaller font size for `value`
+              }}
+            >
+              {value}
+            </span>
+          </span>
+        );
       }
-    } else if (!key.includes('_time')) {
-      acc[key] = value; // Include fields that don't have `_time`
+    } else if (!key.includes("_time")) {
+      acc[key] = rawData[key]; // Include fields that don't have `_time`
     }
     return acc;
   }, {});
 };
+
+
 
 const TableComponent = ({ colums = [], data = [], tableTitle }) => {
   const transformedData = (data || []).map(transformData);
