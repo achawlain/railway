@@ -24,6 +24,7 @@ import {
 } from "../utils/tableData";
 import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
+import ChartComponent from "./ChartComponent";
 import {
   getDataFromLocalStorage,
   setDataOnLocalStorage,
@@ -62,6 +63,9 @@ const ReportGenerateComponent = () => {
   const [loading, setLoading] = useState(false);
   const [halteTableData, setHalteTableData] = useState(null);
   const [halteTableDataAfter, setHalteTableDataAfter] = useState(null);
+  const [chartSpeedBeforHaltData, setChartSpeedBeforHaltData] = useState(null);
+  const [chartSpeedAfterHaltData, setChartSpeedAfterHaltData] = useState(null);
+
 
   const [formData, setFormData] = useState({
     dateofWorking: "",
@@ -352,6 +356,57 @@ const ReportGenerateComponent = () => {
     }
   };
 
+  const getChartSpeedBeforeHaltData = async (limitedHaltStation) => {
+    // if (!speed_before_1000m) {
+    //   console.warn("No  API call.");
+    //   return;
+    // }
+
+    const url =
+      limitedHaltStation && haltStation?.from && haltStation?.to
+        ? `${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${id}${RAILWAY_CONST.API_ENDPOINT.SPEED_BEFORE_HALT}?from_station=${haltStation.from}&to_station=${haltStation.to}`
+        : `${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${id}${RAILWAY_CONST.API_ENDPOINT.SPEED_BEFORE_HALT}`;
+
+    try {
+      const response = await apiService("get", url);
+
+      setChartSpeedBeforHaltData(JSON.parse(response.data));
+    } catch (error) {
+      console.error("Error fetching chart data:", error);
+    }
+  };
+
+   const getChartSpeedAfterHaltData = async (limitedHaltStation) => {
+    // if (!speed_before_1000m) {
+    //   console.warn("No  API call.");
+    //   return;
+    // }
+
+    const url =
+      limitedHaltStation && haltStation?.from && haltStation?.to
+        ? `${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${id}${RAILWAY_CONST.API_ENDPOINT.SPEED_AFTER_HALT}?from_station=${haltStation.from}&to_station=${haltStation.to}`
+        : `${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${id}${RAILWAY_CONST.API_ENDPOINT.SPEED_AFTER_HALT}`;
+
+    try {
+      const response = await apiService("get", url);
+
+      setChartSpeedAfterHaltData(JSON.parse(response.data));
+    } catch (error) {
+      console.error("Error fetching chart data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(!!haltStation?.from && !!haltStation?.to);
+  }, [haltStation]);
+
+  const fetchData = async (limitedHaltStation) => {
+    setLoading(true);
+    await getChartSpeedBeforeHaltData(limitedHaltStation);
+    await getChartSpeedAfterHaltData(limitedHaltStation);
+    setLoading(false);
+  };
+
   const handleHaltSelectedData = (fromStation, toStation) => {
     setHaltStation({ from: fromStation, to: toStation });
   };
@@ -461,6 +516,55 @@ const ReportGenerateComponent = () => {
               </Suspense>
             </div>
           </div>
+          <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
+            <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
+              {loading ? (
+                <div className="componentLoader">
+                  <Loader />
+                </div>
+              ) : (
+                <div style={{ overflowX: "auto", width: "100%" }}>
+                  <ChartComponent
+                    loading={loading}
+                    chartData={chartSpeedBeforHaltData}
+                  />
+
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
+            <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
+              <Suspense fallback={<div>Loading table...</div>}>
+                <TableComponent
+                  data={halteTableAfter.data}
+                  colums={halteTableAfter.columns}
+                  tableTitle={"Speed to 1800 m in rear of halts"}
+                />
+              </Suspense>
+            </div>
+          </div> */}
+
+
+        </div>
+        <div id="pdf-speed-graph">
+          {/* <div className="max-w-full mx-auto px-0 mb-4">
+            <div className="bg-white w-full sm:p-8 p-2 sm:pb-16 pb-4 rounded-[15px]">
+              <Suspense
+                fallback={
+                  <div className="loader">
+                    <Loader />
+                  </div>
+                }
+              >
+                <SpeedGraphComponent
+                  haltStation={haltStation}
+                  speed_before_1000m={currentReport.speed_before_1000m}
+                />
+              </Suspense>
+            </div>
+          </div> */}
 
           <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
             <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
@@ -473,8 +577,26 @@ const ReportGenerateComponent = () => {
               </Suspense>
             </div>
           </div>
-        </div>
-        <div id="pdf-speed-graph">
+
+
+          <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
+            <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
+              {loading ? (
+                <div className="componentLoader">
+                  <Loader />
+                </div>
+              ) : (
+                <div style={{ overflowX: "auto", width: "100%" }}>
+                  <ChartComponent
+                    loading={loading}
+                    chartData={chartSpeedAfterHaltData}
+                  />
+
+                </div>
+              )}
+            </div>
+          </div>
+
           <div className="max-w-full mx-auto px-0 mb-4">
             <div className="bg-white w-full sm:p-8 p-2 sm:pb-16 pb-4 rounded-[15px]">
               <Suspense

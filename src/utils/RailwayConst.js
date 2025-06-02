@@ -3,6 +3,7 @@ const RAILWAY_CONST = {
     LOGIN: "/users/login",
     CHART_SPEED_TIME: "/chart_speed_time",
     SPEED_BEFORE_HALT: "/speed_before_halt",
+    SPEED_AFTER_HALT: "/speed_after_halt",
     STAT: "/stat",
     CREW_ID: "/crew_id/",
     CREW: "/crew",
