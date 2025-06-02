@@ -279,7 +279,7 @@ const ReportGenerateComponent = () => {
 
   const halteTableAfter = useMemo(
     () => ({ data: halteTableDataAfter, columns: halteTableTitleAfter }),
-    [halteTableData, halteTableTitle]
+    [halteTableDataAfter, halteTableTitleAfter]
   );
   
 
@@ -311,11 +311,12 @@ const ReportGenerateComponent = () => {
 
   useEffect(() => {
     getHaltTableData(!!haltStation?.from && !!haltStation?.to);
-  }, [haltStation]);
-
-  useEffect(() => {
     getHaltTableDataAfter(!!haltStation?.from && !!haltStation?.to);
   }, [haltStation]);
+
+  // useEffect(() => {
+  //   getHaltTableDataAfter(!!haltStation?.from && !!haltStation?.to);
+  // }, [haltStation]);
 
   const getHaltTableData = async (limitedHaltStation) => {
     // if (currentReport?.speed_before_1000m) {
