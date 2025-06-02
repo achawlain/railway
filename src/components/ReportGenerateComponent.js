@@ -376,7 +376,7 @@ const ReportGenerateComponent = () => {
     }
   };
 
-   const getChartSpeedAfterHaltData = async (limitedHaltStation) => {
+  const getChartSpeedAfterHaltData = async (limitedHaltStation) => {
     // if (!speed_before_1000m) {
     //   console.warn("No  API call.");
     //   return;
@@ -565,37 +565,38 @@ const ReportGenerateComponent = () => {
               </Suspense>
             </div>
           </div> */}
-
-          <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
-            <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
-              <Suspense fallback={<div>Loading table...</div>}>
-                <TableComponent
-                  data={halteTableAfter.data}
-                  colums={halteTableAfter.columns}
-                  tableTitle={"Speed to 1800 m in rear of halts"}
-                />
-              </Suspense>
-            </div>
-          </div>
-
-
-          <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
-            <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
-              {loading ? (
-                <div className="componentLoader">
-                  <Loader />
-                </div>
-              ) : (
-                <div style={{ overflowX: "auto", width: "100%" }}>
-                  <ChartComponent
-                    loading={loading}
-                    chartData={chartSpeedAfterHaltData}
+          {halteTableAfter.data && halteTableAfter.data.length > 0 ? (
+            <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
+              <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
+                <Suspense fallback={<div>Loading table...</div>}>
+                  <TableComponent
+                    data={halteTableAfter.data}
+                    colums={halteTableAfter.columns}
+                    tableTitle={"Speed to 1800 m in rear of halts"}
                   />
+                </Suspense>
+              </div>
+            </div>) : null}
 
-                </div>
-              )}
-            </div>
-          </div>
+
+          {chartSpeedAfterHaltData ? (
+            <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
+              <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
+                {loading ? (
+                  <div className="componentLoader">
+                    {/* <Loader /> */}
+                  </div>
+                ) : (
+                  <div style={{ overflowX: "auto", width: "100%" }}>
+                    <ChartComponent
+                      loading={loading}
+                      chartData={chartSpeedAfterHaltData}
+                    />
+
+                  </div>
+                )}
+              </div>
+            </div>) : null}
 
           <div className="max-w-full mx-auto px-0 mb-4">
             <div className="bg-white w-full sm:p-8 p-2 sm:pb-16 pb-4 rounded-[15px]">
