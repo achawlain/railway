@@ -116,7 +116,9 @@ export default function LocoPilotReportTable() {
                   moveRangeOnFirstSelection={false}
                   ranges={range}
                   months={2}
-                  direction="horizontal"
+                  direction={
+                    window.innerWidth > 600 ? "horizontal" : "vertical"
+                  }
                 />
               </div>
             )}
