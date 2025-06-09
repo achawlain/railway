@@ -1,6 +1,6 @@
 import React from "react";
 
-  const transformData = (rawData) => {
+const transformData = (rawData) => {
   return Object.entries(rawData).reduce((acc, [key, value]) => {
     if (key.endsWith("_time")) {
       const baseKey = key.replace("_time", "");
@@ -25,7 +25,25 @@ import React from "react";
           </span>
         );
       }
-    } else if (!key.includes("_time")) {
+    } else if (key === "halt_name" && rawData["halt_distance"] !== undefined) {
+      acc[key] = (
+        <span>
+          <span>{value}</span>
+          {"  "}
+          <br />
+          <span
+            style={{
+              color: "gray",
+              fontStyle: "italic",
+              fontSize: "0.875rem",
+            }}
+          >
+            {rawData["halt_distance"]}
+          </span>
+        </span>
+      );
+    }
+    else if (!key.includes("_time")) {
       acc[key] = rawData[key]; // Include fields that don't have `_time`
     }
     return acc;
