@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import logo from "../../src/images/logo.png";
+import railPlotLogo from "../../src/images/railPlotLogo.png";
+import logoIconRailPlot from "../../src/images/logoIconRailPlot.png";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import { Link, useNavigate } from "react-router-dom";
 import userIcon from "../../src/images/user.svg";
@@ -115,8 +117,22 @@ const Header = () => {
                     </span>
                   </span>
                 </span> */}
-                <span>
-                  <img src={logo} alt="logo" className="logo" />
+                <span className="flex flex-row">
+                  <img
+                    src={logoIconRailPlot}
+                    alt="logo"
+                    className="h-[44px] mr-[4px]"
+                  />
+                  <span>
+                    <img
+                      src={railPlotLogo}
+                      alt="logo"
+                      className="h-[30px] mt-[2px] mb-[-3px]"
+                    />
+                    <span className=" text-[10px] ml-[1px]">
+                      Visualize. Analyze. Optimize.
+                    </span>
+                  </span>
                 </span>
               </Link>
             </div>

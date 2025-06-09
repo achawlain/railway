@@ -1,4 +1,5 @@
 import { secureClient, client } from "../config/axiosClient";
+import { showSessionExpiredModal } from "./sessionPopup";
 
 export const apiServiceWithOutToken = async (
   method,
@@ -32,7 +33,11 @@ export const apiService = async (method, url, data = {}, params = {}) => {
     const response = await secureClient(config);
     return response.data;
   } catch (error) {
-    console.error(`${method.toUpperCase()} Error:`, error);
+    // ✅ Check for 401 (unauthorized)
+    if (error.response?.status === 401) {
+      showSessionExpiredModal(error.response.data.msg);
+    }
+    // For other errors, rethrow
     throw error;
   }
 };
