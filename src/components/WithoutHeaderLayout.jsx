@@ -20,20 +20,31 @@ const WithoutHeaderLayout = () => {
                 }
               >
               
-                <span className="flex flex-row">
+              <span className="flex flex-row">
                   <img
                     src={logoIconRailPlot}
                     alt="logo"
-                    className="h-[44px] mr-[4px]"
+                    className="h-[51px] mr-[4px]"
                   />
-                  <span>
+                  <span className="flex flex-col">
                     <img
                       src={railPlotLogo}
                       alt="logo"
-                      className="h-[30px] mt-[2px] mb-[-3px]"
+                      className="h-[30px] mb-[4px]"
                     />
-                    <span className=" text-[10px] ml-[1px]">
-                      Visualize. Analyze. Optimize.
+                    <span className=" text-[10px] ml-[1px] leading-[14px] border-black border-b border-t inline-block">
+                      <span className="text-[#d7270c] text-[13px] font-bold">
+                        V
+                      </span>
+                      isualize{" "}
+                      <span className="text-[#d7270c] text-[13px] font-bold">
+                        A
+                      </span>
+                      nalyze{" "}
+                      <span className="text-[#d7270c] text-[13px] font-bold">
+                        O
+                      </span>
+                      ptimize
                     </span>
                   </span>
                 </span>
