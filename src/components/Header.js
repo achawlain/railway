@@ -183,10 +183,10 @@ const Header = () => {
                           onClick={() => setIsNavListVisible(false)}
                         >
                           <Link
-                            to={RAILWAY_CONST.ROUTE.REPORTS}
+                            to={RAILWAY_CONST.ROUTE.CONTROL_CENTER}
                             className="hover:text-[#9b4b90] transition p-[10px] block ml-0"
                           >
-                            Reports
+                            Control Center
                           </Link>
                         </li>
                       </ul>

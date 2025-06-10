@@ -278,6 +278,27 @@ span#backButton:before {
   color: #9b4b90;
 }
 
+.leftMenuCol ul li {
+  padding: 20px;
+  color: #fff;
+  position: relative;
+}
+
+.leftMenuCol ul li.selectedCol {
+  background: #9b4b90;
+}
+.leftMenuCol ul li:hover {
+  background: #9b4b90;
+}
+.leftMenuCol ul li.selectedCol:after {
+  content: "";
+  position: absolute;
+  border-width: 33px;
+  border-color: transparent transparent transparent #9b4b90;
+  right: -66px;
+  top: 0px;
+}
+
 @media (max-width: 1250px) {
   .colSpaceBottom > div {
     flex-direction: column;

@@ -8,6 +8,7 @@ import HomeComponent from "../components/HomeComponent";
 import PrivateRoute from "../utils/PrivateRoute";
 import ReportGenerateComponent from "../components/ReportGenerateComponent";
 import Dashboard from "../pages/Dashboard";
+import ControlCenter from "../pages/ControlCenter";
 import CreateReport from "../pages/CreateReport";
 import { getDataFromLocalStorage } from "./localStorage";
 import Template from "../pages/Template";
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: RAILWAY_CONST.ROUTE.REPORTS,
         element: <PrivateRoute element={<Reports />} />,
+      },
+      {
+        path: RAILWAY_CONST.ROUTE.CONTROL_CENTER,
+        element: <PrivateRoute element={<ControlCenter />} />,
       },
     ],
   },
