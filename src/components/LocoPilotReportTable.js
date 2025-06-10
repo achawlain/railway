@@ -87,12 +87,12 @@ export default function LocoPilotReportTable() {
   };
   return (
     <>
-      <div className="bg-white w-full sm:p-8 p-4 pt-4 rounded-[15px] min-h-[900px] mt-8">
+      <div className="bg-white w-full rounded-[15px] min-h-[900px]">
         <div style={{ overflowX: "auto", width: "100%", marginTop: "20px" }}>
-          <h1 className="sm:text-[22px] text-[18px] text-[#30424c] font-medium mb-8 border-b border-[#ccc] pb-2 relative pt-2">
+          {/* <h1 className="sm:text-[22px] text-[18px] text-[#30424c] font-medium mb-8 border-b border-[#ccc] pb-2 relative pt-2">
             Loco Pilot Report
-          </h1>
-          <div className="relative flex flow-row datePickerCol">
+          </h1> */}
+          <div className="relative flex flow-row datePickerCol mt-1">
             <label className="text-[16px] inline-block min-w-[80px] pr-3 mb-2 sm:mb-0">
               Date Range :
             </label>

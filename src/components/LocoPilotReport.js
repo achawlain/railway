@@ -1,4 +1,5 @@
 import React from "react";
+import LocoPilotReportTable from "./LocoPilotReportTable";
 
 const LocoPilotReport = () => {
   return (
@@ -7,6 +8,7 @@ const LocoPilotReport = () => {
         <h1 className="sm:text-[22px] text-[18px] text-[#30424c] font-medium mb-8 border-b border-[#ccc] pb-2 relative pt-2">
           Loco Pilot Report
         </h1>
+          <LocoPilotReportTable />
       </div>
     </div>
   );

@@ -125,9 +125,9 @@ function ReportsChart() {
                 />
               </div>
             </div>
-            <div>
+            {/* <div>
               <LocoPilotReportTable />
-            </div>
+            </div> */}
           </div>
         </>
       )}
