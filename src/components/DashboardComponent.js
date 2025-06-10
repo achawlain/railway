@@ -141,7 +141,7 @@ const DashboardComponent = () => {
               <div className="max-w-full mx-auto px-2 mb-4">
                 <div className="bg-white w-full sm:p-8 p-4  pt-2 rounded-[15px]">
                   <h1 className="text-[22px] text-[#30424c] font-medium mb-4 border-b border-[#ccc] pb-2 relative pt-2">
-                    Reports
+                    Dashboard
                     <div className="absolute top-[15px] right-0 flex flex-row filterCol z-20">
                       <Link to={RAILWAY_CONST.ROUTE.TEMPLATE}>
                         <span className="right-0 flex flex-row sm:text-[18px] text-[16px] items-center justify-center text-[#30424c] hover:text-[#000] underline">
