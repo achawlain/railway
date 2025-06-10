@@ -3,7 +3,7 @@ import logo from "../../src/images/logo.png";
 import railPlotLogo from "../../src/images/railPlotLogo.png";
 import logoIconRailPlot from "../../src/images/logoIconRailPlot.png";
 import RAILWAY_CONST from "../utils/RailwayConst";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 import userIcon from "../../src/images/user.svg";
 import { getDataFromLocalStorage } from "../utils/localStorage";
 import { useLocation } from "react-router-dom";
@@ -171,23 +171,31 @@ const Header = () => {
                     {userInfo ? (
                       <ul className="flex flex-col md:flex-row ">
                         <li onClick={() => setIsNavListVisible(false)}>
-                          <Link
+                          <NavLink
                             to={RAILWAY_CONST.ROUTE.DASHBOARD}
-                            className="hover:text-[#9b4b90] transition p-[10px] block"
+                            className={({ isActive }) =>
+                              `hover:text-[#9b4b90] transition p-[10px] block ${
+                                isActive ? "text-[#9b4b90] font-medium" : ""
+                              }`
+                            }
                           >
                             Dashboard
-                          </Link>{" "}
+                          </NavLink>{" "}
                         </li>
                         <li
                           className="ml-0 pl-0 border-t sm:border-t sm:border-transparent border-[#efefef]"
                           onClick={() => setIsNavListVisible(false)}
                         >
-                          <Link
+                          <NavLink
                             to={RAILWAY_CONST.ROUTE.CONTROL_CENTER}
-                            className="hover:text-[#9b4b90] transition p-[10px] block ml-0"
+                            className={({ isActive }) =>
+                              `hover:text-[#9b4b90] transition p-[10px] block ${
+                                isActive ? "text-[#9b4b90] font-medium" : ""
+                              }`
+                            }
                           >
                             Control Center
-                          </Link>
+                          </NavLink>
                         </li>
                       </ul>
                     ) : (
