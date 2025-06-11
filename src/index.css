@@ -299,6 +299,14 @@ span#backButton:before {
   top: 0px;
 }
 
+.hideDesktop {
+  display: none;
+}
+
+.hideMobile {
+  display: block;
+}
+
 @media (max-width: 1250px) {
   .colSpaceBottom > div {
     flex-direction: column;
@@ -430,6 +438,67 @@ span#backButton:before {
     width: 100%;
     margin-bottom: 20px;
     margin-top: 20px;
+  }
+
+  .hideDesktop {
+    display: block;
+  }
+
+  .hideMobile {
+    display: none;
+  }
+  .leftColInner {
+    position: relative;
+  }
+
+  .leftMenuCol {
+    height: inherit;
+    position: static;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .showSelectedItem {
+    border-bottom: 1px solid #fff;
+    padding: 20px;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    font-size: 20px;
+  }
+  .showSelectedItem:after {
+    content: "";
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    right: 25px;
+    transform: rotate(-45deg);
+  }
+
+  .showSelectedItem.active:after {
+    transform: rotate(135deg);
+    top: 30px;
+  }
+
+  .controlCenterCol {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .rightContentCol {
+    padding-left: 0px;
+  }
+
+  .leftMenuCol ul li.selectedCol:after {
+    display: none;
+  }
+
+  .leftMenuCol ul {
+    position: absolute;
+    width: 100%;
+    top: 71px;
   }
 }
 
@@ -568,5 +637,22 @@ span#backButton:before {
   }
   .searchCol input {
     width: 100%;
+  }
+  .showSelectedItem {
+    padding: 10px 20px;
+  }
+  .leftMenuCol ul {
+    top: 52px;
+  }
+  .showSelectedItem.active:after {
+    top: 23px;
+  }
+  .showSelectedItem {
+    font: 18px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .leftMenuCol ul li {
+    padding: 10px 20px;
   }
 }

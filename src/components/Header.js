@@ -121,24 +121,24 @@ const Header = () => {
                   <img
                     src={logoIconRailPlot}
                     alt="logo"
-                    className="h-[51px] mr-[4px]"
+                    className="sm:h-[51px] h-[47px] mr-[4px]"
                   />
                   <span className="flex flex-col">
                     <img
                       src={railPlotLogo}
                       alt="logo"
-                      className="h-[30px] mb-[4px]"
+                      className="sm:h-[30px] h-[26px] mb-[4px]"
                     />
-                    <span className=" text-[10px] ml-[1px] leading-[14px] border-black border-b border-t inline-block">
-                      <span className="text-[#d7270c] text-[13px] font-bold">
+                    <span className=" sm:text-[10px] text-[9px] ml-[1px] leading-[14px] border-black border-b border-t inline-block">
+                      <span className="text-[#d7270c] sm:text-[13px] text-[11px] font-bold">
                         V
                       </span>
                       isualize{" "}
-                      <span className="text-[#d7270c] text-[13px] font-bold">
+                      <span className="text-[#d7270c] sm:text-[13px] text-[11px] font-bold">
                         A
                       </span>
                       nalyze{" "}
-                      <span className="text-[#d7270c] text-[13px] font-bold">
+                      <span className="text-[#d7270c] sm:text-[13px] text-[11px] font-bold">
                         O
                       </span>
                       ptimize
