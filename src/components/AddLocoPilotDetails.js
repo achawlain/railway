@@ -6,14 +6,27 @@ import { Button } from "primereact/button";
 const AddLocoPilotPopup = ({ visible, onClose, onSubmit }) => {
   const [formData, setFormData] = useState({
     cms_id: "",
+    name: "",
     designation: "",
     email: "",
     emp_id: "",
     mobile: "",
-    name: "",
     nli: "",
     // Default organization ID, can be changed as needed
   });
+
+   useEffect(() => {
+    if (!visible) {
+      setFormData({
+        name: "",
+        designation: "",
+        email: "",
+        emp_id: "",
+        mobile: "",
+        nli: "",
+      }); // Reset form when popup is closed
+    }
+  }, [visible]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,18 +49,18 @@ const AddLocoPilotPopup = ({ visible, onClose, onSubmit }) => {
       modal
       footer={
         <>
-        <div className="flex justify-end gap-2 ">
+        <div className="flex justify-end gap-4">
           <Button
             label="Cancel"
             icon="pi pi-times"
             onClick={onClose}
-            className="p-button-text"
+            className="p-button-text px-4 py-2 border-black border border-solid outline-none text-center"
           />
           <Button
             label="Submit"
             icon="pi pi-check"
             onClick={handleFormSubmit}
-            className="p-button-success"
+            className="p-button-success bg-[#9b4b90] text-white px-4 py-2 rounded text-center"
           />
           </div>
         </>

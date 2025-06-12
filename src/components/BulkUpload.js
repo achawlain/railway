@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 
@@ -34,6 +34,12 @@ export default function BulkUpload ({ visible, onClose, onUpload }) {
     }
   };
 
+  useEffect(() => {
+    if (!visible) {
+      setSelectedFile(null); // Reset file state when popup is closed
+    }
+  }, [visible]);
+
   return (
     <Dialog
       visible={visible}
@@ -41,9 +47,9 @@ export default function BulkUpload ({ visible, onClose, onUpload }) {
       header="Bulk Upload"
       style={{ width: "400px" }}
       footer={
-        <div className="flex justify-end gap-2">
-          <Button label="Cancel" onClick={onClose} className="p-button-text" />
-          <Button label="Upload" onClick={handleUpload} disabled={!selectedFile} />
+        <div className="flex justify-end gap-4">
+          <Button label="Cancel" onClick={onClose} className="p-button-text px-4 py-2 border-black border border-solid outline-none" />
+          <Button label="Upload" onClick={handleUpload} disabled={!selectedFile} className="bg-[#9b4b90] text-white px-4 py-2 rounded" />
         </div>
       }
     >

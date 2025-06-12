@@ -277,6 +277,10 @@ span#backButton:before {
 .p-datatable .p-sortable-column.p-highlight .p-sortable-column-icon {
   color: #9b4b90;
 }
+.p-button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
 
 .leftMenuCol ul li {
   padding: 20px;

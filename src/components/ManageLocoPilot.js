@@ -8,14 +8,18 @@ import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import deleteIcon from "../images/delete-icon.svg";
 import AddLocoPilotPopup from "./AddLocoPilotDetails";
+import BulkUpload from "./BulkUpload";
+import { Toast } from 'primereact/toast';
+import UpdateLocoPilotDetails from "./UpdateLocoPilotDetails";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import "primereact/resources/primereact.min.css";
-import BulkUpload from "./BulkUpload";
-// import 'primeicons/primeicons.css';
+import 'primeicons/primeicons.css';
 
 
 
 const ManageLocoPilot = () => {
+  const toastRef = useRef(null);
+
   const [loading, setLoading] = useState(false);
   const [locoPilotDetails, setLocoPilotDetails] = useState([]);
   const [filters, setFilters] = useState({
@@ -26,6 +30,8 @@ const ManageLocoPilot = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [isUpdatePopupVisible, setIsUpdatePopupVisible] = useState(false);
+
 
   const getLocoPilotDetails = async () => {
     try {
@@ -65,10 +71,12 @@ const ManageLocoPilot = () => {
       setLocoPilotDetails((prev) =>
         prev.filter((pilot) => pilot.cms_id !== selectedPilot.cms_id)
       );
+      toastRef.current.show({ severity: "success", summary: "Success", detail: "Loco Pilot record deleted successfully", life: 3000 });
       setShowDialog(false);
       getLocoPilotDetails(); // Refresh the list after deletion
     } catch (error) {
       console.error("Error deleting loco pilot:", error);
+      toastRef.current.show({ severity: "error", summary: "Error", detail: "Failed to delete Loco Pilot record", life: 3000 });
     }
   };
 
@@ -86,45 +94,9 @@ const ManageLocoPilot = () => {
           className="cursor-pointer leading-[13px] w-[19px] mr-[2px] mb-1"
         />
       </button>
-      
+
     );
   };
-  const textEditor = (options) => {
-    return (
-      <InputText
-        type="text"
-        value={options.value || ''}
-        onChange={(e) => options.editorCallback(e.target.value)}
-        className="w-full"
-      />
-    );
-  };
-
-  const allowEdit = (rowData) => {
-    return rowData.name !== 'Blue Band';
-  };
-
-  const onRowEditComplete = async (e) => {
-    console.log(e, "e");
-    const updatedRow = e.newData; // The updated row data
-    console.log("Row edit complete:", updatedRow);
-    try {
-      // Send updated data to the API
-      await apiService("put", `${RAILWAY_CONST.API_ENDPOINT.CREW}`, updatedRow);
-      console.log("Updated crew details:", updatedRow);
-      // Update local state with the new data
-      setLocoPilotDetails((prev) =>
-        prev.map((pilot) =>
-          pilot.cms_id === updatedRow.cms_id ? updatedRow : pilot
-
-        )
-      );
-      // getLocoPilotDetails(); // Refresh the list after update
-    } catch (error) {
-      console.error("Error updating loco pilot:", error);
-    }
-  };
-
 
 
   const handleBulkUploadClick = () => {
@@ -150,36 +122,83 @@ const ManageLocoPilot = () => {
       });
 
       console.log("Upload successful:", response);
+      toastRef.current.show({ severity: "success", summary: "Success", detail: "File uploaded successfully", life: 3000 });
       setIsPopupVisible(false); // Close the popup on success
       getLocoPilotDetails(); // Refresh the list after upload
     } catch (error) {
       console.error("Upload failed:", error);
       alert("Failed to upload file. Please try again.");
+      toastRef.current.show({ severity: "error", summary: "Error", detail: "Failed to upload file", life: 3000 });
     }
   };
 
   const handleAddLocoPilot = async (data) => {
     try {
       const response = await apiService("post", `${RAILWAY_CONST.API_ENDPOINT.CREW}`, data);
-      console.log("Loco Pilot added successfully:",data, response.data);
+      console.log("Loco Pilot added successfully:", data, response.data);
       setLocoPilotDetails((prev) => [...prev, response.data]); // Add the new pilot to the list
       setIsFormVisible(false);
+      toastRef.current.show({ severity: "success", summary: "Success", detail: "Loco Pilot details added successfully", life: 3000 });
       getLocoPilotDetails(); // Refresh the list after adding
     } catch (error) {
       console.error("Error adding loco pilot:", error);
+      toastRef.current.show({ severity: "error", summary: "Error", detail: "Failed to add Loco Pilot details", life: 3000 });
     }
   };
 
+  const handleEditClick = (pilot) => {
+    setSelectedPilot(pilot);
+    setIsUpdatePopupVisible(true);
+  };
 
-  
+  const handleEditSubmit = async (updatedPilot) => {
+    try {
+      await apiService("put", `${RAILWAY_CONST.API_ENDPOINT.CREW}`, updatedPilot);
+      setLocoPilotDetails((prev) =>
+        prev.map((pilot) =>
+          pilot.cms_id === updatedPilot.cms_id ? updatedPilot : pilot
+        )
+      );
+      toastRef.current.show({
+        severity: "success",
+        summary: "Success",
+        detail: "Loco Pilot updated successfully",
+        life: 3000,
+      });
+    } catch (error) {
+      console.error("Error updating loco pilot:", error);
+      toastRef.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to update Loco Pilot",
+        life: 3000,
+      });
+    }
+    setIsUpdatePopupVisible(false);
+  };
+
+  const editButtonTemplate = (rowData) => {
+    return (
+      <Button
+        // label="Edit"
+        icon="pi pi-pencil"
+        className="pb-2 !focus:box-shadow-none !focus:outline-none !focus:border-red-400"
+        onClick={() => handleEditClick(rowData)}
+      />
+    );
+  };
+
+
+
   return (
     <>
+      <Toast ref={toastRef} position="top-right" />
       <div className="w-full bg-[#efefef] p-4  pt-8 min-h-screen">
         <div className="bg-white w-full sm:p-8 p-4 pt-4 rounded-[15px] min-h-[900px]">
           <h1 className="sm:text-[22px] text-[18px] text-[#30424c] font-medium mb-8 border-b border-[#ccc] pb-2 relative pt-2">
             Manage Loco Pilot
           </h1>
-          
+
           <div className="relative flex flow-row datePickerCol">
             <div className="-mt-1 searchCol">
               <InputText
@@ -216,18 +235,19 @@ const ManageLocoPilot = () => {
             emptyMessage="No data found"
             globalFilterFields={["name", "cms_id", "designation", "emp_id", "mobile", 'email', 'nli']}
             className="mt-10"
-            onRowEditComplete={onRowEditComplete}
           >
-            <Column field="cms_id" header="LP CMS ID" sortable editor={(options) => textEditor(options)} />
-            <Column field="name" header="LP Name" sortable editor={(options) => textEditor(options)} />
-            <Column field="designation" header="Designation" sortable editor={(options) => textEditor(options)} />
-            <Column field="email" header="Email" sortable editor={(options) => textEditor(options)} />
-            <Column field="emp_id" header="Employee ID" sortable editor={(options) => textEditor(options)} />
+            <Column field="cms_id" header="LP CMS ID" sortable />
+            <Column field="name" header="LP Name" sortable />
+            <Column field="designation" header="Designation" sortable />
+            <Column field="email" header="Email" sortable />
+            <Column field="emp_id" header="Employee ID" sortable />
             {/* <Column field="id" header="ID" sortable /> */}
-            <Column field="mobile" header="Mobile" sortable editor={(options) => textEditor(options)} />
-            <Column field="nli" header="Nomilated CLI" sortable editor={(options) => textEditor(options)} />
-            <Column body={deleteButtonTemplate} style={{ width: "5%" }}/>
-            <Column rowEditor={allowEdit} bodyStyle={{ textAlign: 'center' }}></Column>
+            <Column field="mobile" header="Mobile" sortable />
+            <Column field="nli" header="Nomilated CLI" sortable />
+            <Column body={deleteButtonTemplate} style={{ width: "5%" }} bodyStyle={{ textAlign: 'center' }} />
+            {/* <Column rowEditor={allowEdit} bodyStyle={{ textAlign: 'center' }}></Column> */}
+            <Column body={editButtonTemplate} style={{ width: "5%" }} bodyStyle={{ textAlign: 'center' }} />
+
             {/* Add or remove columns as needed */}
           </DataTable>
         </div>
@@ -240,19 +260,17 @@ const ManageLocoPilot = () => {
         modal
         footer={
           <>
-           <div className="flex justify-end gap-4 ">
-            <Button
-              label="No"
-              // icon="pi pi-times"
-              onClick={() => setShowDialog(false)}
-              className="p-button-text border:focus:none"
-            />
-            <Button
-              label="Yes"
-              // icon="pi pi-check"
-              onClick={deleteLocoPilot}
-              className="p-button-danger"
-            />
+            <div className="flex justify-end gap-4 ">
+              <Button
+                label="No"
+                onClick={() => setShowDialog(false)}
+                className="p-button-text px-4 py-2 border-black border border-solid outline-none text-center"
+              />
+              <Button
+                label="Yes"
+                onClick={deleteLocoPilot}
+                className="p-button-success bg-[#9b4b90] text-white px-4 py-2 rounded text-center"
+              />
             </div>
           </>
         }
@@ -269,11 +287,18 @@ const ManageLocoPilot = () => {
         onClose={handlePopupClose}
         onUpload={handleFileUpload}
       />
-      
+
       <AddLocoPilotPopup
         visible={isFormVisible}
         onClose={() => setIsFormVisible(false)}
         onSubmit={handleAddLocoPilot}
+      />
+
+      <UpdateLocoPilotDetails
+        visible={isUpdatePopupVisible}
+        pilot={selectedPilot}
+        onClose={() => setIsUpdatePopupVisible(false)}
+        onSubmit={handleEditSubmit}
       />
     </>
   );
