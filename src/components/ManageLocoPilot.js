@@ -244,9 +244,9 @@ const ManageLocoPilot = () => {
             {/* <Column field="id" header="ID" sortable /> */}
             <Column field="mobile" header="Mobile" sortable />
             <Column field="nli" header="Nomilated CLI" sortable />
-            <Column body={deleteButtonTemplate} style={{ width: "5%" }} bodyStyle={{ textAlign: 'center' }} />
+            <Column body={deleteButtonTemplate} style={{ width: "4%" }} bodyStyle={{ textAlign: 'center' }} />
             {/* <Column rowEditor={allowEdit} bodyStyle={{ textAlign: 'center' }}></Column> */}
-            <Column body={editButtonTemplate} style={{ width: "5%" }} bodyStyle={{ textAlign: 'center' }} />
+            <Column body={editButtonTemplate} style={{ width: "4%" }} bodyStyle={{ textAlign: 'center' }} />
 
             {/* Add or remove columns as needed */}
           </DataTable>

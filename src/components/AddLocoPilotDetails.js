@@ -18,6 +18,7 @@ const AddLocoPilotPopup = ({ visible, onClose, onSubmit }) => {
    useEffect(() => {
     if (!visible) {
       setFormData({
+        cms_id: "",
         name: "",
         designation: "",
         email: "",
