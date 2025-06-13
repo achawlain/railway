@@ -14,6 +14,7 @@ import { getDataFromLocalStorage } from "./localStorage";
 import Template from "../pages/Template";
 import CreateTemplateComponent from "../components/CreateTemplateComponent";
 import Reports from "../pages/Reports";
+import Profile from "../pages/Profile";
 
 const user = getDataFromLocalStorage("userInfo");
 
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: RAILWAY_CONST.ROUTE.CONTROL_CENTER,
         element: <PrivateRoute element={<ControlCenter />} />,
+      },
+      {
+        path: RAILWAY_CONST.ROUTE.PROFILE,
+        element: <PrivateRoute element={<Profile />} />,
       },
     ],
   },

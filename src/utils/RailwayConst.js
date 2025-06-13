@@ -33,6 +33,7 @@ const RAILWAY_CONST = {
     CREATE_REPORT: "/createReport",
     CREATE_TEMPLATE: "/createTemplate",
     CONTROL_CENTER: "/controlCenter",
+    PROFILE: "/profile",
   },
 };
 
