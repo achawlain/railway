@@ -303,6 +303,144 @@ span#backButton:before {
   top: 0px;
 }
 
+.hideDesktop {
+  display: none;
+}
+
+.hideMobile {
+  display: block;
+}
+
+.footerBox {
+  background-color: #fff;
+  padding-bottom: 0;
+  margin-top: 0;
+  max-width: 100%;
+}
+
+.footerFormBox {
+  max-width: 1252px;
+  padding: 0px 10px;
+  color: #000;
+  margin: 36px auto 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.phonCol .footerLocationIcon img {
+  height: 25px;
+  width: auto;
+  margin-top: 7px;
+  margin-right: 5px;
+}
+
+.emailCol .footerLocationIcon img {
+  height: 21px;
+  width: 42px;
+  max-width: inherit;
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
+.footerInputBox {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.socialMediaLink {
+  margin-top: 10px;
+}
+
+.footerInputBox.addressCol img {
+  height: 38px;
+  width: auto;
+  min-width: 46px;
+  margin-top: 3px;
+}
+
+p.footerLocation {
+  color: #414141;
+}
+
+.addressCol,
+.emailPhoneInfo {
+}
+
+.footerFormBox > div {
+  width: 33.33%;
+  margin-bottom: 30px;
+  padding-left: 80px;
+}
+
+.footerSocalMediaIcon {
+  margin-top: 10px;
+}
+
+.footerSocalMediaIcon a {
+  margin-right: 10px;
+  opacity: 0.2;
+}
+
+.footerSocalMediaIcon a:hover {
+  opacity: 1;
+}
+
+.firstRowFC1,
+.firstRowFC2,
+.secondRowFC1,
+.secondRowFC2 {
+  width: 50%;
+  padding: 0 20px;
+  margin-bottom: 20px;
+}
+
+.thirdRow {
+  width: 100%;
+  padding: 0 20px;
+  margin-bottom: 20px;
+}
+
+.secondRowFC1,
+.selectInputCol {
+  position: relative;
+}
+
+.selectInputCol {
+  padding-left: 0;
+}
+
+.footerInputBox {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.footerLocationIcon img {
+  padding-right: 8px;
+}
+
+.footerEmail,
+.footerPhone {
+  color: #aa72ce;
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.footerLocationTitle,
+.footerSocalMediaTitle {
+  color: #aa72ce;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.subFooterBox p {
+  text-align: center;
+  color: #414141;
+  font-size: 16px;
+  padding: 15px 0;
+  background: #f1f1f1;
+}
+
 @media (max-width: 1250px) {
   .colSpaceBottom > div {
     flex-direction: column;
@@ -338,6 +476,9 @@ span#backButton:before {
   }
   .datePickerCol input.inputbox {
     padding-right: 27px;
+  }
+  .emailPhoneInfo {
+    padding-left: 0px !important;
   }
 }
 
@@ -434,6 +575,151 @@ span#backButton:before {
     width: 100%;
     margin-bottom: 20px;
     margin-top: 20px;
+  }
+
+  .hideDesktop {
+    display: block;
+  }
+
+  .hideMobile {
+    display: none;
+  }
+  .leftColInner {
+    position: relative;
+  }
+
+  .leftMenuCol {
+    height: inherit;
+    position: static;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .showSelectedItem {
+    border-bottom: 1px solid #fff;
+    padding: 20px;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    font-size: 20px;
+  }
+  .showSelectedItem:after {
+    content: "";
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    right: 25px;
+    transform: rotate(-45deg);
+  }
+
+  .showSelectedItem.active:after {
+    transform: rotate(135deg);
+    top: 30px;
+  }
+
+  .controlCenterCol {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .rightContentCol {
+    padding-left: 0px;
+  }
+
+  .leftMenuCol ul li.selectedCol:after {
+    display: none;
+  }
+
+  .leftMenuCol ul {
+    position: absolute;
+    width: 100%;
+    top: 71px;
+  }
+
+  .footerFormBox {
+    flex-direction: column;
+  }
+
+  .footerFormBox > div {
+    width: 100%;
+  }
+
+  .aboutUsContentBox {
+    max-width: 92%;
+  }
+
+  .footerInputBox,
+  .footerInputBox p {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footerInputBox p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .socialMediaLink {
+    text-align: center;
+  }
+
+  .footerSocalMediaIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .footerFormBox > div:nth-child(3) {
+    padding-left: 0;
+  }
+  .footerFormBox > div {
+    padding-left: 0px;
+  }
+  .footerFormBox {
+    max-width: 300px;
+    margin: 20px auto 0;
+  }
+  .footerInputBox p {
+    font-size: 15px;
+  }
+  .addressCol,
+  .emailPhoneInfo {
+    position: relative;
+    background: none;
+    padding-bottom: 20px;
+  }
+
+  .addressCol:before,
+  .emailPhoneInfo:before {
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    content: "";
+    background: linear-gradient(90deg, #fff, #ccc 50%, #fff);
+    bottom: -6px;
+    left: 0;
+  }
+
+  .addressCol > div p:nth-child(3):before {
+    left: 0;
+  }
+
+  .addressCol > div p:nth-child(3) {
+    padding-top: 45px;
+  }
+
+  .addressCol > div p:nth-child(3):before {
+    width: 100%;
+    background-size: 28px;
+    background-position: 50%;
+  }
+
+  .footerBox {
+    max-width: 100%;
   }
 }
 
@@ -572,5 +858,22 @@ span#backButton:before {
   }
   .searchCol input {
     width: 100%;
+  }
+  .showSelectedItem {
+    padding: 10px 20px;
+  }
+  .leftMenuCol ul {
+    top: 52px;
+  }
+  .showSelectedItem.active:after {
+    top: 23px;
+  }
+  .showSelectedItem {
+    font: 18px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .leftMenuCol ul li {
+    padding: 10px 20px;
   }
 }

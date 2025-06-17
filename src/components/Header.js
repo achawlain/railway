@@ -19,6 +19,7 @@ const Header = () => {
   const [isUserInfoVisible, setIsUserInfoVisible] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
   const navListRef = useRef(null);
+  const userRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -93,6 +94,23 @@ const Header = () => {
     };
   }, [isNavListVisible]);
 
+  useEffect(() => {
+    const handleClickOutsideUserInfo = (event) => {
+      if (userRef.current && !userRef.current.contains(event.target)) {
+        setIsUserInfoVisible(false);
+      }
+    };
+
+    if (isUserInfoVisible) {
+      document.addEventListener("mousedown", handleClickOutsideUserInfo);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutsideUserInfo);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideUserInfo);
+    };
+  }, [isUserInfoVisible]);
   return (
     <div>
       <>
@@ -121,24 +139,24 @@ const Header = () => {
                   <img
                     src={logoIconRailPlot}
                     alt="logo"
-                    className="h-[51px] mr-[4px]"
+                    className="sm:h-[51px] h-[47px] mr-[4px]"
                   />
                   <span className="flex flex-col">
                     <img
                       src={railPlotLogo}
                       alt="logo"
-                      className="h-[30px] mb-[4px]"
+                      className="sm:h-[30px] h-[26px] mb-[4px]"
                     />
-                    <span className=" text-[10px] ml-[1px] leading-[14px] border-black border-b border-t inline-block">
-                      <span className="text-[#d7270c] text-[13px] font-bold">
+                    <span className=" sm:text-[10px] text-[9px] ml-[1px] leading-[14px] border-black border-b border-t inline-block">
+                      <span className="text-[#d7270c] sm:text-[13px] text-[11px] font-bold">
                         V
                       </span>
                       isualize{" "}
-                      <span className="text-[#d7270c] text-[13px] font-bold">
+                      <span className="text-[#d7270c] sm:text-[13px] text-[11px] font-bold">
                         A
                       </span>
                       nalyze{" "}
-                      <span className="text-[#d7270c] text-[13px] font-bold">
+                      <span className="text-[#d7270c] sm:text-[13px] text-[11px] font-bold">
                         O
                       </span>
                       ptimize
@@ -201,7 +219,7 @@ const Header = () => {
                     ) : (
                       <Link
                         to="/login"
-                        className="hover:text-[#9b4b90] transition p-[10px] inline-block"
+                        className="hover:text-[#9b4b90] transition p-[10px] block"
                       >
                         <span className="font-medium loginText hover:text-[#9b4b90] text-[#000] ml-2">
                           Login
@@ -217,7 +235,7 @@ const Header = () => {
                 onClick={toggleUserInfo}
               >
                 {userInfo ? (
-                  <div className="h-[36px]">
+                  <div className="h-[36px]" ref={userRef}>
                     <span className="headerUserIcon relative pr-[15px] inline-block">
                       <img
                         src={userIcon}
@@ -230,14 +248,27 @@ const Header = () => {
                     {isUserInfoVisible && (
                       <div className="absolute userInfoCol right-[10px] bg-white top-[40px] shadow-md z-10">
                         <ul className="w-[200px]">
-                          {userInfo?.name && (
+                          {userInfo?.user_details?.name && (
                             <li className="w-full px-4 py-2 border-b border-[#efefef]">
-                              <span className="text-gray-700 font-medium block"></span>
+                              <span className="text-gray-700 font-medium block">
+                                Hi,{" "}
+                                <span className="text-[#9b4b90]">
+                                  {userInfo.user_details.name}
+                                </span>
+                              </span>
                             </li>
                           )}
+                          <li>
+                            <Link
+                              to={RAILWAY_CONST.ROUTE.PROFILE}
+                              className="w-full px-4 py-2 border-b hover:bg-[#f1f1f1] cursor-pointer block"
+                            >
+                              <span>Profile</span>
+                            </Link>
+                          </li>
                           <li
                             onClick={logout}
-                            className="w-full px-4 py-2 border-b hover:bg-[#f1f1f1] cursor-pointer"
+                            className="w-full px-4 py-2 border-b hover:bg-[#f1f1f1] cursor-pointer block"
                           >
                             <span>Logout</span>
                           </li>
