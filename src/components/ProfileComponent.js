@@ -18,6 +18,12 @@ const ProfileComponent = () => {
     }
   };
 
+  useEffect(() => {
+    if (userInfo?.user_details?.name) {
+      setNewEmail(userInfo.user_details.name);
+    }
+  }, []);
+
   const handleEmailUpdate = () => {
     if (newEmail) {
       setEmail(newEmail);
@@ -38,6 +44,8 @@ const ProfileComponent = () => {
     const user = getDataFromLocalStorage("userInfo");
     setUserInfo(user);
   }, []);
+
+  console.log("userInfo", userInfo);
 
   return (
     <div className="min-h-[calc(100vh-80px)] reportGenerateBg flex items-center justify-center p-6">
@@ -78,23 +86,25 @@ const ProfileComponent = () => {
           <div className="profileRightCol">
             {/* Email Update */}
             <div className="mb-6">
-              <h3 className="text-lg font-medium mb-2">Update User Name</h3>
-              <p className="mb-1">
-                Current User Name: <strong>{userInfo.user_details.name}</strong>
-              </p>
+              <h3 className="text-lg font-medium mb-2"> User Name</h3>
+              {/* <p className="mb-1">
+                Current User Name:{" "}
+                <strong>{userInfo?.user_details?.name}</strong>
+              </p> */}
               <input
                 type="email"
                 value={newEmail}
                 onChange={(e) => setNewEmail(e.target.value)}
                 placeholder="Enter new email"
-                className="w-full px-4 py-2 border rounded mb-2"
+                className="w-full px-4 py-2 border rounded mb-2 bg-[#f1f1f1] pointer-events-none text=[#777]"
+                readOnly
               />
-              <button
+              {/* <button
                 onClick={handleEmailUpdate}
                 className="reportGenerateBg text-white px-4 py-2 rounded mt-2"
               >
                 Update User Name
-              </button>
+              </button> */}
             </div>
 
             {/* Change Password */}
