@@ -20,6 +20,7 @@ const RAILWAY_CONST = {
     MANAGEMENT_SUMMARY: "/management/reports/summary",
     MANAGEMENT_lP_SUMMARY: "/management/reports/lp_summary",
     BULK_DOWNLOAD: "bulk_download",
+    CONTACT_US: "/contact_us",
   },
 
   ROUTE: {

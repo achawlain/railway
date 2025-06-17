@@ -44,6 +44,7 @@ const UpdateLocoPilotDetails = ({ visible, onClose, pilot, onSubmit }) => {
       onHide={onClose}
     >
       <div className="flex flex-col">
+        <div className="field">
         <label>CMS ID</label>
         <InputText
           name="cms_id"
@@ -51,6 +52,8 @@ const UpdateLocoPilotDetails = ({ visible, onClose, pilot, onSubmit }) => {
           onChange={handleChange}
           className="border border-gray-300 rounded p-2 w-full"
         />
+        </div>
+        <div className="field">
         <label>Name</label>
         <InputText
           name="name"
@@ -58,6 +61,7 @@ const UpdateLocoPilotDetails = ({ visible, onClose, pilot, onSubmit }) => {
           onChange={handleChange}
           className="border border-gray-300 rounded p-2 w-full"
         />
+        </div>
         <label>Designation</label>
         <InputText
           name="designation"
