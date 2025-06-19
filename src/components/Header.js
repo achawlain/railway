@@ -193,7 +193,7 @@ const Header = () => {
                             to={RAILWAY_CONST.ROUTE.DASHBOARD}
                             className={({ isActive }) =>
                               `hover:text-[#9b4b90] transition p-[10px] block ${
-                                isActive ? "text-[#9b4b90] font-medium" : ""
+                                isActive ? "text-[#9b4b90] font-medium underline" : ""
                               }`
                             }
                           >
@@ -208,7 +208,7 @@ const Header = () => {
                             to={RAILWAY_CONST.ROUTE.CONTROL_CENTER}
                             className={({ isActive }) =>
                               `hover:text-[#9b4b90] transition p-[10px] block ${
-                                isActive ? "text-[#9b4b90] font-medium" : ""
+                                isActive ? "text-[#9b4b90] font-medium underline" : ""
                               }`
                             }
                           >

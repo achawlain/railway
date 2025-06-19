@@ -175,6 +175,10 @@ export default function BreakingPattern() {
                                 <Loader />
                             </div>
                         </div> : null}
+
+                        <h4 className="text-lg font-semibold mt-4 mb-4 text-center text-[#30424c]">
+                            Breaking Pattern at {formData.station.toUpperCase()} Station
+                        </h4>
                         <div className="-mt-1 searchCol">
                             <InputText
                                 value={globalFilterValue}
@@ -183,7 +187,7 @@ export default function BreakingPattern() {
                                 className="w-56 h-10 border border-gray-300 rounded-md pl-2"
                             />
                         </div>
-
+                       
                         <DataTable
                             value={breakingPatternReport}
                             paginator
