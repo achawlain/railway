@@ -21,6 +21,7 @@ const RAILWAY_CONST = {
     MANAGEMENT_lP_SUMMARY: "/management/reports/lp_summary",
     BULK_DOWNLOAD: "bulk_download",
     CONTACT_US: "/contact_us",
+    BREAKING_PATTERN: "/reports/ext_data",
   },
 
   ROUTE: {

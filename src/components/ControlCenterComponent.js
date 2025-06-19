@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Reports from "../pages/Reports";
 import LocoPilotReport from "./LocoPilotReport";
 import ManageLocoPilot from "./ManageLocoPilot";
+import BreakingPattern from "./BreakingPattern";
 
 const ControlCenterComponent = () => {
   const [selectedtab, setSelectedTab] = useState("Daily Report");
@@ -72,6 +73,14 @@ const ControlCenterComponent = () => {
                 >
                   Manage Loco Pilot
                 </li>
+                <li
+                  onClick={() => handleSelectTab("Breaking Pattern")}
+                  className={`${
+                    selectedtab === "Breaking Pattern" ? "selectedCol" : null
+                  }  cursor-pointer`}
+                >
+                  Breaking Pattern
+                </li>
               </ul>
             )}
           </div>
@@ -85,6 +94,7 @@ const ControlCenterComponent = () => {
           {selectedtab === "Daily Report" ? <Reports /> : null}
           {selectedtab === "Loco Pilot Report" ? <LocoPilotReport /> : null}
           {selectedtab === "Manage Loco Pilot" ? <ManageLocoPilot /> : null}
+          {selectedtab === "Breaking Pattern" ? <BreakingPattern/> : null}
         </div>
       </div>
     </div>
