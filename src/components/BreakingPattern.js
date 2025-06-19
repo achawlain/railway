@@ -187,7 +187,7 @@ export default function BreakingPattern() {
                                 className="w-56 h-10 border border-gray-300 rounded-md pl-2"
                             />
                         </div>
-                       
+
                         <DataTable
                             value={breakingPatternReport}
                             paginator
@@ -202,15 +202,15 @@ export default function BreakingPattern() {
                             globalFilterFields={["station", "distance", "speed", "lp_cms_id", 'crew_name', 'crew_designation', 'report_id', 'train_id']}
                             className="mt-10"
                         >
-                            <Column field="lp_cms_id" header="LP CMS ID" sortable />
-                            <Column field="station" header="Station" sortable />
-                            <Column field="distance" header="Distance (km)" sortable />
-                            <Column field="crew_name" header="Crew Name" sortable />
-                            <Column field="crew_designation" header="Crew Designation" sortable />
+
                             <Column field="report_id" header="Report ID" sortable />
                             <Column field="train_id" header="Train ID." sortable />
+                            <Column field="station" header="Station" sortable />
+                            <Column field="distance" header="Distance" sortable />
                             <Column field="speed" header="Speed (km/h)" sortable />
-
+                            <Column field="lp_cms_id" header="LP CMS ID" sortable />
+                            <Column field="crew_name" header="Crew Name" sortable />
+                            <Column field="crew_designation" header="Crew Designation" sortable />
                         </DataTable>
                     </>
                     :
