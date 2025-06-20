@@ -10,8 +10,11 @@ import "primereact/resources/themes/lara-light-cyan/theme.css";
 import "primereact/resources/primereact.min.css";
 import 'primeicons/primeicons.css';
 import RAILWAY_CONST from "../utils/RailwayConst";
+import { Toast } from "primereact/toast";
 
 export default function BreakingPattern() {
+    const toastRef = useRef(null);
+
     const ref = useRef();
     const [formData, setFormData] = useState({
         station: "",
@@ -40,16 +43,16 @@ export default function BreakingPattern() {
         const formattedStartDate = format(range[0].startDate, "yyyy-MM-dd");
         const formattedEndDate = format(range[0].endDate, "yyyy-MM-dd");
 
-        const data = new FormData();
-        data.append("station", formData.station);
-        data.append("start_date", formattedStartDate);
-        data.append("end_date", formattedEndDate);
-        data.append("distance", formData.distance);
-        data.append("speed", formData.speed);
+        const data = {
+            station: formData.station,
+            distance: formData.distance,
+            speed: formData.speed,
+            start_date: formattedStartDate,
+            end_date: formattedEndDate,
+        };
 
         try {
             const response = await apiService("POST", RAILWAY_CONST.API_ENDPOINT.BREAKING_PATTERN, data);
-            console.log("Response:", response);
 
             if (response.status === 200) {
                 setBreakingPatternReport(response.data);
@@ -58,6 +61,12 @@ export default function BreakingPattern() {
             }
         } catch (error) {
             console.error("Error fetching data:", error);
+            toastRef.current.show({
+                severity: "error",
+                summary: "Error",
+                detail: "Failed to fetch breaking pattern report",
+                life: 3000,
+            });
         } finally {
             setLoading(false);
         }
@@ -88,147 +97,151 @@ export default function BreakingPattern() {
     };
 
     return (
-        <div className="w-full bg-[#efefef] p-4  pt-8 min-h-screen">
-            <div className="bg-white w-full sm:p-8 p-4 pt-4 rounded-[15px] min-h-[900px]">
-                <h1 className="sm:text-[22px] text-[18px] text-[#30424c] font-medium mb-8 border-b border-[#ccc] pb-2 relative pt-2">
-                    Breaking Pattern
-                </h1>
-                <div className="flex flex-col sm:flex-row gap-4 justify-between">
-                    <div className="relative flex flex-col gap-2 datePickerCol">
-                        <label className="text-[16px]">Date Range:</label>
-                        <input
-                            readOnly
-                            value={`${format(range[0].startDate, "dd/MM/yyyy")} - ${format(
-                                range[0].endDate,
-                                "dd/MM/yyyy"
-                            )}`}
-                            onClick={() => setOpen(!open)}
-                            className="border px-1 py-2 rounded-md w-[250px] cursor-pointer inputbox pl-2"
-                        />
-                        {open && (
-                            <div
-                                ref={ref}
-                                className="absolute z-10 mt-[44px] shadow-lg border bg-white"
-                            >
-                                <DateRange
-                                    editableDateInputs
-                                    onChange={handleSelect}
-                                    moveRangeOnFirstSelection={false}
-                                    ranges={range}
-                                    months={2}
-                                    direction={
-                                        window.innerWidth > 600 ? "horizontal" : "vertical"
-                                    }
-                                />
-                            </div>
-                        )}
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <label className="text-[16px]">Station:</label>
-                        <input
-                            type="text"
-                            value={formData.station}
-                            onChange={(e) =>
-                                setFormData({ ...formData, station: e.target.value })
-                            }
-                            className="border px-1 py-2 rounded-md w-[250px]"
-                            placeholder="Enter Station Name"
-                        />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <label className="text-[16px]">Distance:</label>
-                        <input
-                            type="number"
-                            value={formData.distance}
-                            onChange={(e) =>
-                                setFormData({ ...formData, distance: e.target.value })
-                            }
-                            className="border px-1 py-2 rounded-md w-[250px]"
-                            placeholder="Enter Distance"
-                        />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <label className="text-[16px]">Speed:</label>
-                        <input
-                            type="text"
-                            value={formData.speed}
-                            onChange={(e) =>
-                                setFormData({ ...formData, speed: e.target.value })
-                            }
-                            className="border px-1 py-2 rounded-md w-[250px]"
-                            placeholder="Enter Speed"
-                        />
-                    </div>
-                </div>
-                <div className="mt-6 flex justify-end">
-                    <button
-                        className="bg-[#2c215d] text-white px-4 py-2 rounded-md transition-colors"
-                        onClick={handleSumbit}
-                    >
-                        Submit
-                    </button>
-                </div>
-                {breakingPatternReport && breakingPatternReport.length > 0 ?
-                    <>
-                        {loading ? <div className="flex justify-center py-10">
-                            <div className="loader">
-                                <Loader />
-                            </div>
-                        </div> : null}
-
-                        <h4 className="text-lg font-semibold mt-4 mb-4 text-center text-[#30424c]">
-                            Breaking Pattern at {formData.station.toUpperCase()} Station
-                        </h4>
-                        <div className="-mt-1 searchCol">
-                            <InputText
-                                value={globalFilterValue}
-                                onChange={onGlobalFilterChange}
-                                placeholder="Search for any field"
-                                className="w-56 h-10 border border-gray-300 rounded-md pl-2"
+        <>
+            <Toast ref={toastRef} position="top-right" />
+            <div className="w-full bg-[#efefef] p-4  pt-8 min-h-screen">
+                <div className="bg-white w-full sm:p-8 p-4 pt-4 rounded-[15px] min-h-[900px]">
+                    <h1 className="sm:text-[22px] text-[18px] text-[#30424c] font-medium mb-8 border-b border-[#ccc] pb-2 relative pt-2">
+                        Breaking Pattern
+                    </h1>
+                    <div className="flex flex-col sm:flex-row gap-4 justify-between flex-wrap">
+                        <div className="relative flex flex-col gap-2 datePickerCol mb-9">
+                            <label className="text-[16px]">Date Range:</label>
+                            <input
+                                readOnly
+                                value={`${format(range[0].startDate, "dd/MM/yyyy")} - ${format(
+                                    range[0].endDate,
+                                    "dd/MM/yyyy"
+                                )}`}
+                                onClick={() => setOpen(!open)}
+                                className="border px-1 py-2 rounded-md w-[250px] cursor-pointer inputbox pl-2"
+                            />
+                            {open && (
+                                <div
+                                    ref={ref}
+                                    className="absolute z-10 mt-[44px] shadow-lg border bg-white"
+                                >
+                                    <DateRange
+                                        editableDateInputs
+                                        onChange={handleSelect}
+                                        moveRangeOnFirstSelection={false}
+                                        ranges={range}
+                                        months={2}
+                                        direction={
+                                            window.innerWidth > 600 ? "horizontal" : "vertical"
+                                        }
+                                    />
+                                </div>
+                            )}
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <label className="text-[16px]">Station:</label>
+                            <input
+                                type="text"
+                                value={formData.station}
+                                onChange={(e) =>
+                                    setFormData({ ...formData, station: e.target.value })
+                                }
+                                className="border px-1 py-2 rounded-md w-[250px]"
+                                placeholder="Enter Station Name"
                             />
                         </div>
-
-                        <DataTable
-                            value={breakingPatternReport}
-                            paginator
-                            rows={10}
-                            stripedRows
-                            sortMode="multiple"
-                            dataKey="report_id"
-                            filters={filters}
-                            filterDisplay="row"
-                            loading={loading}
-                            emptyMessage="No data found"
-                            globalFilterFields={["station", "distance", "speed", "lp_cms_id", 'crew_name', 'crew_designation', 'report_id', 'train_id']}
-                            className="mt-10"
+                        <div className="flex flex-col gap-2">
+                            <label className="text-[16px]">Distance:</label>
+                            <input
+                                type="number"
+                                value={formData.distance}
+                                onChange={(e) =>
+                                    setFormData({ ...formData, distance: e.target.value })
+                                }
+                                className="border px-1 py-2 rounded-md w-[250px]"
+                                placeholder="Enter Distance"
+                            />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <label className="text-[16px]">Speed:</label>
+                            <input
+                                type="text"
+                                value={formData.speed}
+                                onChange={(e) =>
+                                    setFormData({ ...formData, speed: e.target.value })
+                                }
+                                className="border px-1 py-2 rounded-md w-[250px]"
+                                placeholder="Enter Speed"
+                            />
+                        </div>
+                    </div>
+                    <div className="mt-6 flex justify-end">
+                        <button
+                            className="bg-[#2c215d] text-white px-4 py-2 rounded-md transition-colors"
+                            onClick={handleSumbit}
                         >
-
-                            <Column field="report_id" header="Report ID" sortable />
-                            <Column field="train_id" header="Train ID." sortable />
-                            <Column field="station" header="Station" sortable />
-                            <Column field="distance" header="Distance" sortable />
-                            <Column field="speed" header="Speed (km/h)" sortable />
-                            <Column field="lp_cms_id" header="LP CMS ID" sortable />
-                            <Column field="crew_name" header="Crew Name" sortable />
-                            <Column field="crew_designation" header="Crew Designation" sortable />
-                        </DataTable>
-                    </>
-                    :
-                    <div className="text-center mt-10">
-                        {loading ? (
-                            <div className="flex justify-center py-10">
+                            Submit
+                        </button>
+                    </div>
+                    {breakingPatternReport && breakingPatternReport.length > 0 ?
+                        <>
+                            {loading ? <div className="flex justify-center py-10">
                                 <div className="loader">
                                     <Loader />
                                 </div>
+                            </div> : null}
+
+                            <h4 className="text-lg font-semibold mt-4 mb-4 text-center text-[#30424c]">
+                                Breaking Pattern at {formData.station.toUpperCase()} Station
+                            </h4>
+                            <div className="-mt-1 searchCol">
+                                <InputText
+                                    value={globalFilterValue}
+                                    onChange={onGlobalFilterChange}
+                                    placeholder="Search for any field"
+                                    className="w-56 h-10 border border-gray-300 rounded-md pl-2"
+                                />
                             </div>
-                        ) : (
-                            <p className="text-gray-500">No data available</p>
-                        )}
-                    </div>
-                }
+
+
+                            <DataTable
+                                value={breakingPatternReport}
+                                paginator
+                                rows={10}
+                                stripedRows
+                                sortMode="multiple"
+                                dataKey={`report_id` + `speed` + `station` + Math.random().toString(36).substring(7)}
+                                filters={filters}
+                                filterDisplay="row"
+                                loading={loading}
+                                emptyMessage="No data found"
+                                globalFilterFields={["station", "distance", "speed", "lp_cms_id", 'crew_name', 'crew_designation', 'report_id', 'train_id']}
+                                className="mt-10"
+                            >
+
+                                <Column field="report_id" header="Report ID" sortable />
+                                <Column field="train_id" header="Train ID." sortable />
+                                <Column field="station" header="Station" sortable />
+                                <Column field="distance" header="Distance" sortable />
+                                <Column field="speed" header="Speed (km/h)" sortable />
+                                <Column field="lp_cms_id" header="LP CMS ID" sortable />
+                                <Column field="crew_name" header="Crew Name" sortable />
+                                <Column field="crew_designation" header="Crew Designation" sortable />
+                            </DataTable>
+                        </>
+                        :
+                        <div className="text-center mt-10">
+                            {loading ? (
+                                <div className="flex justify-center py-10">
+                                    <div className="loader">
+                                        <Loader />
+                                    </div>
+                                </div>
+                            ) : (
+                                <p className="text-gray-500">No data available</p>
+                            )}
+                        </div>
+                    }
+                </div>
+
+
             </div>
-
-
-        </div>
+        </>
     );
 }

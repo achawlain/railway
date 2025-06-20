@@ -6,8 +6,13 @@ import { format, subDays } from "date-fns";
 import { DateRange } from "react-date-range";
 import LocoPilotReportTable from "./LocoPilotReportTable";
 import Loader from "./Loader"; // Import the Loader component
+import { Toast } from "primereact/toast";
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+import "primereact/resources/primereact.min.css";
+import 'primeicons/primeicons.css';
 
 function ReportsChart() {
+  const toastRef = useRef();
   const [loading, setLoading] = useState(false);
   const [chartReportsData, setChartReportData] = useState(null);
   const [range, setRange] = useState([
@@ -29,6 +34,12 @@ function ReportsChart() {
       setChartReportData(JSON.parse(response.data));
     } catch (error) {
       console.error("Error fetching chart data:", error);
+      toastRef.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to fetch chart data. Please try again later.",
+        life: 3000,
+      });
     }
     setLoading(false);
   };
@@ -74,6 +85,7 @@ function ReportsChart() {
 
   return (
     <>
+     <Toast ref={toastRef} position="top-right" />
       {loading ? (
         <div className="flex justify-center py-10">
           <div className="loader">

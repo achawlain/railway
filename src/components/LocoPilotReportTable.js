@@ -8,9 +8,13 @@ import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 
 import "primereact/resources/themes/lara-light-cyan/theme.css";
+import "primereact/resources/primereact.min.css";
+import 'primeicons/primeicons.css';
+import { Toast } from "primereact/toast";
 // import LocoPilotReportTable from "./LocoPilotReportTable";
 
 export default function LocoPilotReportTable() {
+  const toastRef = useRef();
   const [loading, setLoading] = useState(false);
   const [reportTableData, setReportTableData] = useState([]); // DataTable state
   const [range, setRange] = useState([
@@ -34,6 +38,12 @@ export default function LocoPilotReportTable() {
       setReportTableData(response.data);
     } catch (error) {
       console.error("Error fetching chart data:", error);
+      toastRef.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to fetch report data. Please try again later.",
+        life: 3000,
+      });
     }
   };
 
@@ -87,6 +97,7 @@ export default function LocoPilotReportTable() {
   };
   return (
     <>
+    <Toast ref={toastRef} position="top-right" />
       <div className="bg-white w-full rounded-[15px] min-h-[900px]">
         <div style={{ overflowX: "auto", width: "100%", marginTop: "20px" }}>
           {/* <h1 className="sm:text-[22px] text-[18px] text-[#30424c] font-medium mb-8 border-b border-[#ccc] pb-2 relative pt-2">

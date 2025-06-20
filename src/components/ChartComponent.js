@@ -26,8 +26,7 @@ const ChartComponent = ({ chartData }) => {
       </div>
     );
   }
-  console.log("chartData", chartData.layout.width);
-  console.log("chartData", chartData.layout);
+ 
   return (
     <Plot
       data={chartData.data}
