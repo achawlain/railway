@@ -294,14 +294,14 @@ span#backButton:before {
 .leftMenuCol ul li:hover {
   background: #9b4b90;
 }
-.leftMenuCol ul li.selectedCol:after {
+/* .leftMenuCol ul li.selectedCol:after {
   content: "";
   position: absolute;
   border-width: 33px;
   border-color: transparent transparent transparent #9b4b90;
   right: -66px;
   top: 0px;
-}
+} */
 
 .hideDesktop {
   display: none;

@@ -22,6 +22,7 @@ const RAILWAY_CONST = {
     BULK_DOWNLOAD: "bulk_download",
     CONTACT_US: "/contact_us",
     BREAKING_PATTERN: "/reports/ext_data",
+    CHANGEPASSWORD: "/users/password",
   },
 
   ROUTE: {

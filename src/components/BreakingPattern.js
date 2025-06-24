@@ -161,7 +161,7 @@ export default function BreakingPattern() {
                         <div className="flex flex-col gap-2">
                             <label className="text-[16px]">Speed:</label>
                             <input
-                                type="text"
+                                type="number"
                                 value={formData.speed}
                                 onChange={(e) =>
                                     setFormData({ ...formData, speed: e.target.value })
