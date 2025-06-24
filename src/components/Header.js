@@ -190,6 +190,18 @@ const Header = () => {
                       <ul className="flex flex-col md:flex-row ">
                         <li onClick={() => setIsNavListVisible(false)}>
                           <NavLink
+                            to={RAILWAY_CONST.ROUTE.HOME}
+                            className={({ isActive }) =>
+                              `hover:text-[#9b4b90] transition p-[10px] block ${
+                                isActive ? "text-[#9b4b90] font-medium underline" : ""
+                              }`
+                            }
+                          >
+                            Home
+                          </NavLink>{" "}
+                        </li>
+                        <li onClick={() => setIsNavListVisible(false)}>
+                          <NavLink
                             to={RAILWAY_CONST.ROUTE.DASHBOARD}
                             className={({ isActive }) =>
                               `hover:text-[#9b4b90] transition p-[10px] block ${
@@ -217,6 +229,20 @@ const Header = () => {
                         </li>
                       </ul>
                     ) : (
+                      <ul className="flex flex-col md:flex-row ">
+                         <li onClick={() => setIsNavListVisible(false)}>
+                          <NavLink
+                            to={RAILWAY_CONST.ROUTE.HOME}
+                            className={({ isActive }) =>
+                              `hover:text-[#9b4b90] transition p-[10px] block ${
+                                isActive ? "text-[#9b4b90] font-medium underline" : ""
+                              }`
+                            }
+                          >
+                            Home
+                          </NavLink>{" "}
+                        </li>
+                        <li>
                       <Link
                         to="/login"
                         className="hover:text-[#9b4b90] transition p-[10px] block"
@@ -225,6 +251,8 @@ const Header = () => {
                           Login
                         </span>
                       </Link>
+                      </li>
+                      </ul>
                     )}
                   </span>
                 )}

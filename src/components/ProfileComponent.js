@@ -91,11 +91,15 @@ const ProfileComponent = () => {
         });
         // Clear local storage and redirect to login
         localStorage.clear();
-        navigate("/login");
+        setTimeout(() => {
+          localStorage.clear();
+          navigate("/login");
+        }, 3000); // Delay navigation to match the toast's display time
+
         setExistingPassword("");
         setNewPassword("");
       } else {
-        const errorMessage = response.data?.message || "Failed to change password";
+        const errorMessage = response?.message || "Failed to change password";
         toastRef.current.show({
           severity: "error",
           summary: "Error",
@@ -107,7 +111,7 @@ const ProfileComponent = () => {
       toastRef.current.show({
         severity: "error",
         summary: "Error",
-        detail: error.response?.data?.message || "An error occurred while changing password.",
+        detail: error.response?.message || "An error occurred while changing password.",
         life: 3000,
       });
     }
