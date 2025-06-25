@@ -44,11 +44,11 @@ const ProfileComponent = () => {
   };
 
   const handleChangePassword = async () => {
-    if (!existingPassword || !newPassword) {
+    if (!existingPassword || !newPassword || !confirmNewPassword) {
       toastRef.current.show({
         severity: "error",
         summary: "Error",
-        detail: "Please fill out both fields.",
+        detail: "Please fill out all fields.",
         life: 3000,
       });
       return;
@@ -109,6 +109,7 @@ const ProfileComponent = () => {
 
         setExistingPassword("");
         setNewPassword("");
+        setConfirmNewPassword("");
       } else {
         const errorMessage = response?.message || "Failed to change password";
         toastRef.current.show({
