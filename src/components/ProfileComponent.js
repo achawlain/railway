@@ -18,6 +18,7 @@ const ProfileComponent = () => {
   const [newEmail, setNewEmail] = useState("");
   const [existingPassword, setExistingPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const fileInputRef = useRef(null);
 
   const handleImageUpload = (e) => {
@@ -62,6 +63,15 @@ const ProfileComponent = () => {
       });
       return;
     }
+    if (newPassword !== confirmNewPassword) {
+      toastRef.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "New password and confirm password do not match.",
+        life: 3000,
+      });
+      return;
+    }
 
 
     if (!userInfo) {
@@ -73,6 +83,7 @@ const ProfileComponent = () => {
       const data = {
         existing_password: existingPassword, // Match API payload keys
         new_password: newPassword,
+        confirm_password: confirmNewPassword, // Ensure this matches your API's expected key
       }
 
 
@@ -176,7 +187,7 @@ const ProfileComponent = () => {
               </p> */}
                 <input
                   type="email"
-                  value={newEmail}
+                  value={userInfo?.user_details?.name}
                   onChange={(e) => setNewEmail(e.target.value)}
                   placeholder="Enter new email"
                   className="w-full px-4 py-2 border rounded mb-2 bg-[#f1f1f1] pointer-events-none text=[#777]"
@@ -205,6 +216,13 @@ const ProfileComponent = () => {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="New Password"
+                  className="w-full px-4 py-2 border rounded mb-2"
+                />
+                <input
+                  type="password"
+                  value={confirmNewPassword}
+                  onChange={(e) => setConfirmNewPassword(e.target.value)}
+                  placeholder="Confirm New Password"
                   className="w-full px-4 py-2 border rounded mb-2"
                 />
                 <button
