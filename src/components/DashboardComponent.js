@@ -222,7 +222,7 @@ const DashboardComponent = () => {
                         <div className="w-full flex justify-end mb-2 filterButtonCol">
                           <button
                             onClick={handleFilterData}
-                            className="bg-[#9b4b90] h-[32px] text-white sm:px-8 px-3 py-1 sm:mt-0 sm:text-[16px] text-[14px] sm:ml-4 ml-2"
+                            className="bg-[#9b4b90] h-[32px] rounded-[3px] text-white sm:px-8 px-3 py-1 sm:mt-0 sm:text-[16px] text-[14px] sm:ml-4 ml-2"
                           >
                             Filter
                           </button>
@@ -235,7 +235,7 @@ const DashboardComponent = () => {
                               getReports(); // reload full data
                               setOpen(false);
                             }}
-                            className="bg-[#2c215d] h-[32px] text-white sm:px-8 px-3  py-1 sm:mt-0 sm:text-[16px] text-[14px] sm:ml-[10px] ml-2"
+                            className="bg-[#2c215d] h-[32px] rounded-[3px] text-white sm:px-8 px-3  py-1 sm:mt-0 sm:text-[16px] text-[14px] sm:ml-[10px] ml-2"
                           >
                             Clear
                           </button>
@@ -254,9 +254,9 @@ const DashboardComponent = () => {
                               userInfo.access_token || ""
                             }`}
                             // onClick={() => onView(item)}
-                            className="flex sm:w-[50%] w-auto text-[13px] opacity-[.8] text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"
+                            className="flex sm:w-[50%] w-auto text-[13px] h-[32px] opacity-[.8] text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"
                           >
-                            <button className="border-[#000] sm:min-w-[170px] min-w-[139px] border-2 text-[#2c215d] h-[32p sm:px-4 px-[3px] py-0 sm:mt-0 sm:text-[15px] text-[13px] ml-[10px] h-[32px]">
+                            <button className="border-[#000]  rounded-[3px] sm:min-w-[164px] min-w-[139px] border-2 text-[#2c215d] h-[32p sm:px-4 px-[3px] py-0 sm:mt-0 sm:text-[15px] text-[13px] ml-[10px] h-[32px]">
                               Download All PDF
                             </button>
                           </Link>

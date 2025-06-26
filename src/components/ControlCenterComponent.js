@@ -34,7 +34,7 @@ const ControlCenterComponent = () => {
         </h1>
       </div>
       <div className="w-full flex flex-row controlCenterCol">
-        <div className="leftMenuCol w-[300px] bg-[#2c215d] h-[calc(100vh_-_90px)] fixed top-[90px] z-20">
+        <div className="leftMenuCol w-[300px] bg-[#2c215d] h-[calc(100vh_-_80px)] fixed top-[80px] z-20">
           {/* <div className="text-[#fff] border-b-2 border-[#fff] px-4 py-4 text-[22px]">
             Reports
           </div> */}
@@ -94,7 +94,7 @@ const ControlCenterComponent = () => {
           {selectedtab === "Daily Report" ? <Reports /> : null}
           {selectedtab === "Loco Pilot Report" ? <LocoPilotReport /> : null}
           {selectedtab === "Manage Loco Pilot" ? <ManageLocoPilot /> : null}
-          {selectedtab === "Breaking Pattern" ? <BreakingPattern/> : null}
+          {selectedtab === "Breaking Pattern" ? <BreakingPattern /> : null}
         </div>
       </div>
     </div>
