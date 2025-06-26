@@ -188,7 +188,7 @@ const ProfileComponent = () => {
               </p> */}
                 <input
                   type="text"
-                  value={userInfo?.user_details?.name}
+                  value={userInfo?.user_details?.username}
                   onChange={(e) => setNewEmail(e.target.value)}
                   placeholder="Enter new name"
                   className="w-full px-4 py-2 border rounded mb-2 bg-[#f1f1f1] pointer-events-none text=[#777]"
