@@ -441,6 +441,25 @@ p.footerLocation {
   background: #f1f1f1;
 }
 
+.dashboardMainCol {
+  padding: 0px 100px;
+}
+
+@media (max-width: 1540px) {
+  .dashboardMainCol {
+    padding: 0px 50px;
+  }
+  .dashboardCard {
+    max-width: 32%;
+  }
+}
+
+@media (max-width: 1366px) {
+  .dashboardMainCol {
+    padding: 0px 20px;
+  }
+}
+
 @media (max-width: 1250px) {
   .colSpaceBottom > div {
     flex-direction: column;
@@ -449,6 +468,29 @@ p.footerLocation {
     width: 100%;
     text-align: left;
     margin-bottom: 4px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .filterRow {
+    flex-wrap: wrap;
+  }
+  .filterButtonCol {
+    width: 100%;
+  }
+  .datePickerCol,
+  .lpCmsCol {
+    width: 50%;
+  }
+  .lpCmsCol label {
+    text-align: left;
+  }
+  .filterButtonCol a {
+    width: auto;
+  }
+
+  .dashboardCard {
+    max-width: 49%;
   }
 }
 
@@ -720,6 +762,13 @@ p.footerLocation {
 
   .footerBox {
     max-width: 100%;
+  }
+  .dashboardCard {
+    max-width: 100%;
+  }
+  .dashboardMainCol {
+    padding: 10px;
+    padding-top: 20px;
   }
 }
 

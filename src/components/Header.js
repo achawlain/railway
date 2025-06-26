@@ -115,8 +115,8 @@ const Header = () => {
     <div>
       <>
         <header className="headerRow top-0 z-40 fixed bg-white w-full flex justify-between items-center px-4 shadow-md">
-          <div className="max-w-[1300px] mx-auto flex flex-row justify-between w-full items-center">
-            <div className="h-[90px] logoHeader">
+          <div className="max-w-[1560px] mx-auto flex flex-row justify-between w-full items-center">
+            <div className="h-[80px] logoHeader">
               <Link
                 to={
                   userInfo ? RAILWAY_CONST.ROUTE.HOME : RAILWAY_CONST.ROUTE.HOME
@@ -193,7 +193,9 @@ const Header = () => {
                             to={RAILWAY_CONST.ROUTE.HOME}
                             className={({ isActive }) =>
                               `hover:text-[#9b4b90] transition p-[10px] block ${
-                                isActive ? "text-[#9b4b90] font-medium underline" : ""
+                                isActive
+                                  ? "text-[#9b4b90] font-medium underline"
+                                  : ""
                               }`
                             }
                           >
@@ -205,7 +207,9 @@ const Header = () => {
                             to={RAILWAY_CONST.ROUTE.DASHBOARD}
                             className={({ isActive }) =>
                               `hover:text-[#9b4b90] transition p-[10px] block ${
-                                isActive ? "text-[#9b4b90] font-medium underline" : ""
+                                isActive
+                                  ? "text-[#9b4b90] font-medium underline"
+                                  : ""
                               }`
                             }
                           >
@@ -220,7 +224,9 @@ const Header = () => {
                             to={RAILWAY_CONST.ROUTE.CONTROL_CENTER}
                             className={({ isActive }) =>
                               `hover:text-[#9b4b90] transition p-[10px] block ${
-                                isActive ? "text-[#9b4b90] font-medium underline" : ""
+                                isActive
+                                  ? "text-[#9b4b90] font-medium underline"
+                                  : ""
                               }`
                             }
                           >
@@ -230,12 +236,14 @@ const Header = () => {
                       </ul>
                     ) : (
                       <ul className="flex flex-col md:flex-row ">
-                         <li onClick={() => setIsNavListVisible(false)}>
+                        <li onClick={() => setIsNavListVisible(false)}>
                           <NavLink
                             to={RAILWAY_CONST.ROUTE.HOME}
                             className={({ isActive }) =>
                               `hover:text-[#9b4b90] transition p-[10px] block ${
-                                isActive ? "text-[#9b4b90] font-medium underline" : ""
+                                isActive
+                                  ? "text-[#9b4b90] font-medium underline"
+                                  : ""
                               }`
                             }
                           >
@@ -243,15 +251,15 @@ const Header = () => {
                           </NavLink>{" "}
                         </li>
                         <li>
-                      <Link
-                        to="/login"
-                        className="hover:text-[#9b4b90] transition p-[10px] block"
-                      >
-                        <span className="font-medium loginText hover:text-[#9b4b90] text-[#000] ml-2">
-                          Login
-                        </span>
-                      </Link>
-                      </li>
+                          <Link
+                            to="/login"
+                            className="hover:text-[#9b4b90] transition p-[10px] block"
+                          >
+                            <span className="font-medium loginText hover:text-[#9b4b90] text-[#000] ml-2">
+                              Login
+                            </span>
+                          </Link>
+                        </li>
                       </ul>
                     )}
                   </span>
@@ -264,7 +272,7 @@ const Header = () => {
               >
                 {userInfo ? (
                   <div className="h-[36px]" ref={userRef}>
-                    <span className="headerUserIcon relative pr-[15px] inline-block">
+                    <span className="headerUserIcon relative inline-block">
                       <img
                         src={userIcon}
                         alt="User Icon"

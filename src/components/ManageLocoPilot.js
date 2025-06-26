@@ -44,6 +44,7 @@ const ManageLocoPilot = () => {
 
     } catch (error) {
       console.error("Error fetching chart data:", error);
+      toastRef.current.show({ severity: "error", summary: "Error", detail: "Failed to fetch Loco Pilot details", life: 3000 });
     }
   };
   useEffect(() => {

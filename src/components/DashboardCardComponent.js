@@ -46,141 +46,151 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
   };
 
   return (
-    <div className="relative dashboardCard dashboardCardOnlyRes pb-[65px] min-h-[240px] max-w-sm relative docCol w-[100%] min-w-[385px] mx-[.5%] mb-[20px] bg-[#f1f1f1] rounded-[10px] shadow-md hover:shadow-lg">
+    <div className="relative dashboardCard dashboardCardOnlyRes pb-[65px] min-h-[240px] max-w-[24%] docCol w-[100%] mx-[.5%] mb-[20px] bg-[#f1f1f1] rounded-[10px] shadow-md hover:shadow-lg">
       <div>
         <div>
-          <div className="sm:text-[46px] text-[40px] leading-[28px] flex justify-between reportGenerateBg bg-[#30424c] rounded-t-[10px] px-4 pt-2 pb-2 font-medium text-[#fff] text-ellipsis overflow-hidden w-[100%] border-b border[#fefefe] truncate">
-            <span className="mt-[4px]">{item.id}</span>
-            <span className="text-[18px] leading-[20px] text-right">
+          <div className="sm:text-[32px] text-[30px] leading-[28px] flex justify-between reportGenerateBg bg-[#30424c] rounded-t-[10px] px-4 pt-2 pb-2 font-medium text-[#fff] text-ellipsis overflow-hidden w-[100%] border-b border[#fefefe] truncate">
+            <span className="mt-[0px]">{item.id}</span>
+            <span className="text-[15px] leading-[15px] text-right">
               {item.title}
-              <span className="block text-[13px]">{item.date_of_analysis}</span>
+              <span className="block text-[11px]">{item.date_of_analysis}</span>
             </span>
           </div>
           <div className="px-4">
             <ul className="dashboardCardUi">
-              <li className="mt-2 text-[#000] font-bold">
-                <span className="mr-1 text-[#414141] font-medium">
+              <li className="mt-2 text-[#211944] font-medium text-[14px]">
+                <span className="mr-1 text-[#646262] font-medium">
                   Analyzed By :
                 </span>
-                {item?.analyzed_by}
+                <span className="truncate w-[150px] text-right">
+                  {item?.analyzed_by}
+                </span>
               </li>
               {/* <li className="mt-2 text-[#000] font-bold">
-                <span className="mr-1 text-[#414141] font-medium">
+                <span className="mr-1 text-[#646262] font-medium">
                   Train :{" "}
                 </span>
                 {item?.train_id}
               </li> */}
               {/* <li className="mt-2 text-[#000] font-bold">
-                <span className="mr-1 text-[#414141] font-medium">
+                <span className="mr-1 text-[#646262] font-medium">
                   Date of Working :{" "}
                 </span>
                 {item?.date_of_working}
               </li> */}
-              <li className="mt-2 text-[#000] font-bold">
-                <span className="mr-1 text-[#414141] font-medium">Route: </span>
+              <li className="mt-2 text-[#211944] font-medium text-[14px]">
+                <span className="mr-1 text-[#646262] font-medium">Route: </span>
                 {item?.stn_from} &rarr; {item?.stn_to}
               </li>
-              <li className="mt-2 text-[#000] font-bold">
-                <span className="mr-1 text-[#414141] font-medium">
+              <li className="mt-2 text-[#000] font-bold  text-[14px]">
+                <span className="mr-1 text-[#646262] font-medium">
                   LP ID :{" "}
                 </span>
                 {item?.lp_cms_id}
               </li>
-              <li className="mt-2 text-[#000] font-bold">
-                <span className="mr-1 text-[#414141] font-medium">
+              <li className="mt-2 text-[#211944] font-medium text-[14px]">
+                <span className="mr-1 text-[#646262] font-medium">
                   LP Name :{" "}
                 </span>
-                {item?.crew_name}
+                <span className="truncate w-[150px] text-right">
+                  {item?.crew_name}
+                </span>
               </li>
-              <li className="mt-2 text-[#000] font-bold">
-                <span className="mr-1 text-[#414141] font-medium">
+              <li className="mt-2 text-[#211944] font-medium text-[14px]">
+                <span className="mr-1 text-[#646262] font-medium">
                   Departure Time :{" "}
                 </span>
                 {item?.departure_time}
               </li>
-              <li className="mt-2 text-[#000] font-bold">
-                <span className="mr-1 text-[#414141] font-medium">
+              <li className="mt-2 text-[#211944] font-medium text-[14px]">
+                <span className="mr-1 text-[#646262] font-medium">
                   Arrival Time :{" "}
                 </span>
                 {item?.arrival_time}
               </li>
-              <li className="mt-2 text-[#000] font-bold">
-                <span className="mr-1 text-[#414141] font-medium">
+              <li className="mt-2 text-[#211944] font-medium text-[14px]">
+                <span className="mr-1 text-[#646262] font-medium">
                   Average Speed :{" "}
                 </span>
                 {item?.avg_speed}
               </li>
-              <li className="mt-2 text-[#000] font-bold">
-                <span className="mr-1 text-[#414141] font-medium">
+              <li className="mt-2 text-[#211944] font-medium text-[14px]">
+                <span className="mr-1 text-[#646262] font-medium">
                   Total Distance (KM) :{" "}
                 </span>
                 {item?.total_distance}
               </li>
               {(item?.psr_violation == null ||
                 item?.psr_violation.length === 0) &&
-                (item?.tsr_violation == null ||
-                  item?.tsr_violation.length === 0) &&
-                (item?.attacking_speed_violation == null ||
-                  item?.attacking_speed_violation.length === 0) ? (
+              (item?.tsr_violation == null ||
+                item?.tsr_violation.length === 0) &&
+              (item?.attacking_speed_violation == null ||
+                item?.attacking_speed_violation.length === 0) ? (
                 <div className="flex items-center justify-center mt-5">
                   <span className="mr-1 text-[#91518D] font-bold text-[16px]">
                     No Violations
                   </span>
                   <span className="text-[#91518D] font-medium">
-                    <img src={rightIcon} alt="right icon" className="w-5 h-auto ml-2" />
+                    <img
+                      src={rightIcon}
+                      alt="right icon"
+                      className="w-5 h-auto ml-2"
+                    />
                   </span>
                 </div>
-
               ) : (
                 <>
-                  <li className="mt-2 text-[#000] font-bold">
-                    <span className="mr-1 text-[#414141] font-medium">
+                  <li className="mt-2 text-[#211944] font-medium text-[14px]">
+                    <span className="mr-1 text-[#646262] font-medium">
                       PSR Violation :
                     </span>
                     <span
-                      className={`${item?.psr_violation == null ||
-                          item?.psr_violation.length === 0
+                      className={`${
+                        item?.psr_violation == null ||
+                        item?.psr_violation.length === 0
                           ? "text-black"
                           : "text-[red]"
-                        }`}
+                      }`}
                     >
                       {item?.psr_violation == null ||
-                        item?.psr_violation.length === 0
+                      item?.psr_violation.length === 0
                         ? "Nil"
                         : item?.psr_violation.length}
                     </span>
                   </li>
-                  <li className="mt-2 text-[#000] font-bold">
-                    <span className="mr-1 text-[#414141] font-medium">
+                  <li className="mt-2 text-[#211944] font-medium text-[14px]">
+                    <span className="mr-1 text-[#646262] font-medium">
                       TSR Violation :
                     </span>
                     <span
-                      className={`${item?.tsr_violation == null ||
-                          item?.tsr_violation.length === 0
+                      className={`${
+                        item?.tsr_violation == null ||
+                        item?.tsr_violation.length === 0
                           ? "text-black"
                           : "text-[red]"
-                        }`}
+                      }`}
                     >
                       {item?.tsr_violation == null ||
-                        item?.tsr_violation.length === 0
+                      item?.tsr_violation.length === 0
                         ? "Nil"
                         : item?.tsr_violation.length}
                     </span>
                   </li>
-                  <li className="mt-2 text-[#000] font-bold">
-                    <span className="mr-1 text-[#414141] font-medium">
+                  <li className="mt-2 text-[#211944] font-medium text-[14px]">
+                    <span className="mr-1 text-[#646262] font-medium">
                       Attacking Speed Violation :
                     </span>
                     <span
-                      className={`${item?.attacking_speed_violation == null ||
-                          item?.attacking_speed_violation.length === 0
+                      className={`${
+                        item?.attacking_speed_violation == null ||
+                        item?.attacking_speed_violation.length === 0
                           ? "text-black"
                           : "text-[red]"
-                        }`}
+                      }`}
                     >
                       {" "}
                       {item?.attacking_speed_violation == null ||
-                        item?.attacking_speed_violation.length === 0
+                      item?.attacking_speed_violation.length === 0
                         ? "Nil"
                         : item?.attacking_speed_violation.length}
                     </span>
@@ -216,9 +226,11 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
           View
         </span>
         <a
-          href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${item.id
-            }/download?report_file_type=pdf&from_station=${item.stn_from
-            }&to_station=${item.stn_to}&jwt=${userInfo.access_token || ""}`}
+          href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${
+            item.id
+          }/download?report_file_type=pdf&from_station=${
+            item.stn_from
+          }&to_station=${item.stn_to}&jwt=${userInfo.access_token || ""}`}
           // onClick={() => onView(item)}
           className="flex w-[50%] text-[13px] opacity-[.8] text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"
         >
@@ -227,7 +239,7 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
             src={downloadIcon}
             className="cursor-pointer leading-[13px] w-[22px] mr-[2px] mb-1"
           />
-          Download Report
+          Download
         </a>
       </div>
       {showConfirm && (

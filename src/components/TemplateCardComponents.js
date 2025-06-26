@@ -150,7 +150,7 @@ const TemplateCardComponents = ({
             <div className="px-4">
               <ul>
                 {item?.attacking_speed_file && (
-                  <li className="mt-2 text-[#000] font-bold flex">
+                  <li className="mt-2 text-[#000] font-bold flex text-[14px]">
                     <span className="mr-1 text-[#414141] font-medium shrink-0 mr-auto">
                       Attacking Speed File:
                     </span>
@@ -176,7 +176,7 @@ const TemplateCardComponents = ({
                   </li>
                 )}
                 {item?.gradient_file && (
-                  <li className="mt-2 text-[#000] font-bold flex">
+                  <li className="mt-2 text-[#000] font-bold flex text-[14px]">
                     <span className="mr-1 text-[#414141] font-medium shrink-0 mr-auto">
                       Gradient File:
                     </span>
@@ -204,7 +204,7 @@ const TemplateCardComponents = ({
                   </li>
                 )}
                 {item?.isd_file && (
-                  <li className="mt-2 text-[#000] font-bold flex">
+                  <li className="mt-2 text-[#000] font-bold flex text-[14px]">
                     <span className="mr-1 text-[#414141] font-medium shrink-0 mr-auto">
                       ISD File:
                     </span>
@@ -232,7 +232,7 @@ const TemplateCardComponents = ({
                   </li>
                 )}
                 {item?.psr_file && (
-                  <li className="mt-2 text-[#000] font-bold flex">
+                  <li className="mt-2 text-[#000] font-bold flex text-[14px]">
                     <span className="mr-1 text-[#414141] font-medium shrink-0 mr-auto">
                       PSR File:
                     </span>
@@ -260,7 +260,7 @@ const TemplateCardComponents = ({
                   </li>
                 )}
                 {item?.station_file && (
-                  <li className="mt-2 text-[#000] font-bold flex">
+                  <li className="mt-2 text-[#000] font-bold flex text-[14px]">
                     <span className="mr-1 text-[#414141] font-medium shrink-0 mr-auto">
                       Station File:
                     </span>

@@ -137,14 +137,14 @@ const DashboardComponent = () => {
       ) : (
         <>
           <div>
-            <div className="w-full bg-[#efefef] sm:p-4 p-2 reportGenerateBg pt-8 min-h-screen">
+            <div className="w-full bg-[#efefef] sm:py-4 py-2 reportGenerateBg pt-8 min-h-screen dashboardMainCol">
               <div className="max-w-full mx-auto px-2 mb-4">
-                <div className="bg-white w-full sm:p-8 p-4  pt-2 rounded-[15px]">
-                  <h1 className="text-[22px] text-[#30424c] font-medium mb-4 border-b border-[#ccc] pb-2 relative pt-2">
+                <div className="bg-white w-full sm:p-8 p-4 rounded-[15px] sm:pt-[16px]">
+                  <h1 className="text-[18px] text-[#30424c] font-medium mb-[10px] border-b border-[#ccc] pb-2 relative pt-2">
                     Dashboard
-                    <div className="absolute top-[15px] right-0 flex flex-row filterCol z-20">
+                    <div className="absolute top-[8px] right-0 flex flex-row filterCol z-20">
                       <Link to={RAILWAY_CONST.ROUTE.TEMPLATE}>
-                        <span className="right-0 flex flex-row sm:text-[18px] text-[16px] items-center justify-center text-[#30424c] hover:text-[#000] underline">
+                        <span className="right-0 flex flex-row sm:text-[16px] text-[16px] items-center justify-center text-[#30424c] hover:text-[#000] underline">
                           + Analyze New
                         </span>
                       </Link>
@@ -152,7 +152,7 @@ const DashboardComponent = () => {
                   </h1>
                   <div className="w-full flex justify-end mb-2">
                     <div className=" flex flex-col top-[32px] filterDropDown  max-w-[1060px] ">
-                      <span className="flex flex-row bg-[#f6f6f6] pt-[10px] mb-4 px-4">
+                      <span className="flex flex-row bg-[#f6f6f6] pt-[10px] mb-2 px-4 filterRow">
                         {/* <div className="flex flex-row w-full mb-2 mr-2">
                           <label className="text-[16px]">Start Date: </label>
                           <DatePicker
