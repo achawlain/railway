@@ -23,6 +23,8 @@ const RAILWAY_CONST = {
     CONTACT_US: "/contact_us",
     BREAKING_PATTERN: "/reports/ext_data",
     CHANGEPASSWORD: "/users/password",
+    FORGETPASSWORD: "/users/forget_password",
+    RESET_PASSWORD: "/users/reset_password",
   },
 
   ROUTE: {
@@ -37,6 +39,7 @@ const RAILWAY_CONST = {
     CREATE_TEMPLATE: "/createTemplate",
     CONTROL_CENTER: "/controlCenter",
     PROFILE: "/profile",
+    FORGETPASSWORD: "/forgetPassword",
   },
 };
 
