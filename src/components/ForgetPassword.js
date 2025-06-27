@@ -1,4 +1,4 @@
-import React, { useState , useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import { apiService, apiServiceWithOutToken } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import { useNavigate } from "react-router-dom";
@@ -46,16 +46,28 @@ export default function ForgetPassword() {
                 data
             );
             setUuid(response?.data.uuid);
-            setErrorPopupState({
-                isShow: true,
-                message: response?.message,
+            // setErrorPopupState({
+            //     isShow: true,
+            //     message: response?.message,
+            // });
+            toastRef.current.show({
+                severity: "success",
+                summary: "Success",
+                detail: response?.message || "OTP sent successfully",
+                life: 3000,
             });
 
         } catch (error) {
             console.error("Error fetching chart data:", error);
-            setErrorPopupState({
-                isShow: true,
-                message: error.response?.data?.message || "An error occurred",
+            // setErrorPopupState({
+            //     isShow: true,
+            //     message: error.response?.data?.message || "An error occurred",
+            // });
+            toastRef.current.show({
+                severity: "error",
+                summary: "Error",
+                detail: error.response?.data?.message || "An error occurred",
+                life: 3000,
             });
         }
     };
@@ -83,15 +95,14 @@ export default function ForgetPassword() {
                 data
             );
 
-            toastRef.current.show({
-                severity: "success",
-                summary: "Success",
-                detail: response?.message || "Password reset successfully",
-                life: 3000,
-            });
-
 
             if (response?.status === 200) {
+                toastRef.current.show({
+                    severity: "success",
+                    summary: "Success",
+                    detail: response?.message || "Password reset successfully",
+                    life: 3000,
+                });
                 setTimeout(() => {
                     navigate(RAILWAY_CONST.ROUTE.LOGIN);
                 }, 2000);
@@ -101,27 +112,29 @@ export default function ForgetPassword() {
                 setOtp('');
                 setUuid('');
                 setEmail('');
-                setErrorPopupState({
-                    isShow: false,
-                    message: "",
-                });
+                // setErrorPopupState({
+                //     isShow: false,
+                //     message: "",
+                // });
             }
-            setError('');
-            setNewPassword('');
-            setConfirmPassword('');
-            setOtp('');
-            setUuid('');
-            setEmail('');
-            setErrorPopupState({
-                isShow: false,
-                message: "",
+            toastRef.current.show({
+                severity: "error",
+                summary: "Error",
+                detail: response?.message,
+                life: 3000,
             });
 
         } catch (error) {
             console.error("Error resetting password:", error);
-            setErrorPopupState({
-                isShow: true,
-                message: error.response?.message || "An error occurred",
+            // setErrorPopupState({
+            //     isShow: true,
+            //     message: error.response?.message || "An error occurred",
+            // });
+            toastRef.current.show({
+                severity: "error",
+                summary: "Error",
+                detail: error.response?.data?.message || "An error occurred",
+                life: 3000,
             });
         }
     }
