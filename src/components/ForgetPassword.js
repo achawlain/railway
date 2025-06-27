@@ -8,25 +8,31 @@ export default function ForgetPassword() {
     const toastRef = useRef(null);
 
     const [email, setEmail] = useState("");
-    const [error, setError] = useState("");
+    // const [error, setError] = useState("");
     const [uuid, setUuid] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [otp, setOtp] = useState("");
-    const [errorPopupState, setErrorPopupState] = useState({
-        isShow: false,
-        message: "",
-    });
+    // const [errorPopupState, setErrorPopupState] = useState({
+    //     isShow: false,
+    //     message: "",
+    // });
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!email) {
-            setError("Email is required");
+            // setError("Email is required");
+            toastRef.current.show({
+                severity: "error",
+                summary: "Error",
+                detail: "Email is required",
+                life: 3000,
+            });     
             return;
         }
-        setError("");
+        // setError("");
         if (uuid) {
             handleResetPassword(e);
             return;
@@ -81,11 +87,23 @@ export default function ForgetPassword() {
         };
         e.preventDefault();
         if (!newPassword || !confirmPassword || !otp) {
-            setError("All fields are required");
+            // setError("All fields are required");
+            toastRef.current.show({
+                severity: "error",
+                summary: "Error",
+                detail: "All fields are required",
+                life: 3000,
+            });
             return;
         }
         if (newPassword !== confirmPassword) {
-            setError("Passwords do not match");
+            // setError("Passwords do not match");
+            toastRef.current.show({
+                severity: "error",
+                summary: "Error",
+                detail: "New password and confirm password do not match",
+                life: 3000,
+            });
             return;
         }
         try {
@@ -106,7 +124,7 @@ export default function ForgetPassword() {
                 setTimeout(() => {
                     navigate(RAILWAY_CONST.ROUTE.LOGIN);
                 }, 2000);
-                setError('');
+                // setError('');
                 setNewPassword('');
                 setConfirmPassword('');
                 setOtp('');
@@ -147,12 +165,12 @@ export default function ForgetPassword() {
             <div className="flex items-center justify-center h-screen reportGenerateBg mt-8 p-2">
                 <div className="bg-white p-6 rounded-lg shadow-lg w-96">
                     <h2 className="text-2xl font-bold mb-4 text-center">{uuid ? 'Reset Password' : "Forget Password"}</h2>
-                    {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+                    {/* {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
                     {errorPopupState.isShow && (
                         <div className="text-red-500 text-sm mt-2 text-center mb-[20px]">
                             {errorPopupState.message}
                         </div>
-                    )}
+                    )} */}
                     <form onSubmit={handleSubmit}>
                         {uuid ? (
                             <>
