@@ -133,12 +133,12 @@ export default function ForgetPassword() {
                 });
                 setTimeout(() => {
                     navigate(RAILWAY_CONST.ROUTE.LOGIN);
+                    setUuid('');
                 }, 2000);
                 // setError('');
                 setNewPassword('');
                 setConfirmPassword('');
                 setOtp('');
-                setUuid('');
                 setEmail('');
                 // setErrorPopupState({
                 //     isShow: false,
