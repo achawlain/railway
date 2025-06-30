@@ -29,7 +29,7 @@ export default function ForgetPassword() {
                 summary: "Error",
                 detail: "Email is required",
                 life: 3000,
-            });     
+            });
             return;
         }
         // setError("");
@@ -51,17 +51,27 @@ export default function ForgetPassword() {
                 RAILWAY_CONST.API_ENDPOINT.FORGETPASSWORD,
                 data
             );
-            setUuid(response?.data.uuid);
-            // setErrorPopupState({
-            //     isShow: true,
-            //     message: response?.message,
-            // });
-            toastRef.current.show({
-                severity: "success",
-                summary: "Success",
-                detail: response?.message || "OTP sent successfully",
-                life: 3000,
-            });
+            if (response?.status === 200) {
+                setUuid(response?.data.uuid);
+                // setErrorPopupState({
+                //     isShow: true,
+                //     message: response?.message,
+                // });
+                toastRef.current.show({
+                    severity: "success",
+                    summary: "Success",
+                    detail: response?.message || "OTP sent successfully",
+                    life: 3000,
+                });
+            } else {
+
+                toastRef.current.show({
+                    severity: "error",
+                    summary: "Error",
+                    detail: response?.message,
+                    life: 3000,
+                });
+            }
 
         } catch (error) {
             console.error("Error fetching chart data:", error);
@@ -72,7 +82,7 @@ export default function ForgetPassword() {
             toastRef.current.show({
                 severity: "error",
                 summary: "Error",
-                detail: error.response?.data?.message || "An error occurred",
+                detail: error.response?.message || "An error occurred",
                 life: 3000,
             });
         }
@@ -134,13 +144,14 @@ export default function ForgetPassword() {
                 //     isShow: false,
                 //     message: "",
                 // });
+            } else {
+                toastRef.current.show({
+                    severity: "error",
+                    summary: "Error",
+                    detail: response?.message,
+                    life: 3000,
+                });
             }
-            toastRef.current.show({
-                severity: "error",
-                summary: "Error",
-                detail: response?.message,
-                life: 3000,
-            });
 
         } catch (error) {
             console.error("Error resetting password:", error);
@@ -151,7 +162,7 @@ export default function ForgetPassword() {
             toastRef.current.show({
                 severity: "error",
                 summary: "Error",
-                detail: error.response?.data?.message || "An error occurred",
+                detail: error.response?.message || "An error occurred",
                 life: 3000,
             });
         }
