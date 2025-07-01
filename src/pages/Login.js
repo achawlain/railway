@@ -116,6 +116,14 @@ const Login = () => {
               placeholder="Enter your password"
             />
           </div>
+          <p className="text-[16px] text-gray-600 mb-4 text-right cursor-pointer">
+            <a
+              href={RAILWAY_CONST.ROUTE.FORGETPASSWORD}
+              className="text-[#91518D] hover:underline"
+            >
+              forgot password?
+            </a>
+          </p>
           <button
             type="submit"
             className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"

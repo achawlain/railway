@@ -15,6 +15,7 @@ import Template from "../pages/Template";
 import CreateTemplateComponent from "../components/CreateTemplateComponent";
 import Reports from "../pages/Reports";
 import Profile from "../pages/Profile";
+import ForgetPassword from "../components/ForgetPassword";
 
 const user = getDataFromLocalStorage("userInfo");
 
@@ -68,7 +69,9 @@ const router = createBrowserRouter([
   {
     element: <WithoutHeaderLayout />,
     children: [
-      { path: RAILWAY_CONST.ROUTE.LOGIN, element: <Login /> }, // ✅ Fixed Login route
+      { path: RAILWAY_CONST.ROUTE.LOGIN, element: <Login /> },
+      {path: RAILWAY_CONST.ROUTE.FORGETPASSWORD, element: <ForgetPassword/> }, // ✅ Fixed Forget Password route
+       // ✅ Fixed Login route
     ],
   },
 ]);
