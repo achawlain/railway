@@ -253,7 +253,7 @@ span#backButton:before {
 }
 
 .datePickerCol input.inputbox {
-  background: url("../src/images/calenderIcon1.png") right center no-repeat;
+  background: url("../src/images/calenderIcon1.png") 97% center no-repeat;
   background-size: 18px;
 }
 
@@ -441,22 +441,29 @@ p.footerLocation {
   background: #f1f1f1;
 }
 
-.dashboardMainCol {
-  padding: 0px 100px;
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #fff;
+  color: #9b4b90;
+  padding: 10px 15px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.scrollTopButton {
+  width: 48px;
+  text-align: center;
+  padding: 7px 4px;
+  line-height: 17px;
+  font-size: 14px;
 }
 
 @media (max-width: 1540px) {
-  .dashboardMainCol {
-    padding: 0px 50px;
-  }
   .dashboardCard {
     max-width: 32%;
-  }
-}
-
-@media (max-width: 1366px) {
-  .dashboardMainCol {
-    padding: 0px 20px;
   }
 }
 
@@ -492,8 +499,50 @@ p.footerLocation {
   .dashboardCard {
     max-width: 49%;
   }
+
+  .locoPilotTitle {
+    flex-direction: column;
+    border-bottom: 0px;
+  }
+  .locoPilotTitle .datePickerCol {
+    width: 100%;
+  }
+  .locoPilotTitle span {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  .manageLocoPilotTitle {
+    border-bottom: 0px;
+    flex-direction: column;
+  }
+  .manageLocoPilotTitle span {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    width: 100%;
+    display: blockk;
+  }
+  .manageLocoPilotTitle .datePickerCol {
+    width: 100%;
+  }
+  .manageLocoPilotTitle .buttonCol {
+    width: auto;
+  }
 }
 
+@media (max-width: 1060px) {
+  .dailyReportTitle {
+    border-bottom: 0px;
+    flex-direction: column;
+  }
+  .dailyReportTitle span {
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+  }
+}
 @media (max-width: 980px) {
   .bannerTitle h1 {
     font-size: 35px;
@@ -521,6 +570,30 @@ p.footerLocation {
   }
   .emailPhoneInfo {
     padding-left: 0px !important;
+  }
+
+  .datePickerCol .searchCol {
+    width: 100%;
+  }
+  .datePickerCol {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .datePickerCol label {
+    margin-bottom: 5px !important;
+  }
+
+  .datePickerCol .searchCol {
+    padding-left: 0px;
+    margin-top: 15px;
+  }
+  .datePickerCol input {
+    width: 100%;
+  }
+
+  .manageLocoPilotTitle .datePickerCol .searchCol {
+    margin-top: 3px;
   }
 }
 
@@ -767,7 +840,6 @@ p.footerLocation {
     max-width: 100%;
   }
   .dashboardMainCol {
-    padding: 10px;
     padding-top: 20px;
   }
 }
@@ -924,5 +996,23 @@ p.footerLocation {
   }
   .leftMenuCol ul li {
     padding: 10px 20px;
+  }
+  .dailyReportTitle .datePickerCol {
+    flex-direction: row;
+  }
+  .dailyReportTitle .datePickerCol label {
+    margin-top: 2px;
+  }
+
+  .manageLocoPilotTitle .buttonCol {
+    padding-left: 0px;
+  }
+
+  .manageLocoPilotTitle button {
+    font-size: 13px;
+  }
+
+  ul.dashboardCardUi li span {
+    text-align: left;
   }
 }

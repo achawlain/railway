@@ -9,13 +9,11 @@ import { Button } from "primereact/button";
 import deleteIcon from "../images/delete-icon.svg";
 import AddLocoPilotPopup from "./AddLocoPilotDetails";
 import BulkUpload from "./BulkUpload";
-import { Toast } from 'primereact/toast';
+import { Toast } from "primereact/toast";
 import UpdateLocoPilotDetails from "./UpdateLocoPilotDetails";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import "primereact/resources/primereact.min.css";
-import 'primeicons/primeicons.css';
-
-
+import "primeicons/primeicons.css";
 
 const ManageLocoPilot = () => {
   const toastRef = useRef(null);
@@ -32,7 +30,6 @@ const ManageLocoPilot = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [isUpdatePopupVisible, setIsUpdatePopupVisible] = useState(false);
 
-
   const getLocoPilotDetails = async () => {
     try {
       const response = await apiService(
@@ -41,10 +38,14 @@ const ManageLocoPilot = () => {
       );
       // console.log("Loco Pilot Details:", response.data);
       setLocoPilotDetails(response.data);
-
     } catch (error) {
       console.error("Error fetching chart data:", error);
-      toastRef.current.show({ severity: "error", summary: "Error", detail: "Failed to fetch Loco Pilot details", life: 3000 });
+      toastRef.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to fetch Loco Pilot details",
+        life: 3000,
+      });
     }
   };
   useEffect(() => {
@@ -72,12 +73,22 @@ const ManageLocoPilot = () => {
       setLocoPilotDetails((prev) =>
         prev.filter((pilot) => pilot.cms_id !== selectedPilot.cms_id)
       );
-      toastRef.current.show({ severity: "success", summary: "Success", detail: "Loco Pilot record deleted successfully", life: 3000 });
+      toastRef.current.show({
+        severity: "success",
+        summary: "Success",
+        detail: "Loco Pilot record deleted successfully",
+        life: 3000,
+      });
       setShowDialog(false);
       getLocoPilotDetails(); // Refresh the list after deletion
     } catch (error) {
       console.error("Error deleting loco pilot:", error);
-      toastRef.current.show({ severity: "error", summary: "Error", detail: "Failed to delete Loco Pilot record", life: 3000 });
+      toastRef.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to delete Loco Pilot record",
+        life: 3000,
+      });
     }
   };
 
@@ -95,10 +106,8 @@ const ManageLocoPilot = () => {
           className="cursor-pointer leading-[13px] w-[19px] mr-[2px] mb-1"
         />
       </button>
-
     );
   };
-
 
   const handleBulkUploadClick = () => {
     setIsPopupVisible(true);
@@ -113,37 +122,64 @@ const ManageLocoPilot = () => {
     formData.append("crew_file", file);
 
     try {
-      const response = await apiService("post",
+      const response = await apiService(
+        "post",
         `${RAILWAY_CONST.API_ENDPOINT.CREW}/upload`,
-        formData, {
-        method: "POST",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+        formData,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       console.log("Upload successful:", response);
-      toastRef.current.show({ severity: "success", summary: "Success", detail: "File uploaded successfully", life: 3000 });
+      toastRef.current.show({
+        severity: "success",
+        summary: "Success",
+        detail: "File uploaded successfully",
+        life: 3000,
+      });
       setIsPopupVisible(false); // Close the popup on success
       getLocoPilotDetails(); // Refresh the list after upload
     } catch (error) {
       console.error("Upload failed:", error);
       alert("Failed to upload file. Please try again.");
-      toastRef.current.show({ severity: "error", summary: "Error", detail: "Failed to upload file", life: 3000 });
+      toastRef.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to upload file",
+        life: 3000,
+      });
     }
   };
 
   const handleAddLocoPilot = async (data) => {
     try {
-      const response = await apiService("post", `${RAILWAY_CONST.API_ENDPOINT.CREW}`, data);
+      const response = await apiService(
+        "post",
+        `${RAILWAY_CONST.API_ENDPOINT.CREW}`,
+        data
+      );
       console.log("Loco Pilot added successfully:", data, response.data);
       setLocoPilotDetails((prev) => [...prev, response.data]); // Add the new pilot to the list
       setIsFormVisible(false);
-      toastRef.current.show({ severity: "success", summary: "Success", detail: "Loco Pilot details added successfully", life: 3000 });
+      toastRef.current.show({
+        severity: "success",
+        summary: "Success",
+        detail: "Loco Pilot details added successfully",
+        life: 3000,
+      });
       getLocoPilotDetails(); // Refresh the list after adding
     } catch (error) {
       console.error("Error adding loco pilot:", error);
-      toastRef.current.show({ severity: "error", summary: "Error", detail: "Failed to add Loco Pilot details", life: 3000 });
+      toastRef.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to add Loco Pilot details",
+        life: 3000,
+      });
     }
   };
 
@@ -154,7 +190,11 @@ const ManageLocoPilot = () => {
 
   const handleEditSubmit = async (updatedPilot) => {
     try {
-      await apiService("put", `${RAILWAY_CONST.API_ENDPOINT.CREW}`, updatedPilot);
+      await apiService(
+        "put",
+        `${RAILWAY_CONST.API_ENDPOINT.CREW}`,
+        updatedPilot
+      );
       setLocoPilotDetails((prev) =>
         prev.map((pilot) =>
           pilot.cms_id === updatedPilot.cms_id ? updatedPilot : pilot
@@ -189,38 +229,39 @@ const ManageLocoPilot = () => {
     );
   };
 
-
-
   return (
     <>
       <Toast ref={toastRef} position="top-right" />
-      <div className="w-full bg-[#efefef] p-4  pt-8 min-h-screen">
-        <div className="bg-white w-full sm:p-8 p-4 pt-4 rounded-[15px] min-h-[900px]">
-          <h1 className="sm:text-[22px] text-[18px] text-[#30424c] font-medium mb-8 border-b border-[#ccc] pb-2 relative pt-2">
-            Manage Loco Pilot
+      <div className="w-full bg-[#efefef] p-4 min-h-screen">
+        <div className="bg-white w-full sm:p-8 p-4 pt-4 rounded-[15px] min-h-[900px] sm:pt-4">
+          <h1 className="sm:text-[18px] flex-row flex justify-between text-[18px] text-[#30424c] font-medium mb-1 border-b border-[#ccc] pb-2 relative pt-[0px] manageLocoPilotTitle">
+            <span>Manage Loco Pilot</span>
+            <div className="relative flex flow-row datePickerCol text-[14px] font-normal">
+              <div className="-mt-1 searchCol">
+                <InputText
+                  value={globalFilterValue}
+                  onChange={onGlobalFilterChange}
+                  placeholder="Search for any field"
+                  className="w-56 h-10 -mb-1 inline-block border border-gray-300 rounded-md pl-2 globleFilter"
+                  style={{ marginLeft: "auto" }}
+                />
+              </div>
+              <div className="w-full p-4 pt-4 flex justify-end items-center pr-0 buttonCol">
+                <button
+                  className="bg-[#2c215d] text-white px-4 py-2 rounded-md"
+                  onClick={handleBulkUploadClick}
+                >
+                  Bulk Upload
+                </button>
+                <button
+                  className="bg-[#2c215d] text-white px-4 py-2 rounded-md ml-2"
+                  onClick={() => setIsFormVisible(true)}
+                >
+                  Add New Loco Pilot Details
+                </button>
+              </div>
+            </div>
           </h1>
-
-          <div className="relative flex flow-row datePickerCol">
-            <div className="-mt-1 searchCol">
-              <InputText
-                value={globalFilterValue}
-                onChange={onGlobalFilterChange}
-                placeholder="Search for any field"
-                className="w-56 h-10 -mb-1 inline-block border border-gray-300 rounded-md pl-2 globleFilter"
-                style={{ marginLeft: "auto" }}
-              />
-            </div>
-            <div className="w-full p-4 pt-4 flex justify-end items-center">
-              <button className="bg-[#2c215d] text-white px-4 py-2 rounded-md"
-                onClick={handleBulkUploadClick}>
-                Bulk Upload
-              </button>
-              <button className="bg-[#2c215d] text-white px-4 py-2 rounded-md ml-2"
-                onClick={() => setIsFormVisible(true)}>
-                Add New Loco Pilot Details
-              </button>
-            </div>
-          </div>
 
           <DataTable
             value={locoPilotDetails}
@@ -234,7 +275,15 @@ const ManageLocoPilot = () => {
             filterDisplay="row"
             loading={loading}
             emptyMessage="No data found"
-            globalFilterFields={["name", "cms_id", "designation", "emp_id", "mobile", 'email', 'nli']}
+            globalFilterFields={[
+              "name",
+              "cms_id",
+              "designation",
+              "emp_id",
+              "mobile",
+              "email",
+              "nli",
+            ]}
             className="mt-10"
           >
             <Column field="cms_id" header="LP CMS ID" sortable />
@@ -245,9 +294,17 @@ const ManageLocoPilot = () => {
             {/* <Column field="id" header="ID" sortable /> */}
             <Column field="mobile" header="Mobile" sortable />
             <Column field="nli" header="Nomilated CLI" sortable />
-            <Column body={deleteButtonTemplate} style={{ width: "4%" }} bodyStyle={{ textAlign: 'center' }} />
+            <Column
+              body={deleteButtonTemplate}
+              style={{ width: "4%" }}
+              bodyStyle={{ textAlign: "center" }}
+            />
             {/* <Column rowEditor={allowEdit} bodyStyle={{ textAlign: 'center' }}></Column> */}
-            <Column body={editButtonTemplate} style={{ width: "4%" }} bodyStyle={{ textAlign: 'center' }} />
+            <Column
+              body={editButtonTemplate}
+              style={{ width: "4%" }}
+              bodyStyle={{ textAlign: "center" }}
+            />
 
             {/* Add or remove columns as needed */}
           </DataTable>

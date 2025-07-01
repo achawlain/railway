@@ -30,6 +30,24 @@ const DashboardComponent = () => {
     isShow: false,
     message: "",
   });
+
+  const [visibleCount, setVisibleCount] = useState(12); // Show first 10 cards initially
+  const ITEMS_PER_LOAD = 12; // Number of cards to load per scroll
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >=
+        document.body.offsetHeight - 100 // near bottom
+      ) {
+        setVisibleCount((prev) => prev + ITEMS_PER_LOAD);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const [redirect, setRedirect] = useState("");
   useEffect(() => {
     getReports();
@@ -137,8 +155,8 @@ const DashboardComponent = () => {
       ) : (
         <>
           <div>
-            <div className="w-full bg-[#efefef] sm:py-4 py-2 reportGenerateBg pt-8 min-h-screen dashboardMainCol">
-              <div className="max-w-full mx-auto px-2 mb-4">
+            <div className="w-full bg-[#efefef] sm:p-4 p-2 reportGenerateBg pt-8 min-h-screen dashboardMainCol">
+              <div className="max-w-full mx-auto px-2 mb-4 mt-2">
                 <div className="bg-white w-full sm:p-8 p-4 rounded-[15px] sm:pt-[16px]">
                   <h1 className="text-[18px] text-[#30424c] font-medium mb-[10px] border-b border-[#ccc] pb-2 relative pt-2">
                     Dashboard
@@ -266,7 +284,7 @@ const DashboardComponent = () => {
                   </div>
 
                   {/* <div className="listTable w-full flex flex-row flex-wrap mb-[50px]"> */}
-                  <div className="listTable w-full flex flex-wrap mb-[50px]">
+                  {/* <div className="listTable w-full flex flex-wrap mb-[50px]">
                     {reports.length > 0 ? (
                       reports.map((item) => (
                         <DashboardCardComponent
@@ -277,6 +295,31 @@ const DashboardComponent = () => {
                           refreshReports={getReports}
                         />
                       ))
+                    ) : (
+                      <p className="text-gray-500">No reports available.</p>
+                    )}
+                  </div> */}
+
+                  <div className="listTable w-full flex flex-wrap mb-[50px]">
+                    {reports.length > 0 ? (
+                      <>
+                        {reports.slice(0, visibleCount).map((item) => (
+                          <DashboardCardComponent
+                            key={item.id}
+                            item={item}
+                            onDelete={handleDeleteItem}
+                            onView={goToPdfView}
+                            refreshReports={getReports}
+                          />
+                        ))}
+
+                        {/* Lazy loading loader when more items exist */}
+                        {visibleCount < reports.length && (
+                          <div className="text-center w-full text-gray-500 py-4">
+                            Loading more...
+                          </div>
+                        )}
+                      </>
                     ) : (
                       <p className="text-gray-500">No reports available.</p>
                     )}

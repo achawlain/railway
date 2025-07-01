@@ -9,7 +9,7 @@ import { InputText } from "primereact/inputtext";
 
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import "primereact/resources/primereact.min.css";
-import 'primeicons/primeicons.css';
+import "primeicons/primeicons.css";
 import { Toast } from "primereact/toast";
 // import LocoPilotReportTable from "./LocoPilotReportTable";
 
@@ -97,53 +97,55 @@ export default function LocoPilotReportTable() {
   };
   return (
     <>
-    <Toast ref={toastRef} position="top-right" />
+      <Toast ref={toastRef} position="top-right" />
+      <h1 className="sm:text-[18px] flex-row flex justify-between items-center text-[18px] text-[#30424c] font-medium mb-1 border-b border-[#ccc] pb-2 relative pt-[0px] locoPilotTitle">
+        <span>Loco Pilot Report</span>
+        <div className="relative z-20 flex flow-row datePickerCol mt-1 text-[14px]">
+          <label className="text-[14px] inline-block min-w-[110px] pr-3 sm:mb-0 mt-1">
+            Date Range :
+          </label>
+          <input
+            readOnly
+            value={`${format(range[0].startDate, "dd/MM/yyyy")} - ${format(
+              range[0].endDate,
+              "dd/MM/yyyy"
+            )}`}
+            onClick={() => setOpen(!open)}
+            className="border px-1 py-2 rounded-md w-[240px] cursor-pointer inputbox pl-2 -mt-1"
+          />
+          {open && (
+            <div
+              ref={ref}
+              className="absolute z-10 mt-[44px] shadow-lg border right-0 bg-white"
+            >
+              <DateRange
+                editableDateInputs
+                onChange={handleSelect}
+                moveRangeOnFirstSelection={false}
+                ranges={range}
+                months={2}
+                direction={window.innerWidth > 600 ? "horizontal" : "vertical"}
+              />
+            </div>
+          )}
+
+          <div className="pl-4 -mt-1 searchCol">
+            <InputText
+              value={globalFilterValue}
+              onChange={onGlobalFilterChange}
+              placeholder="Search for any field"
+              className="w-56 h-10 -mb-1 inline-block border border-gray-300 rounded-md pl-2 globleFilter"
+              style={{ marginLeft: "auto" }}
+            />
+          </div>
+        </div>
+      </h1>
       <div className="bg-white w-full rounded-[15px] min-h-[900px]">
-        <div style={{ overflowX: "auto", width: "100%", marginTop: "20px" }}>
+        <div style={{ overflowX: "auto", width: "100%" }}>
           {/* <h1 className="sm:text-[22px] text-[18px] text-[#30424c] font-medium mb-8 border-b border-[#ccc] pb-2 relative pt-2">
             Loco Pilot Report
           </h1> */}
-          <div className="relative flex flow-row datePickerCol mt-1">
-            <label className="text-[16px] inline-block min-w-[80px] pr-3 mb-2 sm:mb-0">
-              Date Range :
-            </label>
-            <input
-              readOnly
-              value={`${format(range[0].startDate, "dd/MM/yyyy")} - ${format(
-                range[0].endDate,
-                "dd/MM/yyyy"
-              )}`}
-              onClick={() => setOpen(!open)}
-              className="border px-1 py-2 rounded-md w-[250px] cursor-pointer inputbox pl-2 -mt-1"
-            />
-            {open && (
-              <div
-                ref={ref}
-                className="absolute z-10 mt-[44px] shadow-lg border bg-white"
-              >
-                <DateRange
-                  editableDateInputs
-                  onChange={handleSelect}
-                  moveRangeOnFirstSelection={false}
-                  ranges={range}
-                  months={2}
-                  direction={
-                    window.innerWidth > 600 ? "horizontal" : "vertical"
-                  }
-                />
-              </div>
-            )}
 
-            <div className="pl-8 -mt-1 searchCol">
-              <InputText
-                value={globalFilterValue}
-                onChange={onGlobalFilterChange}
-                placeholder="Search for any field"
-                className="w-56 h-10 -mb-1 inline-block border border-gray-300 rounded-md pl-2 globleFilter"
-                style={{ marginLeft: "auto" }}
-              />
-            </div>
-          </div>
           {/* <div className="flex justify-between items-center mb-4">
                         <div></div> 
                         <InputText
@@ -166,7 +168,7 @@ export default function LocoPilotReportTable() {
             loading={loading}
             emptyMessage="No data found"
             globalFilterFields={["crew_name", "lp_cms_id"]}
-            className="mt-10"
+            className="mt-2"
           >
             <Column field="lp_cms_id" header="LP CMS ID" sortable />
             <Column field="crew_name" header="Crew Name" sortable />

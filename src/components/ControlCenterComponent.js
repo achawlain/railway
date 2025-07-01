@@ -40,7 +40,7 @@ const ControlCenterComponent = () => {
           </div> */}
           <div className="leftColInner">
             <div
-              className={`hideDesktop showSelectedItem ${
+              className={`hideDesktop showSelectedItem z-30 relative ${
                 isShowMenu ? "active" : ""
               } `}
               onClick={() => setIsShowMenu(!isShowMenu)}
@@ -85,9 +85,9 @@ const ControlCenterComponent = () => {
             )}
           </div>
         </div>
-        <div className="rightContentCol w-full pl-[300px]">
+        <div className="rightContentCol w-full pl-[300px] z-10">
           <div className="w-full hideMobile">
-            <h1 className="text-[22px] text-[#30424c] font-medium mb-4 text-center pb-2 relative pt-4">
+            <h1 className="text-[22px] text-[#30424c] font-medium text-center pb-3 relative pt-3">
               Control Center
             </h1>
           </div>

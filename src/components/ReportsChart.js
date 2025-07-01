@@ -9,7 +9,7 @@ import Loader from "./Loader"; // Import the Loader component
 import { Toast } from "primereact/toast";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 import "primereact/resources/primereact.min.css";
-import 'primeicons/primeicons.css';
+import "primeicons/primeicons.css";
 
 function ReportsChart() {
   const toastRef = useRef();
@@ -85,7 +85,7 @@ function ReportsChart() {
 
   return (
     <>
-     <Toast ref={toastRef} position="top-right" />
+      <Toast ref={toastRef} position="top-right" />
       {loading ? (
         <div className="flex justify-center py-10">
           <div className="loader">
@@ -94,42 +94,43 @@ function ReportsChart() {
         </div>
       ) : (
         <>
-          <div className="w-full bg-[#efefef] p-4  pt-8 min-h-screen">
-            <div className="bg-white w-full sm:p-8 p-4 pt-4 rounded-[15px] min-h-[900px]">
-              <h1 className="sm:text-[22px] text-[18px] text-[#30424c] font-medium mb-8 border-b border-[#ccc] pb-2 relative pt-2">
-                Daily Report
+          <div className="w-full bg-[#efefef] p-4 min-h-screen">
+            <div className="bg-white w-full sm:p-8 p-4 rounded-[15px] min-h-[900px] sm:pt-4">
+              <h1 className="sm:text-[18px] flex-row flex justify-between text-[18px] text-[#30424c] font-medium mb-1 border-b border-[#ccc] pb-2 relative pt-[0px] dailyReportTitle">
+                <span>Daily Report</span>
+                <div className="relative text-[15px] flex flow-row datePickerCol">
+                  <label className="text-[16px] inline-block min-w-[110px] pr-3 mb-2 sm:mb-0">
+                    Date Range :
+                  </label>
+                  <input
+                    readOnly
+                    value={`${format(
+                      range[0].startDate,
+                      "dd/MM/yyyy"
+                    )} - ${format(range[0].endDate, "dd/MM/yyyy")}`}
+                    onClick={() => setOpen(!open)}
+                    className="border px-1 py-2 rounded-md w-[250px] cursor-pointer inputbox pl-2 -mt-1"
+                  />
+                  {open && (
+                    <div
+                      ref={ref}
+                      className="absolute z-10 mt-[44px] shadow-lg border right-0 bg-white"
+                    >
+                      <DateRange
+                        editableDateInputs
+                        onChange={handleSelect}
+                        moveRangeOnFirstSelection={false}
+                        ranges={range}
+                        months={2}
+                        direction={
+                          window.innerWidth > 600 ? "horizontal" : "vertical"
+                        }
+                      />
+                    </div>
+                  )}
+                </div>
               </h1>
-              <div className="relative flex flow-row datePickerCol">
-                <label className="text-[16px] inline-block min-w-[80px] pr-3 mb-2 sm:mb-0">
-                  Date Range :
-                </label>
-                <input
-                  readOnly
-                  value={`${format(
-                    range[0].startDate,
-                    "dd/MM/yyyy"
-                  )} - ${format(range[0].endDate, "dd/MM/yyyy")}`}
-                  onClick={() => setOpen(!open)}
-                  className="border px-1 py-2 rounded-md w-[250px] cursor-pointer inputbox pl-2 -mt-1"
-                />
-                {open && (
-                  <div
-                    ref={ref}
-                    className="absolute z-10 mt-[44px] shadow-lg border bg-white"
-                  >
-                    <DateRange
-                      editableDateInputs
-                      onChange={handleSelect}
-                      moveRangeOnFirstSelection={false}
-                      ranges={range}
-                      months={2}
-                      direction={
-                        window.innerWidth > 600 ? "horizontal" : "vertical"
-                      }
-                    />
-                  </div>
-                )}
-              </div>
+
               <div style={{ overflowX: "auto", width: "100%" }}>
                 <ChartComponent
                   loading={loading}
