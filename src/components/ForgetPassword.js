@@ -186,6 +186,18 @@ export default function ForgetPassword() {
                         {uuid ? (
                             <>
                                 <div className="mb-4">
+                                    <label className="block text-gray-700 font-medium">OTP</label>
+                                    <input
+                                        type="password"
+                                        value={otp}
+                                        onChange={(e) => setOtp(e.target.value)}
+                                        className="w-full p-2 border rounded mt-1"
+                                        placeholder="Enter your OTP"
+                                        maxLength={6}
+                                        minLength={6}
+                                    />
+                                </div>
+                                <div className="mb-4">
                                     <label className="block text-gray-700 font-medium">New Password</label>
                                     <input
                                         type="password"
@@ -205,16 +217,7 @@ export default function ForgetPassword() {
                                         placeholder="Confirm your new password"
                                     />
                                 </div>
-                                <div className="mb-4">
-                                    <label className="block text-gray-700 font-medium">OTP</label>
-                                    <input
-                                        type="password"
-                                        value={otp}
-                                        onChange={(e) => setOtp(e.target.value)}
-                                        className="w-full p-2 border rounded mt-1"
-                                        placeholder="Enter your new password"
-                                    />
-                                </div>
+
                             </>) : (
                             <div className="mb-8">
                                 <label className="block text-gray-700 font-medium">Email</label>
