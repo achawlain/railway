@@ -85,7 +85,7 @@ const TemplateCardComponents = ({
         {
           template_id: item.id,
           data_src: dataSource,
-          download: item.id,
+          download: "1",
         }
       );
 
@@ -95,7 +95,7 @@ const TemplateCardComponents = ({
           setPopup({ show: false, message: "", type: "" });
         }, 4000);
       } else {
-        const blob = new Blob([response.data], { type: "text/csv" }); // or whatever the file type is
+        const blob = new Blob([response], { type: "text/csv" }); // or whatever the file type is
         const url = window.URL.createObjectURL(blob);
 
         const link = document.createElement("a");
