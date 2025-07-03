@@ -527,7 +527,7 @@ const ReportGenerateComponent = () => {
             </div>
           </div>
 
-          {chartSpeedBeforHaltData && chartSpeedBeforHaltData.length > 0 ? (
+          {chartSpeedBeforHaltData && halteTable.data.length > 0 ? (
           <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
             <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
               {loading ? (
@@ -601,7 +601,7 @@ const ReportGenerateComponent = () => {
 
 
 
-          {chartSpeedAfterHaltData && chartSpeedAfterHaltData.length > 0 ? (
+          {chartSpeedAfterHaltData && halteTableAfter.data.length > 0  ? (
             <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
               <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
                 {loading ? (
