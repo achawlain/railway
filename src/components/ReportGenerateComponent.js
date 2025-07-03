@@ -508,7 +508,7 @@ const ReportGenerateComponent = () => {
 
           <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
             <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
-              {halteTable.data && halteTable.data.length > 0 ? (
+              {halteTable?.data && halteTable?.data?.length > 0 ? (
                 <Suspense fallback={<div>Loading table...</div>}>
                   <TableComponent
                     data={halteTable.data}
@@ -527,7 +527,7 @@ const ReportGenerateComponent = () => {
             </div>
           </div>
 
-          {chartSpeedBeforHaltData && halteTable.data.length > 0 ? (
+          {chartSpeedBeforHaltData && halteTable?.data && halteTable?.data?.length > 0 ? (
           <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
             <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
               {loading ? (
@@ -580,7 +580,7 @@ const ReportGenerateComponent = () => {
           </div> */}
           <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
             <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
-              {halteTableAfter.data && halteTableAfter.data.length > 0 ? (
+              {halteTableAfter?.data && halteTableAfter?.data?.length > 0 ? (
                 <Suspense fallback={<div>Loading table...</div>}>
                   <TableComponent
                     data={halteTableAfter.data}
@@ -601,7 +601,7 @@ const ReportGenerateComponent = () => {
 
 
 
-          {chartSpeedAfterHaltData && halteTableAfter.data.length > 0  ? (
+          {chartSpeedAfterHaltData && halteTableAfter?.data && halteTableAfter?.data?.length > 0  ? (
             <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
               <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
                 {loading ? (
