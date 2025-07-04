@@ -285,7 +285,7 @@ const ReportGenerateComponent = () => {
     () => ({ data: halteTableDataAfter, columns: halteTableTitleAfter }),
     [halteTableDataAfter, halteTableTitleAfter]
   );
-  
+
 
   const previousAnalysis = useMemo(
     () => ({ data: previousAnalysisData, columns: previousAnalysisTitle }),
@@ -505,17 +505,29 @@ const ReportGenerateComponent = () => {
               </div>
             </div>
           ) : null} */}
+
           <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
             <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
-              <Suspense fallback={<div>Loading table...</div>}>
-                <TableComponent
-                  data={halteTable.data}
-                  colums={halteTable.columns}
-                  tableTitle={"Speed from 1800 m in rear of halts"}
-                />
-              </Suspense>
+              {halteTable?.data && halteTable?.data?.length > 0 ? (
+                <Suspense fallback={<div>Loading table...</div>}>
+                  <TableComponent
+                    data={halteTable.data}
+                    colums={halteTable.columns}
+                    tableTitle={"Speed from 1800 m in rear of halts"}
+                  />
+                </Suspense>
+              ) : (
+                <>
+                  <TableComponent
+                    tableTitle={"Speed from 1800 m in rear of halts"}
+                  />
+                  <p className="text-gray-500 text-center">No records of halts are available</p>
+                </>
+              )}
             </div>
           </div>
+
+          {chartSpeedBeforHaltData && halteTable?.data && halteTable?.data?.length > 0 ? (
           <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
             <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
               {loading ? (
@@ -533,6 +545,7 @@ const ReportGenerateComponent = () => {
               )}
             </div>
           </div>
+          ) : null}
 
           {/* <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
             <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
@@ -565,9 +578,9 @@ const ReportGenerateComponent = () => {
               </Suspense>
             </div>
           </div> */}
-          {halteTableAfter.data && halteTableAfter.data.length > 0 ? (
-            <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
-              <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
+          <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
+            <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
+              {halteTableAfter?.data && halteTableAfter?.data?.length > 0 ? (
                 <Suspense fallback={<div>Loading table...</div>}>
                   <TableComponent
                     data={halteTableAfter.data}
@@ -575,11 +588,20 @@ const ReportGenerateComponent = () => {
                     tableTitle={"Speed After Starting From Halt"}
                   />
                 </Suspense>
-              </div>
-            </div>) : null}
+              ) : (
+                <>
+                  <TableComponent
+                    tableTitle={"Speed After Starting From Halt"}
+                  />
+                  <p className="text-gray-500 text-center">No records of halts are available</p>
+                </>
+              )}
+            </div>
+          </div>
 
 
-          {chartSpeedAfterHaltData ? (
+
+          {chartSpeedAfterHaltData && halteTableAfter?.data && halteTableAfter?.data?.length > 0  ? (
             <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
               <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
                 {loading ? (
