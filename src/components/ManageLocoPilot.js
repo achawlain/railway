@@ -133,16 +133,23 @@ const ManageLocoPilot = () => {
           },
         }
       );
-
-      console.log("Upload successful:", response);
-      toastRef.current.show({
-        severity: "success",
-        summary: "Success",
-        detail: "File uploaded successfully",
-        life: 3000,
-      });
-      setIsPopupVisible(false); // Close the popup on success
-      getLocoPilotDetails(); // Refresh the list after upload
+      if (response.status === 200) {
+        toastRef.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: "File uploaded successfully",
+          life: 3000,
+        });
+        setIsPopupVisible(false); // Close the popup on success
+        getLocoPilotDetails();
+      } else {
+        toastRef.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: response?.message || "Failed to upload file",
+          life: 3000,
+        });
+      } // Refresh the list after upload
     } catch (error) {
       console.error("Upload failed:", error);
       alert("Failed to upload file. Please try again.");
