@@ -125,11 +125,10 @@ const CreateTemplateComponent = () => {
         {
           template_id: template.id,
           data_src: dataSource,
-          download: template.id,
+          download: "1",
         }
       );
-
-      const blob = new Blob([response.data], { type: "text/csv" }); // or whatever the file type is
+      const blob = new Blob([response], { type: "text/csv" }); // or whatever the file type is
       const url = window.URL.createObjectURL(blob);
 
       const link = document.createElement("a");
