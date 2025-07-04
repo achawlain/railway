@@ -2,6 +2,13 @@ import React, { useEffect, useState } from "react";
 import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import FileDropzone from "./FileDropzone";
+import sttaionFile from "../images/sttaionFile.png";
+import downloadIcon from "../images/downloadIcon.png";
+import gradientIcon from "../images/gradient.png";
+import attackingSpeed from "../images/attackingSpeed.png";
+import PSRicon from "../images/PSRicon.png";
+import signalIcon from "../images/signalIcon.png";
+import eyeIcon from "../images/eyeIcon.png";
 import ShowMessagePopUp from "./ShowMessagePopUp";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "./Loader";
@@ -360,7 +367,7 @@ const CreateReportComponentNew = () => {
         </div>
       )}
 
-      <div className="max-w-[1200px] mx-auto px-2 mb-4">
+      <div className="max-w-[1400px] mx-auto px-2 mb-4">
         <div className="bg-white w-full sm:p-8 p-2 pt-2 rounded-[15px] min-h-[600px] relative ">
           <h1 className="sm:text-[22px] text-[18px] text-[#30424c] font-medium text-center sm:mb-8 mb-4 border-b border-[#ccc] pb-2 relative pt-2">
             <span
@@ -377,283 +384,400 @@ const CreateReportComponentNew = () => {
 
           <form
             onSubmit={handleSubmit}
-            className="max-w-xl mx-auto sm:p-6 p-4 bg-white rounded shadow createReportForm"
+            className="w-full mx-auto sm:p-6 p-4 bg-white rounded shadow createReportForm flex flex-row flex-wrap text-[14px]"
           >
-            {/* <div className="mb-4 flex items-center">
+            {/* <div className="mb-4 flex items-center w-[48%] createFormColFirst">
               <label className="block font-medium mb-1 mr-4 w-36 text-right">
                 Title <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 //className="w-full p-2 border rounded"
-                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
+                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px]"
                 value={formData.title}
                 onChange={(e) =>
                   setFormData({ ...formData, title: e.target.value })
                 }
               />
             </div> */}
+            <div className="w-full flex-row flex justify-around createFormRow">
+              <div className="mb-4 flex items-center w-[48%] createFormColFirst">
+                <label className="block font-medium mb-1 mr-4 w-40 ">
+                  Title <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="title"
+                  className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px]"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                />
+              </div>
 
-            <div className="mb-4 flex items-center">
-              <label className="block font-medium mb-1 mr-4 w-40 text-right">
-                Title <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                name="title"
-                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
-                value={formData.title}
-                onChange={handleInputChange}
-              />
+              <div className="mb-4 flex items-center max-w-[460px] w-[48%] createFormColSecond">
+                <label className="block font-medium mb-1 mr-4 w-40 ">
+                  LP CMS ID
+                </label>
+                <input
+                  type="text"
+                  name="lp_cms_id"
+                  className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px]"
+                  value={formData.lp_cms_id}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+            <div className="w-full flex-row flex justify-around createFormRow">
+              <div className="mb-4 flex items-center w-[48%] createFormColFirst">
+                <label className="block font-medium mb-1 mr-4 w-40 ">
+                  Train No
+                </label>
+                <input
+                  type="text"
+                  name="train_no"
+                  className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px]"
+                  value={formData.train_no}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div className="mb-4 flex items-center max-w-[460px] w-[48%] createFormColSecond">
+                <label className="block font-medium mb-1 mr-4 w-40 ">
+                  Load
+                </label>
+                <input
+                  type="text"
+                  name="load"
+                  className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px]"
+                  value={formData.load}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+            <div className="w-full flex-row flex justify-around createFormRow">
+              <div className="mb-4 flex items-center w-[48%] createFormColFirst">
+                <label className="block font-medium mb-1 mr-4 w-40 ">
+                  BMBS
+                </label>
+                <input
+                  type="text"
+                  name="bmbs"
+                  className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px]"
+                  value={formData.bmbs}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div className="mb-4 flex items-center max-w-[460px] w-[48%] createFormColSecond">
+                <label className="block font-medium mb-1 mr-4 w-40 ">
+                  Loco No
+                </label>
+                <input
+                  type="text"
+                  name="loco_no"
+                  className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px]"
+                  value={formData.loco_no}
+                  onChange={handleInputChange}
+                />
+              </div>
             </div>
 
-            <div className="mb-4 flex items-center">
-              <label className="block font-medium mb-1 mr-4 w-40 text-right">
-                LP CMS ID
-              </label>
-              <input
-                type="text"
-                name="lp_cms_id"
-                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
-                value={formData.lp_cms_id}
-                onChange={handleInputChange}
-              />
-            </div>
+            <div className="w-full flex-row flex justify-around createFormRow">
+              <div className="mb-4 flex items-center w-[48%] createFormColFirst">
+                <label className="block font-medium mb-1 mr-4 w-40 ">
+                  SPM <span className="text-red-500">*</span>
+                </label>
 
-            <div className="mb-4 flex items-center">
-              <label className="block font-medium mb-1 mr-4 w-40 text-right">
-                Train No
-              </label>
-              <input
-                type="text"
-                name="train_no"
-                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
-                value={formData.train_no}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="mb-4 flex items-center">
-              <label className="block font-medium mb-1 mr-4 w-40 text-right">
-                Load
-              </label>
-              <input
-                type="text"
-                name="load"
-                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
-                value={formData.load}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="mb-4 flex items-center">
-              <label className="block font-medium mb-1 mr-4 w-40 text-right">
-                BMBS
-              </label>
-              <input
-                type="text"
-                name="bmbs"
-                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
-                value={formData.bmbs}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="mb-4 flex items-center">
-              <label className="block font-medium mb-1 mr-4 w-40 text-right">
-                Loco No
-              </label>
-              <input
-                type="text"
-                name="loco_no"
-                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
-                value={formData.loco_no}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="mb-4 flex items-center">
-              <label className="block font-medium mb-1 mr-4 w-40 text-right">
-                SPM <span className="text-red-500">*</span>
-              </label>
-
-              <select
-                name="spm"
-                value={formData.spm}
-                onChange={handleDropdownChange}
-                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
-              >
-                <option value="" disabled>
-                  Select SPM
-                </option>
-                {spmOption.map((option) => (
-                  <option key={option.source_key} value={option.source_key}>
-                    {option.source_value}
+                <select
+                  name="spm"
+                  value={formData.spm}
+                  onChange={handleDropdownChange}
+                  className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px] h-[39px] "
+                >
+                  <option value="" disabled>
+                    Select SPM
                   </option>
-                ))}
-              </select>
-            </div>
-            <div className="mb-4 flex items-center">
-              <label className="block font-medium mb-1 mr-4 w-40 text-right">
-                Starts From <span className="text-red-500">*</span>
-              </label>
-
-              <select
-                name="starts_from"
-                value={formData.starts_from}
-                onChange={handleDropdownChange}
-                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
-              >
-                <option value="">Select From</option>
-                {stationList &&
-                  stationList.map((loc, i) => (
-                    <option key={i} value={loc.station}>
-                      {loc.station}
+                  {spmOption.map((option) => (
+                    <option key={option.source_key} value={option.source_key}>
+                      {option.source_value}
                     </option>
                   ))}
-              </select>
+                </select>
+              </div>
+
+              <div className="mb-4 flex items-center goodColum max-w-[460px] w-[48%] createFormColSecond">
+                <label
+                  htmlFor="goods"
+                  className="block font-medium mb-1 mr-4 w-40"
+                >
+                  Goods
+                </label>
+                <input
+                  type="checkbox"
+                  id="goods"
+                  name="goods"
+                  checked={formData.goods}
+                  onChange={(e) =>
+                    setFormData({ ...formData, goods: e.target.checked })
+                  }
+                  className="p-2 border rounded w-[20px] cursor-pointer transition-all w-5 h-5 border-gray-300 accent-[#4f46e5]"
+                />
+              </div>
             </div>
-            <div className="mb-4 flex items-center goodColum">
-              <label
-                htmlFor="goods"
-                className="block font-medium mb-1 mr-4 w-40 text-right"
-              >
-                Goods
-              </label>
-              <input
-                type="checkbox"
-                id="goods"
-                name="goods"
-                checked={formData.goods}
-                onChange={(e) =>
-                  setFormData({ ...formData, goods: e.target.checked })
-                }
-                className="p-2 border rounded cursor-pointer transition-all w-5 h-5 border-gray-300 accent-[#4f46e5]"
-              />
+
+            <div className="w-full flex-row flex justify-around createFormRow">
+              <div className="mb-4 flex items-center w-[48%] createFormColFirst">
+                <label className="block font-medium mb-1 mr-4 w-40 ">
+                  Starts From <span className="text-red-500">*</span>
+                </label>
+
+                <select
+                  name="starts_from"
+                  value={formData.starts_from}
+                  onChange={handleDropdownChange}
+                  className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px] h-[39px]"
+                >
+                  <option value="">Select From</option>
+                  {stationList &&
+                    stationList.map((loc, i) => (
+                      <option key={i} value={loc.station}>
+                        {loc.station}
+                      </option>
+                    ))}
+                </select>
+              </div>
+              <div className="flex items-center w-[48%] relative max-w-[460px]"></div>
+            </div>
+            <div className="w-full flex-row flex justify-around createFormRow">
+              <div className="flex items-center w-[48%] dropzondRow">
+                <FileDropzone
+                  label="Speedo Data File"
+                  file={formData.speedo_file}
+                  onDrop={handleFileDrop("speedo_file")}
+                  required
+                  align="left"
+                  widthCol="300px"
+                />
+              </div>
+              <div className="flex items-center w-[48%] max-w-[460px] "></div>
+            </div>
+            <div className="w-full flex-row flex justify-around createFormRow">
+              <div className="flex items-center w-[48%] dropzondRow">
+                <FileDropzone
+                  align="left"
+                  widthCol="300px"
+                  label="TSR File"
+                  file={formData.tsr_file}
+                  onDrop={handleFileDrop("tsr_file")}
+                />
+              </div>
+              <div className="mb-4 flex items-center w-[48%] max-w-[460px] relative viewDownloadSectionMain">
+                <div className="w-full absolute top-[-55px] flex flex-row justify-start viewDownloadSection">
+                  {template.station_file && (
+                    <div className="mb-4 flex items-center w-auto flex-col px-1">
+                      <span className="border-2 border-[#9b4b90] rounded-full w-[65px] h-[65px] flex items-center justify-center">
+                        <img
+                          alt="stationFIle"
+                          src={sttaionFile}
+                          className="w-[60%]"
+                        />
+                      </span>
+                      <label className="block font-medium mb-1 mt-2 text-center text-[12px]">
+                        Station File
+                      </label>
+                      {/* <span className="text-[#777]">{template.station_file}</span> */}
+                      <div className="flex flex-row items-center">
+                        <span
+                          className="eyeIcon mx-2 w-[24px] cursor-pointer transition-all duration-200 transform flex justify-center"
+                          onClick={() =>
+                            hangleShowDataonClickEyeIcon("station_file")
+                          }
+                        >
+                          <img
+                            src={eyeIcon}
+                            alt="eye icon"
+                            className="w-[20px]"
+                          />
+                        </span>
+                        <span
+                          className="eyeIcon mx-2 w-[24px] cursor-pointer transition-all duration-200 transform mt-[4px] flex justify-center"
+                          onClick={() => handleDownloadFile("station_file")}
+                        >
+                          <img
+                            src={downloadIcon}
+                            alt="download icon"
+                            className="w-[17px]"
+                          />
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {template.isd_file && (
+                    <div className="mb-4 flex items-center w-auto flex-col text-center px-1">
+                      <span className="border-2 border-[#9b4b90] rounded-full w-[65px] h-[65px] flex items-center justify-center">
+                        <img
+                          alt="stationFIle"
+                          src={signalIcon}
+                          className="w-[34%]"
+                        />
+                      </span>
+                      <label className="block font-medium mb-1 mt-2 text-center text-[12px]">
+                        ISD File
+                      </label>
+                      {/* <span className="text-[#777]">{template.isd_file}</span> */}
+                      <div className="flex flex-row items-center">
+                        <span
+                          className="eyeIcon mx-2 w-[24px] cursor-pointer transition-all duration-200 transform flex justify-center"
+                          onClick={() =>
+                            hangleShowDataonClickEyeIcon("isd_file")
+                          }
+                        >
+                          <img
+                            src={eyeIcon}
+                            alt="eye icon"
+                            className="w-[20px]"
+                          />
+                        </span>
+                        <span
+                          className="eyeIcon mx-2 w-[24px] cursor-pointer transition-all duration-200 transform mt-[4px] flex justify-center"
+                          onClick={() => handleDownloadFile("isd_file")}
+                        >
+                          <img
+                            src={downloadIcon}
+                            alt="download icon"
+                            className="w-[17px]"
+                          />
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {template.psr_file && (
+                    <div className="mb-4 flex items-center w-auto flex-col px-1">
+                      <span className="border-2 border-[#9b4b90] rounded-full w-[65px] h-[65px] flex items-center justify-center">
+                        <img
+                          alt="stationFIle"
+                          src={PSRicon}
+                          className="w-[60%]"
+                        />
+                      </span>
+                      <label className="block font-medium mb-1 mt-2 text-center text-[12px]">
+                        PSR File
+                      </label>
+                      {/* <span className="text-[#777]">{template.psr_file}</span> */}
+                      <div className="flex flex-row items-center">
+                        <span
+                          className="eyeIcon mx-2 w-[24px] cursor-pointer transition-all duration-200 transform flex justify-center"
+                          onClick={() =>
+                            hangleShowDataonClickEyeIcon("psr_file")
+                          }
+                        >
+                          <img
+                            src={eyeIcon}
+                            alt="eye icon"
+                            className="w-[20px]"
+                          />
+                        </span>
+                        <span
+                          className="eyeIcon mx-2 w-[24px] cursor-pointer transition-all duration-200 transform mt-[4px] flex justify-center"
+                          onClick={() => handleDownloadFile("psr_file")}
+                        >
+                          <img
+                            src={downloadIcon}
+                            alt="download icon"
+                            className="w-[17px]"
+                          />
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {template.gradient_file && (
+                    <div className="mb-4 flex items-center w-auto flex-col px-1">
+                      <span className="border-2 border-[#9b4b90] rounded-full w-[65px] h-[65px] flex items-center justify-center">
+                        <img
+                          alt="stationFIle"
+                          src={gradientIcon}
+                          className="w-[60%]"
+                        />
+                      </span>
+                      <label className="block font-medium mb-1 mt-2 text-center text-[12px]">
+                        Gradient File
+                      </label>
+                      {/* <span className="text-[#777]">{template.gradient_file}</span> */}
+                      <div className="flex flex-row items-center">
+                        <span
+                          className="eyeIcon mx-2 w-[24px] cursor-pointer transition-all duration-200 transform flex justify-center"
+                          onClick={() =>
+                            hangleShowDataonClickEyeIcon("gradient_file")
+                          }
+                        >
+                          <img
+                            src={eyeIcon}
+                            alt="eye icon"
+                            className="w-[20px]"
+                          />
+                        </span>
+                        <span
+                          className="eyeIcon mx-2 w-[24px] cursor-pointer transition-all duration-200 transform mt-[4px] flex justify-center"
+                          onClick={() => handleDownloadFile("gradient_file")}
+                        >
+                          <img
+                            src={downloadIcon}
+                            alt="download icon"
+                            className="w-[17px]"
+                          />
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {formData.goods && template.attacking_speed_file && (
+                    <div className="mb-4 flex items-center w-auto flex-col px-1">
+                      <span className="border-2 border-[#9b4b90] rounded-full w-[65px] h-[65px] flex items-center justify-center">
+                        <img
+                          alt="stationFIle"
+                          src={attackingSpeed}
+                          className="w-[70%]"
+                        />
+                      </span>
+                      <label className="block font-medium mb-1 mt-2 text-center text-[12px] w-[120px]">
+                        Attacking Speed File
+                      </label>
+                      {/* <span className="text-[#777]">{template.gradient_file}</span> */}
+                      <div className="flex flex-row items-center">
+                        <span
+                          className="eyeIcon mx-2 w-[24px] cursor-pointer transition-all duration-200 transform flex justify-center"
+                          onClick={() =>
+                            hangleShowDataonClickEyeIcon("attacking_speed_file")
+                          }
+                        >
+                          <img
+                            src={eyeIcon}
+                            alt="eye icon"
+                            className="w-[20px]"
+                          />
+                        </span>
+                        <span
+                          className="eyeIcon mx-2 w-[24px] cursor-pointer transition-all duration-200 transform mt-[4px] flex justify-center"
+                          onClick={() =>
+                            handleDownloadFile("attacking_speed_file")
+                          }
+                        >
+                          <img
+                            src={downloadIcon}
+                            alt="download icon"
+                            className="w-[17px]"
+                          />
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
 
-            <FileDropzone
-              label="Speedo Data File"
-              file={formData.speedo_file}
-              onDrop={handleFileDrop("speedo_file")}
-              required
-            />
-
-            <FileDropzone
-              label="TSR File"
-              file={formData.tsr_file}
-              onDrop={handleFileDrop("tsr_file")}
-            />
-            <div>
-              {template.station_file && (
-                <div className="mb-4 flex items-center">
-                  <label className="block font-medium mb-1 mr-4 w-40 text-right">
-                    Station File
-                  </label>
-                  {/* <span className="text-[#777]">{template.station_file}</span> */}
-                  <span
-                    className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
-                    onClick={() => hangleShowDataonClickEyeIcon("station_file")}
-                  >
-                    <i className="fa fa-eye"></i>
-                  </span>
-                  <span
-                    className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110 mt-[4px]"
-                    onClick={() => handleDownloadFile("station_file")}
-                  >
-                    <i className="fa fa-download"></i>
-                  </span>
-                </div>
-              )}
-
-              {template.isd_file && (
-                <div className="mb-4 flex items-center">
-                  <label className="block font-medium mb-1 mr-4 w-40 text-right">
-                    ISD File
-                  </label>
-                  {/* <span className="text-[#777]">{template.isd_file}</span> */}
-                  <span
-                    className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
-                    onClick={() => hangleShowDataonClickEyeIcon("isd_file")}
-                  >
-                    <i className="fa fa-eye"></i>
-                  </span>
-                  <span
-                    className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110 mt-[4px]"
-                    onClick={() => handleDownloadFile("isd_file")}
-                  >
-                    <i className="fa fa-download"></i>
-                  </span>
-                </div>
-              )}
-
-              {template.psr_file && (
-                <div className="mb-4 flex items-center">
-                  <label className="block font-medium mb-1 mr-4 w-40 text-right">
-                    PSR File
-                  </label>
-                  {/* <span className="text-[#777]">{template.psr_file}</span> */}
-                  <span
-                    className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
-                    onClick={() => hangleShowDataonClickEyeIcon("psr_file")}
-                  >
-                    <i className="fa fa-eye"></i>
-                  </span>
-                  <span
-                    className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110 mt-[4px]"
-                    onClick={() => handleDownloadFile("psr_file")}
-                  >
-                    <i className="fa fa-download"></i>
-                  </span>
-                </div>
-              )}
-
-              {template.gradient_file && (
-                <div className="mb-4 flex items-center">
-                  <label className="block font-medium mb-1 mr-4 w-40 text-right">
-                    Gradient File
-                  </label>
-                  {/* <span className="text-[#777]">{template.gradient_file}</span> */}
-                  <span
-                    className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
-                    onClick={() =>
-                      hangleShowDataonClickEyeIcon("gradient_file")
-                    }
-                  >
-                    <i className="fa fa-eye"></i>
-                  </span>
-                  <span
-                    className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110 mt-[4px]"
-                    onClick={() => handleDownloadFile("gradient_file")}
-                  >
-                    <i className="fa fa-download"></i>
-                  </span>
-                </div>
-              )}
-
-              {formData.goods && template.attacking_speed_file && (
-                <div className="mb-4 flex items-center">
-                  <label className="block font-medium mb-1 mr-4 w-40 text-right">
-                    Attacking Speed File
-                  </label>
-                  {/* <span className="text-[#777]">{template.gradient_file}</span> */}
-                  <span
-                    className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
-                    onClick={() =>
-                      hangleShowDataonClickEyeIcon("attacking_speed_file")
-                    }
-                  >
-                    <i className="fa fa-eye"></i>
-                  </span>
-                  <span
-                    className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110 mt-[4px]"
-                    onClick={() => handleDownloadFile("attacking_speed_file")}
-                  >
-                    <i className="fa fa-download"></i>
-                  </span>
-                </div>
-              )}
-            </div>
             <div className="w-full flex justify-center items-center ">
               <button
                 type="submit"

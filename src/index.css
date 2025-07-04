@@ -529,6 +529,22 @@ p.footerLocation {
   .manageLocoPilotTitle .buttonCol {
     width: auto;
   }
+
+  .createFormRow {
+    flex-direction: column;
+  }
+
+  .createFormColFirst {
+    width: 100%;
+  }
+  .createFormColSecond {
+    max-width: inherit;
+    width: 100%;
+  }
+  .viewDownloadSection {
+    position: static;
+    margin-top: 30px;
+  }
 }
 
 @media (max-width: 1060px) {
@@ -1014,5 +1030,31 @@ p.footerLocation {
 
   ul.dashboardCardUi li span {
     text-align: left;
+  }
+  .createFormColFirst,
+  .createFormColSecond {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .goodColum input {
+    max-width: 20px;
+  }
+  .createFormColFirst input {
+    margin-left: 0px;
+  }
+  .createFormRow .dragDropCol {
+    flex-direction: column;
+    width: 300px;
+  }
+  .dropzondRow {
+    width: 100%;
+  }
+  .createReportForm > div .viewDownloadSection label {
+    text-align: center;
+  }
+  .viewDownloadSectionMain {
+    width: 100%;
+    max-width: 100%;
   }
 }
