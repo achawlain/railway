@@ -544,6 +544,7 @@ p.footerLocation {
   .viewDownloadSection {
     position: static;
     margin-top: 30px;
+    flex-wrap: wrap;
   }
 }
 
