@@ -4,6 +4,11 @@ import LocoPilotReport from "./LocoPilotReport";
 import ManageLocoPilot from "./ManageLocoPilot";
 import BreakingPattern from "./BreakingPattern";
 
+import dailyReportIcon from "../images/DailyReport.svg";
+import locoPilotReport from "../images/locoPilotReport.svg";
+import locoPilotIcon from "../images/locoPilotIcon.svg";
+import breakPatternIcon from "../images/breakPatternIcon.svg";
+
 const ControlCenterComponent = () => {
   const [selectedtab, setSelectedTab] = useState("Daily Report");
   const [isShowMenu, setIsShowMenu] = useState(false);
@@ -53,32 +58,56 @@ const ControlCenterComponent = () => {
                   onClick={() => handleSelectTab("Daily Report")}
                   className={`${
                     selectedtab === "Daily Report" ? "selectedCol" : null
-                  } cursor-pointer`}
+                  } cursor-pointer flex items-center border-b border-b-[#030015]`}
                 >
+                  <span className="w-[40px] mr-[15px]">
+                    <img
+                      src={dailyReportIcon}
+                      alt="icon"
+                      className=" h-[36px]"
+                    />
+                  </span>
                   Daily Report
                 </li>
                 <li
                   onClick={() => handleSelectTab("Loco Pilot Report")}
                   className={`${
                     selectedtab === "Loco Pilot Report" ? "selectedCol" : null
-                  }  cursor-pointer`}
+                  } cursor-pointer flex items-center border-b border-b-[#030015]`}
                 >
+                  <span className="w-[40px] mr-[15px]">
+                    <img
+                      src={locoPilotReport}
+                      alt="icon"
+                      className=" h-[30px] "
+                    />
+                  </span>
                   Loco Pilot Report
                 </li>
                 <li
                   onClick={() => handleSelectTab("Manage Loco Pilot")}
                   className={`${
                     selectedtab === "Manage Loco Pilot" ? "selectedCol" : null
-                  }  cursor-pointer`}
+                  }  cursor-pointer flex items-center  border-b border-b-[#030015]`}
                 >
+                  <span className="w-[40px] mr-[15px]">
+                    <img src={locoPilotIcon} alt="icon" className=" h-[30px]" />
+                  </span>
                   Manage Loco Pilot
                 </li>
                 <li
                   onClick={() => handleSelectTab("Breaking Pattern")}
                   className={`${
                     selectedtab === "Breaking Pattern" ? "selectedCol" : null
-                  }  cursor-pointer`}
+                  }  cursor-pointer flex items-center  border-b border-b-[#030015]`}
                 >
+                  <span className="w-[40px] mr-[15px]">
+                    <img
+                      src={breakPatternIcon}
+                      alt="icon"
+                      className=" h-[30px]"
+                    />
+                  </span>
                   Breaking Pattern
                 </li>
               </ul>

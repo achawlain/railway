@@ -10,6 +10,10 @@ import { useLocation } from "react-router-dom";
 import navIcon from "../../src/images/navIcon.svg";
 import navCloseIcon from "../../src/images/closeIcon.svg";
 
+import userIconNew from "../../src/images/userIcon.svg";
+import profileIcon from "../../src/images/profileIcon.svg";
+import logoutIcon from "../../src/images/logoutIcon.svg";
+
 const Header = () => {
   const location = useLocation();
   const [userInfo, setUserInfo] = useState(null);
@@ -285,10 +289,17 @@ const Header = () => {
                       <div className="absolute userInfoCol right-[10px] bg-white top-[40px] shadow-md z-10">
                         <ul className="w-[200px]">
                           {userInfo?.user_details?.name && (
-                            <li className="w-full px-4 py-2 border-b border-[#efefef]">
-                              <span className="text-gray-700 font-medium block">
-                                Hi,{" "}
-                                <span className="text-[#9b4b90]">
+                            <li className="w-full px-4 py-2 border-b border-[#efefef] flex">
+                              <span>
+                                <img
+                                  src={userIconNew}
+                                  alt="icon"
+                                  className="h-[20px] mr-[15px]"
+                                />
+                              </span>
+                              <span className="text-gray-700 font-medium flex">
+                                Hi,
+                                <span className="text-[#9b4b90] ml-1 w-[100px] inline-block truncate">
                                   {userInfo.user_details.name}
                                 </span>
                               </span>
@@ -297,16 +308,30 @@ const Header = () => {
                           <li>
                             <Link
                               to={RAILWAY_CONST.ROUTE.PROFILE}
-                              className="w-full px-4 py-2 border-b hover:bg-[#f1f1f1] cursor-pointer block"
+                              className="w-full px-4 py-2 border-b hover:bg-[#f1f1f1] cursor-pointer flex"
                             >
+                              <span>
+                                <img
+                                  src={profileIcon}
+                                  alt="icon"
+                                  className="h-[20px] mr-[15px]"
+                                />
+                              </span>
                               <span>Profile</span>
                             </Link>
                           </li>
                           <li
                             id="logoutButton"
                             onClick={logout}
-                            className="w-full px-4 py-2 border-b hover:bg-[#f1f1f1] cursor-pointer block"
+                            className="w-full px-4 py-2 border-b hover:bg-[#f1f1f1] cursor-pointer flex"
                           >
+                            <span className="w-[30px]">
+                              <img
+                                src={logoutIcon}
+                                alt="icon"
+                                className="h-[17px] mr-[15px] pl-[4px] mt-[2px]"
+                              />
+                            </span>
                             <span>Logout</span>
                           </li>
                         </ul>

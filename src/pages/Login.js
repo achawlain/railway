@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { apiService, apiServiceWithOutToken } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
+import railImage from "../images/trainImage.png";
+import logo from "../images/loginPageLogo.png";
+import showPassword from "../images/eye-passwordShow.svg";
+import hidePassword from "../images/eye-passwordHide.svg";
 import { useNavigate } from "react-router-dom";
 import { setDataOnLocalStorage } from "../utils/localStorage";
 import ErrorPopUpComponent from "../components/ErrorPopUpComponent";
@@ -9,6 +13,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isShowPasswrod, setIsShowPasswrod] = useState(false);
   const [errorPopupState, setErrorPopupState] = useState({
     isShow: false,
     message: "",
@@ -86,54 +91,98 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen reportGenerateBg mt-8 p-2">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-        {errorPopupState.isShow && (
-          <div className="text-red-500 text-sm mt-2 text-center mb-[20px]">
-            {errorPopupState.message}
+    <div className="h-screen reportGenerateBg w-full flex items-center justify-center">
+      <div className="flex items-center max-w-[1400px] w-full mx-auto justify-between mt-8 p-2 flex-row pt-[70px]">
+        <div className="mx-[20px] loginLeft w-auto">
+          <img src={railImage} alt="rail banner" className="max-w-[550px]" />
+        </div>
+        <div className="pr-[20px] loginRight max-w-[416px] w-full">
+          <div className="bg-white p-6 rounded-[20px] shadow-lg max-w-[416px] w-full">
+            <div>
+              <img src={logo} alt="logo" className="max-w-[115px]" />
+            </div>
+            <h2 className="mt-[25px] mb-[30px]">
+              <span className="text-[18px] text-[#2A235A] block">
+                Get Started
+              </span>
+              <span className="text-[12px] text-[#696F76] block">
+                Welcome to RailPlot - Let’s create your account
+              </span>
+            </h2>
+            <hr className="mb-[30px]" />
+            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+            {errorPopupState.isShow && (
+              <div className="text-red-500 text-sm mt-2 text-center mb-[20px]">
+                {errorPopupState.message}
+              </div>
+            )}
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label className="block text-[#2D255C] text-[14px] font-medium">
+                  Email
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full p-2 border border-[#99B4CF] rounded mt-1 bg-[#F7FBFF] text-[14px]  h-[40px]"
+                  placeholder="Enter your email"
+                />
+              </div>
+              <div className="mb-1 relative">
+                <label className="block text-[#2D255C] text-[14px] font-medium">
+                  Password
+                </label>
+                <input
+                  id="password"
+                  type={isShowPasswrod ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full p-2 border border-[#99B4CF] rounded mt-1 bg-[#F7FBFF] text-[14px] h-[40px]"
+                  placeholder="Enter your password"
+                />
+
+                <div>
+                  {isShowPasswrod ? (
+                    <span>
+                      <img
+                        src={hidePassword}
+                        alt="hidePassword"
+                        className="absolute right-[10px] top-[36px] cursor-pointer max-w-[21px]"
+                        onClick={() => setIsShowPasswrod(!isShowPasswrod)}
+                      />
+                    </span>
+                  ) : (
+                    <span>
+                      <img
+                        src={showPassword}
+                        alt="showPassword"
+                        className="absolute right-[10px] top-[37px] max-w-[21px] cursor-pointer"
+                        onClick={() => setIsShowPasswrod(!isShowPasswrod)}
+                      />
+                    </span>
+                  )}
+                </div>
+              </div>
+              <p className="mb-4 text-right cursor-pointer">
+                <a
+                  href={RAILWAY_CONST.ROUTE.FORGETPASSWORD}
+                  className="text-[#91518D] hover:underline text-[14px] underline"
+                >
+                  Forgot password?
+                </a>
+              </p>
+              <button
+                type="submit"
+                id="loginButton"
+                className="w-full reportGenerateBg  text-white p-2 rounded hover:bg-blue-600 mt-6 mb-12 h-[46px]"
+              >
+                Login
+              </button>
+            </form>
           </div>
-        )}
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 font-medium">Email</label>
-            <input
-              id="username"
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 border rounded mt-1"
-              placeholder="Enter your email"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 font-medium">Password</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border rounded mt-1"
-              placeholder="Enter your password"
-            />
-          </div>
-          <p className="text-[16px] text-gray-600 mb-4 text-right cursor-pointer">
-            <a
-              href={RAILWAY_CONST.ROUTE.FORGETPASSWORD}
-              className="text-[#91518D] hover:underline"
-            >
-              forgot password?
-            </a>
-          </p>
-          <button
-            id="loginButton"
-            type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-          >
-            Login
-          </button>
-        </form>
+        </div>
       </div>
     </div>
   );

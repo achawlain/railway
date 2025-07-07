@@ -267,7 +267,7 @@ const CreateTemplateComponent = () => {
         </div>
       )}
 
-      <div className="max-w-[1200px] mx-auto px-2 mb-4">
+      <div className="max-w-[1300px] mx-auto px-2 mb-4">
         <div className="bg-white w-full sm:p-8 p-2 pt-2 rounded-[15px] min-h-[600px] relative ">
           <h1 className="sm:text-[22px] text-[18px] text-[#30424c] font-medium text-center sm:mb-8 mb-4 border-b border-[#ccc] pb-2 relative pt-2">
             <span
@@ -284,52 +284,59 @@ const CreateTemplateComponent = () => {
 
           <form
             onSubmit={handleSubmit}
-            className="max-w-xl mx-auto sm:p-6 p-4 bg-white rounded shadow createReportForm"
+            className="w-full mx-auto sm:p-[50px] createTemplateCol p-4 bg-white rounded shadow  flex flex-row flex-wrap text-[14px] justify-between"
           >
             <div className="mb-4 flex items-center">
-              <label className="block font-medium mb-1 mr-4 w-40 text-right">
+              <label className="block font-medium mb-1 mr-4 w-[160px]">
                 Title <span className="text-red-500">*</span>
               </label>
-              <input
-                type="text"
-                name="title"
-                className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300"
-                value={formData.title}
-                onChange={handleInputChange}
-              />
+              <div className="flex-grow titleIput">
+                <input
+                  type="text"
+                  name="title"
+                  className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 h-[57px] w-[300px]"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                />
+              </div>
             </div>
 
             <FileDropzone
               label="Station File"
               file={formData.station_file}
               onDrop={handleFileDrop("station_file")}
+              align="left"
             />
 
             <FileDropzone
               label="ISD File"
               file={formData.isd_file}
               onDrop={handleFileDrop("isd_file")}
+              align="left"
             />
             <FileDropzone
               label="PSR File"
               file={formData.psr_file}
               onDrop={handleFileDrop("psr_file")}
+              align="left"
             />
             <FileDropzone
               label="Gradient File"
               file={formData.gradient_file}
               onDrop={handleFileDrop("gradient_file")}
+              align="left"
             />
             <FileDropzone
               label="Attacking Speed File"
               file={formData.attacking_speed_file}
               onDrop={handleFileDrop("attacking_speed_file")}
+              align="left"
             />
 
             <div className="w-full flex justify-center items-center ">
               <button
                 type="submit"
-                className="mt-4 px-4 reportGenerateBg py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                className="mt-16 mb-8 px-4 reportGenerateBg py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Uploading..." : "Submit"}

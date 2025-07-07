@@ -5,7 +5,7 @@ import { InputText } from "primereact/inputtext";
 
 const UpdateLocoPilotDetails = ({ visible, onClose, pilot, onSubmit }) => {
   const [formData, setFormData] = useState(pilot || {});
-  
+
   useEffect(() => {
     if (pilot) {
       setFormData(pilot);
@@ -31,9 +31,10 @@ const UpdateLocoPilotDetails = ({ visible, onClose, pilot, onSubmit }) => {
       footer={
         <div className="flex justify-end gap-4">
           <Button
-           label="Cancel"
-           className="p-button-text px-4 py-2 border-black border border-solid outline-none text-center" 
-           onClick={onClose} />
+            label="Cancel"
+            className="p-button-text px-4 py-2 border-black border border-solid outline-none text-center"
+            onClick={onClose}
+          />
           <Button
             label="Update"
             className="p-button-success bg-[#9b4b90] text-white px-4 py-2 rounded text-center"
@@ -45,22 +46,22 @@ const UpdateLocoPilotDetails = ({ visible, onClose, pilot, onSubmit }) => {
     >
       <div className="flex flex-col">
         <div className="field">
-        <label>CMS ID</label>
-        <InputText
-          name="cms_id"
-          value={formData.cms_id || ""}
-          onChange={handleChange}
-          className="border border-gray-300 rounded p-2 w-full"
-        />
+          <label>CMS ID</label>
+          <InputText
+            name="cms_id"
+            value={formData.cms_id || ""}
+            onChange={handleChange}
+            className="border border-gray-300 rounded p-2 w-full"
+          />
         </div>
         <div className="field">
-        <label>Name</label>
-        <InputText
-          name="name"
-          value={formData.name || ""}
-          onChange={handleChange}
-          className="border border-gray-300 rounded p-2 w-full"
-        />
+          <label>Name</label>
+          <InputText
+            name="name"
+            value={formData.name || ""}
+            onChange={handleChange}
+            className="border border-gray-300 rounded p-2 w-full"
+          />
         </div>
         <label>Designation</label>
         <InputText
