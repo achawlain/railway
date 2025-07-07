@@ -1059,3 +1059,14 @@ p.footerLocation {
     max-width: 100%;
   }
 }
+/* small screen */
+@media (max-width:310px) {
+  .filterButtonCol {
+   flex-wrap: wrap;
+  }
+
+  .filterButtonCol button{
+    margin-top: 10px;
+  }
+  
+}

@@ -169,16 +169,25 @@ const ManageLocoPilot = () => {
         `${RAILWAY_CONST.API_ENDPOINT.CREW}`,
         data
       );
-      console.log("Loco Pilot added successfully:", data, response.data);
-      setLocoPilotDetails((prev) => [...prev, response.data]); // Add the new pilot to the list
-      setIsFormVisible(false);
-      toastRef.current.show({
-        severity: "success",
-        summary: "Success",
-        detail: "Loco Pilot details added successfully",
-        life: 3000,
-      });
-      getLocoPilotDetails(); // Refresh the list after adding
+
+      if (response?.status === 200) {
+        setLocoPilotDetails((prev) => [...prev, response.data]); // Add the new pilot to the list
+        setIsFormVisible(false);
+        toastRef.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: "Loco Pilot details added successfully",
+          life: 3000,
+        });
+        getLocoPilotDetails();
+      } else {
+        toastRef.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: response?.message || "Failed to add Loco Pilot details",
+          life: 3000,
+        })
+      } // Refresh the list after adding
     } catch (error) {
       console.error("Error adding loco pilot:", error);
       toastRef.current.show({
@@ -197,22 +206,32 @@ const ManageLocoPilot = () => {
 
   const handleEditSubmit = async (updatedPilot) => {
     try {
-      await apiService(
+      const response = await apiService(
         "put",
         `${RAILWAY_CONST.API_ENDPOINT.CREW}`,
         updatedPilot
       );
-      setLocoPilotDetails((prev) =>
-        prev.map((pilot) =>
-          pilot.cms_id === updatedPilot.cms_id ? updatedPilot : pilot
-        )
-      );
-      toastRef.current.show({
-        severity: "success",
-        summary: "Success",
-        detail: "Loco Pilot updated successfully",
-        life: 3000,
-      });
+      
+      if (response?.status === 200) {
+        setLocoPilotDetails((prev) =>
+          prev.map((pilot) =>
+            pilot.cms_id === updatedPilot.cms_id ? updatedPilot : pilot
+          )
+        );
+        toastRef.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: "Loco Pilot updated successfully",
+          life: 3000,
+        });
+      } else {
+        toastRef.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: response?.message || "Failed to update Loco Pilot",
+          life: 3000,
+        });
+      }
     } catch (error) {
       console.error("Error updating loco pilot:", error);
       toastRef.current.show({

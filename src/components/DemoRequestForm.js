@@ -65,7 +65,9 @@ const DemoRequestForm = ({ onClose }) => {
       const response = await apiService("POST", RAILWAY_CONST.API_ENDPOINT.CONTACT_US, formPayload);
 
       if (response.status !== 200) {
+        toastRef.current.show({ severity: 'error', summary: 'Error', detail: response?.message || 'Something went wrong. Please try again.', life: 3000 });
         throw new Error("Submission failed");
+
       }
 
       // setStatusMessage("🎉 Demo request submitted successfully!");

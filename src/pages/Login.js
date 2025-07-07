@@ -99,6 +99,7 @@ const Login = () => {
           <div className="mb-4">
             <label className="block text-gray-700 font-medium">Email</label>
             <input
+              id="username"
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -109,6 +110,7 @@ const Login = () => {
           <div className="mb-4">
             <label className="block text-gray-700 font-medium">Password</label>
             <input
+              id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -125,6 +127,7 @@ const Login = () => {
             </a>
           </p>
           <button
+            id="loginButton"
             type="submit"
             className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
           >

@@ -303,6 +303,7 @@ const Header = () => {
                             </Link>
                           </li>
                           <li
+                            id="logoutButton"
                             onClick={logout}
                             className="w-full px-4 py-2 border-b hover:bg-[#f1f1f1] cursor-pointer block"
                           >

@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import { Toast } from "primereact/toast";
+
 
 const AddLocoPilotPopup = ({ visible, onClose, onSubmit }) => {
+  const toastRef = useRef(null);
+
   const [formData, setFormData] = useState({
     cms_id: "",
     name: "",
@@ -15,7 +19,7 @@ const AddLocoPilotPopup = ({ visible, onClose, onSubmit }) => {
     // Default organization ID, can be changed as needed
   });
 
-   useEffect(() => {
+  useEffect(() => {
     if (!visible) {
       setFormData({
         cms_id: "",
@@ -35,14 +39,25 @@ const AddLocoPilotPopup = ({ visible, onClose, onSubmit }) => {
   };
 
   const handleFormSubmit = () => {
+    if (!formData.cms_id.trim() || !formData.name.trim()) {
+      toastRef.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Please Fill mandatory fields",
+        life: 3000,
+      });
+      return;
+    }
     const formDataObject = new FormData();
-  Object.keys(formData).forEach((key) => {
-    formDataObject.append(key, formData[key]);
-  });
-  onSubmit(formDataObject);
+    Object.keys(formData).forEach((key) => {
+      formDataObject.append(key, formData[key]);
+    });
+    onSubmit(formDataObject);
   };
 
   return (
+    <>
+    <Toast ref={toastRef} position="top-right"/>
     <Dialog
       visible={visible}
       style={{ width: "450px" }}
@@ -50,19 +65,19 @@ const AddLocoPilotPopup = ({ visible, onClose, onSubmit }) => {
       modal
       footer={
         <>
-        <div className="flex justify-end gap-4">
-          <Button
-            label="Cancel"
-            icon="pi pi-times"
-            onClick={onClose}
-            className="p-button-text px-4 py-2 border-black border border-solid outline-none text-center"
-          />
-          <Button
-            label="Submit"
-            icon="pi pi-check"
-            onClick={handleFormSubmit}
-            className="p-button-success bg-[#9b4b90] text-white px-4 py-2 rounded text-center"
-          />
+          <div className="flex justify-end gap-4">
+            <Button
+              label="Cancel"
+              icon="pi pi-times"
+              onClick={onClose}
+              className="p-button-text px-4 py-2 border-black border border-solid outline-none text-center"
+            />
+            <Button
+              label="Submit"
+              icon="pi pi-check"
+              onClick={handleFormSubmit}
+              className="p-button-success bg-[#9b4b90] text-white px-4 py-2 rounded text-center"
+            />
           </div>
         </>
       }
@@ -71,20 +86,23 @@ const AddLocoPilotPopup = ({ visible, onClose, onSubmit }) => {
       <div className="p-fluid">
         {Object.keys(formData).map((key) => (
           <div className="field" key={key}>
-            <label htmlFor={key}>{key.replace(/_/g, " ").toUpperCase()}</label>
+            <label htmlFor={key}>{key.replace(/_/g, " ").toUpperCase()}
+              {(key === "cms_id" || key === "name") && <span style={{ color: "red" }}> *</span>}
+            </label>
             <InputText
               id={key}
               name={key}
               value={formData[key]}
               onChange={handleChange}
               className="border border-gray-300 rounded p-2 w-full"
-               // Disable org_id field
-               // Make org_id read-only
+            // Disable org_id field
+            // Make org_id read-only
             />
           </div>
         ))}
       </div>
     </Dialog>
+    </>
   );
 };
 export default AddLocoPilotPopup;

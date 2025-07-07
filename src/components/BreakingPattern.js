@@ -61,10 +61,14 @@ export default function BreakingPattern() {
       if (response.status === 200) {
         setBreakingPatternReport(response.data);
       } else {
-        console.error("Error fetching data:", response);
+        toastRef.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: response?.message || "Failed to fetch breaking pattern report",
+          life: 3000,
+        });
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
       toastRef.current.show({
         severity: "error",
         summary: "Error",
