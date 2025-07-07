@@ -350,7 +350,11 @@ const TemplateCardComponents = ({
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20">
           <div className="bg-white p-6 rounded shadow-md">
             <p className="mb-4">
-              Are you sure you want to delete this template?
+              Are you sure you want to delete this template{" "}
+              <strong>
+                "{item.title} (<strong>{item.id}</strong>)"
+              </strong>
+              ?
             </p>
             <div className="flex justify-end">
               <button
