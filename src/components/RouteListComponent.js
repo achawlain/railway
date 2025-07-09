@@ -4,6 +4,7 @@ import RAILWAY_CONST from "../utils/RailwayConst";
 import ErrorPopUpComponent from "./ErrorPopUpComponent";
 import Loader from "./Loader";
 import handPointer from "../images/handPointer.png";
+import { setDataOnLocalStorage } from "../utils/localStorage";
 
 const RouteListComponent = () => {
   const [routeList, setRouteList] = useState([]);
@@ -42,6 +43,30 @@ const RouteListComponent = () => {
       });
     }
     setLoading(false);
+  };
+
+  const handleStartjouneyData = async (dataSource) => {
+    try {
+      const response = await apiService(
+        "post",
+        `${RAILWAY_CONST.API_ENDPOINT.GPS_TEMPLATES}/${selectedRoute.id}`,
+
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("response:", response);
+      console.log("response", response.data.id);
+      if (response?.data?.id) {
+        setDataOnLocalStorage("gpsRouteId", response?.data?.id);
+        handleShowSingalData(dataSource);
+      }
+    } catch (error) {
+      console.error("Upload failed:", error);
+    }
   };
 
   const handleShowSingalData = async (dataSource) => {
@@ -324,7 +349,7 @@ const RouteListComponent = () => {
                       </select>
                       <span
                         type="submit"
-                        onClick={() => handleShowSingalData("isd_file")}
+                        onClick={() => handleStartjouneyData("isd_file")}
                         className="mt-4  px-3 reportGenerateBg py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-[15px] cursor-pointer"
                       >
                         Start Journey
