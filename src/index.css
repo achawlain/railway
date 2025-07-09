@@ -497,6 +497,24 @@ p.footerLocation {
   animation: blinkn 1.5s infinite;
 }
 
+.singnalRow {
+  position: relative;
+}
+.singnalRow:before {
+  content: "";
+  width: 100%;
+  height: 2px;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  background: linear-gradient(
+    90deg,
+    white 0%,
+    rgba(220, 208, 219, 0.5) 50%,
+    white 100%
+  );
+}
+
 @media (max-width: 1540px) {
   .dashboardCard {
     max-width: 32%;

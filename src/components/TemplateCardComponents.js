@@ -122,13 +122,13 @@ const TemplateCardComponents = ({
 
   const handleDeleteItem = async () => {
     setLoading(true);
-    console.log("handleClickDetel");
+
     try {
       const response = await apiService(
         "delete",
         `${RAILWAY_CONST.API_ENDPOINT.TEMPLATE}/${item.id}`
       );
-      console.log("response", response.data.deleted);
+
       if (response?.data?.deleted) {
         refreshTemplates();
       }

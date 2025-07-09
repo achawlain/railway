@@ -145,7 +145,7 @@ const CreateReportComponentNew = () => {
           download: "1",
         }
       );
-      console.log("response", response, response.data);
+
       const blob = new Blob([response], { type: "text/csv" }); // or whatever the file type is
       const url = window.URL.createObjectURL(blob);
 

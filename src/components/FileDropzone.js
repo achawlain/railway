@@ -14,7 +14,7 @@ const FileDropzone = ({
     onDrop,
     multiple: false,
   });
-  console.log("align", align);
+
   return (
     <div className="mb-4 flex items-center dragDropCol">
       {" "}

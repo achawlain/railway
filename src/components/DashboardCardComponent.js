@@ -29,13 +29,13 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
 
   const handleDeleteItem = async () => {
     setLoading(true);
-    console.log("handleClickDetel");
+
     try {
       const response = await apiService(
         "delete",
         `${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${item.id}`
       );
-      console.log("response", response.data.deleted);
+
       if (response?.data?.deleted) {
         refreshReports();
       }

@@ -59,7 +59,7 @@ const RouteListComponent = () => {
         }
       );
       const responseData = response?.data || [];
-      console.log("res", responseData);
+
       if (responseData.length > 0) {
         setSignalData(responseData);
         setTableVisible(true);
@@ -127,6 +127,14 @@ const RouteListComponent = () => {
   const handleSignalClick = (rowIndex) => {
     if (rowIndex !== selectedIndex) return;
 
+    const now = new Date();
+    const timestamp = now.toLocaleString(); // You can customize this format
+
+    // Optional: Add timestamp to the item (if needed)
+    const updatedSignal = [...signalData];
+    updatedSignal[rowIndex].clickedAt = timestamp;
+    setSignalData(updatedSignal);
+
     setClickedIndices((prev) => [...prev, rowIndex]);
 
     if (rowIndex + 1 < signalData.length) {
@@ -134,13 +142,15 @@ const RouteListComponent = () => {
 
       const container = document.getElementById("scroll-container");
       if (container && rowIndex > 1) {
-        const rowHeight = 43;
+        const rowHeight = 53;
         const scrollTop = (rowIndex - 1) * rowHeight;
         container.scrollTo({
           top: scrollTop,
           behavior: "smooth",
         });
       }
+    } else {
+      setSelectedIndex(-1);
     }
   };
 
@@ -204,16 +214,13 @@ const RouteListComponent = () => {
                         </table> */}
 
                         <div className="w-full">
-                          <div className="bg-[#9b4b90] text-white flex flex-row">
-                            <div className="border w-[50%] border-gray-300 p-2 text-[14px]">
-                              Signal
-                            </div>
-                            <div className="border  w-[50%] border-gray-300 p-2 text-[14px]">
-                              Action
+                          <div className="bg-[#9b4b90] text-white flex flex-row mb-4">
+                            <div className=" w-[100%] p-2 text-[16px]">
+                              Signal Tracker
                             </div>
                           </div>
                           <div
-                            className="h-[280px] overflow-auto"
+                            className="h-[320px] overflow-auto"
                             id="scroll-container"
                           >
                             {signalData.map((item, rowIndex) => {
@@ -224,24 +231,21 @@ const RouteListComponent = () => {
                               return (
                                 <div
                                   key={rowIndex}
-                                  className={`flex flex-row w-full text-center ${
-                                    isActive ? "bg-white" : "bg-[#efefef]"
-                                  }`}
+                                  className={`flex flex-row w-full text-center singnalRow`}
                                 >
-                                  <div className="border w-[50%] border-gray-300 p-2 text-[13px] text-left">
-                                    {item.signal}
-                                  </div>
-
                                   <div
-                                    className={`border w-[50%] border-gray-300 p-2 text-[13px] relative ${
+                                    className={`w-[50%] text-right px-2 text-[13px] pr-[15px] relative flex justify-end ${
                                       isActive
                                         ? "cursor-pointer"
                                         : "cursor-not-allowed"
                                     }`}
                                     onClick={() => handleSignalClick(rowIndex)}
                                   >
+                                    <div className="text-[10px] text-gray-500 absolute bottom-3 w-[35px] dateTime absolute left-[10px]">
+                                      {item.clickedAt ? item.clickedAt : ""}
+                                    </div>
                                     {isActive && (
-                                      <span className="absolute left-[10px] top-[10px] pointer-animation">
+                                      <span className="absolute left-[60px] top-[14px] pointer-animation">
                                         <img
                                           src={handPointer}
                                           alt="pointer"
@@ -250,15 +254,23 @@ const RouteListComponent = () => {
                                       </span>
                                     )}
 
-                                    <span
-                                      className={`h-[20px] w-[20px] rounded-full inline-block ${
-                                        isActive
-                                          ? "bg-green-600 blinkn"
-                                          : isClicked
-                                          ? "bg-orange-500"
-                                          : "bg-[#ccc]"
-                                      }`}
-                                    ></span>
+                                    <span className="h-[53px] flex justify-center w-[30px] inline-block relative  items-center pb-1 text-center">
+                                      <span
+                                        className={`relative z-20 rounded-full inline-block ${
+                                          isActive
+                                            ? "bg-green-600 blinkn h-[30px] w-[30px]"
+                                            : isClicked
+                                            ? "bg-orange-500 h-[25px] w-[25px]"
+                                            : "bg-[#ccc] h-[25px] w-[25px]"
+                                        }`}
+                                      ></span>
+                                      {/* <span className="absolute bg-[#f1f1f1] inline-blcok h-[100%] z-10 left-[45%] w-[2px]"></span> */}
+                                    </span>
+                                  </div>
+                                  <div
+                                    className={`w-[50%] px-2 text-[16px] text-left items-center flex pb-1`}
+                                  >
+                                    {item.signal}
                                   </div>
                                 </div>
                               );

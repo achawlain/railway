@@ -69,7 +69,7 @@ const ManageLocoPilot = () => {
         "delete",
         `${RAILWAY_CONST.API_ENDPOINT.CREW}/${selectedPilot.cms_id}`
       );
-      console.log("Deleted Loco Pilot:", selectedPilot.cms_id);
+
       setLocoPilotDetails((prev) =>
         prev.filter((pilot) => pilot.cms_id !== selectedPilot.cms_id)
       );
@@ -186,7 +186,7 @@ const ManageLocoPilot = () => {
           summary: "Error",
           detail: response?.message || "Failed to add Loco Pilot details",
           life: 3000,
-        })
+        });
       } // Refresh the list after adding
     } catch (error) {
       console.error("Error adding loco pilot:", error);
@@ -211,7 +211,7 @@ const ManageLocoPilot = () => {
         `${RAILWAY_CONST.API_ENDPOINT.CREW}`,
         updatedPilot
       );
-      
+
       if (response?.status === 200) {
         setLocoPilotDetails((prev) =>
           prev.map((pilot) =>
