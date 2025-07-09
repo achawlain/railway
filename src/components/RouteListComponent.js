@@ -73,10 +73,16 @@ const RouteListComponent = () => {
       }
     } catch (error) {
       console.error("Error fetching csv data:", error);
-      // setError("Failed to fetch csv data. Please try again later.");
+      let errorMessage = "Failed to load data. Please try again.";
+
+      // Check if server provided a custom message
+      if (error?.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+
       setErrorPopupState({
         isShow: true,
-        message: error || "Failed to load data. Please try again.",
+        message: errorMessage, // ✅ Always set a string here!
       });
     } finally {
       setLoading(false);
