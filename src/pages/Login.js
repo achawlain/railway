@@ -5,7 +5,7 @@ import railImage from "../images/trainImage.png";
 import logo from "../images/loginPageLogo.png";
 import showPassword from "../images/eye-passwordShow.svg";
 import hidePassword from "../images/eye-passwordHide.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { setDataOnLocalStorage } from "../utils/localStorage";
 import ErrorPopUpComponent from "../components/ErrorPopUpComponent";
 
@@ -18,7 +18,9 @@ const Login = () => {
     isShow: false,
     message: "",
   });
+
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,6 +60,8 @@ const Login = () => {
       password: password,
     };
 
+    const params = new URLSearchParams(location.search);
+
     try {
       const response = await apiServiceWithOutToken(
         "post",
@@ -70,7 +74,12 @@ const Login = () => {
         // userObj.access_token =
         //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc0NzEyMDQ1NCwianRpIjoiZDlhZDBmYjMtYWE0My00ZGY2LWIxYmItOGI1ZWJkZTU4MDFmIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImdpcmlzaCIsIm5iZiI6MTc0NzEyMDQ1NCwiY3NyZiI6IjI1MTE4NTE5LTViMTYtNDJjMC1iYTRjLTMyNWE5OTE1YWE4MiIsImV4cCI6MTc0Nzk4NDQ1NCwidV9pZCI6IjEiLCJuYW1lIjoiR2lyaXNoIEt1bWFyIiwicm9sZSI6MSwiZGVzaWduYXRpb24iOiJUZWNoIn0.oMH-bwOglul8MLmFQJ6OxG8UbYudPELZgjAkA3ErtOs";
         setDataOnLocalStorage("userInfo", userObj);
-        navigate(RAILWAY_CONST.ROUTE.HOME); // ✅ Only redirects on success
+        if (params.get("dataCollection")) {
+          console.log("data collection");
+          navigate(RAILWAY_CONST.ROUTE.ROUTELIST); // ✅ Only redirects on success
+        } else {
+          navigate(RAILWAY_CONST.ROUTE.HOME); // ✅ Only redirects on success
+        }
       } else {
         setErrorPopupState({
           isShow: true,

@@ -16,6 +16,7 @@ import CreateTemplateComponent from "../components/CreateTemplateComponent";
 import Reports from "../pages/Reports";
 import Profile from "../pages/Profile";
 import ForgetPassword from "../components/ForgetPassword";
+import RouteList from "../pages/RouteList";
 
 const user = getDataFromLocalStorage("userInfo");
 
@@ -64,14 +65,18 @@ const router = createBrowserRouter([
         path: RAILWAY_CONST.ROUTE.PROFILE,
         element: <PrivateRoute element={<Profile />} />,
       },
+      {
+        path: RAILWAY_CONST.ROUTE.ROUTELIST,
+        element: <PrivateRoute element={<RouteList />} />,
+      },
     ],
   },
   {
     element: <WithoutHeaderLayout />,
     children: [
       { path: RAILWAY_CONST.ROUTE.LOGIN, element: <Login /> },
-      {path: RAILWAY_CONST.ROUTE.FORGETPASSWORD, element: <ForgetPassword/> }, // ✅ Fixed Forget Password route
-       // ✅ Fixed Login route
+      { path: RAILWAY_CONST.ROUTE.FORGETPASSWORD, element: <ForgetPassword /> }, // ✅ Fixed Forget Password route
+      // ✅ Fixed Login route
     ],
   },
 ]);

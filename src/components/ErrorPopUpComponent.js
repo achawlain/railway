@@ -23,8 +23,8 @@ const ErrorPopUpComponent = (props) => {
   return (
     <div>
       {isMessageShow && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-[99]">
-          <div className="bg-white p-6 rounded shadow-md text-center min-w-[600px]">
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-[99] px-2">
+          <div className="bg-white p-6 rounded shadow-md text-center w-[600px] max-w-full">
             <h2 className="text-xl mb-4">Error</h2>
             <div className="text-red-500 text-sm mt-2 mb-[20px]">
               {errorMessage}

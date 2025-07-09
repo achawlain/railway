@@ -40,6 +40,7 @@ const RAILWAY_CONST = {
     CONTROL_CENTER: "/controlCenter",
     PROFILE: "/profile",
     FORGETPASSWORD: "/forgetPassword",
+    ROUTELIST: "routeList",
   },
 };
 

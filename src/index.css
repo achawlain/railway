@@ -467,10 +467,61 @@ p.footerLocation {
   margin: 0 auto;
 }
 
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.blink {
+  animation: blink 1s infinite;
+}
+
+@keyframes blinkn {
+  0% {
+    box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(22, 163, 74, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(22, 163, 74, 0);
+  }
+}
+
+.blinkn {
+  animation: blinkn 1.5s infinite;
+}
+
 @media (max-width: 1540px) {
   .dashboardCard {
     max-width: 32%;
   }
+}
+
+@keyframes point-left-right {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px); /* Move left */
+  }
+  50% {
+    transform: translateX(5px); /* Move right */
+  }
+  75% {
+    transform: translateX(-3px); /* Slight return */
+  }
+}
+
+.pointer-animation {
+  display: inline-block;
+  animation: point-left-right 1s infinite;
 }
 
 @media (max-width: 1250px) {
@@ -1095,13 +1146,12 @@ p.footerLocation {
   }
 }
 /* small screen */
-@media (max-width:310px) {
+@media (max-width: 310px) {
   .filterButtonCol {
-   flex-wrap: wrap;
+    flex-wrap: wrap;
   }
 
-  .filterButtonCol button{
+  .filterButtonCol button {
     margin-top: 10px;
   }
-  
 }
