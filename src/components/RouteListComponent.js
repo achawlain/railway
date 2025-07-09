@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import ErrorPopUpComponent from "./ErrorPopUpComponent";
 import Loader from "./Loader";
 import handPointer from "../images/handPointer.png";
-import { setDataOnLocalStorage } from "../utils/localStorage";
+import {
+  getDataFromLocalStorage,
+  setDataOnLocalStorage,
+} from "../utils/localStorage";
+import { Toast } from "primereact/toast";
 
 const RouteListComponent = () => {
   const [routeList, setRouteList] = useState([]);
@@ -15,6 +19,8 @@ const RouteListComponent = () => {
   const [selectedSignalRow, setselectedSignalRow] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [clickedIndices, setClickedIndices] = useState([]);
+
+  const toastRef = useRef(null);
 
   const [errorPopupState, setErrorPopupState] = useState({
     isShow: false,
@@ -114,6 +120,40 @@ const RouteListComponent = () => {
     }
   };
 
+  const handleEndjourneyData = async () => {
+    const gpsID = getDataFromLocalStorage("gpsRouteId");
+    const data = {
+      status: 1,
+    };
+    try {
+      const response = await apiService(
+        "put",
+        `${RAILWAY_CONST.API_ENDPOINT.GPS}/${gpsID}`,
+        data,
+        {
+          method: "put",
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("response:", response?.message, response?.status);
+
+      toastRef.current.show({
+        severity: "success",
+        summary: "Success",
+        detail: "Signal tracker ended successfully",
+        life: 3000,
+      });
+
+      if (response?.message === "ok" && response?.status === 200) {
+        setTableVisible(false);
+      }
+    } catch (error) {
+      console.error("Upload failed:", error);
+    }
+  };
+
   const handleSelectRoute = (e) => {
     const routeId = e.target.value;
     const route = routeList.find((item) => item.id.toString() === routeId);
@@ -189,6 +229,7 @@ const RouteListComponent = () => {
         </div>
       ) : (
         <>
+          <Toast ref={toastRef} position="top-right" />
           {tableVisible ? (
             <div className="w-full">
               <div className="w-full bg-[#efefef] sm:p-4 p-2 reportGenerateBg pt-8 min-h-screen dashboardMainCol">
@@ -306,7 +347,7 @@ const RouteListComponent = () => {
                         <div className="w-full mt-8">
                           <span
                             type="submit"
-                            onClick={() => setTableVisible(false)}
+                            onClick={() => handleEndjourneyData()}
                             className="mt-4  px-3 reportGenerateBg py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-[15px] cursor-pointer"
                           >
                             End Journey

@@ -26,6 +26,7 @@ const RAILWAY_CONST = {
     FORGETPASSWORD: "/users/forget_password",
     RESET_PASSWORD: "/users/reset_password",
     GPS_TEMPLATES: "/gps/templates",
+    GPS: "/gps",
   },
 
   ROUTE: {
