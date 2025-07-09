@@ -317,7 +317,7 @@ const Header = () => {
                                   className="h-[20px] mr-[15px]"
                                 />
                               </span>
-                              <span>Profile</span>
+                              <span className="profile">Profile</span>
                             </Link>
                           </li>
                           <li

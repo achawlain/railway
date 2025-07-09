@@ -203,6 +203,7 @@ export default function ForgetPassword() {
                     OTP
                   </label>
                   <input
+                    id="otp"
                     type="password"
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
@@ -217,6 +218,7 @@ export default function ForgetPassword() {
                     New Password
                   </label>
                   <input
+                    id="newPassword"
                     type="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
@@ -229,6 +231,7 @@ export default function ForgetPassword() {
                     Confirm Password
                   </label>
                   <input
+                    id="confirmPassword"
                     type="password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -243,6 +246,7 @@ export default function ForgetPassword() {
                   Email
                 </label>
                 <input
+                  id="email"
                   type="text"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -253,6 +257,7 @@ export default function ForgetPassword() {
             )}
 
             <button
+              id="getOtpButton"
               type="submit"
               className="w-full bg-blue-500 text-white p-2 rounded mb-4 reportGenerateBg"
             >

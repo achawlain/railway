@@ -206,6 +206,7 @@ const ProfileComponent = () => {
               <div>
                 <h3 className="text-lg font-medium mb-2">Change Password</h3>
                 <input
+                  id="currentPassword"
                   type="password"
                   value={existingPassword}
                   onChange={(e) => setExistingPassword(e.target.value)}
@@ -213,6 +214,7 @@ const ProfileComponent = () => {
                   className="w-full px-4 py-2 border rounded mb-2"
                 />
                 <input
+                  id="newPassword"
                   type="password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
@@ -220,6 +222,7 @@ const ProfileComponent = () => {
                   className="w-full px-4 py-2 border rounded mb-2"
                 />
                 <input
+                  id="confirmPassword"
                   type="password"
                   value={confirmNewPassword}
                   onChange={(e) => setConfirmNewPassword(e.target.value)}
@@ -227,6 +230,7 @@ const ProfileComponent = () => {
                   className="w-full px-4 py-2 border rounded mb-2"
                 />
                 <button
+                  id="changePasswordButton"
                   onClick={handleChangePassword}
                   className="reportGenerateBg text-white px-4 py-2 rounded mt-2"
                 >
