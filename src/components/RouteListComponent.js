@@ -68,10 +68,26 @@ const RouteListComponent = () => {
       console.log("response", response.data.id);
       if (response?.data?.id) {
         setDataOnLocalStorage("gpsRouteId", response?.data?.id);
+
+        if (
+          window.AndroidBridge &&
+          typeof window.AndroidBridge.receiveValueFromWeb === "function"
+        ) {
+          window.AndroidBridge.receiveValueFromWeb(response?.data?.id);
+        }
         handleShowSingalData(dataSource);
       }
     } catch (error) {
-      console.error("Upload failed:", error);
+      let errorMessage = "Failed to fetch data. Please try again.";
+
+      if (error?.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+
+      setErrorPopupState({
+        isShow: true,
+        message: errorMessage, // ✅ Always set a string here!
+      });
     }
   };
 
@@ -97,12 +113,14 @@ const RouteListComponent = () => {
         setSelectedIndex(0);
         setClickedIndices([]);
       } else {
+        await handleEndjourneyData();
         setErrorPopupState({
           isShow: true,
           message: response?.data?.message,
         });
       }
     } catch (error) {
+      await handleEndjourneyData();
       console.error("Error fetching csv data:", error);
       let errorMessage = "Failed to load data. Please try again.";
 
@@ -137,20 +155,38 @@ const RouteListComponent = () => {
           },
         }
       );
-      console.log("response:", response?.message, response?.status);
-
-      toastRef.current.show({
-        severity: "success",
-        summary: "Success",
-        detail: "Signal tracker ended successfully",
-        life: 3000,
-      });
 
       if (response?.message === "ok" && response?.status === 200) {
+        try {
+          if (toastRef.current) {
+            toastRef.current.show({
+              severity: "success",
+              summary: "Success",
+              detail: "Signal tracker ended successfully",
+              life: 3000,
+            });
+          }
+        } catch (toastErr) {
+          console.error("Toast error", toastErr);
+        }
         setTableVisible(false);
+      } else {
+        setErrorPopupState({
+          isShow: true,
+          message: response.data.message, // ✅ Always set a string here!
+        });
       }
     } catch (error) {
-      console.error("Upload failed:", error);
+      let errorMessage = "Failed to fetch data. Please try again.";
+      console.log("error==", error);
+      if (error?.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+
+      setErrorPopupState({
+        isShow: true,
+        message: errorMessage, // ✅ Always set a string here!
+      });
     }
   };
 
