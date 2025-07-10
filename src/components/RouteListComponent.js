@@ -64,8 +64,7 @@ const RouteListComponent = () => {
           },
         }
       );
-      console.log("response:", response);
-      console.log("response", response.data.id);
+
       if (response?.data?.id) {
         setDataOnLocalStorage("gpsRouteId", response?.data?.id);
 
@@ -76,6 +75,17 @@ const RouteListComponent = () => {
           window.AndroidBridge.receiveValueFromWeb(response?.data?.id);
         }
         handleShowSingalData(dataSource);
+      } else {
+        let errorMessage = "Failed to fetch data. Please try again.";
+
+        if (response?.data?.message) {
+          errorMessage = response.data.message;
+        }
+
+        setErrorPopupState({
+          isShow: true,
+          message: errorMessage, // ✅ Always set a string here!
+        });
       }
     } catch (error) {
       let errorMessage = "Failed to fetch data. Please try again.";
@@ -143,20 +153,15 @@ const RouteListComponent = () => {
     const data = {
       status: 1,
     };
+
     try {
       const response = await apiService(
         "put",
         `${RAILWAY_CONST.API_ENDPOINT.GPS}/${gpsID}`,
-        data,
-        {
-          method: "put",
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        data
       );
 
-      if (response?.message === "ok" && response?.status === 200) {
+      if (response?.status === 200) {
         try {
           if (toastRef.current) {
             toastRef.current.show({
@@ -171,21 +176,22 @@ const RouteListComponent = () => {
         }
         setTableVisible(false);
       } else {
+        // Logical failure from backend — show the message
         setErrorPopupState({
           isShow: true,
-          message: response.data.message, // ✅ Always set a string here!
+          message: response?.message || "Something went wrong!",
         });
       }
     } catch (error) {
       let errorMessage = "Failed to fetch data. Please try again.";
-      console.log("error==", error);
+
       if (error?.response?.data?.message) {
         errorMessage = error.response.data.message;
       }
 
       setErrorPopupState({
         isShow: true,
-        message: errorMessage, // ✅ Always set a string here!
+        message: errorMessage,
       });
     }
   };
@@ -225,8 +231,18 @@ const RouteListComponent = () => {
   //   }
   // };
 
-  const handleSignalClick = (rowIndex) => {
+  const handleSignalClick = (rowIndex, item) => {
     if (rowIndex !== selectedIndex) return;
+    console.log("item", item);
+
+    setDataOnLocalStorage("selectedSignal", item.signal);
+
+    if (
+      window.AndroidBridge &&
+      typeof window.AndroidBridge.receiveValueFromWeb === "function"
+    ) {
+      window.AndroidBridge.receiveValueFromWeb(item.signal);
+    }
 
     const now = new Date();
     const timestamp = now.toLocaleString(); // You can customize this format
@@ -341,7 +357,9 @@ const RouteListComponent = () => {
                                         ? "cursor-pointer"
                                         : "cursor-not-allowed"
                                     }`}
-                                    onClick={() => handleSignalClick(rowIndex)}
+                                    onClick={() =>
+                                      handleSignalClick(rowIndex, item)
+                                    }
                                   >
                                     <div className="text-[10px] text-gray-500 absolute bottom-3 w-[35px] dateTime absolute left-[10px]">
                                       {item.clickedAt ? item.clickedAt : ""}
