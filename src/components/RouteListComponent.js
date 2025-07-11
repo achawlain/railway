@@ -174,6 +174,14 @@ const RouteListComponent = () => {
         } catch (toastErr) {
           console.error("Toast error", toastErr);
         }
+
+        if (
+          window.AndroidBridge &&
+          typeof window.AndroidBridge.onEndJourneyClicked === "function"
+        ) {
+          window.AndroidBridge.onEndJourneyClicked();
+        }
+
         setTableVisible(false);
       } else {
         // Logical failure from backend — show the message
@@ -239,9 +247,9 @@ const RouteListComponent = () => {
 
     if (
       window.AndroidBridge &&
-      typeof window.AndroidBridge.receiveValueFromWeb === "function"
+      typeof window.AndroidBridge.receiveSignalFromWeb === "function"
     ) {
-      window.AndroidBridge.receiveValueFromWeb(item.signal);
+      window.AndroidBridge.receiveSignalFromWeb(item.signal);
     }
 
     const now = new Date();
