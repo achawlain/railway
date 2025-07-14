@@ -249,13 +249,12 @@ const RouteListComponent = () => {
       window.AndroidBridge &&
       typeof window.AndroidBridge.receiveSignalFromWeb === "function"
     ) {
-      window.AndroidBridge.receiveSignalFromWeb(item.signal);
+      window.AndroidBridge.receiveSignalFromWeb(item.signal, rowIndex);
     }
 
     const now = new Date();
-    const timestamp = now.toLocaleString(); // You can customize this format
+    const timestamp = now.toLocaleString();
 
-    // Optional: Add timestamp to the item (if needed)
     const updatedSignal = [...signalData];
     updatedSignal[rowIndex].clickedAt = timestamp;
     setSignalData(updatedSignal);

@@ -6,10 +6,10 @@ import {
 } from "../utils/localStorage";
 
 import deleteIcon from "../images/delete-icon.svg";
-import downloadIcon from "../images/downloadIcon.svg";
-import viewIcon from "../images/viewIcon.svg";
+// import downloadIcon from "../images/downloadIcon.svg";
+// import viewIcon from "../images/viewIcon.svg";
 import useIt from "../images/useIt.png";
-
+import compare from "../images/compare-icon.svg";
 import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import ShowMessagePopUp from "./ShowMessagePopUp";
@@ -211,6 +211,16 @@ const TemplateCardComponents = ({
                     {/* <span className="truncate overflow-hidden whitespace-nowrap max-w-full">
                     {item.isd_file}
                   </span> */}
+                    <span>
+                      <img
+                        src={compare}
+                        alt="compare icon"
+                        className="cursor-pointer leading-[13px] w-[19px] mt-1"
+                        onClick={(e) => {
+                          console.log("compare clicked");
+                        }}
+                      />
+                    </span>
                     <span
                       className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
                       onClick={(e) => {
