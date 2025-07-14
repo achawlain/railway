@@ -14,24 +14,33 @@ import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import ShowMessagePopUp from "./ShowMessagePopUp";
 import DataTable from "./DataTable";
+import CompareDataTableComponent from "./CompareDataTableComponent";
 import Loader from "./Loader";
+import ErrorPopUpComponent from "./ErrorPopUpComponent";
 
 const TemplateCardComponents = ({
   item,
   onDelete,
   onView,
   refreshTemplates,
+  getTemplateData,
 }) => {
   const [popup, setPopup] = useState({ show: false, message: "", type: "" });
   const [data, setData] = useState([]);
+  const [comparedataISDFile, setCompareDataISDFile] = useState([]);
   const [columns, setColumns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isTableVisible, setTableVisible] = useState(false);
+  const [isCompareTableVisible, setIsCompareTableVisible] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
   const [loading, setLoading] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+
+  const [errorPopupState, setErrorPopupState] = useState({
+    isShow: false,
+    message: "",
+  });
 
   const handleClick = () => {
     setDataOnLocalStorage("currentTemplate", item);
@@ -41,6 +50,48 @@ const TemplateCardComponents = ({
   const hangleShowDataonClickEyeIcon = async (dataSource) => {
     setIsLoading(true);
 
+    try {
+      const response = await apiService(
+        "get",
+        RAILWAY_CONST.API_ENDPOINT.METADATA,
+        {},
+        {
+          template_id: item.id,
+          data_src: dataSource,
+        }
+      );
+      const responseData = response?.data || [];
+      console.log("responseData===", responseData);
+
+      if ("message" in responseData) {
+        setColumns([]);
+        setData([]);
+        setPopup({ show: true, message: responseData.message, type: "" });
+        setTimeout(() => {
+          setPopup({ show: false, message: "", type: "" });
+        }, 4000);
+      } else {
+        setColumns(Object.keys(responseData[0])); // Get column names dynamically
+        setData(responseData);
+        setTableVisible(true);
+      }
+    } catch (error) {
+      console.log("Error replacing file:", error);
+      let errorMessage = "Failed to fetch data. Please try again.";
+      if (error?.message) {
+        errorMessage = error?.message;
+      }
+      setErrorPopupState({
+        isShow: true,
+        message: errorMessage,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const CompareISDFile = async (dataSource) => {
+    setIsLoading(true);
     try {
       const response = await apiService(
         "get",
@@ -62,8 +113,13 @@ const TemplateCardComponents = ({
         }, 4000);
       } else {
         setColumns(Object.keys(responseData[0])); // Get column names dynamically
-        setData(responseData);
-        setTableVisible(true);
+
+        if (dataSource === "isd_file") {
+          setData(responseData);
+        } else {
+          setCompareDataISDFile(responseData);
+        }
+        setIsCompareTableVisible(true);
       }
     } catch (error) {
       console.error("Error fetching csv data:", error);
@@ -138,10 +194,15 @@ const TemplateCardComponents = ({
     setLoading(false);
   };
 
+  const handleCompareISDFile = async () => {
+    await CompareISDFile("isd_gps_file");
+    await CompareISDFile("isd_file");
+  };
+
   return (
     <>
       {/* <div className="relative pb-[55px] min-h-[240px] max-w-sm relative docCol w-[24%] mx-[.5%] mb-[20px] bg-[#f1f1f1] rounded-[10px] shadow-md hover:shadow-lg"> */}
-      <div className="relative dashboardCard pb-[65px] min-h-[240px] max-w-sm relative docCol w-[100%] min-w-[385px] mx-[.5%] mb-[20px] bg-[#f1f1f1] rounded-[10px] shadow-md hover:shadow-lg">
+      <div className=" dashboardCard pb-[65px] min-h-[240px] max-w-sm relative docCol w-[100%] min-w-[385px] mx-[.5%] mb-[20px] bg-[#f1f1f1] rounded-[10px] shadow-md hover:shadow-lg">
         <div>
           <div>
             <div className="text-[18px] reportGenerateBg bg-[#30424c] rounded-t-[10px] px-4 pt-2 pb-2 font-medium text-[#fff] text-ellipsis overflow-hidden w-[100%] border-b border[#fefefe] truncate">
@@ -211,16 +272,19 @@ const TemplateCardComponents = ({
                     {/* <span className="truncate overflow-hidden whitespace-nowrap max-w-full">
                     {item.isd_file}
                   </span> */}
-                    <span>
-                      <img
-                        src={compare}
-                        alt="compare icon"
-                        className="cursor-pointer leading-[13px] w-[19px] mt-1"
-                        onClick={(e) => {
-                          console.log("compare clicked");
-                        }}
-                      />
-                    </span>
+                    {item?.isd_gps_file && (
+                      <span>
+                        <img
+                          src={compare}
+                          alt="compare icon"
+                          className="cursor-pointer leading-[13px] w-[19px] mt-1"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleCompareISDFile();
+                          }}
+                        />
+                      </span>
+                    )}
                     <span
                       className="eyeIcon ml-4 cursor-pointer transition-all duration-200 transform hover:scale-110"
                       onClick={(e) => {
@@ -355,6 +419,31 @@ const TemplateCardComponents = ({
           // <p>No data available.</p>
           ""
         )}
+
+        {isLoading ? (
+          <div className="cardLoader">
+            <Loader />
+          </div>
+        ) : data.length > 0 ? (
+          <>
+            {isCompareTableVisible && (
+              <CompareDataTableComponent
+                columns={columns}
+                data={data}
+                cardTemplateData={item}
+                compareData={comparedataISDFile}
+                onClose={(e) => {
+                  if (e?.stopPropagation) e.stopPropagation();
+                  setIsCompareTableVisible(false);
+                  getTemplateData();
+                }}
+              />
+            )}
+          </>
+        ) : (
+          // <p>No data available.</p>
+          ""
+        )}
       </div>
       {showConfirm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20">
@@ -383,6 +472,11 @@ const TemplateCardComponents = ({
           </div>
         </div>
       )}
+      <ErrorPopUpComponent
+        isErrorShow={errorPopupState.isShow}
+        errorMessage={errorPopupState.message}
+        redirect={""}
+      />
     </>
   );
 };

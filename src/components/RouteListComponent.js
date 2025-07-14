@@ -242,6 +242,7 @@ const RouteListComponent = () => {
   const handleSignalClick = (rowIndex, item) => {
     if (rowIndex !== selectedIndex) return;
     console.log("item", item);
+    console.log("rowIndex", rowIndex);
 
     setDataOnLocalStorage("selectedSignal", item.signal);
 
