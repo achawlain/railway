@@ -77,7 +77,7 @@ const Login = () => {
 
         if (
           window.AndroidBridge &&
-          typeof window.AndroidBridge.receiveSignalFromWeb === "function"
+          typeof window.AndroidBridge.receiveAccessToken === "function"
         ) {
           window.AndroidBridge?.receiveAccessToken(
             localStorage.getItem(userObj.access_token)
