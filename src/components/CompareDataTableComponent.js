@@ -1,8 +1,13 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import replace from "../images/replace.svg";
 import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import ErrorPopUpComponent from "./ErrorPopUpComponent";
+
+import { Dialog } from "primereact/dialog";
+import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
+import { Toast } from "primereact/toast";
 
 const CompareDataTableComponent = ({
   columns,
@@ -15,6 +20,7 @@ const CompareDataTableComponent = ({
     isShow: false,
     message: "",
   });
+  const toastRef = useRef(null);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -40,7 +46,15 @@ const CompareDataTableComponent = ({
       );
 
       if (response?.status === 200 && response?.message === "ok") {
-        onClose();
+        toastRef.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: "File replaced successfully!",
+          life: 3000,
+        });
+        setTimeout(() => {
+          onClose();
+        }, 2000);
       } else {
         // ✅ Handle error here if response is not ok
         const errorMessage =
@@ -65,117 +79,120 @@ const CompareDataTableComponent = ({
   };
 
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div className="bg-white relative">
-        <button
-          className="absolute sm:top-2 top-[3px] leading-[12px] right-[26px] text-white hover:text-gray-100 z-20 w-[20px] h-[20px] rounded-sm"
-          onClick={(e) => {
-            onClose(e);
-          }}
-        >
-          ✕
-        </button>
+    <>
+      <Toast ref={toastRef} position="top-right" />
+      <div
+        className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="bg-white relative">
+          <button
+            className="absolute sm:top-2 top-[3px] leading-[12px] right-[26px] text-white hover:text-gray-100 z-20 w-[20px] h-[20px] rounded-sm"
+            onClick={(e) => {
+              onClose(e);
+            }}
+          >
+            ✕
+          </button>
 
-        <div className="reportGenerateBg compareTableTitle text-[white] text-center p-2">
-          Compare ISD Files
-        </div>
-        <div className="w-full flex flex-row">
-          <div className="w-1/2 p-2 text-center">ISD GPS File</div>
-          <div className="w-1/2 p-2 text-center">ISD File</div>
-        </div>
-        <div>
-          <img
-            src={replace}
-            alt="Replace Icon"
-            className="absolute top-72 left-[44.5%] w-8 h-6 cursor-pointer z-20"
-            onClick={() => handleReplaceFile()}
-          />
-        </div>
-        <div className="p-4 pt-0">
-          <div className="rounded-lg shadow-lg max-w-3/4 w=full max-h-[80vh] overflow-auto relative">
-            <div className="flex flex-row text-[14px] text-[#414141]">
-              <div className="pr-6">
-                <table className="table-auto w-full border-collapse border border-gray-300 responsiveTable">
-                  <thead className="hidden sm:table-header-group">
-                    <tr>
-                      {columns.map((column) => (
-                        <th
-                          key={column}
-                          className="border border-gray-300 px-4 py-2 text-left bg-gray-100"
-                        >
-                          {column}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody className="text-white">
-                    {compareData.map((row, index) => (
-                      <tr
-                        key={index}
-                        className="block sm:table-row border-b sm:border-0 mb-4 sm:mb-0"
-                      >
+          <div className="reportGenerateBg compareTableTitle text-[white] text-center p-2">
+            Compare ISD Files
+          </div>
+          <div className="w-full flex flex-row">
+            <div className="w-1/2 p-2 text-center">ISD GPS File</div>
+            <div className="w-1/2 p-2 text-center">ISD File</div>
+          </div>
+          <div>
+            <img
+              src={replace}
+              alt="Replace Icon"
+              className="absolute top-72 left-[44.5%] w-8 h-6 cursor-pointer z-20"
+              onClick={() => handleReplaceFile()}
+            />
+          </div>
+          <div className="p-4 pt-0">
+            <div className="shadow-lg max-w-3/4 w=full max-h-[80vh] overflow-auto relative">
+              <div className="flex flex-row text-[14px] text-[#414141]">
+                <div className="pr-6">
+                  <table className="table-auto w-full border-collapse border border-gray-300 responsiveTable">
+                    <thead className="hidden sm:table-header-group">
+                      <tr>
                         {columns.map((column) => (
-                          <td
+                          <th
                             key={column}
-                            className="block sm:table-cell border border-gray-300 px-4 py-2 relative sm:static text-[#414141]  text-[13px]"
-                            data-label={column}
+                            className="border border-gray-300 px-4 py-2 text-left bg-gray-100"
                           >
-                            {row[column]}
-                          </td>
+                            {column}
+                          </th>
                         ))}
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              <div className="pl-6">
-                <table className="table-auto w-full border-collapse border border-gray-300 responsiveTable">
-                  <thead className="hidden sm:table-header-group">
-                    <tr>
-                      {columns.map((column) => (
-                        <th
-                          key={column}
-                          className="border border-gray-300 px-4 py-2 text-left bg-gray-100"
+                    </thead>
+                    <tbody className="text-white">
+                      {compareData.map((row, index) => (
+                        <tr
+                          key={index}
+                          className="block sm:table-row border-b sm:border-0 mb-4 sm:mb-0"
                         >
-                          {column}
-                        </th>
+                          {columns.map((column) => (
+                            <td
+                              key={column}
+                              className="block sm:table-cell border border-gray-300 px-4 py-2 relative sm:static text-[#414141]  text-[13px]"
+                              data-label={column}
+                            >
+                              {row[column]}
+                            </td>
+                          ))}
+                        </tr>
                       ))}
-                    </tr>
-                  </thead>
-                  <tbody className="text-white">
-                    {data.map((row, index) => (
-                      <tr
-                        key={index}
-                        className="block sm:table-row border-b sm:border-0 mb-4 sm:mb-0 text-[#414141]"
-                      >
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="pl-6">
+                  <table className="table-auto w-full border-collapse border border-gray-300 responsiveTable">
+                    <thead className="hidden sm:table-header-group">
+                      <tr>
                         {columns.map((column) => (
-                          <td
+                          <th
                             key={column}
-                            className="block sm:table-cell border border-gray-300 px-4 py-2 relative sm:static text-[#414141]  text-[13px]"
-                            data-label={column}
+                            className="border border-gray-300 px-4 py-2 text-left bg-gray-100"
                           >
-                            {row[column]}
-                          </td>
+                            {column}
+                          </th>
                         ))}
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="text-white">
+                      {data.map((row, index) => (
+                        <tr
+                          key={index}
+                          className="block sm:table-row border-b sm:border-0 mb-4 sm:mb-0 text-[#414141]"
+                        >
+                          {columns.map((column) => (
+                            <td
+                              key={column}
+                              className="block sm:table-cell border border-gray-300 px-4 py-2 relative sm:static text-[#414141]  text-[13px]"
+                              data-label={column}
+                            >
+                              {row[column]}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <ErrorPopUpComponent
+          isErrorShow={errorPopupState.isShow}
+          errorMessage={errorPopupState.message}
+          redirect={""}
+        />
       </div>
-      <ErrorPopUpComponent
-        isErrorShow={errorPopupState.isShow}
-        errorMessage={errorPopupState.message}
-        redirect={""}
-      />
-    </div>
+    </>
   );
 };
 
