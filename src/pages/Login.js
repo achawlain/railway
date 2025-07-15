@@ -69,11 +69,21 @@ const Login = () => {
         data
       );
       const userObj = response.data;
-
+      console.log("userObj", userObj);
       if (response.data) {
         // userObj.access_token =
         //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc0NzEyMDQ1NCwianRpIjoiZDlhZDBmYjMtYWE0My00ZGY2LWIxYmItOGI1ZWJkZTU4MDFmIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImdpcmlzaCIsIm5iZiI6MTc0NzEyMDQ1NCwiY3NyZiI6IjI1MTE4NTE5LTViMTYtNDJjMC1iYTRjLTMyNWE5OTE1YWE4MiIsImV4cCI6MTc0Nzk4NDQ1NCwidV9pZCI6IjEiLCJuYW1lIjoiR2lyaXNoIEt1bWFyIiwicm9sZSI6MSwiZGVzaWduYXRpb24iOiJUZWNoIn0.oMH-bwOglul8MLmFQJ6OxG8UbYudPELZgjAkA3ErtOs";
         setDataOnLocalStorage("userInfo", userObj);
+
+        if (
+          window.AndroidBridge &&
+          typeof window.AndroidBridge.receiveSignalFromWeb === "function"
+        ) {
+          window.AndroidBridge?.receiveAccessToken(
+            localStorage.getItem(userObj.access_token)
+          );
+        }
+
         if (params.get("dataCollection")) {
           navigate(RAILWAY_CONST.ROUTE.ROUTELIST); // ✅ Only redirects on success
         } else {
