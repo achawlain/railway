@@ -74,14 +74,19 @@ const Login = () => {
         // userObj.access_token =
         //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc0NzEyMDQ1NCwianRpIjoiZDlhZDBmYjMtYWE0My00ZGY2LWIxYmItOGI1ZWJkZTU4MDFmIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImdpcmlzaCIsIm5iZiI6MTc0NzEyMDQ1NCwiY3NyZiI6IjI1MTE4NTE5LTViMTYtNDJjMC1iYTRjLTMyNWE5OTE1YWE4MiIsImV4cCI6MTc0Nzk4NDQ1NCwidV9pZCI6IjEiLCJuYW1lIjoiR2lyaXNoIEt1bWFyIiwicm9sZSI6MSwiZGVzaWduYXRpb24iOiJUZWNoIn0.oMH-bwOglul8MLmFQJ6OxG8UbYudPELZgjAkA3ErtOs";
         setDataOnLocalStorage("userInfo", userObj);
-        console.log("access_token-----", userObj.access_token);
-        console.log("type of", typeof userObj.access_token);
+
+        let accessToken = localStorage.getItem("userInfo");
+
+        if (accessToken) {
+          // accessToken = accessToken?.access_token;
+          console.log("Access Token:", accessToken);
+        }
 
         if (
           window.AndroidBridge &&
           typeof window.AndroidBridge.receiveAccessToken === "function"
         ) {
-          window.AndroidBridge?.receiveAccessToken(userObj.access_token);
+          window.AndroidBridge?.receiveAccessToken(accessToken);
         }
 
         if (params.get("dataCollection")) {
