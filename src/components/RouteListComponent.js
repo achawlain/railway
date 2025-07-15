@@ -369,7 +369,7 @@ const RouteListComponent = () => {
                                       handleSignalClick(rowIndex, item)
                                     }
                                   >
-                                    <div className="text-[10px] text-gray-500 absolute bottom-3 w-[35px] dateTime absolute left-[10px]">
+                                    <div className="text-[10px] text-gray-500 absolute bottom-3 w-[35px] dateTime absolute left-[10px] min-w-[65px] text-left">
                                       {item.clickedAt ? item.clickedAt : ""}
                                     </div>
                                     {isActive && (

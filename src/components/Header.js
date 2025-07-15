@@ -206,37 +206,64 @@ const Header = () => {
                             Home
                           </NavLink>{" "}
                         </li>
-                        <li onClick={() => setIsNavListVisible(false)}>
-                          <NavLink
-                            to={RAILWAY_CONST.ROUTE.DASHBOARD}
-                            className={({ isActive }) =>
-                              `hover:text-[#9b4b90] transition p-[10px] block ${
-                                isActive
-                                  ? "text-[#9b4b90] font-medium underline"
-                                  : ""
-                              }`
-                            }
+                        {(userInfo.user_details.role === 1 ||
+                          userInfo.user_details.role === 3) && (
+                          <li onClick={() => setIsNavListVisible(false)}>
+                            <NavLink
+                              to={RAILWAY_CONST.ROUTE.DASHBOARD}
+                              className={({ isActive }) =>
+                                `hover:text-[#9b4b90] transition p-[10px] block ${
+                                  isActive
+                                    ? "text-[#9b4b90] font-medium underline"
+                                    : ""
+                                }`
+                              }
+                            >
+                              Dashboard
+                            </NavLink>{" "}
+                          </li>
+                        )}
+
+                        {(userInfo.user_details.role === 1 ||
+                          userInfo.user_details.role === 3) && (
+                          <li
+                            className="ml-0 pl-0 border-t sm:border-t sm:border-transparent border-[#efefef]"
+                            onClick={() => setIsNavListVisible(false)}
                           >
-                            Dashboard
-                          </NavLink>{" "}
-                        </li>
-                        <li
-                          className="ml-0 pl-0 border-t sm:border-t sm:border-transparent border-[#efefef]"
-                          onClick={() => setIsNavListVisible(false)}
-                        >
-                          <NavLink
-                            to={RAILWAY_CONST.ROUTE.CONTROL_CENTER}
-                            className={({ isActive }) =>
-                              `hover:text-[#9b4b90] transition p-[10px] block ${
-                                isActive
-                                  ? "text-[#9b4b90] font-medium underline"
-                                  : ""
-                              }`
-                            }
+                            <NavLink
+                              to={RAILWAY_CONST.ROUTE.CONTROL_CENTER}
+                              className={({ isActive }) =>
+                                `hover:text-[#9b4b90] transition p-[10px] block ${
+                                  isActive
+                                    ? "text-[#9b4b90] font-medium underline"
+                                    : ""
+                                }`
+                              }
+                            >
+                              Control Center
+                            </NavLink>
+                          </li>
+                        )}
+                        {(userInfo.user_details.role === 2 ||
+                          userInfo.user_details.role === 3) && (
+                          <li
+                            className="ml-0 pl-0 border-t sm:border-t sm:border-transparent border-[#efefef]"
+                            onClick={() => setIsNavListVisible(false)}
                           >
-                            Control Center
-                          </NavLink>
-                        </li>
+                            <NavLink
+                              to={RAILWAY_CONST.ROUTE.ROUTELIST}
+                              className={({ isActive }) =>
+                                `hover:text-[#9b4b90] transition p-[10px] block ${
+                                  isActive
+                                    ? "text-[#9b4b90] font-medium underline"
+                                    : ""
+                                }`
+                              }
+                            >
+                              Route List
+                            </NavLink>
+                          </li>
+                        )}
                       </ul>
                     ) : (
                       <ul className="flex flex-col md:flex-row ">
