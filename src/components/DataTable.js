@@ -7,6 +7,7 @@ const DataTable = ({ columns, data, onClose }) => {
         onClose(event);
       }
     };
+    
 
     // Add event listener when component mounts
     window.addEventListener("keydown", handleKeyDown);
@@ -19,12 +20,12 @@ const DataTable = ({ columns, data, onClose }) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      className="modalClass fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
       onClick={(e) => e.stopPropagation()}
     >
       <div className="reportGenerateBg rounded-lg shadow-lg w-3/4 max-h-[80vh] overflow-auto relative">
         <button
-          className="absolute sm:top-2 top-[3px] leading-[12px] right-[26px] text-gray-500 hover:text-gray-800 z-20 bg-gray-100 w-[20px] h-[20px] rounded-sm"
+          className="popupBackButton absolute sm:top-2 top-[3px] leading-[12px] right-[26px] text-gray-500 hover:text-gray-800 z-20 bg-gray-100 w-[20px] h-[20px] rounded-sm"
           onClick={(e) => {
             onClose(e);
           }}

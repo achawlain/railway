@@ -257,7 +257,7 @@ const ManageLocoPilot = () => {
 
   return (
     <>
-      <Toast ref={toastRef} position="top-right" />
+      <Toast ref={toastRef} position="top-right" baseZIndex={400} />
       <div className="w-full bg-[#efefef] p-4 min-h-screen">
         <div className="bg-white w-full sm:p-8 p-4 pt-4 rounded-[15px] min-h-[900px] sm:pt-4">
           <h1 className="sm:text-[18px] flex-row flex justify-between text-[18px] text-[#30424c] font-medium mb-1 border-b border-[#ccc] pb-2 relative pt-[0px] manageLocoPilotTitle">

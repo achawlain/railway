@@ -162,7 +162,7 @@ const DashboardComponent = () => {
                     Dashboard
                     <div className="absolute top-[8px] right-0 flex flex-row filterCol z-20">
                       <Link to={RAILWAY_CONST.ROUTE.TEMPLATE}>
-                        <span className="right-0 flex flex-row sm:text-[16px] text-[16px] items-center justify-center text-[#30424c] hover:text-[#000] underline">
+                        <span id="analyzeNewButton" className="right-0 flex flex-row sm:text-[16px] text-[16px] items-center justify-center text-[#30424c] hover:text-[#000] underline">
                           + Analyze New
                         </span>
                       </Link>

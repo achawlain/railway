@@ -209,14 +209,14 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
           <img
             alt="delete icon"
             src={deleteIcon}
-            className="cursor-pointer leading-[13px] w-[19px] mr-[2px] mb-1"
+            className="delete-icon cursor-pointer leading-[13px] w-[19px] mr-[2px] mb-1"
           />
           Delete
         </div>
         <span
           onClick={handleClick}
           // onClick={() => onView(item)}
-          className="flex w-[50%] text-[13px] opacity-[.8] text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"
+          className="view-btn flex w-[50%] text-[13px] opacity-[.8] text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"
         >
           <img
             alt="view icon"
@@ -232,7 +232,7 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
             item.stn_from
           }&to_station=${item.stn_to}&jwt=${userInfo.access_token || ""}`}
           // onClick={() => onView(item)}
-          className="flex w-[50%] text-[13px] opacity-[.8] text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"
+          className="download-btn flex w-[50%] text-[13px] opacity-[.8] text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"
         >
           <img
             alt="view icon"

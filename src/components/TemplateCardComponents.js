@@ -306,7 +306,7 @@ const TemplateCardComponents = ({
           <span
             onClick={handleClick}
             // onClick={() => onView(item)}
-            className="flex w-[50%] text-[13px] opacity-[.8] text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"
+            className="use-it-btn flex w-[50%] text-[13px] opacity-[.8] text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"
           >
             <img
               alt="view icon"

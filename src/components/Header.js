@@ -206,11 +206,11 @@ const Header = () => {
                             Home
                           </NavLink>{" "}
                         </li>
-                        <li onClick={() => setIsNavListVisible(false)}>
+                        <li id="goToDashboard" onClick={() => setIsNavListVisible(false)}>
                           <NavLink
                             to={RAILWAY_CONST.ROUTE.DASHBOARD}
                             className={({ isActive }) =>
-                              `hover:text-[#9b4b90] transition p-[10px] block ${
+                              `hover:text-[#9b4b90] transition p-[10px] block  ${
                                 isActive
                                   ? "text-[#9b4b90] font-medium underline"
                                   : ""
