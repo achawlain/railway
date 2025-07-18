@@ -148,7 +148,7 @@ const ProfileComponent = () => {
           <h2 className="text-2xl font-semibold text-center mb-12 mt-4 ">
             User Profile
           </h2>
-          <div className="profileContainer flex flex-row">
+          <div className="profileContainer flex sm:flex-row flex-col">
             {/* Profile Image Section */}
             <div className="flex flex-col items-center mb-6 min-w-[280px]">
               <div className="w-32 h-32 rounded-full shadow-lg mb-3">
