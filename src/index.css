@@ -1105,3 +1105,11 @@ p.footerLocation {
   }
   
 }
+.p-row-odd {
+  /* background-color: blanchedalmond; */
+  background-color: #e3ddd3;
+}
+.p-datatable .p-datatable-wrapper .p-datatable-table .p-datatable-thead tr .p-filter-column{
+  background-color: #e3ddd3 !important;
+}
+
