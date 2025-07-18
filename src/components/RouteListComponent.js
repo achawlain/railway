@@ -358,16 +358,16 @@ const RouteListComponent = () => {
                                 <div
                                   key={rowIndex}
                                   className={`flex flex-row w-full text-center singnalRow`}
+                                  onClick={() =>
+                                    handleSignalClick(rowIndex, item)
+                                  }
                                 >
                                   <div
-                                    className={`w-[50%] text-right px-2 text-[13px] pr-[15px] relative flex justify-end ${
-                                      isActive
-                                        ? "cursor-pointer"
-                                        : "cursor-not-allowed"
-                                    }`}
-                                    onClick={() =>
-                                      handleSignalClick(rowIndex, item)
-                                    }
+                                    className={`w-[50%] text-right px-2 text-[13px] pr-[15px] relative flex justify-end ${isActive
+                                      ? "cursor-pointer"
+                                      : "cursor-not-allowed"
+                                      }`}
+
                                   >
                                     <div className="text-[10px] text-gray-500 absolute bottom-3 w-[35px] dateTime absolute left-[10px] min-w-[65px] text-left">
                                       {item.clickedAt ? item.clickedAt : ""}
@@ -384,19 +384,21 @@ const RouteListComponent = () => {
 
                                     <span className="h-[53px] flex justify-center w-[30px] inline-block relative  items-center pb-1 text-center">
                                       <span
-                                        className={`relative z-20 rounded-full inline-block ${
-                                          isActive
-                                            ? "bg-green-600 blinkn h-[30px] w-[30px]"
-                                            : isClicked
+                                        className={`relative z-20 rounded-full inline-block ${isActive
+                                          ? "bg-green-600 blinkn h-[30px] w-[30px]"
+                                          : isClicked
                                             ? "bg-orange-500 h-[25px] w-[25px]"
                                             : "bg-[#ccc] h-[25px] w-[25px]"
-                                        }`}
+                                          }`}
                                       ></span>
                                       {/* <span className="absolute bg-[#f1f1f1] inline-blcok h-[100%] z-10 left-[45%] w-[2px]"></span> */}
                                     </span>
                                   </div>
                                   <div
-                                    className={`w-[50%] px-2 text-[16px] text-left items-center flex pb-1`}
+                                    className={`w-[50%] px-2 text-[16px] text-left items-center flex pb-1 ${isActive
+                                      ? "cursor-pointer"
+                                      : "cursor-not-allowed"
+                                      }`}
                                   >
                                     {item.signal}
                                   </div>
