@@ -44,6 +44,7 @@ const RAILWAY_CONST = {
     PROFILE: "/profile",
     FORGETPASSWORD: "/forgetPassword",
     ROUTELIST: "/routeList",
+    NOT_FOUND: "*",
   },
 };
 

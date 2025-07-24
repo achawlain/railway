@@ -64,7 +64,8 @@ export default function BreakingPattern() {
         toastRef.current.show({
           severity: "error",
           summary: "Error",
-          detail: response?.message || "Failed to fetch breaking pattern report",
+          detail:
+            response?.message || "Failed to fetch breaking pattern report",
           life: 3000,
         });
       }
@@ -107,9 +108,9 @@ export default function BreakingPattern() {
   return (
     <>
       <Toast ref={toastRef} position="top-right" />
-      <div className="w-full bg-[#efefef] p-4 min-h-screen">
+      <div className="w-full bg-[#efefef]  min-h-screen">
         <div className="bg-white w-full sm:p-8 p-4 pt-4 rounded-[15px] min-h-[900px] sm:pt-4">
-          <h1 className="sm:text-[18px] flex-row flex justify-between text-[18px] text-[#30424c] font-medium mb-4 border-b border-[#ccc] pb-2 relative pt-[0px]">
+          <h1 className="sm:text-[18px] flex-row flex justify-between text-[18px] rounded-[5px] bg-[#2A235A] text-white font-medium mb-4 border-b border-[#ccc] relative px-3 py-3">
             Breaking Pattern
           </h1>
           <div className="flex flex-col sm:flex-row gap-4 justify-between flex-wrap">
@@ -197,7 +198,7 @@ export default function BreakingPattern() {
                 </div>
               ) : null}
 
-              <h4 className="text-lg font-semibold mt-4 mb-4 text-center text-[#30424c]">
+              <h4 className="text-lg font-semibold mt-8 mb-4 text-center text-[#30424c]">
                 Breaking Pattern at {formData.station.toUpperCase()} Station
               </h4>
               <div className="-mt-1 searchCol">
@@ -235,7 +236,7 @@ export default function BreakingPattern() {
                   "report_id",
                   "train_id",
                 ]}
-                className="mt-10"
+                className="mt-3"
               >
                 <Column field="report_id" header="Report ID" sortable />
                 <Column field="train_id" header="Train ID." sortable />

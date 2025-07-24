@@ -258,29 +258,29 @@ const ManageLocoPilot = () => {
   return (
     <>
       <Toast ref={toastRef} position="top-right" />
-      <div className="w-full bg-[#efefef] p-4 min-h-screen">
+      <div className="w-full bg-[#efefef] min-h-screen">
         <div className="bg-white w-full sm:p-8 p-4 pt-4 rounded-[15px] min-h-[900px] sm:pt-4">
-          <h1 className="sm:text-[18px] flex-row flex justify-between text-[18px] text-[#30424c] font-medium mb-1 border-b border-[#ccc] pb-2 relative pt-[0px] manageLocoPilotTitle">
-            <span>Manage Loco Pilot</span>
+          <h1 className="sm:text-[18px] flex-row flex justify-between text-[18px] rounded-[5px] bg-[#2A235A] text-white font-medium mb-1 border-b border-[#ccc] relative px-3 py-2 manageLocoPilotTitle">
+            <span className="inline-block mt-1">Manage Loco Pilot</span>
             <div className="relative flex flow-row datePickerCol text-[14px] font-normal">
-              <div className="-mt-1 searchCol">
+              <div className=" searchCol">
                 <InputText
                   value={globalFilterValue}
                   onChange={onGlobalFilterChange}
                   placeholder="Search for any field"
-                  className="w-56 h-10 -mb-1 inline-block border border-gray-300 rounded-md pl-2 globleFilter"
+                  className="w-56 h-[36px] -mb-1 inline-block border border-gray-300 rounded-md pl-2 globleFilter bg-transparent font-normal text-white"
                   style={{ marginLeft: "auto" }}
                 />
               </div>
               <div className="w-full p-4 pt-4 flex justify-end items-center pr-0 buttonCol">
                 <button
-                  className="bg-[#2c215d] text-white px-4 py-2 rounded-md"
+                  className="bg-[#fff] text-[#2A235A] px-4 py-2 rounded-md"
                   onClick={handleBulkUploadClick}
                 >
                   Bulk Upload
                 </button>
                 <button
-                  className="bg-[#2c215d] text-white px-4 py-2 rounded-md ml-2"
+                  className="bg-[#fff] text-[#2A235A] px-4 py-2 rounded-md ml-2"
                   onClick={() => setIsFormVisible(true)}
                 >
                   Add New Loco Pilot Details
@@ -310,7 +310,7 @@ const ManageLocoPilot = () => {
               "email",
               "nli",
             ]}
-            className="mt-10"
+            className="mt-3"
           >
             <Column field="cms_id" header="LP CMS ID" sortable />
             <Column field="name" header="LP Name" sortable />

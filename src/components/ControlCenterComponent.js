@@ -116,7 +116,7 @@ const ControlCenterComponent = () => {
         </div>
         <div className="rightContentCol w-full pl-[300px] z-10">
           <div className="w-full hideMobile">
-            <h1 className="text-[22px] text-[#30424c] font-medium text-center pb-3 relative pt-3">
+            <h1 className="text-[22px] text-[#30424c] font-medium text-center pb-3 relative pt-6">
               Control Center
             </h1>
           </div>

@@ -98,7 +98,7 @@ export default function LocoPilotReportTable() {
   return (
     <>
       <Toast ref={toastRef} position="top-right" />
-      <h1 className="sm:text-[18px] flex-row flex justify-between items-center text-[18px] text-[#30424c] font-medium mb-1 border-b border-[#ccc] pb-2 relative pt-[0px] locoPilotTitle">
+      <h1 className="sm:text-[18px] rounded-[5px] bg-[#2A235A] text-white flex-row flex justify-between items-center text-[18px] font-medium mb-1 border-b border-[#ccc] relative px-3 py-[6px] locoPilotTitle">
         <span>Loco Pilot Report</span>
         <div className="relative z-20 flex flow-row datePickerCol mt-1 text-[14px]">
           <label className="text-[14px] inline-block min-w-[110px] pr-3 sm:mb-0 mt-1">
@@ -116,7 +116,7 @@ export default function LocoPilotReportTable() {
           {open && (
             <div
               ref={ref}
-              className="absolute z-10 mt-[44px] shadow-lg border right-0 bg-white"
+              className="absolute z-10 mt-[44px] shadow-lg border right-0 bg-white font-normal"
             >
               <DateRange
                 editableDateInputs
@@ -134,7 +134,7 @@ export default function LocoPilotReportTable() {
               value={globalFilterValue}
               onChange={onGlobalFilterChange}
               placeholder="Search for any field"
-              className="w-56 h-10 -mb-1 inline-block border border-gray-300 rounded-md pl-2 globleFilter"
+              className="w-56 h-10 -mb-1 inline-block border border-gray-300 rounded-md pl-2 globleFilter bg-transparent text-white font-normal"
               style={{ marginLeft: "auto" }}
             />
           </div>

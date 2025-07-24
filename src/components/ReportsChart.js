@@ -94,11 +94,11 @@ function ReportsChart() {
         </div>
       ) : (
         <>
-          <div className="w-full bg-[#efefef] p-4 min-h-screen">
+          <div className="w-full bg-[#efefef] min-h-screen">
             <div className="bg-white w-full sm:p-8 p-4 rounded-[15px] min-h-[900px] sm:pt-4">
-              <h1 className="sm:text-[18px] flex-row flex justify-between text-[18px] text-[#30424c] font-medium mb-1 border-b border-[#ccc] pb-2 relative pt-[0px] dailyReportTitle">
+              <h1 className="sm:text-[18px] rounded-[5px] font-normal flex-row flex justify-between text-[18px] text-[#fff] bg-[#2A235A] mb-1 border-b border-[#ccc] relative px-3 py-2 dailyReportTitle items-center">
                 <span>Daily Report</span>
-                <div className="relative text-[15px] flex flow-row datePickerCol">
+                <div className="relative text-[15px] flex flow-row datePickerCol items-center">
                   <label className="text-[16px] inline-block min-w-[110px] pr-3 mb-2 sm:mb-0">
                     Date Range :
                   </label>
@@ -109,7 +109,7 @@ function ReportsChart() {
                       "dd/MM/yyyy"
                     )} - ${format(range[0].endDate, "dd/MM/yyyy")}`}
                     onClick={() => setOpen(!open)}
-                    className="border px-1 py-2 rounded-md w-[250px] cursor-pointer inputbox pl-2 -mt-1"
+                    className="border px-1 py-2 rounded-md w-[250px] cursor-pointer inputbox pl-2"
                   />
                   {open && (
                     <div

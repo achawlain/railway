@@ -17,6 +17,7 @@ import Reports from "../pages/Reports";
 import Profile from "../pages/Profile";
 import ForgetPassword from "../components/ForgetPassword";
 import RouteList from "../pages/RouteList";
+import NotFoundPage from "../pages/NotFoundPage";
 
 const user = getDataFromLocalStorage("userInfo");
 
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: RAILWAY_CONST.ROUTE.ROUTELIST,
         element: <PrivateRoute element={<RouteList />} />,
+      },
+      {
+        path: RAILWAY_CONST.ROUTE.NOT_FOUND,
+        element: <NotFoundPage />, // ✅
       },
     ],
   },
