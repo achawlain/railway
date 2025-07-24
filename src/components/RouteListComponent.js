@@ -19,6 +19,8 @@ const RouteListComponent = () => {
   const [selectedSignalRow, setselectedSignalRow] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [clickedIndices, setClickedIndices] = useState([]);
+  const [isEndingJourney, setIsEndingJourney] = useState(false);
+
 
   const toastRef = useRef(null);
 
@@ -40,7 +42,10 @@ const RouteListComponent = () => {
         RAILWAY_CONST.API_ENDPOINT.TEMPLATE
       );
       const data = response?.data || response?.templates || [];
-      setRouteList(Array.isArray(data) ? data : []);
+      const filteredRoutes = (Array.isArray(data) ? data : []).filter(
+      (route) => route.isd_gps_file
+      );
+      setRouteList(Array.isArray(filteredRoutes) ? filteredRoutes: []);
     } catch (error) {
       console.error("Error fetching route list:", error);
       setErrorPopupState({
@@ -149,6 +154,8 @@ const RouteListComponent = () => {
   };
 
   const handleEndjourneyData = async () => {
+    if (isEndingJourney) return;
+    setIsEndingJourney(true);
     const gpsID = getDataFromLocalStorage("gpsRouteId");
     const data = {
       status: 1,
@@ -201,6 +208,8 @@ const RouteListComponent = () => {
         isShow: true,
         message: errorMessage,
       });
+    } finally {
+      setIsEndingJourney(false);
     }
   };
 
@@ -412,6 +421,7 @@ const RouteListComponent = () => {
                           <span
                             type="submit"
                             onClick={() => handleEndjourneyData()}
+                            disabled={isEndingJourney}
                             className="mt-4  px-3 reportGenerateBg py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-[15px] cursor-pointer"
                           >
                             End Journey

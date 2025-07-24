@@ -63,7 +63,7 @@ const TemplateComponent = () => {
 
                   <div className="listTable w-full flex flex-row flex-wrap mb-[50px]">
                     {templates.length > 0 ? (
-                      templates.map((item) => (
+                      templates.filter((template) => !template.isd_gps_file).map((item) => (
                         <TemplateCardComponents
                           key={item.id}
                           item={item}
