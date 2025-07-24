@@ -42,10 +42,12 @@ const RouteListComponent = () => {
         RAILWAY_CONST.API_ENDPOINT.TEMPLATE
       );
       const data = response?.data || response?.templates || [];
+
       const filteredRoutes = (Array.isArray(data) ? data : []).filter(
-      (route) => route.isd_gps_file
+        (route) =>
+          route.title?.trim().toUpperCase().endsWith("[GPS]")
       );
-      setRouteList(Array.isArray(filteredRoutes) ? filteredRoutes: []);
+      setRouteList(Array.isArray(filteredRoutes) ? filteredRoutes : []);
     } catch (error) {
       console.error("Error fetching route list:", error);
       setErrorPopupState({
