@@ -22,6 +22,15 @@ const UpdateTemplateComponent = () => {
     attacking_speed_file: null,
   });
 
+  const [existingFiles, setExistingFiles] = useState({
+    station_file: false,
+    isd_file: false,
+    psr_file: false,
+    gradient_file: false,
+    attacking_speed_file: false,
+  });
+
+
   const [popup, setPopup] = useState({ show: false, message: "", type: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [data, setData] = useState([]);
@@ -47,6 +56,40 @@ const UpdateTemplateComponent = () => {
   const handleFileDrop = (name) => (acceptedFiles) => {
     setFormData((prev) => ({ ...prev, [name]: acceptedFiles[0] }));
   };
+
+  useEffect(() => {
+    const checkFilesExist = async () => {
+      const fields = [
+        "station_file",
+        "isd_file",
+        "psr_file",
+        "gradient_file",
+        "attacking_speed_file",
+      ];
+
+      const fileExistStatus = {};
+
+      await Promise.all(
+        fields.map(async (field) => {
+          try {
+            const res = await apiService("get", RAILWAY_CONST.API_ENDPOINT.METADATA, {}, {
+              template_id: template.id,
+              data_src: field,
+            });
+
+            fileExistStatus[field] = Array.isArray(res?.data) && res.data.length > 0;
+          } catch (e) {
+            fileExistStatus[field] = false;
+          }
+        })
+      );
+
+      setExistingFiles(fileExistStatus);
+    };
+
+    checkFilesExist();
+  }, []);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -184,15 +227,19 @@ const UpdateTemplateComponent = () => {
                     <label className="text-left block font-medium mb-1 mr-4 w-40">
                       {field.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
                     </label>
-                    <div className="flex gap-4">
-                      <i
-                        className="fa fa-eye cursor-pointer"
-                        onClick={() => hangleShowDataonClickEyeIcon(field)}
-                      ></i>
-                      <i
-                        className="fa fa-download cursor-pointer"
-                        onClick={() => handleDownloadFile(field)}
-                      ></i>
+                    <div className="flex items-center gap-4 mb-2">
+                      {existingFiles[field] && (
+                        <>
+                          <i
+                            className="fa fa-eye cursor-pointer"
+                            onClick={() => hangleShowDataonClickEyeIcon(field)}
+                          ></i>
+                          <i
+                            className="fa fa-download cursor-pointer"
+                            onClick={() => handleDownloadFile(field)}
+                          ></i>
+                        </>
+                      )}
                     </div>
                   </div>
                   <FileDropzone
