@@ -51,7 +51,7 @@ const UpdateLocoPilotDetails = ({ visible, onClose, pilot, onSubmit }) => {
             name="cms_id"
             value={formData.cms_id || ""}
             onChange={handleChange}
-            className="border border-gray-300 rounded p-2 w-full"
+            className="border border-gray-300 rounded p-2 w-full mb-2"
           />
         </div>
         <div className="field">
@@ -60,7 +60,7 @@ const UpdateLocoPilotDetails = ({ visible, onClose, pilot, onSubmit }) => {
             name="name"
             value={formData.name || ""}
             onChange={handleChange}
-            className="border border-gray-300 rounded p-2 w-full"
+            className="border border-gray-300 rounded p-2 w-full mb-2"
           />
         </div>
         <label>Designation</label>
@@ -68,35 +68,35 @@ const UpdateLocoPilotDetails = ({ visible, onClose, pilot, onSubmit }) => {
           name="designation"
           value={formData.designation || ""}
           onChange={handleChange}
-          className="border border-gray-300 rounded p-2 w-full"
+          className="border border-gray-300 rounded p-2 w-full mb-2"
         />
         <label>Email</label>
         <InputText
           name="email"
           value={formData.email || ""}
           onChange={handleChange}
-          className="border border-gray-300 rounded p-2 w-full"
+          className="border border-gray-300 rounded p-2 w-full mb-2"
         />
         <label>Emp ID</label>
         <InputText
           name="emp_id"
           value={formData.emp_id || ""}
           onChange={handleChange}
-          className="border border-gray-300 rounded p-2 w-full"
+          className="border border-gray-300 rounded p-2 w-full mb-2"
         />
         <label>Mobile</label>
         <InputText
           name="mobile"
           value={formData.mobile || ""}
           onChange={handleChange}
-          className="border border-gray-300 rounded p-2 w-full"
+          className="border border-gray-300 rounded p-2 w-full mb-2"
         />
         <label>NLI</label>
         <InputText
           name="nli"
           value={formData.nli || ""}
           onChange={handleChange}
-          className="border border-gray-300 rounded p-2 w-full"
+          className="border border-gray-300 rounded p-2 w-full mb-2"
         />
       </div>
     </Dialog>

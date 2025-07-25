@@ -85,7 +85,7 @@ const AddLocoPilotPopup = ({ visible, onClose, onSubmit }) => {
         <div className="p-fluid">
           {Object.keys(formData).map((key) => (
             <div className="field" key={key}>
-              <label htmlFor={key}>
+              <label className="text-[14px]" htmlFor={key}>
                 {key.replace(/_/g, " ").toUpperCase()}
                 {(key === "cms_id" || key === "name") && (
                   <span style={{ color: "red" }}> *</span>
@@ -96,7 +96,7 @@ const AddLocoPilotPopup = ({ visible, onClose, onSubmit }) => {
                 name={key}
                 value={formData[key]}
                 onChange={handleChange}
-                className="border border-gray-300 rounded p-2 w-full"
+                className="border border-gray-300 rounded p-2 w-full mb-2"
                 // Disable org_id field
                 // Make org_id read-only
               />
