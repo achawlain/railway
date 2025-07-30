@@ -15,25 +15,47 @@ const TemplateComponent = () => {
     message: "",
   });
   const [redirect, setRedirect] = useState("");
+  const [templateMap, setTemplateMap] = useState(new Map());
+
   useEffect(() => {
     gettemplates();
   }, []);
 
   const gettemplates = async () => {
-    setLoading(true);
-    try {
-      const response = await apiService(
-        "get",
-        RAILWAY_CONST.API_ENDPOINT.TEMPLATE
-      );
-      setTemplates(
-        Array.isArray(response.data) ? response.data : response.templates || []
-      );
-    } catch (error) {
-      console.error("Error fetching templates:", error);
-    }
-    setLoading(false);
-  };
+  setLoading(true);
+  try {
+    const response = await apiService(
+      "get",
+      RAILWAY_CONST.API_ENDPOINT.TEMPLATE
+    );
+
+    const raw = Array.isArray(response.data)
+      ? response.data
+      : response.templates || [];
+
+    console.log("Raw templates:", raw);
+
+    const map = new Map();
+    raw.forEach((template) => {
+      map.set(template.id, template);
+    });
+    setTemplateMap(map);
+
+    const visibleTemplates = raw.filter((t) => {
+      if (t.pairing_id != null) {
+        return t.direction === 0;
+      }
+      return true;
+    });
+
+    console.log("Visible templates:", visibleTemplates);
+    setTemplates(visibleTemplates);
+  } catch (error) {
+    console.error("Error fetching templates:", error);
+  }
+  setLoading(false);
+};
+
 
   const handleDeleteItem = (item) => {};
   const goToPdfView = (item) => {};
@@ -70,6 +92,7 @@ const TemplateComponent = () => {
                           item={item}
                           onDelete={handleDeleteItem}
                           onView={goToPdfView}
+                          templateMap={templateMap}
                           refreshTemplates={gettemplates}
                           getTemplateData={gettemplates}
                         />

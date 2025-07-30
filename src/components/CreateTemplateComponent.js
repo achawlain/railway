@@ -349,7 +349,7 @@ const CreateTemplateComponent = () => {
                 onChange={handleInputChange}
                 className="p-2 border rounded h-[40px] w-[300px] border-gray-300"
               >
-                <option value="">None</option>
+                <option value={null}>None</option>
                 {unpaireOptions.map((item) => (
                   <option key={item.id} value={item.id}>
                     [{item.id}] {item.title}

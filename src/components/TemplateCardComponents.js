@@ -27,6 +27,7 @@ const TemplateCardComponents = ({
   item,
   onDelete,
   onView,
+  templateMap,
   refreshTemplates,
   getTemplateData,
 }) => {
@@ -48,6 +49,11 @@ const TemplateCardComponents = ({
     isShow: false,
     message: "",
   });
+
+  const currentData =
+    direction === 0 ? item : templateMap.get(item.pairing_id) || item;
+
+  const hasToggle =  item.pairing_id !== null;
 
   const handleClick = () => {
     setDataOnLocalStorage("currentTemplate", item);
@@ -218,37 +224,38 @@ const TemplateCardComponents = ({
         <div>
           <div>
             <div className="text-[18px] reportGenerateBg bg-[#30424c] rounded-t-[10px] px-4 pt-2 pb-2 font-medium text-[#fff] text-ellipsis overflow-hidden w-[100%] border-b border[#fefefe] truncate flex justify-between">
-              [{item.id}] {item.title}
+              [{currentData?.id}] {currentData?.title}
 
               {/* toggle button */}
-              <div className="flex items-center text-[14px]">
-                <span className="mr-2 text-white font-bold">
-                  {direction === 0 ? "UP" : "DOWN"}
-                </span>
-                <label className="relative inline-block w-10 h-5">
-                  <input
-                    type="checkbox"
-                    checked={direction === 1}
-                    onChange={() => setDirection((prev) => (prev === 0 ? 1 : 0))}
-                    className="opacity-0 w-0 h-0"
-                  />
-                  <span
-                    className="absolute top-0 left-0 right-0 bottom-0 bg-gray-400 rounded-full transition-all duration-300 cursor-pointer"
-                  ></span>
-                  <span
-                    className={`absolute left-1 top-[2px] w-4 h-4 rounded-full shadow transition-transform duration-300 bg-[#9b4b90]`}
-                    style={{
-                      transform: direction === 1 ? "translateX(20px)" : "translateX(0)",
-                    }}
-                  ></span>
-                </label>
-              </div>
-
+              {hasToggle && (
+                <div className="flex items-center text-[14px]">
+                  <span className="mr-2 text-white font-bold">
+                    {direction === 0 ? "UP" : "DOWN"}
+                  </span>
+                  <label className="relative inline-block w-10 h-5">
+                    <input
+                      type="checkbox"
+                      checked={direction === 1}
+                      onChange={() => setDirection((prev) => (prev === 0 ? 1 : 0))}
+                      className="opacity-0 w-0 h-0"
+                    />
+                    <span
+                      className="absolute top-0 left-0 right-0 bottom-0 bg-gray-400 rounded-full transition-all duration-300 cursor-pointer"
+                    ></span>
+                    <span
+                      className={`absolute left-1 top-[2px] w-4 h-4 rounded-full shadow transition-transform duration-300 bg-[#9b4b90]`}
+                      style={{
+                        transform: direction === 1 ? "translateX(20px)" : "translateX(0)",
+                      }}
+                    ></span>
+                  </label>
+                </div>
+              )}
             </div>
 
             <div className="px-4">
               <ul>
-                {item?.attacking_speed_file && (
+                {currentData?.attacking_speed_file && (
                   <li className="mt-2 text-[#000] font-bold flex text-[14px]">
                     <span className="mr-1 text-[#414141] font-medium shrink-0 mr-auto">
                       Attacking Speed File:
@@ -274,7 +281,7 @@ const TemplateCardComponents = ({
                     </span>
                   </li>
                 )}
-                {item?.gradient_file && (
+                {currentData?.gradient_file && (
                   <li className="mt-2 text-[#000] font-bold flex text-[14px]">
                     <span className="mr-1 text-[#414141] font-medium shrink-0 mr-auto">
                       Gradient File:
@@ -302,7 +309,7 @@ const TemplateCardComponents = ({
                     </span>
                   </li>
                 )}
-                {item?.isd_file && (
+                {currentData?.isd_file && (
                   <li className="mt-2 text-[#000] font-bold flex text-[14px]">
                     <span className="mr-1 text-[#414141] font-medium shrink-0 mr-auto">
                       ISD File:
@@ -310,7 +317,7 @@ const TemplateCardComponents = ({
                     {/* <span className="truncate overflow-hidden whitespace-nowrap max-w-full">
                     {item.isd_file}
                   </span> */}
-                    {item?.isd_gps_file && (
+                    {currentData?.isd_gps_file && (
                       <span>
                         <img
                           src={compare}
@@ -343,7 +350,7 @@ const TemplateCardComponents = ({
                     </span>
                   </li>
                 )}
-                {item?.psr_file && (
+                {currentData?.psr_file && (
                   <li className="mt-2 text-[#000] font-bold flex text-[14px]">
                     <span className="mr-1 text-[#414141] font-medium shrink-0 mr-auto">
                       PSR File:
@@ -371,7 +378,7 @@ const TemplateCardComponents = ({
                     </span>
                   </li>
                 )}
-                {item?.station_file && (
+                {currentData?.station_file && (
                   <li className="mt-2 text-[#000] font-bold flex text-[14px]">
                     <span className="mr-1 text-[#414141] font-medium shrink-0 mr-auto">
                       Station File:
