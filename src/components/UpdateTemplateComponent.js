@@ -198,7 +198,7 @@ const UpdateTemplateComponent = () => {
             >
               <button className="sm:text-[18px] text-[12px] text-[#000] hover:text-[#000] ">Back</button>
             </span>
-            Update Template
+            Update {formData?.title} Template
           </h1>
 
           <form
