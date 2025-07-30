@@ -21,6 +21,8 @@ const CreateTemplateComponent = () => {
     psr_file: null,
     gradient_file: null,
     attacking_speed_file: null,
+    direction: "",
+    unpaireList: "",
   });
   const [popup, setPopup] = useState({ show: false, message: "", type: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,6 +33,8 @@ const CreateTemplateComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isTableVisible, setTableVisible] = useState(false);
   const [stationList, setStationList] = useState([]);
+  const [unpaireOptions, setUnpaireOptions] = useState([]);
+
 
   const navigate = useNavigate();
 
@@ -173,6 +177,23 @@ const CreateTemplateComponent = () => {
     }));
   };
 
+  useEffect(() => {
+    const fetchUnpaireOptions = async () => {
+      try {
+        const response = await apiService("get", RAILWAY_CONST.API_ENDPOINT.UNPAIRE_LIST);
+        console.log("Unpaire List Response:", response);
+        if (Array.isArray(response?.data)) {
+          setUnpaireOptions(response.data.map((item) => `[${[item.id]}] ${item.title}` || []));
+        }
+      } catch (error) {
+        console.error("Error fetching unpaire list:", error);
+      }
+    };
+
+    fetchUnpaireOptions();
+  }, []);
+
+
   // useEffect(() => {
   //   if (template) {
   //     setFormData((prevFormData) => ({
@@ -211,6 +232,8 @@ const CreateTemplateComponent = () => {
     const submission = new FormData();
 
     submission.append("title", formData.title);
+    submission.append("direction", formData.direction);
+    submission.append("unpaireList", formData.unpaireList);
 
     const fileFields = [
       "station_file",
@@ -257,7 +280,7 @@ const CreateTemplateComponent = () => {
       setIsSubmitting(false);
     }
   };
-  useEffect(() => {});
+  useEffect(() => { });
 
   return (
     <div className="w-full bg-[#efefef] p-4 reportGenerateBg pt-8 min-h-screen">
@@ -300,6 +323,41 @@ const CreateTemplateComponent = () => {
                 />
               </div>
             </div>
+            <div className="mb-4 flex items-center">
+              <label className="block font-medium mb-1 mr-4 w-[160px]">
+                Direction
+              </label>
+              <select
+                name="direction"
+                value={formData.direction}
+                onChange={handleInputChange}
+                className="p-2 border rounded h-[40px] w-[300px] border-gray-300"
+              >
+                <option value="">Select Direction</option>
+                <option value="Up">Up</option>
+                <option value="Down">Down</option>
+              </select>
+            </div>
+
+            <div className="mb-4 flex items-center">
+              <label className="block font-medium mb-1 mr-4 w-[160px]">
+                Unpaired List
+              </label>
+              <select
+                name="unpaireList"
+                value={formData.unpaireList}
+                onChange={handleInputChange}
+                className="p-2 border rounded h-[40px] w-[300px] border-gray-300"
+              >
+                <option value="">None</option>
+                {unpaireOptions.map((item, index) => (
+                  <option key={index} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </div>
+
 
             <FileDropzone
               label="Station File"
