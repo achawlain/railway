@@ -13,6 +13,7 @@ import CreateReport from "../pages/CreateReport";
 import { getDataFromLocalStorage } from "./localStorage";
 import Template from "../pages/Template";
 import CreateTemplateComponent from "../components/CreateTemplateComponent";
+import UpdateTemplateComponent from "../components/UpdateTemplateComponent";
 import Reports from "../pages/Reports";
 import Profile from "../pages/Profile";
 import ForgetPassword from "../components/ForgetPassword";
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: `${RAILWAY_CONST.ROUTE.CREATE_TEMPLATE}`,
         element: <PrivateRoute element={<CreateTemplateComponent />} />,
+      },
+      {
+        path: `${RAILWAY_CONST.ROUTE.UPDATE_TEMPLATE}`,
+        element: <PrivateRoute element={<UpdateTemplateComponent />} />,
       },
       {
         path: RAILWAY_CONST.ROUTE.DASHBOARD,

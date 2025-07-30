@@ -8,6 +8,7 @@ import {
 import deleteIcon from "../images/delete-icon.svg";
 // import downloadIcon from "../images/downloadIcon.svg";
 // import viewIcon from "../images/viewIcon.svg";
+import { Link } from "react-router-dom";
 import useIt from "../images/useIt.png";
 import compare from "../images/compare-icon.svg";
 import { apiService } from "../utils/apiService";
@@ -17,6 +18,10 @@ import DataTable from "./DataTable";
 import CompareDataTableComponent from "./CompareDataTableComponent";
 import Loader from "./Loader";
 import ErrorPopUpComponent from "./ErrorPopUpComponent";
+import { Button } from "primereact/button";
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 
 const TemplateCardComponents = ({
   item,
@@ -197,6 +202,11 @@ const TemplateCardComponents = ({
   const handleCompareISDFile = async () => {
     await CompareISDFile("isd_gps_file");
     await CompareISDFile("isd_file");
+  };
+
+  const handleEdit = () => {
+    setDataOnLocalStorage("currentTemplate", item); 
+    navigate(RAILWAY_CONST.ROUTE.UPDATE_TEMPLATE);
   };
 
   return (
@@ -388,6 +398,19 @@ const TemplateCardComponents = ({
               className="cursor-pointer leading-[13px] w-[21px] mr-[2px] mb-1"
             />
             Use It
+          </span>
+          <span
+            onClick={handleEdit}
+            className="flex w-[50%] text-[13px] opacity-[.8] text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"
+          >
+          {/* <Link to={RAILWAY_CONST.ROUTE.UPDATE_TEMPLATE}> */}
+            <Button
+              // label="Edit"
+              icon="pi pi-pencil"
+              className="pb-2 !focus:box-shadow-none !focus:outline-none !focus:border-red-400 cursor-pointer leading-[13px] w-[21px] mr-[2px] mb-1"
+            />
+          {/* </Link> */}
+          Edit
           </span>
         </div>
         {popup.show && (
