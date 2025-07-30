@@ -22,7 +22,7 @@ const CreateTemplateComponent = () => {
     gradient_file: null,
     attacking_speed_file: null,
     direction: "",
-    unpaireList: "",
+    pairing_id: "",
   });
   const [popup, setPopup] = useState({ show: false, message: "", type: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -183,7 +183,7 @@ const CreateTemplateComponent = () => {
         const response = await apiService("get", RAILWAY_CONST.API_ENDPOINT.UNPAIRE_LIST);
         console.log("Unpaire List Response:", response);
         if (Array.isArray(response?.data)) {
-          setUnpaireOptions(response.data.map((item) => `[${[item.id]}] ${item.title}` || []));
+          setUnpaireOptions(response.data.map((item) => ({ id: item.id, title: item.title })));
         }
       } catch (error) {
         console.error("Error fetching unpaire list:", error);
@@ -232,8 +232,8 @@ const CreateTemplateComponent = () => {
     const submission = new FormData();
 
     submission.append("title", formData.title);
-    submission.append("direction", formData.direction);
-    submission.append("unpaireList", formData.unpaireList);
+    submission.append("direction", parseInt(formData.direction, 10));
+    submission.append("pairing_id", formData.pairing_id);
 
     const fileFields = [
       "station_file",
@@ -334,28 +334,29 @@ const CreateTemplateComponent = () => {
                 className="p-2 border rounded h-[40px] w-[300px] border-gray-300"
               >
                 <option value="">Select Direction</option>
-                <option value="Up">Up</option>
-                <option value="Down">Down</option>
+                <option value="0">Up</option>
+                <option value="1">Down</option>
               </select>
             </div>
 
             <div className="mb-4 flex items-center">
               <label className="block font-medium mb-1 mr-4 w-[160px]">
-                Unpaired List
+                Pairing ID
               </label>
               <select
-                name="unpaireList"
-                value={formData.unpaireList}
+                name="pairing_id"
+                value={formData.pairing_id}
                 onChange={handleInputChange}
                 className="p-2 border rounded h-[40px] w-[300px] border-gray-300"
               >
                 <option value="">None</option>
-                {unpaireOptions.map((item, index) => (
-                  <option key={index} value={item}>
-                    {item}
+                {unpaireOptions.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    [{item.id}] {item.title}
                   </option>
                 ))}
               </select>
+
             </div>
 
 

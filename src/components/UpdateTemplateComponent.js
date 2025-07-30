@@ -20,6 +20,8 @@ const UpdateTemplateComponent = () => {
     psr_file: null,
     gradient_file: null,
     attacking_speed_file: null,
+    direction: template?.direction || "",
+    pairing_id: template?.pairing_id || "",
   });
 
   const [existingFiles, setExistingFiles] = useState({

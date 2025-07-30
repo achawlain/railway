@@ -41,6 +41,8 @@ const TemplateCardComponents = ({
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [direction, setDirection] = useState(item?.direction || 0); // 0 = UP, 1 = DOWN
+
 
   const [errorPopupState, setErrorPopupState] = useState({
     isShow: false,
@@ -205,7 +207,7 @@ const TemplateCardComponents = ({
   };
 
   const handleEdit = () => {
-    setDataOnLocalStorage("currentTemplate", item); 
+    setDataOnLocalStorage("currentTemplate", item);
     navigate(RAILWAY_CONST.ROUTE.UPDATE_TEMPLATE);
   };
 
@@ -215,9 +217,35 @@ const TemplateCardComponents = ({
       <div className=" dashboardCard pb-[65px] min-h-[240px] max-w-sm relative docCol w-[100%] min-w-[385px] mx-[.5%] mb-[20px] bg-[#f1f1f1] rounded-[10px] shadow-md hover:shadow-lg">
         <div>
           <div>
-            <div className="text-[18px] reportGenerateBg bg-[#30424c] rounded-t-[10px] px-4 pt-2 pb-2 font-medium text-[#fff] text-ellipsis overflow-hidden w-[100%] border-b border[#fefefe] truncate">
+            <div className="text-[18px] reportGenerateBg bg-[#30424c] rounded-t-[10px] px-4 pt-2 pb-2 font-medium text-[#fff] text-ellipsis overflow-hidden w-[100%] border-b border[#fefefe] truncate flex justify-between">
               [{item.id}] {item.title}
+
+              {/* toggle button */}
+              <div className="flex items-center text-[14px]">
+                <span className="mr-2 text-white font-bold">
+                  {direction === 0 ? "UP" : "DOWN"}
+                </span>
+                <label className="relative inline-block w-10 h-5">
+                  <input
+                    type="checkbox"
+                    checked={direction === 1}
+                    onChange={() => setDirection((prev) => (prev === 0 ? 1 : 0))}
+                    className="opacity-0 w-0 h-0"
+                  />
+                  <span
+                    className="absolute top-0 left-0 right-0 bottom-0 bg-gray-400 rounded-full transition-all duration-300 cursor-pointer"
+                  ></span>
+                  <span
+                    className={`absolute left-1 top-[2px] w-4 h-4 rounded-full shadow transition-transform duration-300 bg-[#9b4b90]`}
+                    style={{
+                      transform: direction === 1 ? "translateX(20px)" : "translateX(0)",
+                    }}
+                  ></span>
+                </label>
+              </div>
+
             </div>
+
             <div className="px-4">
               <ul>
                 {item?.attacking_speed_file && (
@@ -403,14 +431,14 @@ const TemplateCardComponents = ({
             onClick={handleEdit}
             className="flex w-[50%] text-[13px] opacity-[.8] text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"
           >
-          {/* <Link to={RAILWAY_CONST.ROUTE.UPDATE_TEMPLATE}> */}
+            {/* <Link to={RAILWAY_CONST.ROUTE.UPDATE_TEMPLATE}> */}
             <Button
               // label="Edit"
               icon="pi pi-pencil"
               className="pb-2 !focus:box-shadow-none !focus:outline-none !focus:border-red-400 cursor-pointer leading-[13px] w-[21px] mr-[2px] mb-1"
             />
-          {/* </Link> */}
-          Edit
+            {/* </Link> */}
+            Edit
           </span>
         </div>
         {popup.show && (
