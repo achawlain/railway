@@ -20,7 +20,7 @@ const UpdateTemplateComponent = () => {
     psr_file: null,
     gradient_file: null,
     attacking_speed_file: null,
-    direction: Number(template?.direction) ?? "",
+    direction: Number.isInteger(template?.direction) ? Number(template?.direction) : 0,
     pairing_id: template?.pairing_id || "",
   });
 
@@ -103,7 +103,7 @@ const UpdateTemplateComponent = () => {
     const submission = new FormData();
     submission.append("title", formData.title);
     submission.append("direction", parseInt(formData.direction, 10));
-    submission.append("pairing_id", formData.pairing_id);
+    submission.append("pairing_id", formData.pairing_id === "" ? null : formData.pairing_id);
 
     [
       "station_file",
@@ -126,7 +126,11 @@ const UpdateTemplateComponent = () => {
       if (response.status >= 200 && response.status < 300) {
         showPopup("Update successful!", "success");
       } else {
-        showPopup("Update failed.", "error");
+        if (response?.message) {
+          showPopup(response.message, "error");
+        } else {
+          showPopup("Update failed.", "error");
+        }
       }
     } catch (error) {
       showPopup(error.message || "Something went wrong.", "error");
@@ -250,9 +254,9 @@ const UpdateTemplateComponent = () => {
               </div>
             </div>
 
-            <div className="w-[48%] mb-6">
+            <div className="w-[48%]">
               {/* Current Direction */}
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center justify-between mb-6">
                 <label className="text-left block font-medium mb-1 mr-4 w-40">
                   Current Direction
                 </label>
@@ -266,27 +270,38 @@ const UpdateTemplateComponent = () => {
               </div>
 
               {/* Direction Select */}
-              <div className="flex items-center mb-6">
+              <div className="flex items-center mb-6 justify-between">
                 <label className="text-left block font-medium mb-1 mr-4 w-40">
                   Direction
                 </label>
-                <select
-                  name="direction"
-                  value={formData.direction}
-                  onChange={handleInputChange}
-                  className="p-2 border rounded h-[40px] w-[300px] border-gray-300"
-                >
-                  <option value="" disabled>Select Direction</option>
-                  <option value="0">UP</option>
-                  <option value="1">DOWN</option>
-                </select>
+                <div className="flex items-center gap-4">
+                  <div
+                    onClick={() =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        direction: prev.direction === 1 ? 0 : 1,
+                      }))
+                    }
+                    className={`w-16 h-8 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer transition duration-300 ${formData.direction === 1 ? "bg-blue-600" : "bg-gray-400"
+                      }`}
+                  >
+                    <div
+                      className={`bg-[#9b4b90] w-6 h-6 rounded-full shadow-md transform transition duration-300 ${formData.direction === 1 ? "translate-x-8" : ""
+                        }`}
+                    ></div>
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">
+                    {formData.direction === 1 ? "DOWN" : "UP"}
+                  </span>
+                </div>
               </div>
+
             </div>
 
 
-            <div className="w-[48%] mb-6">
+            <div className="w-[48%]">
               {/* Current Pairing ID */}
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center justify-between mb-6">
                 <label className="text-left block font-medium mb-1 mr-4 w-40">
                   Current Pairing ID
                 </label>
@@ -318,9 +333,9 @@ const UpdateTemplateComponent = () => {
                   name="pairing_id"
                   value={formData.pairing_id}
                   onChange={handleInputChange}
-                  className="p-2 border rounded h-[40px] w-[300px] border-gray-300"
+                  className="p-2 border rounded h-[40px] w-[370px] border-gray-300"
                 >
-                  <option value="">None</option>
+                  <option value=" ">None</option>
                   {unpaireOptions.map((item) => (
                     <option key={item.id} value={item.id}>
                       [{item.id}] {item.title}

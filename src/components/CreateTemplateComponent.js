@@ -181,13 +181,13 @@ const CreateTemplateComponent = () => {
     const fetchUnpaireOptions = async () => {
       try {
         const response = await apiService(
-        "get",
-        RAILWAY_CONST.API_ENDPOINT.UNPAIRE_LIST,
-        {}, // headers or config if needed
-        {
-          unpaired: "1", // query parameters go here
-        }
-      );
+          "get",
+          RAILWAY_CONST.API_ENDPOINT.UNPAIRE_LIST,
+          {}, // headers or config if needed
+          {
+            unpaired: "1", // query parameters go here
+          }
+        );
         console.log("Unpaire List Response:", response);
         if (Array.isArray(response?.data)) {
           setUnpaireOptions(response.data.map((item) => ({ id: item.id, title: item.title })));
@@ -240,7 +240,7 @@ const CreateTemplateComponent = () => {
 
     submission.append("title", formData.title);
     submission.append("direction", parseInt(formData.direction, 10));
-    submission.append("pairing_id", formData.pairing_id);
+    submission.append("pairing_id", formData.pairing_id === "" ? null : formData.pairing_id);
 
     const fileFields = [
       "station_file",
@@ -287,6 +287,14 @@ const CreateTemplateComponent = () => {
       setIsSubmitting(false);
     }
   };
+
+  useEffect(() => {
+    if (!formData.direction) {
+      setFormData((prev) => ({ ...prev, direction: "0" })); // default to UP
+    }
+  }, []);
+
+
   useEffect(() => { });
 
   return (
@@ -330,21 +338,36 @@ const CreateTemplateComponent = () => {
                 />
               </div>
             </div>
+
             <div className="mb-4 flex items-center">
               <label className="block font-medium mb-1 mr-4 w-[160px]">
                 Direction
               </label>
-              <select
-                name="direction"
-                value={formData.direction}
-                onChange={handleInputChange}
-                className="p-2 border rounded h-[40px] w-[300px] border-gray-300"
-              >
-                <option value="">Select Direction</option>
-                <option value="0">Up</option>
-                <option value="1">Down</option>
-              </select>
+              <div className="flex-grow">
+                <div className="flex items-center gap-4">
+                  <div
+                    onClick={() =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        direction: prev.direction === "1" ? "0" : "1", // toggle as string
+                      }))
+                    }
+                    className={`w-16 h-8 flex items-center rounded-full p-1 cursor-pointer transition duration-300 ${formData.direction === "1" ? "bg-blue-600" : "bg-gray-400"
+                      }`}
+                  >
+                    <div
+                      className={`bg-[#9b4b90] w-6 h-6 rounded-full shadow-md transform transition duration-300 ${formData.direction === "1" ? "translate-x-8" : ""
+                        }`}
+                    ></div>
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">
+                    {formData.direction === "1" ? "DOWN" : "UP"}
+                  </span>
+                </div>
+              </div>
             </div>
+
+
 
             <div className="mb-4 flex items-center">
               <label className="block font-medium mb-1 mr-4 w-[160px]">
@@ -356,7 +379,7 @@ const CreateTemplateComponent = () => {
                 onChange={handleInputChange}
                 className="p-2 border rounded h-[40px] w-[300px] border-gray-300"
               >
-                <option value={null}>None</option>
+                <option value="">None</option>
                 {unpaireOptions.map((item) => (
                   <option key={item.id} value={item.id}>
                     [{item.id}] {item.title}
