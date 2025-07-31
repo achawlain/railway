@@ -352,7 +352,7 @@ const CreateTemplateComponent = () => {
                         direction: prev.direction === "1" ? "0" : "1", // toggle as string
                       }))
                     }
-                    className={`w-16 h-8 flex items-center rounded-full p-1 cursor-pointer transition duration-300 ${formData.direction === "1" ? "bg-blue-600" : "bg-gray-400"
+                    className={`w-16 h-8 flex items-center rounded-full p-1 cursor-pointer transition duration-300 ${formData.direction === "1" ? "bg-gray-300" : "bg-gray-400"
                       }`}
                   >
                     <div

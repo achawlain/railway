@@ -232,7 +232,7 @@ const UpdateTemplateComponent = () => {
             >
               <button className="sm:text-[18px] text-[12px] text-[#000] hover:text-[#000] ">Back</button>
             </span>
-            Update {formData?.title} Template
+            Update [{template?.id}] {template?.title} Template
           </h1>
 
           <form
@@ -282,7 +282,7 @@ const UpdateTemplateComponent = () => {
                         direction: prev.direction === 1 ? 0 : 1,
                       }))
                     }
-                    className={`w-16 h-8 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer transition duration-300 ${formData.direction === 1 ? "bg-blue-600" : "bg-gray-400"
+                    className={`w-16 h-8 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer transition duration-300 ${formData.direction === 1 ? "bg-gray-300" : "bg-gray-400"
                       }`}
                   >
                     <div
