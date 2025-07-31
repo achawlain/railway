@@ -69,7 +69,7 @@ const TemplateCardComponents = ({
         RAILWAY_CONST.API_ENDPOINT.METADATA,
         {},
         {
-          template_id: item.id,
+          template_id: currentData.id,
           data_src: dataSource,
         }
       );
@@ -111,7 +111,7 @@ const TemplateCardComponents = ({
         RAILWAY_CONST.API_ENDPOINT.METADATA,
         {},
         {
-          template_id: item.id,
+          template_id: currentData.id,
           data_src: dataSource,
         }
       );
@@ -152,7 +152,7 @@ const TemplateCardComponents = ({
           responseType: "blob", // Important to get file
         },
         {
-          template_id: item.id,
+          template_id: currentData.id,
           data_src: dataSource,
           download: "1",
         }
@@ -169,7 +169,7 @@ const TemplateCardComponents = ({
 
         const link = document.createElement("a");
         link.href = url;
-        link.download = `${dataSource}_${item.id}.csv`; // You can customize filename
+        link.download = `${dataSource}_${currentData.id}.csv`; // You can customize filename
         document.body.appendChild(link);
         link.click();
 
@@ -493,7 +493,7 @@ const TemplateCardComponents = ({
               <CompareDataTableComponent
                 columns={columns}
                 data={data}
-                cardTemplateData={item}
+                cardTemplateData={currentData}
                 compareData={comparedataISDFile}
                 onClose={(e) => {
                   if (e?.stopPropagation) e.stopPropagation();
