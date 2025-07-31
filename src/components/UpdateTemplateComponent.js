@@ -126,10 +126,10 @@ const UpdateTemplateComponent = () => {
       if (response.status >= 200 && response.status < 300) {
         showPopup("Update successful!", "success");
       } else {
-        if (response?.message) {
+        if (response?.message ){
           showPopup(response.message, "error");
         } else {
-          showPopup("Update failed.", "error");
+        showPopup("Update failed.", "error");
         }
       }
     } catch (error) {
@@ -335,7 +335,7 @@ const UpdateTemplateComponent = () => {
                   onChange={handleInputChange}
                   className="p-2 border rounded h-[40px] w-[370px] border-gray-300"
                 >
-                  <option value=" ">None</option>
+                  <option value="">None</option>
                   {unpaireOptions.map((item) => (
                     <option key={item.id} value={item.id}>
                       [{item.id}] {item.title}
