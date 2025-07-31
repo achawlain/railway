@@ -180,7 +180,14 @@ const CreateTemplateComponent = () => {
   useEffect(() => {
     const fetchUnpaireOptions = async () => {
       try {
-        const response = await apiService("get", RAILWAY_CONST.API_ENDPOINT.UNPAIRE_LIST);
+        const response = await apiService(
+        "get",
+        RAILWAY_CONST.API_ENDPOINT.UNPAIRE_LIST,
+        {}, // headers or config if needed
+        {
+          unpaired: "1", // query parameters go here
+        }
+      );
         console.log("Unpaire List Response:", response);
         if (Array.isArray(response?.data)) {
           setUnpaireOptions(response.data.map((item) => ({ id: item.id, title: item.title })));

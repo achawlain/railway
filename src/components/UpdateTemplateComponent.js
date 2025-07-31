@@ -20,7 +20,7 @@ const UpdateTemplateComponent = () => {
     psr_file: null,
     gradient_file: null,
     attacking_speed_file: null,
-    direction: template?.direction || "",
+    direction: Number(template?.direction) ?? "",
     pairing_id: template?.pairing_id || "",
   });
 
@@ -39,6 +39,8 @@ const UpdateTemplateComponent = () => {
   const [columns, setColumns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isTableVisible, setTableVisible] = useState(false);
+  const [unpaireOptions, setUnpaireOptions] = useState([]);
+
 
   const showPopup = (message, type = "success") => {
     setPopup({ show: true, message, type });
@@ -100,6 +102,8 @@ const UpdateTemplateComponent = () => {
     setIsSubmitting(true);
     const submission = new FormData();
     submission.append("title", formData.title);
+    submission.append("direction", parseInt(formData.direction, 10));
+    submission.append("pairing_id", formData.pairing_id);
 
     [
       "station_file",
@@ -116,7 +120,7 @@ const UpdateTemplateComponent = () => {
     try {
       const response = await apiService(
         "PUT",
-        `${RAILWAY_CONST.API_ENDPOINT.METADATA}/${template.id}`,
+        `${RAILWAY_CONST.API_ENDPOINT.TEMPLATE}/${template.id}`,
         submission
       );
       if (response.status >= 200 && response.status < 300) {
@@ -187,6 +191,30 @@ const UpdateTemplateComponent = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchUnpaireOptions = async () => {
+      try {
+        const response = await apiService(
+          "get",
+          RAILWAY_CONST.API_ENDPOINT.UNPAIRE_LIST,
+          {}, // headers or config if needed
+          {
+            unpaired: "1", // query parameters go here
+            pairing_id: template.pairing_id, // assuming pairing_id is part of the template
+          }
+        );
+        console.log("Unpaire List Response:", response);
+        if (Array.isArray(response?.data)) {
+          setUnpaireOptions(response.data.map((item) => ({ id: item.id, title: item.title })));
+        }
+      } catch (error) {
+        console.error("Error fetching unpaire list:", error);
+      }
+    };
+
+    fetchUnpaireOptions();
+  }, []);
+
   return (
     <div className="w-full bg-[#efefef] p-4 reportGenerateBg pt-8 min-h-screen">
       {isSubmitting && <div className="loader"><Loader /></div>}
@@ -221,6 +249,88 @@ const UpdateTemplateComponent = () => {
                 />
               </div>
             </div>
+
+            <div className="w-[48%] mb-6">
+              {/* Current Direction */}
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-left block font-medium mb-1 mr-4 w-40">
+                  Current Direction
+                </label>
+                <div className="text-sm text-gray-600 ml-[160px]">
+                  {template?.direction !== undefined && template?.direction !== null ? (
+                    <b>{template?.direction === 0 ? "UP" : "DOWN"}</b>
+                  ) : (
+                    <span className="text-red-500">Not set</span>
+                  )}
+                </div>
+              </div>
+
+              {/* Direction Select */}
+              <div className="flex items-center mb-6">
+                <label className="text-left block font-medium mb-1 mr-4 w-40">
+                  Direction
+                </label>
+                <select
+                  name="direction"
+                  value={formData.direction}
+                  onChange={handleInputChange}
+                  className="p-2 border rounded h-[40px] w-[300px] border-gray-300"
+                >
+                  <option value="" disabled>Select Direction</option>
+                  <option value="0">UP</option>
+                  <option value="1">DOWN</option>
+                </select>
+              </div>
+            </div>
+
+
+            <div className="w-[48%] mb-6">
+              {/* Current Pairing ID */}
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-left block font-medium mb-1 mr-4 w-40">
+                  Current Pairing ID
+                </label>
+                <div className="text-sm text-gray-600 ml-[160px]">
+                  {template?.pairing_id ? (
+                    <>
+                      <b>
+                        [{template.pairing_id}]
+                        {" "}
+                        {
+                          unpaireOptions.find((item) => item.id === template.pairing_id)?.title ||
+                          "(Title not found)"
+                        }
+                      </b>
+                    </>
+                  ) : (
+                    <span className="text-red-500">Not set</span>
+                  )}
+                </div>
+
+              </div>
+
+              {/* Pairing ID Select */}
+              <div className="flex items-center mb-6">
+                <label className="text-left block font-medium mb-1 mr-4 w-40">
+                  Pairing ID
+                </label>
+                <select
+                  name="pairing_id"
+                  value={formData.pairing_id}
+                  onChange={handleInputChange}
+                  className="p-2 border rounded h-[40px] w-[300px] border-gray-300"
+                >
+                  <option value="">None</option>
+                  {unpaireOptions.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      [{item.id}] {item.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+
 
             {["station_file", "isd_file", "psr_file", "gradient_file", "attacking_speed_file"].map(
               (field) => (

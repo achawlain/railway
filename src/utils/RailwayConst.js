@@ -28,7 +28,7 @@ const RAILWAY_CONST = {
     GPS_TEMPLATES: "/gps/templates",
     GPS: "/gps",
     REPLACE: "/replace",
-    UNPAIRE_LIST: "/metadata/unpaired",
+    UNPAIRE_LIST: "/metadata/templates",
   },
 
   ROUTE: {
