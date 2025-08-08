@@ -247,7 +247,7 @@ const TemplateCardComponents = ({
                     />
                     <span className="absolute top-0 left-0 right-0 bottom-0 bg-gray-400 rounded-full transition-all duration-300 cursor-pointer"></span>
                     <span
-                      className={`absolute left-1 top-[2px] w-4 h-4 rounded-full shadow transition-transform duration-300 bg-[#9b4b90]`}
+                      className={`absolute top-[2px] w-4 h-4 rounded-full shadow transition-transform duration-300 bg-[#9b4b90] ${direction === 1 ? "left-0" : "left-1"}`}
                       style={{
                         transform: direction === 1 ? "translateX(20px)" : "translateX(0)",
                       }}
