@@ -140,61 +140,96 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
                 </div>
               ) : (
                 <>
-                  <li className="mt-2 text-[#211944] font-medium text-[14px]">
-                    <span className="mr-1 text-[#646262] font-medium">
-                      PSR Violation :
-                    </span>
-                    <span
-                      className={`${
-                        item?.psr_violation == null ||
-                        item?.psr_violation.length === 0
-                          ? "text-black"
-                          : "text-[red]"
-                      }`}
-                    >
-                      {item?.psr_violation == null ||
-                      item?.psr_violation.length === 0
-                        ? "Nil"
-                        : item?.psr_violation.length}
-                    </span>
-                  </li>
-                  <li className="mt-2 text-[#211944] font-medium text-[14px]">
-                    <span className="mr-1 text-[#646262] font-medium">
-                      TSR Violation :
-                    </span>
-                    <span
-                      className={`${
-                        item?.tsr_violation == null ||
-                        item?.tsr_violation.length === 0
-                          ? "text-black"
-                          : "text-[red]"
-                      }`}
-                    >
-                      {item?.tsr_violation == null ||
-                      item?.tsr_violation.length === 0
-                        ? "Nil"
-                        : item?.tsr_violation.length}
-                    </span>
-                  </li>
-                  <li className="mt-2 text-[#211944] font-medium text-[14px]">
-                    <span className="mr-1 text-[#646262] font-medium">
-                      Attacking Speed Violation :
-                    </span>
-                    <span
-                      className={`${
-                        item?.attacking_speed_violation == null ||
-                        item?.attacking_speed_violation.length === 0
-                          ? "text-black"
-                          : "text-[red]"
-                      }`}
-                    >
-                      {" "}
-                      {item?.attacking_speed_violation == null ||
-                      item?.attacking_speed_violation.length === 0
-                        ? "Nil"
-                        : item?.attacking_speed_violation.length}
-                    </span>
-                  </li>
+                  <h4 className="text-[14px] mt-2 text-[#9b4b90] font-medium">
+                    Violations
+                  </h4>
+                  <ul className="flex flex-row justify-between">
+                    <li className="text-[#211944] font-medium text-[14px] flex items-center flex-row justify-center text-center">
+                      <span
+                        className={`
+                         w-[28px] h-[28px] rounded-full flex items-center justify-center mr-[5px]
+                        ${
+                          item?.psr_violation == null ||
+                          item?.psr_violation.length === 0
+                            ? "text-black border border-[green]"
+                            : "text-[red] border border-[red]"
+                        }`}
+                      >
+                        {item?.psr_violation == null ||
+                        item?.psr_violation.length === 0 ? (
+                          <>
+                            <img
+                              src={rightIcon}
+                              alt="right icon"
+                              className="w-5 h-auto"
+                            />
+                          </>
+                        ) : (
+                          item?.psr_violation.length
+                        )}
+                      </span>
+                      <span className="mr-1 text-[#646262] font-medium  text-left">
+                        PSR
+                      </span>
+                    </li>
+                    <li className=" text-[#211944] font-medium text-[14px] flex items-center flex-row justify-center text-center">
+                      <span
+                        className={`
+                        w-[28px] h-[28px] rounded-full flex items-center justify-center mr-[5px]
+                        ${
+                          item?.tsr_violation == null ||
+                          item?.tsr_violation.length === 0
+                            ? "text-black border border-[green] "
+                            : "text-[red] border border-[red] "
+                        }`}
+                      >
+                        {item?.tsr_violation == null ||
+                        item?.tsr_violation.length === 0 ? (
+                          <>
+                            <img
+                              src={rightIcon}
+                              alt="right icon"
+                              className="w-5 h-auto"
+                            />
+                          </>
+                        ) : (
+                          item?.tsr_violation.length
+                        )}
+                      </span>
+                      <span className="mr-1 text-[#646262] font-medium  text-left">
+                        TSR
+                      </span>
+                    </li>
+                    <li className=" text-[#211944] font-medium text-[14px] flex items-center flex-row justify-center text-center">
+                      <span
+                        className={`
+                        w-[28px] h-[28px] rounded-full flex items-center justify-center mr-[5px]
+                        ${
+                          item?.attacking_speed_violation == null ||
+                          item?.attacking_speed_violation.length === 0
+                            ? "text-black border border-[green] "
+                            : "text-[red] border border-[red] "
+                        }`}
+                      >
+                        {" "}
+                        {item?.attacking_speed_violation == null ||
+                        item?.attacking_speed_violation.length === 0 ? (
+                          <>
+                            <img
+                              src={rightIcon}
+                              alt="right icon"
+                              className="w-5 h-auto"
+                            />
+                          </>
+                        ) : (
+                          item?.attacking_speed_violation.length
+                        )}
+                      </span>
+                      <span className="mr-1 text-[#646262] font-medium max-w-[70pc] text-left leading-[16px]">
+                        Attacking Speed
+                      </span>
+                    </li>
+                  </ul>
                 </>
               )}
             </ul>
