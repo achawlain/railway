@@ -188,7 +188,7 @@ const CreateTemplateComponent = () => {
             unpaired: "1", // query parameters go here
           }
         );
-        console.log("Unpaire List Response:", response);
+        // console.log("Unpaire List Response:", response);
         if (Array.isArray(response?.data)) {
           setUnpaireOptions(response.data.map((item) => ({ id: item.id, title: item.title })));
         }

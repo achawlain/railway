@@ -149,14 +149,14 @@ const ReportGenerateComponent = () => {
     setLoading(true);
     try {
       const response = await apiService("get", RAILWAY_CONST.API_ENDPOINT.REPORTS_SLASH);
-      console.log("Response Data:", response.data);
+      // console.log("Response Data:", response.data);
       const reports = Array.isArray(response.data)
         ? response.data
         : response.reports || [];
-        console.log("Reports:", reports,reports.id, id);
+        // console.log("Reports:", reports,reports.id, id);
 
       const matchedReport = reports.find((report) => String(report?.id) === String(id));
-      console.log("Matched Report:", matchedReport);
+      // console.log("Matched Report:", matchedReport);
       if (matchedReport) {
         setCurrentReport(matchedReport);
       } else {

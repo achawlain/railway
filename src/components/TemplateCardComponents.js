@@ -74,7 +74,7 @@ const TemplateCardComponents = ({
         }
       );
       const responseData = response?.data || [];
-      console.log("responseData===", responseData);
+      // console.log("responseData===", responseData);
 
       if ("message" in responseData) {
         setColumns([]);
@@ -89,7 +89,7 @@ const TemplateCardComponents = ({
         setTableVisible(true);
       }
     } catch (error) {
-      console.log("Error replacing file:", error);
+      // console.log("Error replacing file:", error);
       let errorMessage = "Failed to fetch data. Please try again.";
       if (error?.message) {
         errorMessage = error?.message;

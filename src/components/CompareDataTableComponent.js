@@ -66,7 +66,7 @@ const CompareDataTableComponent = ({
         });
       }
     } catch (error) {
-      console.log("Error replacing file:", error);
+      // console.log("Error replacing file:", error);
       let errorMessage = "Failed to fetch data. Please try again.";
       if (error?.response?.data?.message) {
         errorMessage = error.response.data.message;

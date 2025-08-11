@@ -307,6 +307,11 @@ const CreateReportComponentNew = () => {
       return;
     }
 
+    if (!formData.train_type) {
+      showPopup("Train Type is required!", "error");
+      return
+    }
+
     setIsSubmitting(true);
 
     const submission = new FormData();
@@ -543,7 +548,7 @@ const CreateReportComponentNew = () => {
                 /> */}
                 {/* Goods checkbox removed */}
                 <label className="block font-medium mb-1 mr-4 w-40">
-                  Train Type
+                  Train Type <span className="text-red-500">*</span>
                 </label>
                 <select
                   name="train_type"

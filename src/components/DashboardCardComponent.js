@@ -19,8 +19,9 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
   const [showConfirm, setShowConfirm] = useState(false);
 
   const handleClick = () => {
+    const newTab = window.open("", "_blank"); // open blank tab instantly
     setDataOnLocalStorage("currentReport", item);
-    window.open(`/reports/${item.id}`, "_blank");
+    newTab.location.href = `/reports/${item.id}`;
   };
 
   const handleDeleteClick = () => {
@@ -122,10 +123,10 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
               </li>
               {(item?.psr_violation == null ||
                 item?.psr_violation.length === 0) &&
-              (item?.tsr_violation == null ||
-                item?.tsr_violation.length === 0) &&
-              (item?.attacking_speed_violation == null ||
-                item?.attacking_speed_violation.length === 0) ? (
+                (item?.tsr_violation == null ||
+                  item?.tsr_violation.length === 0) &&
+                (item?.attacking_speed_violation == null ||
+                  item?.attacking_speed_violation.length === 0) ? (
                 <div className="flex items-center justify-center mt-5">
                   <span className="mr-1 text-[#91518D] font-bold text-[16px]">
                     No Violations
@@ -148,15 +149,14 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
                       <span
                         className={`
                          w-[28px] h-[28px] rounded-full flex items-center justify-center mr-[5px]
-                        ${
-                          item?.psr_violation == null ||
-                          item?.psr_violation.length === 0
+                        ${item?.psr_violation == null ||
+                            item?.psr_violation.length === 0
                             ? "text-black border border-[green]"
                             : "text-[red] border border-[red]"
-                        }`}
+                          }`}
                       >
                         {item?.psr_violation == null ||
-                        item?.psr_violation.length === 0 ? (
+                          item?.psr_violation.length === 0 ? (
                           <>
                             <img
                               src={rightIcon}
@@ -176,15 +176,14 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
                       <span
                         className={`
                         w-[28px] h-[28px] rounded-full flex items-center justify-center mr-[5px]
-                        ${
-                          item?.tsr_violation == null ||
-                          item?.tsr_violation.length === 0
+                        ${item?.tsr_violation == null ||
+                            item?.tsr_violation.length === 0
                             ? "text-black border border-[green] "
                             : "text-[red] border border-[red] "
-                        }`}
+                          }`}
                       >
                         {item?.tsr_violation == null ||
-                        item?.tsr_violation.length === 0 ? (
+                          item?.tsr_violation.length === 0 ? (
                           <>
                             <img
                               src={rightIcon}
@@ -204,16 +203,15 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
                       <span
                         className={`
                         w-[28px] h-[28px] rounded-full flex items-center justify-center mr-[5px]
-                        ${
-                          item?.attacking_speed_violation == null ||
-                          item?.attacking_speed_violation.length === 0
+                        ${item?.attacking_speed_violation == null ||
+                            item?.attacking_speed_violation.length === 0
                             ? "text-black border border-[green] "
                             : "text-[red] border border-[red] "
-                        }`}
+                          }`}
                       >
                         {" "}
                         {item?.attacking_speed_violation == null ||
-                        item?.attacking_speed_violation.length === 0 ? (
+                          item?.attacking_speed_violation.length === 0 ? (
                           <>
                             <img
                               src={rightIcon}
@@ -261,11 +259,9 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
           View
         </span>
         <a
-          href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${
-            item.id
-          }/download?report_file_type=pdf&from_station=${
-            item.stn_from
-          }&to_station=${item.stn_to}&jwt=${userInfo.access_token || ""}`}
+          href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${item.id
+            }/download?report_file_type=pdf&from_station=${item.stn_from
+            }&to_station=${item.stn_to}&jwt=${userInfo.access_token || ""}`}
           // onClick={() => onView(item)}
           className="flex w-[50%] text-[13px] opacity-[.8] text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"
         >

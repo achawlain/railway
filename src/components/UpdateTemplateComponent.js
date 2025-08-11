@@ -207,7 +207,7 @@ const UpdateTemplateComponent = () => {
             pairing_id: template.pairing_id, // assuming pairing_id is part of the template
           }
         );
-        console.log("Unpaire List Response:", response);
+        // console.log("Unpaire List Response:", response);
         if (Array.isArray(response?.data)) {
           setUnpaireOptions(response.data.map((item) => ({ id: item.id, title: item.title })));
         }

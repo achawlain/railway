@@ -60,6 +60,7 @@ const ReportTable = ({
     runningTime: "",
     totalDistance: "",
     timeWithSpeed: "",
+    warning_details: "",
   });
   let navigate = useNavigate();
   const { id } = useParams();
@@ -146,6 +147,7 @@ const ReportTable = ({
       psr_violation: currentReport.psr_violation || [],
       tsr_violation: currentReport.tsr_violation || [],
       attacking_speed_violation: currentReport.attacking_speed_violation || [],
+      warning_details: currentReport.warning_details || "",
     };
 
     setFormData(updatedForm);
@@ -287,26 +289,56 @@ const ReportTable = ({
                   download
                 > */}
                 <a
-                  href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${
-                    currentReport.id
-                  }/download?report_file_type=pdf&from_station=${
-                    formData.from || currentReport.stn_from || ""
-                  }&to_station=${
-                    formData.to || currentReport.stn_to || ""
-                  }&jwt=${userInfo.access_token || ""}`}
+                  href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${currentReport.id
+                    }/download?report_file_type=pdf&from_station=${formData.from || currentReport.stn_from || ""
+                    }&to_station=${formData.to || currentReport.stn_to || ""
+                    }&jwt=${userInfo.access_token || ""}`}
                   download
                 >
                   <button
                     className="bg-[#2c215d] absolute top-1 right-[0] sm:h-[32px] h-[30px] sm:w-[150px] w-[110px] font-normal sm:text-[16px] text-[12px] text-white absolute right-8 cursor-pointer"
-                    // onClick={() => {
-                    //   downloadFiles(currentReport.stn_from, currentReport.stn_to);
-                    // }}
-                    // id="downloadPdfButton"
+                  // onClick={() => {
+                  //   downloadFiles(currentReport.stn_from, currentReport.stn_to);
+                  // }}
+                  // id="downloadPdfButton"
                   >
                     Download Report
                   </button>
                 </a>
               </h3>
+              {formData?.warning_details && (() => {
+                let warnings = [];
+
+                try {
+                  warnings = JSON.parse(formData.warning_details); // parse JSON string
+                } catch (e) {
+                  warnings = [formData.warning_details]; // fallback if not valid JSON
+                }
+
+                return Array.isArray(warnings) && warnings.length > 0 ? (
+                  <div className="bg-yellow-50 border-l-4 border-yellow-500 text-yellow-800 p-4 mb-4 rounded">
+                    {/* <div className="font-semibold mb-2">Warnings:</div> */}
+                    <ul className="list-disc list-inside space-y-1">
+                      {warnings.map((warning, idx) => (
+                        <li key={idx} className="flex items-start">
+                          <svg
+                            className="w-5 h-5 text-yellow-500 flex-shrink-0 mt-0.5 mr-2"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                              d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <span>{warning}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null;
+              })()}
+
 
               <form className="grid grid-cols-3 gap-8 formBox">
                 {/* Row 1 start */}
@@ -415,9 +447,8 @@ const ReportTable = ({
                       name="lp"
                       value={formData.lp}
                       onChange={handleChange}
-                      className={`w-full border p-2 rounded focus:outline-none ${
-                        borderBox && formData.lp === "" ? "border-red-500" : ""
-                      }`}
+                      className={`w-full border p-2 rounded focus:outline-none ${borderBox && formData.lp === "" ? "border-red-500" : ""
+                        }`}
                       onBlur={handleBlur}
                     />
                   </div>
@@ -430,11 +461,10 @@ const ReportTable = ({
                       name="designation"
                       value={formData.designation}
                       onChange={handleChange}
-                      className={`w-full border p-2 rounded focus:outline-none ${
-                        borderBox && formData.designation === ""
-                          ? "border-red-500"
-                          : ""
-                      }`}
+                      className={`w-full border p-2 rounded focus:outline-none ${borderBox && formData.designation === ""
+                        ? "border-red-500"
+                        : ""
+                        }`}
                       onBlur={handleBlur}
                     />
                   </div>
@@ -447,11 +477,10 @@ const ReportTable = ({
                       name="nominatedCLI"
                       value={formData.nominatedCLI}
                       onChange={handleChange}
-                      className={`w-full border p-2 rounded focus:outline-none ${
-                        borderBox && formData.nominatedCLI === ""
-                          ? "border-red-500"
-                          : ""
-                      }`}
+                      className={`w-full border p-2 rounded focus:outline-none ${borderBox && formData.nominatedCLI === ""
+                        ? "border-red-500"
+                        : ""
+                        }`}
                       onBlur={handleBlur}
                     />
                   </div>

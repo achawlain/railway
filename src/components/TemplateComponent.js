@@ -33,7 +33,7 @@ const TemplateComponent = () => {
       ? response.data
       : response.templates || [];
 
-    console.log("Raw templates:", raw);
+    // console.log("Raw templates:", raw);
 
     const map = new Map();
     raw.forEach((template) => {
@@ -48,7 +48,7 @@ const TemplateComponent = () => {
       return true;
     });
 
-    console.log("Visible templates:", visibleTemplates);
+    // console.log("Visible templates:", visibleTemplates);
     setTemplates(visibleTemplates);
   } catch (error) {
     console.error("Error fetching templates:", error);
@@ -84,7 +84,7 @@ const TemplateComponent = () => {
                   </h1>
 
                   <div className="listTable w-full flex flex-row flex-wrap mb-[50px]">
-                    {console.log("Templates:", templates)}
+                    {/* {console.log("Templates:", templates)} */}
                     {templates.length > 0 ? (
                       templates.filter((template) => !template.title.trim().endsWith("[GPS]")).map((item) => (
                         <TemplateCardComponents
