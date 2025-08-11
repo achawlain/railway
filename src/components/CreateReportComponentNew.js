@@ -590,7 +590,7 @@ const CreateReportComponentNew = () => {
                 {/* date time picker */}
                 <label className="block font-medium mb-1 mr-4 w-40">Reported Start Time</label>
                 <Calendar
-                  value={formData.reported_start_time}
+                  value={formData.reported_start_time instanceof Date ? formData.reported_start_time : null} 
                   onChange={(e) => setFormData({ ...formData, reported_start_time: formatDateTime(e.value) })}
                   showTime
                   hourFormat="24"
