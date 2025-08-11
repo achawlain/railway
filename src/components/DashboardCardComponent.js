@@ -20,7 +20,7 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
 
   const handleClick = () => {
     setDataOnLocalStorage("currentReport", item);
-    navigate(`/reports/${item.id}`, {});
+    window.open(`/reports/${item.id}`, "_blank");
   };
 
   const handleDeleteClick = () => {

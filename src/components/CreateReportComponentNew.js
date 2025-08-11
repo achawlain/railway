@@ -14,6 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Loader from "./Loader";
 import { getDataFromLocalStorage } from "../utils/localStorage";
 import DataTable from "./DataTable";
+import { Calendar } from "primereact/calendar";
 const CreateReportComponentNew = () => {
   const [template, setTemplate] = useState(
     getDataFromLocalStorage("currentTemplate")
@@ -37,7 +38,9 @@ const CreateReportComponentNew = () => {
     gradient_file: null,
     speedo_file: null,
     attacking_speed_file: null,
-    goods: false,
+    // goods: false,
+    train_type: "",
+    reported_start_time: null,
   });
   const [popup, setPopup] = useState({ show: false, message: "", type: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -216,6 +219,19 @@ const CreateReportComponentNew = () => {
     }, 4000);
   };
 
+  const formatDateTime = (date) => {
+    if (!date) return "";
+    const pad = (n) => String(n).padStart(2, "0");
+    const year = date.getFullYear();
+    const month = pad(date.getMonth() + 1);
+    const day = pad(date.getDate());
+    const hours = pad(date.getHours());
+    const minutes = pad(date.getMinutes());
+    const seconds = pad(date.getSeconds());
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  };
+
+
   //   const handleSubmit = async (e) => {
   //     e.preventDefault();
 
@@ -303,7 +319,10 @@ const CreateReportComponentNew = () => {
     submission.append("spm", formData.spm);
     submission.append("starts_from", formData.starts_from);
     submission.append("report_title", formData.title);
-    submission.append("goods", formData.goods ? "true" : "false");
+    // submission.append("goods", formData.goods ? "true" : "false");
+    submission.append("train_type", formData.train_type);
+    submission.append("reported_start_time", formData.reported_start_time);
+
 
     const fileFields = [
       // "station_file",
@@ -357,7 +376,7 @@ const CreateReportComponentNew = () => {
       setIsSubmitting(false);
     }
   };
-  useEffect(() => {});
+  useEffect(() => { });
 
   return (
     <div className="w-full bg-[#efefef] p-4 reportGenerateBg pt-8 min-h-screen">
@@ -506,7 +525,7 @@ const CreateReportComponentNew = () => {
               </div>
 
               <div className="mb-4 flex items-center goodColum max-w-[460px] w-[48%] createFormColSecond">
-                <label
+                {/* <label
                   htmlFor="goods"
                   className="block font-medium mb-1 mr-4 w-40"
                 >
@@ -521,7 +540,24 @@ const CreateReportComponentNew = () => {
                     setFormData({ ...formData, goods: e.target.checked })
                   }
                   className="p-2 border rounded w-[20px] cursor-pointer transition-all w-5 h-5 border-gray-300 accent-[#4f46e5]"
-                />
+                /> */}
+                {/* Goods checkbox removed */}
+                <label className="block font-medium mb-1 mr-4 w-40">
+                  Train Type
+                </label>
+                <select
+                  name="train_type"
+                  value={formData.train_type}
+                  onChange={handleDropdownChange}
+                  className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px] h-[39px]"
+                >
+                  <option value="" disabled>Select Train Type</option>
+                  <option value="1">Passenger</option>
+                  <option value="2">Mail Express</option>
+                  <option value="3">Goods</option>
+                  <option value="4">Light Engine [LE]</option>
+                </select>
+
               </div>
             </div>
 
@@ -548,6 +584,24 @@ const CreateReportComponentNew = () => {
               </div>
               <div className="flex items-center w-[48%] relative max-w-[460px]"></div>
             </div>
+
+            <div className="w-full flex-row flex justify-around createFormRow">
+              <div className="mb-4 flex items-center w-[48%] createFormColFirst">
+                {/* date time picker */}
+                <label className="block font-medium mb-1 mr-4 w-40">Reported Start Time</label>
+                <Calendar
+                  value={formData.reported_start_time}
+                  onChange={(e) => setFormData({ ...formData, reported_start_time: formatDateTime(e.value) })}
+                  showTime
+                  hourFormat="24"
+                  dateFormat="dd/mm/yy"
+                  className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px] w-full"
+                />
+              </div>
+              <div className="flex items-center w-[48%] max-w-[460px]"></div>
+            </div>
+
+
             <div className="w-full flex-row flex justify-around createFormRow">
               <div className="flex items-center w-[48%] dropzondRow">
                 <FileDropzone
@@ -733,7 +787,7 @@ const CreateReportComponentNew = () => {
                     </div>
                   )}
 
-                  {formData.goods && template.attacking_speed_file && (
+                  {formData.train_type === "3" && template.attacking_speed_file && (
                     <div className="mb-4 flex items-center w-auto flex-col px-1">
                       <span className="border-2 border-[#9b4b90] rounded-full w-[65px] h-[65px] flex items-center justify-center">
                         <img
