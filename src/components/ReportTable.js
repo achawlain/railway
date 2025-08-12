@@ -335,6 +335,9 @@ const ReportTable = ({
                         </li>
                       ))}
                     </ul>
+                    <div className="mt-2 text-sm text-gray-700 bg-yellow-100 rounded p-2 border border-yellow-200">
+                      <span className="font-semibold">Note:</span> Please correlate these observations when interpreting the report, and take them into account while writing your remarks.
+                    </div>
                   </div>
                 ) : null;
               })()}

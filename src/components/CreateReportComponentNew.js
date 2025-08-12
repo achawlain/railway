@@ -326,7 +326,7 @@ const CreateReportComponentNew = () => {
     submission.append("report_title", formData.title);
     // submission.append("goods", formData.goods ? "true" : "false");
     submission.append("train_type", formData.train_type);
-    submission.append("reported_start_time", formData.reported_start_time);
+    submission.append("reported_start_time", formatTime(formData.reported_start_time));
 
 
     const fileFields = [
@@ -604,7 +604,7 @@ const CreateReportComponentNew = () => {
                 <label className="block font-medium mb-1 mr-4 w-40">Reported Start Time</label>
                 <Calendar
                   value={formData.reported_start_time instanceof Date ? formData.reported_start_time : null}
-                  onChange={(e) => setFormData({ ...formData, reported_start_time: formatTime(e.value) })}
+                  onChange={(e) => setFormData({ ...formData, reported_start_time: e.value })}
                   timeOnly
                   hourFormat="24"
                   className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px] w-full"
