@@ -381,6 +381,14 @@ const CreateReportComponentNew = () => {
       setIsSubmitting(false);
     }
   };
+  const formatTime = (date) => {
+    if (!date) return '';
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    return `${hours}:${minutes}:${seconds}`;
+  };
+
   useEffect(() => { });
 
   return (
@@ -592,14 +600,13 @@ const CreateReportComponentNew = () => {
 
             <div className="w-full flex-row flex justify-around createFormRow">
               <div className="mb-4 flex items-center w-[48%] createFormColFirst">
-                {/* date time picker */}
+                {/* time picker */}
                 <label className="block font-medium mb-1 mr-4 w-40">Reported Start Time</label>
                 <Calendar
-                  value={formData.reported_start_time instanceof Date ? formData.reported_start_time : null} 
-                  onChange={(e) => setFormData({ ...formData, reported_start_time: formatDateTime(e.value) })}
-                  showTime
+                  value={formData.reported_start_time instanceof Date ? formData.reported_start_time : null}
+                  onChange={(e) => setFormData({ ...formData, reported_start_time: formatTime(e.value) })}
+                  timeOnly
                   hourFormat="24"
-                  dateFormat="dd/mm/yy"
                   className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px] w-full"
                 />
               </div>
