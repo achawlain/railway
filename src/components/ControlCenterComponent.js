@@ -8,6 +8,7 @@ import dailyReportIcon from "../images/DailyReport.svg";
 import locoPilotReport from "../images/locoPilotReport.svg";
 import locoPilotIcon from "../images/locoPilotIcon.svg";
 import breakPatternIcon from "../images/breakPatternIcon.svg";
+import haltReport from "../images/train-station_2467273.svg";
 import HaltReport from "./HaltReport";
 
 const ControlCenterComponent = () => {
@@ -119,7 +120,7 @@ const ControlCenterComponent = () => {
                 >
                   <span className="w-[40px] mr-[15px]">
                     <img
-                      src={breakPatternIcon}
+                      src={haltReport}
                       alt="icon"
                       className=" h-[30px]"
                     />

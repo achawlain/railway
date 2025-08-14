@@ -29,6 +29,9 @@ const RAILWAY_CONST = {
     GPS: "/gps",
     REPLACE: "/replace",
     UNPAIRE_LIST: "/metadata/templates",
+    HALT_REPORT: "/halt_report/unique_halt/",
+    HALT_DATA: "/halt_report/halt_data",
+    HALT_FIG: "/halt_report/halt_fig",
   },
 
   ROUTE: {
