@@ -145,39 +145,39 @@ const ReportGenerateComponent = () => {
   // };
 
   useEffect(() => {
-  const fetchReportById = async () => {
-    setLoading(true);
-    try {
-      const response = await apiService("get", RAILWAY_CONST.API_ENDPOINT.REPORTS_SLASH);
-      // console.log("Response Data:", response.data);
-      const reports = Array.isArray(response.data)
-        ? response.data
-        : response.reports || [];
+    const fetchReportById = async () => {
+      setLoading(true);
+      try {
+        const response = await apiService("get", RAILWAY_CONST.API_ENDPOINT.REPORTS_SLASH);
+        // console.log("Response Data:", response.data);
+        const reports = Array.isArray(response.data)
+          ? response.data
+          : response.reports || [];
         // console.log("Reports:", reports,reports.id, id);
 
-      const matchedReport = reports.find((report) => String(report?.id) === String(id));
-      // console.log("Matched Report:", matchedReport);
-      if (matchedReport) {
-        setCurrentReport(matchedReport);
-      } else {
-        console.warn("No report found with id:", id);
-        setCurrentReport(null); // Or handle gracefully
+        const matchedReport = reports.find((report) => String(report?.id) === String(id));
+        // console.log("Matched Report:", matchedReport);
+        if (matchedReport) {
+          setCurrentReport(matchedReport);
+        } else {
+          console.warn("No report found with id:", id);
+          setCurrentReport(null); // Or handle gracefully
+        }
+      } catch (error) {
+        console.error("Error fetching reports:", error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Error fetching reports:", error);
-    } finally {
-      setLoading(false);
+    };
+
+    if (id) {
+      fetchReportById();
     }
-  };
+  }, [id]);
 
-  if (id) {
-    fetchReportById();
-  }
-}, [id]);
-
-// if (!currentReport) {
-//     return <div>Loading report...</div>;
-//   }
+  // if (!currentReport) {
+  //     return <div>Loading report...</div>;
+  //   }
 
 
   const handleDownloadPDF = async () => {
@@ -370,6 +370,7 @@ const ReportGenerateComponent = () => {
     try {
       const response = await apiService("get", url);
       setHalteTableData(response.data);
+      // console.log("Response Data Before:", response.data);
       // setDataOnLocalStorage("reportList", response);
     } catch (error) {
       console.error("Error fetching chart data:", error);
@@ -387,6 +388,7 @@ const ReportGenerateComponent = () => {
     try {
       const response = await apiService("get", url);
       setHalteTableDataAfter(response.data);
+      // console.log("Response Data After:", response.data);
       // setDataOnLocalStorage("reportList", response);
     } catch (error) {
       console.error("Error fetching chart data:", error);
@@ -435,12 +437,18 @@ const ReportGenerateComponent = () => {
 
   useEffect(() => {
     fetchData(!!haltStation?.from && !!haltStation?.to);
-  }, [haltStation]);
+  }, [haltStation,halteTableData, halteTableDataAfter]);
 
   const fetchData = async (limitedHaltStation) => {
     setLoading(true);
-    await getChartSpeedBeforeHaltData(limitedHaltStation);
-    await getChartSpeedAfterHaltData(limitedHaltStation);
+    if (halteTableData) {
+      // console.log(halteTableData, "halttable")
+      await getChartSpeedBeforeHaltData(limitedHaltStation);
+    }
+    if (halteTableDataAfter) {
+      // console.log(halteTableDataAfter, "halttableAfter")
+      await getChartSpeedAfterHaltData(limitedHaltStation);
+    }
     setLoading(false);
   };
 
@@ -521,13 +529,13 @@ const ReportGenerateComponent = () => {
             }
           >
             {currentReport && (
-            <ReportTable
-              onFormChange={handleFormChange}
-              handleHaltSelectedData={handleHaltSelectedData}
-              handleDownloadPDF={handleDownloadPDF}
-              handleformData={handleformData}
-              currentReport={currentReport}
-            />
+              <ReportTable
+                onFormChange={handleFormChange}
+                handleHaltSelectedData={handleHaltSelectedData}
+                handleDownloadPDF={handleDownloadPDF}
+                handleformData={handleformData}
+                currentReport={currentReport}
+              />
             )}
           </Suspense>
 
@@ -567,23 +575,23 @@ const ReportGenerateComponent = () => {
           </div>
 
           {chartSpeedBeforHaltData && halteTable?.data && halteTable?.data?.length > 0 ? (
-          <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
-            <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
-              {loading ? (
-                <div className="componentLoader">
-                  <Loader />
-                </div>
-              ) : (
-                <div style={{ overflowX: "auto", width: "100%" }}>
-                  <ChartComponent
-                    loading={loading}
-                    chartData={chartSpeedBeforHaltData}
-                  />
+            <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
+              <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
+                {loading ? (
+                  <div className="componentLoader">
+                    <Loader />
+                  </div>
+                ) : (
+                  <div style={{ overflowX: "auto", width: "100%" }}>
+                    <ChartComponent
+                      loading={loading}
+                      chartData={chartSpeedBeforHaltData}
+                    />
 
-                </div>
-              )}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
           ) : null}
 
           {/* <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
@@ -640,7 +648,7 @@ const ReportGenerateComponent = () => {
 
 
 
-          {chartSpeedAfterHaltData && halteTableAfter?.data && halteTableAfter?.data?.length > 0  ? (
+          {chartSpeedAfterHaltData && halteTableAfter?.data && halteTableAfter?.data?.length > 0 ? (
             <div className="max-w-full mx-auto sm:px-2 px-0 mb-4">
               <div className="bg-white w-full sm:p-8 p-4 pt-2 rounded-[15px]">
                 {loading ? (
@@ -669,25 +677,25 @@ const ReportGenerateComponent = () => {
                 }
               >
                 {currentReport && (
-                <SpeedGraphComponent
-                  haltStation={haltStation}
-                  speed_before_1000m={currentReport?.speed_before_1000m}
-                />
+                  <SpeedGraphComponent
+                    haltStation={haltStation}
+                    speed_before_1000m={currentReport?.speed_before_1000m}
+                  />
                 )}
               </Suspense>
-              
+
             </div>
           </div>
 
           <div className="max-w-full mx-auto px-2 mb-4">
             <div className="bg-white w-full  sm:p-8 p-2 pb-16 rounded-[15px]">
               <Suspense fallback={<div>Loading deficiency remarks...</div>}>
-              {currentReport && (
-                <DeficiencyRemark
-                  handleformData={handleformData}
-                  deficiency={currentReport.deficiency}
-                  remark={currentReport.remark}
-                />
+                {currentReport && (
+                  <DeficiencyRemark
+                    handleformData={handleformData}
+                    deficiency={currentReport.deficiency}
+                    remark={currentReport.remark}
+                  />
                 )}
               </Suspense>
               <div className="w-full justify-center items-center flex">

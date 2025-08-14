@@ -8,6 +8,7 @@ import dailyReportIcon from "../images/DailyReport.svg";
 import locoPilotReport from "../images/locoPilotReport.svg";
 import locoPilotIcon from "../images/locoPilotIcon.svg";
 import breakPatternIcon from "../images/breakPatternIcon.svg";
+import HaltReport from "./HaltReport";
 
 const ControlCenterComponent = () => {
   const [selectedtab, setSelectedTab] = useState("Daily Report");
@@ -110,6 +111,21 @@ const ControlCenterComponent = () => {
                   </span>
                   Breaking Pattern
                 </li>
+                 <li
+                  onClick={() => handleSelectTab("Halt Report")}
+                  className={`${
+                    selectedtab === "Halt Report" ? "selectedCol" : null
+                  }  cursor-pointer flex items-center  border-b border-b-[#030015]`}
+                >
+                  <span className="w-[40px] mr-[15px]">
+                    <img
+                      src={breakPatternIcon}
+                      alt="icon"
+                      className=" h-[30px]"
+                    />
+                  </span>
+                  Halt Report
+                </li>
               </ul>
             )}
           </div>
@@ -124,6 +140,7 @@ const ControlCenterComponent = () => {
           {selectedtab === "Loco Pilot Report" ? <LocoPilotReport /> : null}
           {selectedtab === "Manage Loco Pilot" ? <ManageLocoPilot /> : null}
           {selectedtab === "Breaking Pattern" ? <BreakingPattern /> : null}
+          {selectedtab === "Halt Report" ? <HaltReport/> : null}
         </div>
       </div>
     </div>
