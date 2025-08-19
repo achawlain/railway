@@ -1413,3 +1413,30 @@ span.p-paginator-pages .p-highlight {
     transform: translateX(-2px);
   }
 }
+
+.p-dropdown:focus,
+.p-dropdown:focus-visible {
+  outline: none;
+  box-shadow: none;
+  border-color: transparent;
+}
+
+.p-dropdown {
+  height: 42px; /* or your desired height */
+  padding: 8px 6px;
+  font-size: 14px;
+}
+
+.p-dropdown-label {
+  line-height: 1.2;
+  padding: 2px 0;
+}
+
+.p-dropdown:focus-within {
+  outline: none;
+  box-shadow: none;
+  border-color: #e5e7eb; /* or your desired color */
+}
+
+
+

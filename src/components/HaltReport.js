@@ -26,6 +26,7 @@ import {
     TSRTableTitle,
     speedTestTableTitle,
     speedTestTableData,
+    halteTableData,
 } from "../utils/tableData";
 
 const TableComponent = lazy(() => import("./TableComponent"));
@@ -141,47 +142,48 @@ export default function HaltReport() {
         }
 
         setLoading(true);
-        // setHaltTableData(null);
-        // setHaltChartData(null);
+        setHaltTableData(null);
+        setHaltChartData(null);
 
         const formattedStartDate = format(range[0].startDate, "yyyy-MM-dd");
         const formattedEndDate = format(range[0].endDate, "yyyy-MM-dd");
 
         const data = {
-            start_date: "",
-            end_date: "",
+            start_date: formattedStartDate,
+            end_date: formattedEndDate,
             lp_cms_id: formData.lp_cms_id,
             halt_name: formData.halt_name,
             template_id: formData.template_id,
         };
 
         try {
-            const [haltDataResponse, haltFigResponse] = await Promise.all([
-                apiService("get", RAILWAY_CONST.API_ENDPOINT.HALT_DATA, {}, data),
-                apiService("get", RAILWAY_CONST.API_ENDPOINT.HALT_FIG, {}, data),
-            ]);
+            const haltDataResponse = await apiService("get", RAILWAY_CONST.API_ENDPOINT.HALT_DATA, {}, data);
 
-            if (haltDataResponse.status === 200) {
+            let haltFigResponse = { status: 400, data: null };
+            if (haltDataResponse.status === 200 && haltDataResponse.data && haltDataResponse.data.length > 0) {
+                haltFigResponse = await apiService("get", RAILWAY_CONST.API_ENDPOINT.HALT_FIG, {}, data);
                 setHaltTableData(haltDataResponse.data);
+                if (haltFigResponse.status === 200) {
+                    setHaltChartData(JSON.parse(haltFigResponse.data));
+                } else {
+                    setHaltChartData(null);
+                    toastRef.current.show({
+                        severity: "error",
+                        summary: "Error",
+                        detail: haltFigResponse?.message || "Failed to fetch halt figure",
+                        life: 3000,
+                    });
+                }
             } else {
-                toastRef.current.show({
-                    severity: "error",
-                    summary: "Error",
-                    detail:
-                        haltDataResponse?.message || "Failed to fetch halt data report",
-                    life: 3000,
-                });
-            }
-
-            if (haltFigResponse.status === 200) {
-                setHaltChartData(JSON.parse(haltFigResponse.data));
-            } else {
-                toastRef.current.show({
-                    severity: "error",
-                    summary: "Error",
-                    detail: haltFigResponse?.message || "Failed to fetch halt figure",
-                    life: 3000,
-                });
+                setHaltTableData(null);
+                setHaltChartData(null);
+                // toastRef.current.show({
+                //     severity: "error",
+                //     summary: "Error",
+                //     detail:
+                //         haltDataResponse?.message || "Failed to fetch halt data report",
+                //     life: 3000,
+                // });
             }
         } catch (error) {
             toastRef.current.show({
@@ -227,8 +229,7 @@ export default function HaltReport() {
         [haltTableData, halteTableTitle]
     );
 
-    console.log("Rows passed to table:", halteTable.data);
-    console.log("Columns passed to table:", halteTable.columns);
+   
     return (
         <>
             <Toast ref={toastRef} position="top-right" style={{ zIndex: 9999 }} />
@@ -330,9 +331,11 @@ export default function HaltReport() {
                         <>
                             {/* {haltTableData && haltTableData.data && ( */}
                             <>
-                                <h4 className="text-lg font-semibold mt-8 mb-4 text-center text-[#30424c]">
-                                    Halt Report at {formData.halt_name.toUpperCase()} Station
-                                </h4>
+                                {halteTableData && haltChartData && (
+                                    <h4 className="text-lg font-semibold mt-8 mb-4 text-center text-[#30424c]">
+                                        Halt Report at {formData.halt_name.toUpperCase()} Station
+                                    </h4>
+                                )}
                                 {/* <div className="-mt-1 searchCol">
                                         <InputText
                                             value={globalFilterValue}
@@ -350,19 +353,20 @@ export default function HaltReport() {
                                         />
                                     </Suspense>
                                 ) : (
-                                    <div className="text-center mt-10">
-                                        <p className="text-gray-500">No halt data available</p>
-                                    </div>
+                                    // <div className="text-center mt-10">
+                                    //     <p className="text-gray-500">No halt data available</p>
+                                    // </div>
+                                    null
                                 )}
                             </>
 
                             {haltChartData && (
-                                console.log("Halt Chart Data:", haltChartData),
+                                // console.log("Halt Chart Data:", haltChartData),
                                 <div style={{ overflowX: "auto", width: "auto" }}>
-                                <ChartComponent
-                                    loading={loading}
-                                    chartData={haltChartData}
-                                />
+                                    <ChartComponent
+                                        loading={loading}
+                                        chartData={haltChartData}
+                                    />
                                 </div>
                             )}
 
