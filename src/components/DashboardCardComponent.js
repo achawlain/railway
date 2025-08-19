@@ -81,7 +81,7 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
               </li> */}
               <li className="mt-2 text-[#211944] font-medium text-[14px]">
                 <span className="mr-1 text-[#646262] font-medium">Route: </span>
-                {item?.stn_from} &rarr; {item?.stn_to}
+                <span> <span className="text-red-400">[{item?.template_id}]</span> {item?.stn_from} &rarr; {item?.stn_to}</span>
               </li>
               <li className="mt-2 text-[#000] font-bold  text-[14px]">
                 <span className="mr-1 text-[#646262] font-medium">

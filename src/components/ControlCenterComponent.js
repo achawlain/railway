@@ -8,7 +8,7 @@ import dailyReportIcon from "../images/DailyReport.svg";
 import locoPilotReport from "../images/locoPilotReport.svg";
 import locoPilotIcon from "../images/locoPilotIcon.svg";
 import breakPatternIcon from "../images/breakPatternIcon.svg";
-import haltReport from "../images/train-station_2467273.svg";
+import haltReport from "../images/iconTrainLIght.svg";
 import HaltReport from "./HaltReport";
 
 const ControlCenterComponent = () => {
