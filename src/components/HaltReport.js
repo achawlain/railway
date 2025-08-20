@@ -18,14 +18,7 @@ import ChartComponent from "./ChartComponent";
 import { lazy } from "react";
 import {
     // halteTableData,
-    halteTableTitle,
-    halteTableTitleAfter,
-    previousAnalysisData,
-    previousAnalysisTitle,
-    TSRTableData,
-    TSRTableTitle,
-    speedTestTableTitle,
-    speedTestTableData,
+    halteTableTitleInControlCenter,
     halteTableData,
 } from "../utils/tableData";
 
@@ -224,15 +217,18 @@ export default function HaltReport() {
     const halteTable = useMemo(
         () => ({
             data: Array.isArray(haltTableData) ? haltTableData : [],
-            columns: Array.isArray(halteTableTitle) ? halteTableTitle : []
+            columns: Array.isArray(halteTableTitleInControlCenter) ? halteTableTitleInControlCenter : []
         }),
-        [haltTableData, halteTableTitle]
+        [haltTableData, halteTableTitleInControlCenter]
     );
 
    
     return (
         <>
-            <Toast ref={toastRef} position="top-right" style={{ zIndex: 9999 }} />
+            <Toast
+                ref={toastRef}
+                position="top-right"
+            />
             <div className="w-full bg-[#efefef]  min-h-screen">
                 <div className="bg-white w-full sm:p-8 p-4 pt-4 rounded-[15px] min-h-[900px] sm:pt-4">
                     <h1 className="sm:text-[18px] flex-row flex justify-between text-[18px] rounded-[5px] bg-[#2A235A] text-white font-medium mb-4 border-b border-[#ccc] relative px-3 py-3">
@@ -333,7 +329,7 @@ export default function HaltReport() {
                             <>
                                 {halteTableData && haltChartData && (
                                     <h4 className="text-lg font-semibold mt-8 mb-4 text-center text-[#30424c]">
-                                        Halt Report at {formData.halt_name.toUpperCase()} Station
+                                        Halt Report at { formData.halt_name?.toUpperCase()} 
                                     </h4>
                                 )}
                                 {/* <div className="-mt-1 searchCol">
@@ -349,7 +345,7 @@ export default function HaltReport() {
                                         <TableComponent
                                             data={halteTable.data}
                                             colums={halteTable.columns} // notice spelling matches the component
-                                            tableTitle="Halt Data"
+                                            // tableTitle="Halt Data"
                                         />
                                     </Suspense>
                                 ) : (

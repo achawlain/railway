@@ -1437,6 +1437,9 @@ span.p-paginator-pages .p-highlight {
   box-shadow: none;
   border-color: #e5e7eb; /* or your desired color */
 }
+.p-toast.p-component.p-toast-top-right.p-ripple-disabled {
+    margin-top: 80px;
+}
 
 
 

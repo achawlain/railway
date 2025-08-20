@@ -39,7 +39,25 @@ const transformData = (rawData) => {
           </span>
         </span>
       );
-    } else if (!key.includes("_time")) {
+    } else if (key === "lp_cms_name" && rawData["lp_cms_id"] !== undefined) {
+      acc[key] = (
+        <span>
+          <span>{value}</span>
+          {"  "}
+          <br />
+          <span
+            style={{
+              color: "gray",
+              fontStyle: "italic",
+              fontSize: "13px",
+            }}
+          >
+            {rawData["lp_cms_id"]}
+          </span>
+        </span>
+      ) 
+    } 
+     else if (!key.includes("_time")) {
       acc[key] = rawData[key]; // Include fields that don't have `_time`
     }
     return acc;

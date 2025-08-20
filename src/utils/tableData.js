@@ -65,6 +65,23 @@ export const halteTableTitleAfter = [
   { label: "1800m", key: "1800m" }
 ];
 
+export const halteTableTitleInControlCenter = [
+  { label: "Halt Station", key: "halt_name" },
+  // { label: "Halt Time", key: "halt_time" },
+  { label: "1800m", key: "1800m" },
+  { label: "1500m", key: "1500m" },
+  { label: "1000m", key: "1000m" },
+  { label: "500m", key: "500m" },
+  { label: "400m", key: "400m" },
+  { label: "300m", key: "300m" },
+  { label: "200m", key: "200m" },
+  { label: "100m", key: "100m" },
+  { label: "Halt", key: "halt" },
+  { label: "LP CMS", key: "lp_cms_name" },
+  { label: "Date of working", key: "date_of_working" },
+  { label: "Remark", key: "remark" },
+];
+
 
 
 
