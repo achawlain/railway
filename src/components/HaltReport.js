@@ -297,7 +297,7 @@ export default function HaltReport() {
                             />
                         </div>
                         <div className="flex flex-col gap-2">
-                            <label className="text-[16px]">LP CMS:</label>
+                            <label className="text-[16px]">LP CMS & NCLI:</label>
                             <input
                                 type="text"
                                 value={formData.lp_cms_id}
