@@ -65,11 +65,19 @@ const transformData = (rawData) => {
           {"  "}
           <br />
           <span
-            style={{
-              color: "gray",
-              fontStyle: "italic",
-              fontSize: "13px",
-            }}
+          // make this line to dispaly on fixed width
+          style={{
+            display: "inline-block",
+            maxWidth: "60px",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            verticalAlign: "bottom",
+            color: "gray",
+            fontStyle: "italic",
+            fontSize: "13px",
+          }}
+           
           >
             {rawData["report_title"]}
           </span>
