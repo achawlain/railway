@@ -66,6 +66,7 @@ export const halteTableTitleAfter = [
 ];
 
 export const halteTableTitleInControlCenter = [
+    {label: "Report", key: "report_id"},
   { label: "Halt Station", key: "halt_name" },
   { label: "LP CMS", key: "lp_cms_name" },
   {label: "NCLI", key: "nominated_cli" },

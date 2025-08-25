@@ -56,7 +56,27 @@ const transformData = (rawData) => {
           </span>
         </span>
       ) 
-    } 
+    } else if (key === "report_id" && rawData["report_title"] !== undefined) {
+      acc[key] = (
+        <a href ={`/reports/${value}`} target="_blank" rel="noopener noreferrer">
+        <span className="cursor-pointer">
+        
+         [<span>{value}</span>]
+          {"  "}
+          <br />
+          <span
+            style={{
+              color: "gray",
+              fontStyle: "italic",
+              fontSize: "13px",
+            }}
+          >
+            {rawData["report_title"]}
+          </span>
+        </span>
+        </a>
+      ) 
+    }
      else if (!key.includes("_time")) {
       acc[key] = rawData[key]; // Include fields that don't have `_time`
     }
