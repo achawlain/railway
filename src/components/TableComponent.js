@@ -59,12 +59,13 @@ const transformData = (rawData) => {
     } else if (key === "report_id" && rawData["report_title"] !== undefined) {
       acc[key] = (
         <a href ={`/reports/${value}`} target="_blank" rel="noopener noreferrer">
-        <span className="cursor-pointer">
+        <span className="cursor-pointer  hover:underline ">
         
          [<span>{value}</span>]
           {"  "}
           <br />
           <span
+          className="underline cursor-pointer"
           // make this line to dispaly on fixed width
           style={{
             display: "inline-block",
@@ -73,7 +74,7 @@ const transformData = (rawData) => {
             textOverflow: "ellipsis",
             whiteSpace: "nowrap",
             verticalAlign: "bottom",
-            color: "gray",
+            color: "rgb(155 75 144)",
             fontStyle: "italic",
             fontSize: "13px",
           }}
