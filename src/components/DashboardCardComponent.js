@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import deleteIcon from "../images/delete-icon.svg";
 import downloadIcon from "../images/downloadIcon.svg";
 import viewIcon from "../images/viewIcon.svg";
+import sourceFileIcon from "../images/file.png";
 import { useNavigate } from "react-router-dom";
 import {
   getDataFromLocalStorage,
@@ -81,7 +82,12 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
               </li> */}
               <li className="mt-2 text-[#211944] font-medium text-[14px]">
                 <span className="mr-1 text-[#646262] font-medium">Route: </span>
-                <span> <span className="text-red-400">[{item?.template_id}]</span> {item?.stn_from} &rarr; {item?.stn_to}</span>
+                <span>
+                  <a
+                    href={`/templateDetails/${item?.template_id}`}
+                    target="_blank"
+                  > <span className="text-red-400">[{item?.template_id}]</span> </a>
+                  {item?.stn_from} &rarr; {item?.stn_to}</span>
               </li>
               <li className="mt-2 text-[#000] font-bold  text-[14px]">
                 <span className="mr-1 text-[#646262] font-medium">
@@ -246,6 +252,20 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
           />
           Delete
         </div>
+        <a
+          href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${item.id
+            }/download?source_file=1&jwt=${userInfo.access_token || ""}`}
+          className="flex w-[50%] text-[13px] opacity-[.8]  text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"
+        >
+
+          <img
+            alt="download source file icon"
+            src={sourceFileIcon}
+            className="cursor-pointer leading-[13px] w-[22px] mr-[2px] mb-1"
+          />
+          Source File
+        </a>
+
         <span
           onClick={handleClick}
           // onClick={() => onView(item)}

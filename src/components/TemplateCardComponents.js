@@ -10,6 +10,7 @@ import deleteIcon from "../images/delete-icon.svg";
 // import viewIcon from "../images/viewIcon.svg";
 import { Link } from "react-router-dom";
 import useIt from "../images/useIt.png";
+import detailIcon from '../images/share.png'
 import compare from "../images/compare-icon.svg";
 import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
@@ -59,6 +60,10 @@ const TemplateCardComponents = ({
     setDataOnLocalStorage("currentTemplate", {...currentData, direction});
     navigate(RAILWAY_CONST.ROUTE.CREATE_REPORT);
   };
+
+  const handleDetailClick = () => {
+    navigate(`${RAILWAY_CONST.ROUTE.TEMPLATE_DETAIL}/${currentData.id}`);
+  }
 
   const hangleShowDataonClickEyeIcon = async (dataSource) => {
     setIsLoading(true);
@@ -439,6 +444,17 @@ const TemplateCardComponents = ({
             />
             Use It
           </span>
+          <span
+          onClick={handleDetailClick}
+          className="flex w-[50%] text-[13px] opacity-[.8] text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"
+          >
+            <img 
+            alt="Details Icon"
+            src={detailIcon}
+            className="cursor-pointer leading-[13px] w-[21px] mr-[2px] mb-1"
+
+            />
+            Details</span>
           <span
             onClick={handleEdit}
             className="flex w-[50%] text-[13px] opacity-[.8] text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"

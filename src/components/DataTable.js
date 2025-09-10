@@ -32,38 +32,48 @@ const DataTable = ({ columns, data, onClose }) => {
           >
             ✕
           </button>
-          <table className="table-auto w-full responsiveTable text-[#4B5563] popUpRow">
-            <thead className="hidden sm:table-header-group ">
-              <tr>
-                {columns.map((column) => (
+          <div className="w-full max-h-[70vh] overflow-y-auto">
+            <table className="table-auto w-full responsiveTable text-[#4B5563] popUpRow">
+              <thead className="sticky top-0 z-10">
+                <tr>
                   <th
-                    key={column}
-                    className="border-r border-r-[#752f6b] px-4 py-3 text-left text-[14px] font-normal bg-[#9b4b90] text-white"
-                  >
-                    {column}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="text-white">
-              {data.map((row, index) => (
-                <tr
-                  key={index}
-                  className="block sm:table-row border-b sm:border-0 mb-4 sm:mb-0"
-                >
+                   className="border-r border-r-[#752f6b] px-4 py-3 text-left text-[14px] font-normal bg-[#9b4b90] text-white"
+
+                  >Id</th>
                   {columns.map((column) => (
-                    <td
+                    <th
                       key={column}
-                      className="block sm:table-cell border border-gray-300 px-4 py-2 relative sm:static text-[#4B5563] text-[13px]"
-                      data-label={column}
+                      className="border-r border-r-[#752f6b] px-4 py-3 text-left text-[14px] font-normal bg-[#9b4b90] text-white"
                     >
-                      {row[column]}
-                    </td>
+                      {column}
+                    </th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="text-white">
+
+                {data.map((row, index) => (
+                  <tr
+                    key={index}
+                    className="block sm:table-row border-b sm:border-0 mb-4 sm:mb-0"
+                  >
+                    <td className="block sm:table-cell border border-gray-300 px-4 py-2 relative sm:static text-[#4B5563] text-[13px]" data-label="Id">
+                      {index + 1}
+                    </td>
+                    {columns.map((column) => (
+                      <td
+                        key={column}
+                        className="block sm:table-cell border border-gray-300 px-4 py-2 relative sm:static text-[#4B5563] text-[13px]"
+                        data-label={column}
+                      >
+                        {row[column]}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
