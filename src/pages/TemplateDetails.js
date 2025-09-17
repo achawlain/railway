@@ -7,19 +7,6 @@ export default function TemplateDetails() {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
 
-
-  //   if (!data || data.length === 0) return <p>No data available</p>;
-
-  // Group by section (so we can render one track per section)
-  console.log(data, "data");
-  const sections = data.reduce((acc, item) => {
-    if (!acc[item.section]) acc[item.section] = [];
-    acc[item.section].push(item);
-    return acc;
-  }, {});
-
-  console.log(sections, "sections");
-
   const handleShowAllFiles = async () => {
     setIsLoading(true);
 
@@ -39,7 +26,6 @@ export default function TemplateDetails() {
             RAILWAY_CONST.API_ENDPOINT.METADATA,
             {},
             { template_id: window.location.pathname.split("/").pop(), data_src: file }
-            // { template_id: "40", data_src: file }
           ).then((res) => ({
             fileName: file,
             data: res?.data || [],
@@ -66,8 +52,9 @@ export default function TemplateDetails() {
       });
 
       setAllTables(formattedTables);
-      console.log(formattedTables, "formattedTables");
-      setData(formattedTables.find(t => t.fileName === 'isd_file')?.data || []);
+      setData(
+        formattedTables.find((t) => t.fileName === "isd_file")?.data || []
+      );
     } finally {
       setIsLoading(false);
     }
@@ -76,6 +63,19 @@ export default function TemplateDetails() {
   useEffect(() => {
     handleShowAllFiles();
   }, []);
+
+  // ✅ Sort all signals by ISD (not grouped by section)
+  const sortedSignals = [...data]
+  // .sort((a, b) => Number(a.isd) - Number(b.isd));
+
+  // ✅ Compute cumulative ISD (distance from start)
+  let cumulative = 0;
+  const processedSignals = sortedSignals.map((sig) => {
+    cumulative += Number(sig.isd) || 0;
+    return { ...sig, cumIsd: cumulative };
+  });
+
+  const totalDist = processedSignals[processedSignals.length - 1]?.cumIsd || 0;
 
   return (
     <>
@@ -118,7 +118,9 @@ export default function TemplateDetails() {
                     {table.data.map((row, rowIndex) => (
                       <tr
                         key={rowIndex}
-                        className={rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"}
+                        className={
+                          rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"
+                        }
                       >
                         <td className="px-4 py-2 border">{rowIndex + 1}</td>
                         {table.columns.map((column) => (
@@ -136,194 +138,151 @@ export default function TemplateDetails() {
         ))}
       </div>
 
-
       <div className="h-1 bg-gray-300 my-8">
         <hr />
-        <p className="text-center font-semibold p-2">Signal Layout Visualization</p>
+        <p className="text-center font-semibold p-2">
+          Signal Layout Visualization (Full Track)
+        </p>
       </div>
 
-      <div className="space-y-10">
-        {Object.entries(sections).map(([section, signals]) => {
-          // Sort signals by ISD (distance)
-          // signals.sort((a, b) => a.isd - b.isd);
+      <div className="p-4 border rounded shadow bg-white">
+        <h3 className="font-bold mb-4">Full Track</h3>
 
-          // Total distance = last signal ISD
-          let cumulative = 0;
-          const processedSignals = signals.map((sig) => {
-            cumulative += Number(sig.isd) || 0;
-            return { ...sig, cumIsd: cumulative };
-          });
+        <div className="overflow-x-auto">
+          <svg
+            width={totalDist + 300}
+            height="200"
+            className="border rounded bg-gray-50"
+          >
+            {/* Track lines */}
+            <line
+              x1="80"
+              y1="75"
+              x2={totalDist + 200}
+              y2="75"
+              stroke="#555"
+              strokeWidth="3"
+            />
+            <line
+              x1="80"
+              y1="85"
+              x2={totalDist + 200}
+              y2="85"
+              stroke="#555"
+              strokeWidth="3"
+            />
 
-          const totalDist = processedSignals[processedSignals.length - 1]?.cumIsd || 0;
-          return (
-            <div key={section} className="p-4 border rounded shadow bg-white">
-              <h3 className="font-bold mb-4">{section}</h3>
+            {/* Sleepers */}
+            {Array.from({
+              length: Math.floor((totalDist + 120) / 20),
+            }).map((_, i) => {
+              const x = 80 + i * 20;
+              return (
+                <line
+                  key={i}
+                  x1={x}
+                  y1="70"
+                  x2={x}
+                  y2="90"
+                  stroke="#888"
+                  strokeWidth="2"
+                />
+              );
+            })}
 
-              <div className="overflow-x-auto">
-                <svg
-                  width={totalDist + 300} // width based on distance
-                  height="160"
-                  className="border rounded bg-gray-50"
-                >
-                  {/* Track line */}
+            {/* Grid lines every 200m */}
+            {Array.from({ length: Math.ceil(totalDist / 200) }).map((_, i) => {
+              const x = 80 + i * 200;
+              return (
+                <g key={i}>
                   <line
-                    x1="80"
-                    y1="80"
-                    x2={totalDist + 200}
-                    y2="80"
-                    stroke="#444"
-                    strokeWidth="5"
+                    x1={x}
+                    y1="40"
+                    x2={x}
+                    y2="140"
+                    stroke="#ccc"
+                    strokeDasharray="4"
+                  />
+                  <text
+                    x={x}
+                    y="160"
+                    fontSize="11"
+                    textAnchor="middle"
+                    fill="darkgray"
+                  >
+                    {i * 200}m
+                  </text>
+                </g>
+              );
+            })}
+
+            {/* Signals */}
+            {processedSignals.map((sig, idx) => {
+              const x = 80 + sig.cumIsd;
+              const y = 80;
+              return (
+                <g key={idx} className="group relative cursor-pointer">
+                  {/* Signal circle */}
+                  <circle
+                    cx={x}
+                    cy={y}
+                    r="8"
+                    fill="red"
+                    stroke="black"
+                    strokeWidth="1"
+                  />
+                  {/* Hover indicator (move up) */}
+                  <circle
+                    cx={x}
+                    cy={y - 20}
+                    r="8"
+                    fill="yellow"
+                    stroke="black"
+                    strokeWidth="1"
+                    className="transition-opacity duration-300"
+                  />
+                  <circle
+                    cx={x}
+                    cy={y - 40}
+                    r="8"
+                    fill="green"
+                    stroke="black"
+                    strokeWidth="1"
+                    className="transition-opacity duration-300"
                   />
 
-                  {/* Vertical grid lines every 200m */}
-                  {Array.from({ length: Math.ceil(totalDist / 200) }).map((_, i) => {
-                    const x = 80 + i * 200;
-                    return (
-                      <g key={i}>
-                        <line
-                          x1={x}
-                          y1="40"
-                          x2={x}
-                          y2="120"
-                          stroke="#ccc"
-                          strokeDasharray="4"
-                        />
-                        <text
-                          x={x}
-                          y="135"
-                          fontSize="11"
-                          textAnchor="middle"
-                          fill="darkgray"
-                        >
-                          {i * 200}m
-                        </text>
-                      </g>
-                    );
-                  })}
+                  {/* Signal name */}
+                  <text
+                    x={x}
+                    y={y - 55}
+                    textAnchor="middle"
+                    fontSize="12"
+                    fill="#222"
+                  >
+                    {sig.signal}
+                  </text>
 
-                  {/* Signals */}
-                  {processedSignals.map((sig, idx) => {
-                    const x = 80 + sig.cumIsd;
-                    const y = 80;
-                    return (
-                      <g key={idx} className="group relative cursor-pointer">
-                        {/* Main red signal circle */}
-                        <circle
-                          cx={x}
-                          cy={y}
-                          r="8"
-                          fill="red"
-                          stroke="black"
-                          strokeWidth="1"
-                          className="transition-transform duration-200"
-                        />
-
-                        {/* Yellow circle (above red) */}
-                        <circle
-                          cx={x}
-                          cy={y - 20}
-                          r="8"
-                          fill="yellow"
-                          stroke="black"
-                          strokeWidth="1"
-                          // className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        />
-
-                        {/* Green circle (above yellow) */}
-                        <circle
-                          cx={x}
-                          cy={y - 40}
-                          r="8"
-                          fill="green"
-                          stroke="black"
-                          strokeWidth="1"
-                          // className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        />
-
-                        {/* Label above */}
-                        <text
-                          x={x}
-                          y={y - 55}
-                          textAnchor="middle"
-                          fontSize="12"
-                          fill="#222"
-                        >
-                          {sig.signal}
-                        </text>
-
-                        {/* Distance label */}
-                        {idx > 0 && (
-                          <text
-                            x={(x + (80 + processedSignals[idx - 1].cumIsd)) / 2}
-                            y={y + 25}
-                            textAnchor="middle"
-                            fontSize="13"
-                            fill="gray"
-                          >
-                            {(sig.cumIsd - processedSignals[idx - 1].cumIsd).toFixed(2)} m
-                          </text>
-                        )}
-                      </g>
-
-                    );
-                  })}
-
-                  {/* Station markers */}
-                  {/* Start Station */}
-                  <g>
-                    <rect
-                      x={60}
-                      y={65}
-                      width="20"
-                      height="30"
-                      fill="#2563eb"
-                      stroke="black"
-                      strokeWidth="1"
-                      rx="4"
-                    />
+                  {/* Distance from previous */}
+                  {idx > 0 && (
                     <text
-                      x={70}
-                      y={115}
-                      fontSize="14"
-                      fontWeight="bold"
+                      x={(x + (80 + processedSignals[idx - 1].cumIsd)) / 2}
+                      y={y + 25}
                       textAnchor="middle"
-                      fill="#2563eb"
+                      fontSize="13"
+                      fill="gray"
                     >
-                      {section.split("-")[0]}
+                      {(
+                        sig.cumIsd - processedSignals[idx - 1].cumIsd
+                      ).toFixed(2)}{" "}
+                      m
                     </text>
-                  </g>
-
-                  {/* End Station */}
-                  <g>
-                    <rect
-                      x={totalDist + 180}
-                      y={65}
-                      width="20"
-                      height="30"
-                      fill="#16a34a"
-                      stroke="black"
-                      strokeWidth="1"
-                      rx="4"
-                    />
-                    <text
-                      x={totalDist + 190}
-                      y={115}
-                      fontSize="14"
-                      fontWeight="bold"
-                      textAnchor="middle"
-                      fill="#16a34a"
-                    >
-                      {section.split("-")[1]}
-                    </text>
-                  </g>
-                </svg>
-              </div>
-            </div>
-          );
-        })}
+                  )}
+                </g>
+              );
+            })}
+          </svg>
+        </div>
       </div>
-
-
     </>
   );
 }
