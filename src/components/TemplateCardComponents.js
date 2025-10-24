@@ -67,7 +67,6 @@ const TemplateCardComponents = ({
 
   const hangleShowDataonClickEyeIcon = async (dataSource) => {
     setIsLoading(true);
-
     try {
       const response = await apiService(
         "get",
@@ -92,6 +91,8 @@ const TemplateCardComponents = ({
         setColumns(Object.keys(responseData[0])); // Get column names dynamically
         setData(responseData);
         setTableVisible(true);
+        setPopup({ show: false, message: "", type: "" });
+
       }
     } catch (error) {
       // console.log("Error replacing file:", error);
