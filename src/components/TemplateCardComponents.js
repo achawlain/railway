@@ -67,6 +67,7 @@ const TemplateCardComponents = ({
 
   const hangleShowDataonClickEyeIcon = async (dataSource) => {
     setIsLoading(true);
+    setPopup({ show: false, message: "", type: "" });
     try {
       const response = await apiService(
         "get",
