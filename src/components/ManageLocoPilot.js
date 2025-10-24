@@ -320,6 +320,8 @@ const ManageLocoPilot = () => {
             {/* <Column field="id" header="ID" sortable /> */}
             <Column field="mobile" header="Mobile" sortable />
             <Column field="nli" header="Nomilated CLI" sortable />
+            <Column field="grade" header="Grade" sortable />
+
             <Column
               body={deleteButtonTemplate}
               style={{ width: "4%" }}

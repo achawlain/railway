@@ -206,8 +206,8 @@ const Header = () => {
                             Home
                           </NavLink>{" "}
                         </li>
-                        {(userInfo.user_details.role === 1 ||
-                          userInfo.user_details.role === 3) && (
+                        {(userInfo.user_details?.role === 1 ||
+                          userInfo.user_details?.role === 3) && (
                           <li onClick={() => setIsNavListVisible(false)}>
                             <NavLink
                               to={RAILWAY_CONST.ROUTE.DASHBOARD}
@@ -224,8 +224,8 @@ const Header = () => {
                           </li>
                         )}
 
-                        {(userInfo.user_details.role === 1 ||
-                          userInfo.user_details.role === 3) && (
+                        {(userInfo.user_details?.role === 1 ||
+                          userInfo.user_details?.role === 3) && (
                           <li
                             className="ml-0 pl-0 border-t sm:border-t sm:border-transparent border-[#efefef]"
                             onClick={() => setIsNavListVisible(false)}
@@ -244,8 +244,8 @@ const Header = () => {
                             </NavLink>
                           </li>
                         )}
-                        {(userInfo.user_details.role === 2 ||
-                          userInfo.user_details.role === 3) && (
+                        {(userInfo.user_details?.role === 2 ||
+                          userInfo.user_details?.role === 3) && (
                           <li
                             className="ml-0 pl-0 border-t sm:border-t sm:border-transparent border-[#efefef]"
                             onClick={() => setIsNavListVisible(false)}
