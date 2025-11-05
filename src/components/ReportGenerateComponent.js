@@ -471,6 +471,10 @@ const ReportGenerateComponent = () => {
         nominated_cli: data.nominatedCLI || prev.nominated_cli,
         crew_designation: data.designation || prev.crew_designation,
         crew_name: data.lp || prev.crew_name,
+        alp_cms_id: data.alpCMSID || prev.alp_cms_id,
+        alp_nominated_cli: data.alpNominatedCLI || prev.alp_nominated_cli,
+        alp_crew_designation: data.alpDesignation || prev.alp_crew_designation,
+        alp_crew_name: data.alp || prev.alp_crew_name,
       }));
     }
     if (label === "redmarkDeficiency") {

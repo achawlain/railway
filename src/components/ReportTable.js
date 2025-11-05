@@ -45,6 +45,10 @@ const ReportTable = ({
     designation: "",
     nominatedCLI: "",
     lpCMSID: "",
+    alp: "",
+    alpDesignation: "",
+    alpNominatedCLI: "",
+    alpCMSID: "",
     maxSpeed: "",
     dateOfWorking: "",
     trainNo: "",
@@ -87,26 +91,41 @@ const ReportTable = ({
     }
   };
 
-  const getLocoPilotDetails = async (CMS_ID) => {
+  const getLocoPilotDetails = async (CMS_ID, type) => {
     try {
       const response = await apiService(
         "get",
         `${RAILWAY_CONST.API_ENDPOINT.CREW}?cms_id=${CMS_ID}`
       );
+  
       if (response && response.data) {
         setFormData((prev) => ({
           ...prev,
-          lp: response.data?.name,
-          designation: response.data?.designation,
-          nominatedCLI: response.data?.nli,
+          ...(type === "lp" && {
+            lp: response.data?.name,
+            designation: response.data?.designation,
+            nominatedCLI: response.data?.nli,
+          }),
+          ...(type === "alp" && {
+            alp: response.data?.name,
+            alpDesignation: response.data?.designation,
+            alpNominatedCLI: response.data?.nli,
+          }),
         }));
         setBorderBox(false);
       } else {
         setFormData((prev) => ({
           ...prev,
-          lp: "",
-          designation: "",
-          nominatedCLI: "",
+          ...(type === "lp" && {
+            lp: "",
+            designation: "",
+            nominatedCLI: "",
+          }),
+          ...(type === "alp" && {
+            alp: "",
+            alpDesignation: "",
+            alpNominatedCLI: "",
+          }),
         }));
         setBorderBox(true);
       }
@@ -114,6 +133,7 @@ const ReportTable = ({
       console.error("Error fetching chart data:", error);
     }
   };
+  
 
   const getFormData = async () => {
     const prev = formData;
@@ -144,6 +164,10 @@ const ReportTable = ({
       designation: currentReport.crew_designation || prev.designation,
       nominatedCLI: currentReport.nominated_cli || prev.nominatedCLI,
       lpCMSID: currentReport.lp_cms_id || prev.lpCMSID,
+      alp: currentReport.alp_crew_name || prev.alp,
+      alpDesignation: currentReport.alp_crew_designation || prev.alpDesignation,
+      alpNominatedCLI: currentReport.alp_nominated_cli || prev.alpNominatedCLI,
+      alpCMSID: currentReport.alp_cms_id || prev.alpCMSID,
       psr_violation: currentReport.psr_violation || [],
       tsr_violation: currentReport.tsr_violation || [],
       attacking_speed_violation: currentReport.attacking_speed_violation || [],
@@ -192,14 +216,20 @@ const ReportTable = ({
     }
   };
 
+  
   const handleLocoPilotDetails = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (name === "lpCMSID" && value.length > 0) {
-      getLocoPilotDetails(value);
-      handleformData(formData, "allFields");
+  
+    if (value.length > 0) {
+      const type = name === "lpCMSID" ? "lp" : name === "alpCMSID" ? "alp" : null;
+      if (type) {
+        getLocoPilotDetails(value, type);
+        handleformData(formData, "allFields");
+      }
     }
   };
+  
 
   // useEffect(() => {
   //   getChartSpeedBeforeHaltData();
@@ -359,62 +389,7 @@ const ReportTable = ({
                       className="w-full border p-2 rounded focus:outline-none"
                     />
                   </div>
-                  <div className="flex flex-row items-center">
-                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                      Date of Analysis
-                    </label>
-                    <input
-                      // type="datetime-local"
-                      type="text"
-                      name="dateOfAnalysis"
-                      value={formData.dateOfAnalysis}
-                      onChange={handleChange}
-                      className="w-full p-2 border rounded focus:outline-none"
-                      readOnly
-                    />
-                  </div>
-                  <div className="flex flex-row items-center">
-                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                      Date of Working
-                    </label>
-                    <input
-                      type="text"
-                      name="dateOfWorking"
-                      value={formData.dateOfWorking}
-                      onChange={handleChange}
-                      className="w-full border p-2 rounded focus:outline-none"
-                      readOnly
-                    />
-                  </div>
-                  <div className="flex flex-row items-center">
-                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                      Departure Time
-                    </label>
-                    <input
-                      type="text"
-                      name="departureTime"
-                      value={formData.departureTime}
-                      onChange={handleChange}
-                      step="1"
-                      className="w-full border p-2 rounded focus:outline-none"
-                      readOnly
-                    />
-                  </div>
-                  <div className="flex flex-row items-center">
-                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
-                      Arrival Time
-                    </label>
-                    <input
-                      type="text"
-                      name="arrivalTime"
-                      value={formData.arrivalTime}
-                      onChange={handleChange}
-                      step="1"
-                      className="w-full border p-2 rounded focus:outline-none"
-                      readOnly
-                    />
-                  </div>
-
+                  
                   <div className="flex flex-row items-center">
                     <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
                       Analyzed By
@@ -479,6 +454,66 @@ const ReportTable = ({
                       type="text"
                       name="nominatedCLI"
                       value={formData.nominatedCLI}
+                      onChange={handleChange}
+                      className={`w-full border p-2 rounded focus:outline-none ${borderBox && formData.nominatedCLI === ""
+                        ? "border-red-500"
+                        : ""
+                        }`}
+                      onBlur={handleBlur}
+                    />
+                  </div>
+
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      ALP CMS ID
+                    </label>
+                    <input
+                      type="text"
+                      name="alpCMSID"
+                      onBlur={handleLocoPilotDetails}
+                      value={formData.alpCMSID}
+                      onChange={handleChange}
+                      className={`w-full border p-2 rounded focus:outline-none`}
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      ALP
+                    </label>
+                    <input
+                      type="text"
+                      name="alp"
+                      value={formData.alp}
+                      onChange={handleChange}
+                      className={`w-full border p-2 rounded focus:outline-none ${borderBox && formData.lp === "" ? "border-red-500" : ""
+                        }`}
+                      onBlur={handleBlur}
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      ALP Designation
+                    </label>
+                    <input
+                      type="text"
+                      name="alpDesignation"
+                      value={formData.alpDesignation}
+                      onChange={handleChange}
+                      className={`w-full border p-2 rounded focus:outline-none ${borderBox && formData.designation === ""
+                        ? "border-red-500"
+                        : ""
+                        }`}
+                      onBlur={handleBlur}
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      ALP Nominated CLI
+                    </label>
+                    <input
+                      type="text"
+                      name="alpNominatedCLI"
+                      value={formData.alpNominatedCLI}
                       onChange={handleChange}
                       className={`w-full border p-2 rounded focus:outline-none ${borderBox && formData.nominatedCLI === ""
                         ? "border-red-500"
@@ -664,6 +699,62 @@ const ReportTable = ({
                           </option>
                         ))}
                     </select>
+                  </div>
+
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Date of Analysis
+                    </label>
+                    <input
+                      // type="datetime-local"
+                      type="text"
+                      name="dateOfAnalysis"
+                      value={formData.dateOfAnalysis}
+                      onChange={handleChange}
+                      className="w-full p-2 border rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Date of Working
+                    </label>
+                    <input
+                      type="text"
+                      name="dateOfWorking"
+                      value={formData.dateOfWorking}
+                      onChange={handleChange}
+                      className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Departure Time
+                    </label>
+                    <input
+                      type="text"
+                      name="departureTime"
+                      value={formData.departureTime}
+                      onChange={handleChange}
+                      step="1"
+                      className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
+                    />
+                  </div>
+                  <div className="flex flex-row items-center">
+                    <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
+                      Arrival Time
+                    </label>
+                    <input
+                      type="text"
+                      name="arrivalTime"
+                      value={formData.arrivalTime}
+                      onChange={handleChange}
+                      step="1"
+                      className="w-full border p-2 rounded focus:outline-none"
+                      readOnly
+                    />
                   </div>
 
                   <div className="flex flex-row ">
