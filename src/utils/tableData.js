@@ -49,7 +49,6 @@ export const halteTableTitle = [
   { label: "200m", key: "200m" },
   { label: "100m", key: "100m" },
   { label: "Halt", key: "halt" },
-  { label: "Remark", key: "remark" },
 ];
 
 export const halteTableTitleAfter = [
