@@ -40,6 +40,8 @@ export const halteTableData = [
 export const halteTableTitle = [
   { label: "Halt Station", key: "halt_name" },
   // { label: "Halt Time", key: "halt_time" },
+  { label: "2200m", key: "2200m" },
+  { label: "2000m", key: "2000m" },
   { label: "1800m", key: "1800m" },
   { label: "1500m", key: "1500m" },
   { label: "1000m", key: "1000m" },
@@ -61,7 +63,9 @@ export const halteTableTitleAfter = [
   { label: "500m", key: "500m" },
   { label: "1000m", key: "1000m" },
   { label: "1500m", key: "1500m" },
-  { label: "1800m", key: "1800m" }
+  { label: "1800m", key: "1800m" },
+  { label: "2000m", key: "2000m" },
+  { label: "2200m", key: "2200m" }
 ];
 
 export const halteTableTitleInControlCenter = [
@@ -71,6 +75,8 @@ export const halteTableTitleInControlCenter = [
   {label: "NCLI", key: "nominated_cli" },
   { label: "Working Date", key: "date_of_working" },
   // { label: "Halt Time", key: "halt_time" },
+  { label: "2200m", key: "2200m" },
+  { label: "2000m", key: "2000m" },
   { label: "1800m", key: "1800m" },
   { label: "1500m", key: "1500m" },
   { label: "1000m", key: "1000m" },
