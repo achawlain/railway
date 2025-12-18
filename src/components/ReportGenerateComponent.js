@@ -564,13 +564,13 @@ const ReportGenerateComponent = () => {
                   <TableComponent
                     data={halteTable.data}
                     colums={halteTable.columns}
-                    tableTitle={"Speed from 1800 m in rear of halts"}
+                    tableTitle={"Speed from 2200 m in rear of halts"}
                   />
                 </Suspense>
               ) : (
                 <>
                   <TableComponent
-                    tableTitle={"Speed from 1800 m in rear of halts"}
+                    tableTitle={"Speed from 2200 m in rear of halts"}
                   />
                   <p className="text-gray-500 text-center">No records of halts are available</p>
                 </>
