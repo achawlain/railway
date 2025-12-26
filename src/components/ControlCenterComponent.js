@@ -3,6 +3,7 @@ import Reports from "../pages/Reports";
 import LocoPilotReport from "./LocoPilotReport";
 import ManageLocoPilot from "./ManageLocoPilot";
 import BreakingPattern from "./BreakingPattern";
+import DailySummary from "./DailySummary";
 
 import dailyReportIcon from "../images/DailyReport.svg";
 import locoPilotReport from "../images/locoPilotReport.svg";
@@ -127,6 +128,21 @@ const ControlCenterComponent = () => {
                   </span>
                   Halt Report
                 </li>
+                <li
+                  onClick={() => handleSelectTab("Daily Summary")}
+                  className={`${
+                    selectedtab === "Daily Summary" ? "selectedCol" : null
+                  }  cursor-pointer flex items-center  border-b border-b-[#030015]`}
+                >
+                  <span className="w-[40px] mr-[15px]">
+                    <img
+                      src={dailyReportIcon}
+                      alt="icon"
+                      className=" h-[30px]"
+                    />
+                  </span>
+                  Daily Summary
+                </li>
               </ul>
             )}
           </div>
@@ -142,6 +158,7 @@ const ControlCenterComponent = () => {
           {selectedtab === "Manage Loco Pilot" ? <ManageLocoPilot /> : null}
           {selectedtab === "Breaking Pattern" ? <BreakingPattern /> : null}
           {selectedtab === "Halt Report" ? <HaltReport/> : null}
+          {selectedtab === "Daily Summary" ? <DailySummary /> : null}
         </div>
       </div>
     </div>

@@ -244,8 +244,7 @@ const Header = () => {
                             </NavLink>
                           </li>
                         )}
-                        {(userInfo.user_details?.role === 2 ||
-                          userInfo.user_details?.role === 3) && (
+                        {(userInfo.user_details?.role === 2) && (
                           <li
                             className="ml-0 pl-0 border-t sm:border-t sm:border-transparent border-[#efefef]"
                             onClick={() => setIsNavListVisible(false)}
