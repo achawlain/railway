@@ -12,6 +12,7 @@ const DailySummary = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const ref = useRef();
+  const dateInputRef = useRef();
 
   useEffect(() => {
     fetchDailySummary();
@@ -64,31 +65,53 @@ const DailySummary = () => {
 
   // Generate columns dynamically from the first data item if available
   // Exclude before_halt_list as it will be added as additional columns
-  // Move report_id to the first position
+  // Order: report_id, date_of_analysis, date_of_working, train_id, train_type, 
+  //        analyzed_by, lp_cms_id, crew_name, crew_designation, nominated_cli, then other columns
   const getColumns = () => {
     if (data.length > 0) {
       const allKeys = Object.keys(data[0]).filter((key) => key !== "before_halt_list");
       
-      // Separate report_id and other keys
-      const reportIdKey = allKeys.find((key) => 
-        key.toLowerCase() === "report_id" || 
-        key.toLowerCase() === "reportid" ||
-        key.toLowerCase() === "id"
-      );
-      const otherKeys = allKeys.filter((key) => key !== reportIdKey);
+      // Helper function to find key by various possible formats
+      const findKey = (possibleNames) => {
+        return allKeys.find((key) => 
+          possibleNames.some(name => key.toLowerCase() === name.toLowerCase())
+        );
+      };
       
-      // Create columns array with report_id first
+      // Define the ordered columns to look for
+      const orderedColumns = [
+        { names: ["report_id", "reportid", "id"], label: null },
+        { names: ["date_of_analysis"], label: null },
+        { names: ["date_of_working"], label: null },
+        { names: ["train_id", "trainid"], label: null },
+        { names: ["train_type", "traintype"], label: null },
+        { names: ["analyzed_by", "analyzedby"], label: null },
+        { names: ["lp_cms_id", "lp_cmsid", "lpcmsid"], label: null },
+        { names: ["crew_name", "crewname"], label: null },
+        { names: ["crew_designation", "crewdesignation"], label: null },
+        { names: ["nominated_cli", "nominatedcli"], label: null },
+      ];
+      
+      // Find all ordered column keys
+      const orderedKeys = orderedColumns.map(col => findKey(col.names));
+      
+      // Get remaining keys (excluding the ones we've already identified)
+      const otherKeys = allKeys.filter((key) => !orderedKeys.includes(key));
+      
+      // Create columns array in the correct order
       const columns = [];
       
-      // Add report_id as first column if it exists
-      if (reportIdKey) {
-        columns.push({
-          key: reportIdKey,
-          label: reportIdKey
-            .replace(/_/g, " ")
-            .replace(/\b\w/g, (l) => l.toUpperCase()),
-        });
-      }
+      // Add ordered columns
+      orderedKeys.forEach((key) => {
+        if (key) {
+          columns.push({
+            key: key,
+            label: key
+              .replace(/_/g, " ")
+              .replace(/\b\w/g, (l) => l.toUpperCase()),
+          });
+        }
+      });
       
       // Add other columns
       otherKeys.forEach((key) => {
@@ -172,17 +195,33 @@ const DailySummary = () => {
             <div className="bg-white w-full sm:p-8 p-4 rounded-[15px] min-h-[900px] sm:pt-4">
               <h1 className="sm:text-[18px] rounded-[5px] font-normal flex-row flex justify-between text-[18px] text-[#fff] bg-[#2A235A] mb-1 border-b border-[#ccc] relative px-3 py-2 dailyReportTitle items-center">
                 <span>Daily Summary</span>
-                <div className="relative z-20 flex flow-row datePickerCol mt-1 text-[14px]">
-                  <label className="text-[14px] inline-block min-w-[110px] pr-3 sm:mb-0 mt-1">
+                <div 
+                  className="relative z-20 flex flow-row datePickerCol mt-1 text-[14px] cursor-pointer"
+                  onClick={(e) => {
+                    // Only trigger if clicking on the container or label, not the input itself
+                    if (e.target !== dateInputRef.current) {
+                      e.preventDefault();
+                      dateInputRef.current?.click();
+                    }
+                  }}
+                  ref={ref}
+                >
+                  <label 
+                    className="text-[14px] inline-block min-w-[110px] pr-3 sm:mb-0 mt-1 cursor-pointer"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      dateInputRef.current?.click();
+                    }}
+                  >
                     Date :
                   </label>
-                  <div className="relative" ref={ref}>
+                  <div className="relative">
                     <input
+                      ref={dateInputRef}
                       type="date"
                       value={format(selectedDate, "yyyy-MM-dd")}
                       onChange={handleDateChange}
                       className="border px-1 py-2 rounded-md w-[240px] cursor-pointer inputbox pl-2 -mt-1"
-                      onClick={() => setOpen(!open)}
                     />
                   </div>
                 </div>
@@ -239,46 +278,65 @@ const DailySummary = () => {
                         )}
                       </thead>
                       <tbody>
-                        {data.map((item, rowIndex) => (
-                          <tr key={rowIndex} className="text-center">
-                            {columns.map((col, colIndex) => {
-                              const isReportId = 
-                                col.key.toLowerCase() === "report_id" || 
-                                col.key.toLowerCase() === "reportid" ||
-                                (col.key.toLowerCase() === "id" && item[col.key]);
-                              const reportId = item[col.key];
-                              
-                              return (
+                        {data.map((item, rowIndex) => {
+                          // Find report ID from the item
+                          const reportIdKey = Object.keys(item).find((key) => 
+                            key.toLowerCase() === "report_id" || 
+                            key.toLowerCase() === "reportid" ||
+                            (key.toLowerCase() === "id" && item[key])
+                          );
+                          const reportId = reportIdKey ? item[reportIdKey] : null;
+                          
+                          return (
+                            <tr 
+                              key={rowIndex} 
+                              className="text-center cursor-pointer hover:bg-gray-50 transition-colors"
+                              onClick={() => {
+                                if (reportId !== null && reportId !== undefined) {
+                                  window.open(`/reports/${reportId}`, '_blank');
+                                }
+                              }}
+                            >
+                              {columns.map((col, colIndex) => {
+                                const isReportId = 
+                                  col.key.toLowerCase() === "report_id" || 
+                                  col.key.toLowerCase() === "reportid" ||
+                                  (col.key.toLowerCase() === "id" && item[col.key]);
+                                const cellReportId = item[col.key];
+                                
+                                return (
+                                  <td
+                                    key={colIndex}
+                                    className="border border-gray-300 p-2 text-[13px] text-[#4B5563]"
+                                  >
+                                    {isReportId && cellReportId !== null && cellReportId !== undefined ? (
+                                      <Link
+                                        to={`/reports/${cellReportId}`}
+                                        className="text-[#9b4b90] hover:underline cursor-pointer"
+                                        target="_blank"
+                                        onClick={(e) => e.stopPropagation()}
+                                      >
+                                        {String(cellReportId)}
+                                      </Link>
+                                    ) : item[col.key] !== null && item[col.key] !== undefined ? (
+                                      String(item[col.key])
+                                    ) : (
+                                      "-"
+                                    )}
+                                  </td>
+                                );
+                              })}
+                              {beforeHaltColumns.map((col, colIndex) => (
                                 <td
-                                  key={colIndex}
+                                  key={`before-halt-${colIndex}`}
                                   className="border border-gray-300 p-2 text-[13px] text-[#4B5563]"
                                 >
-                                  {isReportId && reportId !== null && reportId !== undefined ? (
-                                    <Link
-                                      to={`/reports/${reportId}`}
-                                      className="text-[#9b4b90] hover:underline cursor-pointer"
-                                      target="_blank"
-                                    >
-                                      {String(reportId)}
-                                    </Link>
-                                  ) : item[col.key] !== null && item[col.key] !== undefined ? (
-                                    String(item[col.key])
-                                  ) : (
-                                    "-"
-                                  )}
+                                  {formatBeforeHaltValue(item.before_halt_list, col.distance)}
                                 </td>
-                              );
-                            })}
-                            {beforeHaltColumns.map((col, colIndex) => (
-                              <td
-                                key={`before-halt-${colIndex}`}
-                                className="border border-gray-300 p-2 text-[13px] text-[#4B5563]"
-                              >
-                                {formatBeforeHaltValue(item.before_halt_list, col.distance)}
-                              </td>
-                            ))}
-                          </tr>
-                        ))}
+                              ))}
+                            </tr>
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>
