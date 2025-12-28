@@ -19,6 +19,7 @@ const RAILWAY_CONST = {
     METADATA: "/metadata",
     MANAGEMENT_SUMMARY: "/management/reports/summary",
     MANAGEMENT_lP_SUMMARY: "/management/reports/lp_summary",
+    MANAGEMENT_DAILY_SUMMARY: "/management/reports/dalily",
     BULK_DOWNLOAD: "bulk_download",
     CONTACT_US: "/contact_us",
     BREAKING_PATTERN: "/reports/ext_data",
