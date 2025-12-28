@@ -1,26 +1,47 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import Loader from "./Loader";
+import { format } from "date-fns";
 
 const DailySummary = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
+  const ref = useRef();
 
   useEffect(() => {
     fetchDailySummary();
   }, []);
 
-  const fetchDailySummary = async () => {
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
+  const fetchDailySummary = async (date = null) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await apiService(
-        "get",
-        RAILWAY_CONST.API_ENDPOINT.MANAGEMENT_DAILY_SUMMARY
-      );
+      const dateToUse = date || selectedDate;
+      const formattedDate = format(dateToUse, "yyyy-MM-dd");
+      const url = `${RAILWAY_CONST.API_ENDPOINT.MANAGEMENT_DAILY_SUMMARY}?daily_report_date=${formattedDate}`;
+      
+      const response = await apiService("get", url);
       
       // Handle different response formats
       const responseData = response.data || response || [];
@@ -32,6 +53,13 @@ const DailySummary = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleDateChange = (e) => {
+    const newDate = new Date(e.target.value);
+    setSelectedDate(newDate);
+    fetchDailySummary(newDate);
+    setOpen(false);
   };
 
   // Generate columns dynamically from the first data item if available
@@ -144,6 +172,20 @@ const DailySummary = () => {
             <div className="bg-white w-full sm:p-8 p-4 rounded-[15px] min-h-[900px] sm:pt-4">
               <h1 className="sm:text-[18px] rounded-[5px] font-normal flex-row flex justify-between text-[18px] text-[#fff] bg-[#2A235A] mb-1 border-b border-[#ccc] relative px-3 py-2 dailyReportTitle items-center">
                 <span>Daily Summary</span>
+                <div className="relative z-20 flex flow-row datePickerCol mt-1 text-[14px]">
+                  <label className="text-[14px] inline-block min-w-[110px] pr-3 sm:mb-0 mt-1">
+                    Date :
+                  </label>
+                  <div className="relative" ref={ref}>
+                    <input
+                      type="date"
+                      value={format(selectedDate, "yyyy-MM-dd")}
+                      onChange={handleDateChange}
+                      className="border px-1 py-2 rounded-md w-[240px] cursor-pointer inputbox pl-2 -mt-1"
+                      onClick={() => setOpen(!open)}
+                    />
+                  </div>
+                </div>
               </h1>
 
               {error ? (
