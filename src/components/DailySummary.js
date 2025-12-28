@@ -278,65 +278,46 @@ const DailySummary = () => {
                         )}
                       </thead>
                       <tbody>
-                        {data.map((item, rowIndex) => {
-                          // Find report ID from the item
-                          const reportIdKey = Object.keys(item).find((key) => 
-                            key.toLowerCase() === "report_id" || 
-                            key.toLowerCase() === "reportid" ||
-                            (key.toLowerCase() === "id" && item[key])
-                          );
-                          const reportId = reportIdKey ? item[reportIdKey] : null;
-                          
-                          return (
-                            <tr 
-                              key={rowIndex} 
-                              className="text-center cursor-pointer hover:bg-gray-50 transition-colors"
-                              onClick={() => {
-                                if (reportId !== null && reportId !== undefined) {
-                                  window.open(`/reports/${reportId}`, '_blank');
-                                }
-                              }}
-                            >
-                              {columns.map((col, colIndex) => {
-                                const isReportId = 
-                                  col.key.toLowerCase() === "report_id" || 
-                                  col.key.toLowerCase() === "reportid" ||
-                                  (col.key.toLowerCase() === "id" && item[col.key]);
-                                const cellReportId = item[col.key];
-                                
-                                return (
-                                  <td
-                                    key={colIndex}
-                                    className="border border-gray-300 p-2 text-[13px] text-[#4B5563]"
-                                  >
-                                    {isReportId && cellReportId !== null && cellReportId !== undefined ? (
-                                      <Link
-                                        to={`/reports/${cellReportId}`}
-                                        className="text-[#9b4b90] hover:underline cursor-pointer"
-                                        target="_blank"
-                                        onClick={(e) => e.stopPropagation()}
-                                      >
-                                        {String(cellReportId)}
-                                      </Link>
-                                    ) : item[col.key] !== null && item[col.key] !== undefined ? (
-                                      String(item[col.key])
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                );
-                              })}
-                              {beforeHaltColumns.map((col, colIndex) => (
+                        {data.map((item, rowIndex) => (
+                          <tr key={rowIndex} className="text-center">
+                            {columns.map((col, colIndex) => {
+                              const isReportId = 
+                                col.key.toLowerCase() === "report_id" || 
+                                col.key.toLowerCase() === "reportid" ||
+                                (col.key.toLowerCase() === "id" && item[col.key]);
+                              const reportId = item[col.key];
+                              
+                              return (
                                 <td
-                                  key={`before-halt-${colIndex}`}
+                                  key={colIndex}
                                   className="border border-gray-300 p-2 text-[13px] text-[#4B5563]"
                                 >
-                                  {formatBeforeHaltValue(item.before_halt_list, col.distance)}
+                                  {isReportId && reportId !== null && reportId !== undefined ? (
+                                    <Link
+                                      to={`/reports/${reportId}`}
+                                      className="text-[#9b4b90] hover:underline cursor-pointer"
+                                      target="_blank"
+                                    >
+                                      {String(reportId)}
+                                    </Link>
+                                  ) : item[col.key] !== null && item[col.key] !== undefined ? (
+                                    String(item[col.key])
+                                  ) : (
+                                    "-"
+                                  )}
                                 </td>
-                              ))}
-                            </tr>
-                          );
-                        })}
+                              );
+                            })}
+                            {beforeHaltColumns.map((col, colIndex) => (
+                              <td
+                                key={`before-halt-${colIndex}`}
+                                className="border border-gray-300 p-2 text-[13px] text-[#4B5563]"
+                              >
+                                {formatBeforeHaltValue(item.before_halt_list, col.distance)}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
