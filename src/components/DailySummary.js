@@ -46,7 +46,14 @@ const DailySummary = () => {
       
       // Handle different response formats
       const responseData = response.data || response || [];
-      setData(Array.isArray(responseData) ? responseData : []);
+      const dataArray = Array.isArray(responseData) ? responseData : [];
+      
+      // Debug: Log available fields from first item
+      if (dataArray.length > 0) {
+        console.log("Available fields in API response:", Object.keys(dataArray[0]));
+      }
+      
+      setData(dataArray);
     } catch (error) {
       console.error("Error fetching daily summary:", error);
       setError("Failed to fetch daily summary data. Please try again later.");
@@ -66,16 +73,23 @@ const DailySummary = () => {
   // Generate columns dynamically from the first data item if available
   // Exclude before_halt_list as it will be added as additional columns
   // Order: report_id, date_of_analysis, date_of_working, train_id, train_type, 
-  //        analyzed_by, lp_cms_id, crew_name, crew_designation, nominated_cli, then other columns
+  //        max_speed, analyzed_by, lp_cms_id, crew_name, crew_designation, nominated_cli, then other columns
   const getColumns = () => {
     if (data.length > 0) {
       const allKeys = Object.keys(data[0]).filter((key) => key !== "before_halt_list");
       
+      // Debug: Log all keys to see what's available
+      console.log("All available keys:", allKeys);
+      
       // Helper function to find key by various possible formats
       const findKey = (possibleNames) => {
-        return allKeys.find((key) => 
+        const found = allKeys.find((key) => 
           possibleNames.some(name => key.toLowerCase() === name.toLowerCase())
         );
+        if (found) {
+          console.log(`Found key "${found}" for names:`, possibleNames);
+        }
+        return found;
       };
       
       // Define the ordered columns to look for
@@ -84,7 +98,7 @@ const DailySummary = () => {
         { names: ["date_of_analysis"], label: null },
         { names: ["date_of_working"], label: null },
         { names: ["train_id", "trainid"], label: null },
-        { names: ["train_type", "traintype"], label: null },
+        { names: ["train_type", "traintype", "train_type_name"], label: null },
         { names: ["analyzed_by", "analyzedby"], label: null },
         { names: ["lp_cms_id", "lp_cmsid", "lpcmsid"], label: null },
         { names: ["crew_name", "crewname"], label: null },
@@ -95,8 +109,17 @@ const DailySummary = () => {
       // Find all ordered column keys
       const orderedKeys = orderedColumns.map(col => findKey(col.names));
       
-      // Get remaining keys (excluding the ones we've already identified)
-      const otherKeys = allKeys.filter((key) => !orderedKeys.includes(key));
+      // Debug: Log which ordered keys were found
+      console.log("Ordered keys found:", orderedKeys);
+      console.log("Looking for max_speed in allKeys:", allKeys.includes("max_speed"));
+      
+      // Get remaining keys (excluding the ones we've already identified and max_speed)
+      const otherKeys = allKeys.filter((key) => 
+        !orderedKeys.includes(key) && key !== "max_speed"
+      );
+      
+      // Debug: Log remaining keys
+      console.log("Other keys (not in ordered list):", otherKeys);
       
       // Create columns array in the correct order
       const columns = [];
@@ -122,6 +145,17 @@ const DailySummary = () => {
             .replace(/\b\w/g, (l) => l.toUpperCase()),
         });
       });
+      
+      // Add max_speed column at the end (just before Max Speed Before Halt)
+      // Always include max_speed even if it doesn't exist in API
+      columns.push({
+        key: "max_speed",
+        label: "Max Speed",
+      });
+      console.log("Added max_speed column at the end (before Max Speed Before Halt)");
+      
+      // Debug: Log final columns
+      console.log("Final columns:", columns.map(c => c.key));
       
       return columns;
     }
