@@ -4,13 +4,24 @@ import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import Loader from "./Loader";
 import { format } from "date-fns";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import { InputText } from "primereact/inputtext";
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 
 const DailySummary = () => {
+  const [lp_cms_id, setLp_cms_id] = useState("");
+  const [trainType, setTrainType] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [open, setOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    global: { value: null, matchMode: "contains" },
+  });
+  const [globalFilterValue, setGlobalFilterValue] = useState("");
   const ref = useRef();
   const dateInputRef = useRef();
 
@@ -18,45 +29,22 @@ const DailySummary = () => {
     fetchDailySummary();
   }, []);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (ref.current && !ref.current.contains(event.target)) {
-        setOpen(false);
-      }
-    };
-
-    if (open) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [open]);
-
+  /* ================= API ================= */
   const fetchDailySummary = async (date = null) => {
     setLoading(true);
     setError(null);
     try {
       const dateToUse = date || selectedDate;
       const formattedDate = format(dateToUse, "yyyy-MM-dd");
-      const url = `${RAILWAY_CONST.API_ENDPOINT.MANAGEMENT_DAILY_SUMMARY}?daily_report_date=${formattedDate}`;
-      
+      let url = `${RAILWAY_CONST.API_ENDPOINT.MANAGEMENT_DAILY_SUMMARY}?daily_report_date=${formattedDate}`;
+      if (lp_cms_id) url += `&lp_cms_id=${lp_cms_id}`;
+      if (trainType) url += `&train_type=${trainType}`;
+
       const response = await apiService("get", url);
-      
-      // Handle different response formats
       const responseData = response.data || response || [];
-      const dataArray = Array.isArray(responseData) ? responseData : [];
-      
-      // Debug: Log available fields from first item
-      if (dataArray.length > 0) {
-        console.log("Available fields in API response:", Object.keys(dataArray[0]));
-      }
-      
-      setData(dataArray);
-    } catch (error) {
-      console.error("Error fetching daily summary:", error);
-      setError("Failed to fetch daily summary data. Please try again later.");
+      setData(Array.isArray(responseData) ? responseData : []);
+    } catch (err) {
+      setError("Failed to fetch daily summary data.");
       setData([]);
     } finally {
       setLoading(false);
@@ -64,306 +52,262 @@ const DailySummary = () => {
   };
 
   const handleDateChange = (e) => {
-    const newDate = new Date(e.target.value);
-    setSelectedDate(newDate);
-    fetchDailySummary(newDate);
-    setOpen(false);
+    setSelectedDate(new Date(e.target.value));
   };
 
-  // Generate columns dynamically from the first data item if available
-  // Exclude before_halt_list as it will be added as additional columns
-  // Order: report_id, date_of_analysis, date_of_working, train_id, train_type, 
-  //        max_speed, analyzed_by, lp_cms_id, crew_name, crew_designation, nominated_cli, then other columns
-  const getColumns = () => {
-    if (data.length > 0) {
-      const allKeys = Object.keys(data[0]).filter((key) => key !== "before_halt_list");
+  const handleFilter = () => fetchDailySummary(selectedDate);
+
+  const handleClear = () => {
+    setLp_cms_id("");
+    setTrainType("");
+    setGlobalFilterValue("");
+    setFilters({
+      global: { value: null, matchMode: "contains" },
+    });
+    const today = new Date();
+    setSelectedDate(today);
+    fetchDailySummary(today);
+  };
+
+  const onGlobalFilterChange = (e) => {
+    const value = e.target.value;
+    setFilters({
+      ...filters,
+      global: { value, matchMode: "contains" },
+    });
+    setGlobalFilterValue(value);
+  };
+
+  const handleDownloadCSV = () => {
+    if (!data.length) return;
+    
+    // Get all before_halt distance columns
+    const beforeHaltColumns = getBeforeHaltColumns();
+    
+    // Create flattened data
+    const flattenedData = data.map((row) => {
+      const flatRow = { ...row };
       
-      // Debug: Log all keys to see what's available
-      console.log("All available keys:", allKeys);
+      // Remove the before_halt_list object
+      delete flatRow.before_halt_list;
       
-      // Helper function to find key by various possible formats
-      const findKey = (possibleNames) => {
-        const found = allKeys.find((key) => 
-          possibleNames.some(name => key.toLowerCase() === name.toLowerCase())
+      // Add each before_halt distance as a separate column
+      beforeHaltColumns.forEach((distance) => {
+        flatRow[`max_speed_at_${distance}`] = formatBeforeHaltValue(
+          row.before_halt_list,
+          distance
         );
-        if (found) {
-          console.log(`Found key "${found}" for names:`, possibleNames);
-        }
-        return found;
-      };
-      
-      // Define the ordered columns to look for
-      const orderedColumns = [
-        { names: ["report_id", "reportid", "id"], label: null },
-        { names: ["date_of_analysis"], label: null },
-        { names: ["date_of_working"], label: null },
-        { names: ["train_id", "trainid"], label: null },
-        { names: ["train_type", "traintype", "train_type_name"], label: null },
-        { names: ["analyzed_by", "analyzedby"], label: null },
-        { names: ["lp_cms_id", "lp_cmsid", "lpcmsid"], label: null },
-        { names: ["crew_name", "crewname"], label: null },
-        { names: ["crew_designation", "crewdesignation"], label: null },
-        { names: ["nominated_cli", "nominatedcli"], label: null },
-      ];
-      
-      // Find all ordered column keys
-      const orderedKeys = orderedColumns.map(col => findKey(col.names));
-      
-      // Debug: Log which ordered keys were found
-      console.log("Ordered keys found:", orderedKeys);
-      console.log("Looking for max_speed in allKeys:", allKeys.includes("max_speed"));
-      
-      // Get remaining keys (excluding the ones we've already identified and max_speed)
-      const otherKeys = allKeys.filter((key) => 
-        !orderedKeys.includes(key) && key !== "max_speed"
-      );
-      
-      // Debug: Log remaining keys
-      console.log("Other keys (not in ordered list):", otherKeys);
-      
-      // Create columns array in the correct order
-      const columns = [];
-      
-      // Add ordered columns
-      orderedKeys.forEach((key) => {
-        if (key) {
-          columns.push({
-            key: key,
-            label: key
-              .replace(/_/g, " ")
-              .replace(/\b\w/g, (l) => l.toUpperCase()),
-          });
-        }
       });
       
-      // Add other columns
-      otherKeys.forEach((key) => {
-        columns.push({
-          key: key,
-          label: key
-            .replace(/_/g, " ")
-            .replace(/\b\w/g, (l) => l.toUpperCase()),
-        });
-      });
-      
-      // Add max_speed column at the end (just before Max Speed Before Halt)
-      // Always include max_speed even if it doesn't exist in API
-      columns.push({
-        key: "max_speed",
-        label: "Max Speed",
-      });
-      console.log("Added max_speed column at the end (before Max Speed Before Halt)");
-      
-      // Debug: Log final columns
-      console.log("Final columns:", columns.map(c => c.key));
-      
-      return columns;
-    }
-    // Default columns if no data
-    return [
-      { key: "id", label: "ID" },
-      { key: "date", label: "Date" },
-      { key: "trainNumber", label: "Train Number" },
-      { key: "route", label: "Route" },
-      { key: "status", label: "Status" },
+      return flatRow;
+    });
+    
+    // Generate CSV
+    const headers = Object.keys(flattenedData[0]);
+    const rows = [
+      headers.join(","),
+      ...flattenedData.map((row) =>
+        headers.map((h) => `"${row[h] ?? ""}"`).join(",")
+      ),
     ];
+    
+    const blob = new Blob([rows.join("\n")], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "daily_summary.csv";
+    a.click();
+    window.URL.revokeObjectURL(url);
   };
 
-  // Get before_halt_list columns - one column for each distance
+  /* ================= COLUMN LOGIC ================= */
   const getBeforeHaltColumns = () => {
-    if (data.length === 0) return [];
-    
-    // Find first item with before_halt_list
-    const firstItemWithBeforeHalt = data.find(
-      (item) => item.before_halt_list && typeof item.before_halt_list === "object"
-    );
-    
-    if (!firstItemWithBeforeHalt?.before_halt_list) return [];
-    
-    const beforeHaltData = firstItemWithBeforeHalt.before_halt_list;
-    
-    // Extract distance keys (e.g., "2000m", "1000m", "200m", "100m")
-    const distanceKeys = Object.keys(beforeHaltData)
-      .filter((key) => !key.endsWith("_at") && /^\d+m$/.test(key))
-      .sort((a, b) => {
-        // Sort by numeric value descending
-        const numA = parseInt(a.replace("m", ""));
-        const numB = parseInt(b.replace("m", ""));
-        return numB - numA;
-      });
-    
-    // Create individual columns for each distance
-    return distanceKeys.map((dist) => ({
-      distance: dist,
-      label: `Max Speed At ${dist}`,
-    }));
+    const item = data.find((d) => d.before_halt_list);
+    if (!item) return [];
+    return Object.keys(item.before_halt_list)
+      .filter((k) => /^\d+m$/.test(k))
+      .sort((a, b) => parseInt(b) - parseInt(a));
   };
 
-  const columns = getColumns();
+  const formatBeforeHaltValue = (list, distance) => {
+    if (!list) return "-";
+    const val = list[distance];
+    const loc = list[`${distance}_at`];
+    return val ? (loc ? `${val} [${loc}]` : val) : "-";
+  };
+
+  // Template for report_id column with link
+  const reportIdTemplate = (rowData) => {
+    return (
+      <Link
+        to={`/reports/${rowData.report_id}`}
+        target="_blank"
+        className="text-[#9b4b90] underline"
+      >
+        {rowData.report_id}
+      </Link>
+    );
+  };
+
+  // Template for before_halt columns
+  const beforeHaltTemplate = (distance) => (rowData) => {
+    return formatBeforeHaltValue(rowData.before_halt_list, distance);
+  };
+
   const beforeHaltColumns = getBeforeHaltColumns();
 
-  // Format before_halt_list value for display (single distance)
-  const formatBeforeHaltValue = (beforeHaltList, distance) => {
-    if (!beforeHaltList || typeof beforeHaltList !== "object") return "-";
-    
-    const value = beforeHaltList[distance];
-    const location = beforeHaltList[`${distance}_at`];
-    
-    if (value !== null && value !== undefined) {
-      return location ? `${value} [${location}]` : String(value);
-    }
-    return "-";
+  // Get all global filter fields
+  const getGlobalFilterFields = () => {
+    if (data.length === 0) return [];
+    return Object.keys(data[0]).filter(k => k !== "before_halt_list");
   };
 
+  /* ================= RENDER ================= */
   return (
     <>
       {loading ? (
         <div className="flex justify-center py-10">
-          <div className="loader">
-            <Loader />
-          </div>
+          <Loader />
         </div>
       ) : (
-        <>
-          <div className="w-full bg-[#efefef] min-h-screen">
-            <div className="bg-white w-full sm:p-8 p-4 rounded-[15px] min-h-[900px] sm:pt-4">
-              <h1 className="sm:text-[18px] rounded-[5px] font-normal flex-row flex justify-between text-[18px] text-[#fff] bg-[#2A235A] mb-1 border-b border-[#ccc] relative px-3 py-2 dailyReportTitle items-center">
-                <span>Daily Summary</span>
-                <div 
-                  className="relative z-20 flex flow-row datePickerCol mt-1 text-[14px] cursor-pointer"
-                  onClick={(e) => {
-                    // Only trigger if clicking on the container or label, not the input itself
-                    if (e.target !== dateInputRef.current) {
-                      e.preventDefault();
-                      dateInputRef.current?.click();
-                    }
-                  }}
-                  ref={ref}
-                >
-                  <label 
-                    className="text-[14px] inline-block min-w-[110px] pr-3 sm:mb-0 mt-1 cursor-pointer"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      dateInputRef.current?.click();
-                    }}
+        <div className="w-full bg-[#efefef] min-h-screen">
+          <div className="bg-white w-full sm:p-8 p-4 rounded-[15px] min-h-[900px] sm:pt-4">
+            {/* ================= HEADER ================= */}
+            <h1 className="sm:text-[18px] rounded-[5px] font-normal flex justify-between items-center text-[18px] text-[#fff] bg-[#2A235A] mb-1 border-b border-[#ccc] relative px-3 py-2 dailyReportTitle">
+              <span>Daily Summary</span>
+              <div className="flex items-center gap-4 text-[16px] flex-wrap">
+                <div className="flex items-center gap-2">
+                  <label>LP CMS :</label>
+                  <input
+                    value={lp_cms_id}
+                    onChange={(e) => setLp_cms_id(e.target.value)}
+                    className="h-[35px] px-2 rounded text-black w-[160px]"
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <label>Train Type :</label>
+                  <select
+                    value={trainType}
+                    onChange={(e) => setTrainType(e.target.value)}
+                    className="h-[35px] px-2 rounded text-black w-[160px]"
                   >
-                    Date :
-                  </label>
-                  <div className="relative">
-                    <input
-                      ref={dateInputRef}
-                      type="date"
-                      value={format(selectedDate, "yyyy-MM-dd")}
-                      onChange={handleDateChange}
-                      className="border px-1 py-2 rounded-md w-[240px] cursor-pointer inputbox pl-2 -mt-1"
-                    />
-                  </div>
+                    <option value="">All</option>
+                    <option value="1">Passenger</option>
+                    <option value="2">Mail Express</option>
+                    <option value="3">Goods</option>
+                    <option value="4">Light Engine [LE]</option>
+                  </select>
                 </div>
-              </h1>
+                <div className="flex items-center gap-2">
+                  <label>Date :</label>
+                  <input
+                    ref={dateInputRef}
+                    type="date"
+                    value={format(selectedDate, "yyyy-MM-dd")}
+                    onChange={handleDateChange}
+                    className="h-[35px] px-2 rounded text-black"
+                  />
+                </div>
+                <button
+                  onClick={handleFilter}
+                  className="bg-[#9b4b90] px-6 h-[35px] rounded text-white"
+                >
+                  Filter
+                </button>
+                <button
+                  onClick={handleClear}
+                  className="bg-white px-6 h-[35px] rounded text-[#2A235A] border border-[#2A235A]"
+                >
+                  Clear
+                </button>
+                <button
+                  onClick={handleDownloadCSV}
+                  className="border border-white px-6 h-[35px] rounded text-white"
+                >
+                  Download CSV
+                </button>
+              </div>
+            </h1>
 
-              {error ? (
-                <div className="text-center py-8 text-red-600">{error}</div>
-              ) : data.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">
-                  No data available
-                </div>
-              ) : (
-                <div style={{ overflowX: "auto", width: "100%" }}>
-                  <div className="popUpRow w-full mt-4">
-                    <table className="min-w-full">
-                      <thead>
-                        {/* Main header row */}
-                        <tr className="bg-gray-200">
-                          {columns.map((col, index) => (
-                            <th
-                              key={index}
-                              className="border-r border-r-[#752f6b] px-4 py-4 text-[14px] font-normal bg-[#9b4b90] text-white text-center"
-                            >
-                              {col.label}
-                            </th>
-                          ))}
-                          {beforeHaltColumns.length > 0 && (
-                            <th
-                              colSpan={beforeHaltColumns.length}
-                              className="border-r border-r-[#752f6b] px-4 py-4 text-[14px] font-normal bg-[#9b4b90] text-white text-center"
-                            >
-                              Max Speed Before Halt
-                            </th>
-                          )}
-                        </tr>
-                        {/* Sub-header row for before_halt_list */}
-                        {beforeHaltColumns.length > 0 && (
-                          <tr className="bg-gray-200">
-                            {columns.map((col, index) => (
-                              <th
-                                key={`sub-${index}`}
-                                className="border-r border-r-[#752f6b] px-4 py-3 text-[13px] font-normal bg-[#9b4b90] text-white text-center"
-                              ></th>
-                            ))}
-                            {beforeHaltColumns.map((col, index) => (
-                              <th
-                                key={`before-halt-${index}`}
-                                className="border-r border-r-[#752f6b] px-4 py-3 text-[13px] font-normal bg-[#9b4b90] text-white text-center"
-                              >
-                                {col.label}
-                              </th>
-                            ))}
-                          </tr>
-                        )}
-                      </thead>
-                      <tbody>
-                        {data.map((item, rowIndex) => (
-                          <tr key={rowIndex} className="text-center">
-                            {columns.map((col, colIndex) => {
-                              const isReportId = 
-                                col.key.toLowerCase() === "report_id" || 
-                                col.key.toLowerCase() === "reportid" ||
-                                (col.key.toLowerCase() === "id" && item[col.key]);
-                              const reportId = item[col.key];
-                              
-                              return (
-                                <td
-                                  key={colIndex}
-                                  className="border border-gray-300 p-2 text-[13px] text-[#4B5563]"
-                                >
-                                  {isReportId && reportId !== null && reportId !== undefined ? (
-                                    <Link
-                                      to={`/reports/${reportId}`}
-                                      className="text-[#9b4b90] hover:underline cursor-pointer"
-                                      target="_blank"
-                                    >
-                                      {String(reportId)}
-                                    </Link>
-                                  ) : item[col.key] !== null && item[col.key] !== undefined ? (
-                                    String(item[col.key])
-                                  ) : (
-                                    "-"
-                                  )}
-                                </td>
-                              );
-                            })}
-                            {beforeHaltColumns.map((col, colIndex) => (
-                              <td
-                                key={`before-halt-${colIndex}`}
-                                className="border border-gray-300 p-2 text-[13px] text-[#4B5563]"
-                              >
-                                {formatBeforeHaltValue(item.before_halt_list, col.distance)}
-                              </td>
-                            ))}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              )}
+            {/* Search bar */}
+            <div className="my-4">
+              <InputText
+                value={globalFilterValue}
+                onChange={onGlobalFilterChange}
+                placeholder="Search for any field"
+                className="w-56 h-[36px] border border-gray-300 rounded-md pl-2"
+              />
             </div>
+
+            {/* ================= DATATABLE ================= */}
+            <DataTable
+              value={data}
+              paginator
+              rows={10}
+              stripedRows
+              sortMode="multiple"
+              dataKey="report_id"
+              filters={filters}
+              filterDisplay="row"
+              loading={loading}
+              emptyMessage="No data found"
+              globalFilterFields={getGlobalFilterFields()}
+              scrollable
+              scrollHeight="600px"
+              className="mt-3"
+            >
+              <Column
+                field="report_id"
+                header="Report ID"
+                sortable
+                body={reportIdTemplate}
+              />
+              <Column
+                field="date_of_analysis"
+                header="Date Of Analysis"
+                sortable
+              />
+              <Column
+                field="date_of_working"
+                header="Date Of Working"
+                sortable
+              />
+              <Column field="train_id" header="Train ID"/>
+              <Column field="train_type_name" header="Train Type"/>
+              <Column field="analyzed_by" header="Analyzed By" sortable />
+              <Column field="lp_cms_id" header="LP CMS ID" sortable />
+              <Column field="crew_name" header="Crew Name" sortable />
+              <Column
+                field="crew_designation"
+                header="Crew Designation"
+              />
+              <Column
+                field="nominated_cli"
+                header="Nominated CLI"
+                sortable
+              />
+              <Column field="alp_cms_id" header="Alp Cms Id" sortable />
+              <Column field="alp_crew_designation" header="Alp Crew Designation" />
+              <Column field="alp_crew_name" header="Alp Crew Name" sortable />
+              <Column field="alp_nominated_cli" header="Alp Nominated Cli" sortable />
+              <Column field="goods" header="Goods" />
+              <Column field="spm" header="Spm" />
+              <Column field="max_speed" header="Max Speed" />
+              
+              {/* Dynamic before_halt columns */}
+              {beforeHaltColumns.map((distance) => (
+                <Column
+                  key={distance}
+                  header={`Max Speed At ${distance}`}
+                  body={beforeHaltTemplate(distance)}
+                />
+              ))}
+            </DataTable>
           </div>
-        </>
+        </div>
       )}
     </>
   );
 };
 
 export default DailySummary;
-
