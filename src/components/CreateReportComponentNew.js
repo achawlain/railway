@@ -296,7 +296,12 @@ const CreateReportComponentNew = () => {
       showPopup("SPM is required!", "error");
       return;
     }
-
+    
+    if (!formData.reported_start_time) {
+      showPopup("reported start time is required!", "error");
+      return;
+    }
+    
     if (!formData.title) {
       showPopup("Title is required!", "error");
       return;
@@ -601,7 +606,7 @@ const CreateReportComponentNew = () => {
             <div className="w-full flex-row flex justify-around createFormRow">
               <div className="mb-4 flex items-center w-[48%] createFormColFirst">
                 {/* time picker */}
-                <label className="block font-medium mb-1 mr-4 w-40">Reported Start Time</label>
+                <label className="block font-medium mb-1 mr-4 w-40">Reported Start Time <span className="text-red-500">*</span> </label>
                 <Calendar
                   value={formData.reported_start_time instanceof Date ? formData.reported_start_time : null}
                   onChange={(e) => setFormData({ ...formData, reported_start_time: e.value })}
