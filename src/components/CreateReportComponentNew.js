@@ -31,6 +31,7 @@ const CreateReportComponentNew = () => {
     loco_no: "",
     spm: "",
     starts_from: "",
+    destination_station: "",
     station_file: null,
     isd_file: null,
     psr_file: null,
@@ -38,7 +39,6 @@ const CreateReportComponentNew = () => {
     gradient_file: null,
     speedo_file: null,
     attacking_speed_file: null,
-    // goods: false,
     train_type: "",
     reported_start_time: null,
   });
@@ -219,6 +219,13 @@ const CreateReportComponentNew = () => {
     }, 4000);
   };
 
+  const isRTISSelected = () => {
+    const selected = spmOption.find(
+      (opt) => opt.source_key === formData.spm
+    );
+    return selected?.source_value?.toUpperCase() === "RTIS";
+  };
+
   const formatDateTime = (date) => {
     if (!date) return "";
     const pad = (n) => String(n).padStart(2, "0");
@@ -296,12 +303,12 @@ const CreateReportComponentNew = () => {
       showPopup("SPM is required!", "error");
       return;
     }
-    
+
     if (!formData.reported_start_time) {
       showPopup("reported start time is required!", "error");
       return;
     }
-    
+
     if (!formData.title) {
       showPopup("Title is required!", "error");
       return;
@@ -317,6 +324,9 @@ const CreateReportComponentNew = () => {
       return
     }
 
+    if (isRTISSelected() && !formData.destination_station)
+      return showPopup("Destination Station is required for RTIS!", "error");
+
     setIsSubmitting(true);
 
     const submission = new FormData();
@@ -328,6 +338,7 @@ const CreateReportComponentNew = () => {
     submission.append("loco_no", formData.loco_no);
     submission.append("spm", formData.spm);
     submission.append("starts_from", formData.starts_from);
+    submission.append("destination_station", formData.destination_station);
     submission.append("report_title", formData.title);
     // submission.append("goods", formData.goods ? "true" : "false");
     submission.append("train_type", formData.train_type);
@@ -602,6 +613,32 @@ const CreateReportComponentNew = () => {
               </div>
               <div className="flex items-center w-[48%] relative max-w-[460px]"></div>
             </div>
+
+            {isRTISSelected() && (
+              <div className="w-full flex-row flex justify-around createFormRow">
+                <div className="mb-4 flex items-center w-[48%] createFormColFirst">
+                  <label className="block font-medium mb-1 mr-4 w-40 ">
+                    Destination / Last Station <span className="text-red-500">*</span>
+                  </label>
+
+                  <select
+                    name="destination_station"
+                    value={formData.destination_station}
+                    onChange={handleDropdownChange}
+                    className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px] h-[39px]"
+                  >
+                    <option value="">Select Destination</option>
+                    {stationList &&
+                      stationList.map((loc, i) => (
+                        <option key={i} value={loc.station}>
+                          {loc.station}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+                <div className="flex items-center w-[48%] relative max-w-[460px]"></div>
+              </div>
+            )}
 
             <div className="w-full flex-row flex justify-around createFormRow">
               <div className="mb-4 flex items-center w-[48%] createFormColFirst">
