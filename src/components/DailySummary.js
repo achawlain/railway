@@ -80,17 +80,17 @@ const DailySummary = () => {
 
   const handleDownloadCSV = () => {
     if (!data.length) return;
-    
+
     // Get all before_halt distance columns
     const beforeHaltColumns = getBeforeHaltColumns();
-    
+
     // Create flattened data
     const flattenedData = data.map((row) => {
       const flatRow = { ...row };
-      
+
       // Remove the before_halt_list object
       delete flatRow.before_halt_list;
-      
+
       // Add each before_halt distance as a separate column
       beforeHaltColumns.forEach((distance) => {
         flatRow[`max_speed_at_${distance}`] = formatBeforeHaltValue(
@@ -98,10 +98,10 @@ const DailySummary = () => {
           distance
         );
       });
-      
+
       return flatRow;
     });
-    
+
     // Generate CSV
     const headers = Object.keys(flattenedData[0]);
     const rows = [
@@ -110,7 +110,7 @@ const DailySummary = () => {
         headers.map((h) => `"${row[h] ?? ""}"`).join(",")
       ),
     ];
-    
+
     const blob = new Blob([rows.join("\n")], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -149,11 +149,54 @@ const DailySummary = () => {
     );
   };
 
-  // Template for before_halt columns
-  const beforeHaltTemplate = (distance) => (rowData) => {
-    return formatBeforeHaltValue(rowData.before_halt_list, distance);
+  /* ================= SPEED VIOLATION LOGIC ================= */
+
+  const getSpeedLimit = (distance, trainTypeName) => {
+    const d = parseInt(distance);
+
+    if (d === 1000) {
+      if (
+        trainTypeName?.toLowerCase().includes("goods") ||
+        trainTypeName?.toLowerCase().includes("light")
+      ) {
+        return 30;
+      }
+      return 50; // Passenger / Mail
+    }
+
+    if (d === 200) return 15;
+    if (d === 100) return 10;
+
+    return null; // no limit
   };
 
+  const isSpeedViolation = (speed, distance, trainTypeName) => {
+    const limit = getSpeedLimit(distance, trainTypeName);
+    if (limit === null || speed === "-" || speed === undefined) return false;
+    return Number(speed) > limit;
+  };
+
+  // Template for before_halt columns
+  const beforeHaltTemplate = (distance) => (rowData) => {
+    const list = rowData.before_halt_list;
+    if (!list) return "-";
+
+    const speed = list[distance];
+    const loc = list[`${distance}_at`];
+    const isViolation = isSpeedViolation(
+      speed,
+      distance,
+      rowData.train_type_name
+    );
+
+    return (
+      <span
+        className={isViolation ? "text-red-600 font-bold" : ""}
+      >
+        {speed ? (loc ? `${speed} [${loc}]` : speed) : "-"}
+      </span>
+    );
+  };
   const beforeHaltColumns = getBeforeHaltColumns();
 
   // Get all global filter fields
@@ -272,8 +315,8 @@ const DailySummary = () => {
                 header="Date Of Working"
                 sortable
               />
-              <Column field="train_id" header="Train ID"/>
-              <Column field="train_type_name" header="Train Type"/>
+              <Column field="train_id" header="Train ID" />
+              <Column field="train_type_name" header="Train Type" />
               <Column field="analyzed_by" header="Analyzed By" sortable />
               <Column field="lp_cms_id" header="LP CMS ID" sortable />
               <Column field="crew_name" header="Crew Name" sortable />
@@ -293,7 +336,7 @@ const DailySummary = () => {
               <Column field="goods" header="Goods" />
               <Column field="spm" header="Spm" />
               <Column field="max_speed" header="Max Speed" />
-              
+
               {/* Dynamic before_halt columns */}
               {beforeHaltColumns.map((distance) => (
                 <Column
