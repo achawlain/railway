@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState , useRef} from "react";
 import deleteIcon from "../images/delete-icon.svg";
 import downloadIcon from "../images/downloadIcon.svg";
 import whatsappIcon from "../images/whatsapp1.png";
 import viewIcon from "../images/viewIcon.svg";
 import sourceFileIcon from "../images/file.png";
+import { Toast } from "primereact/toast";
 import { useNavigate } from "react-router-dom";
 import {
   getDataFromLocalStorage,
@@ -13,32 +14,33 @@ import { baseUrl } from "../config/apiConfig";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import { apiService } from "../utils/apiService";
 import rightIcon from "../images/right.png"; // Assuming you have a right icon image
-
+ 
 const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
+  const toastRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(getDataFromLocalStorage("userInfo"));
   const [showConfirm, setShowConfirm] = useState(false);
-
+ 
   const handleClick = () => {
     const newTab = window.open("", "_blank"); // open blank tab instantly
     setDataOnLocalStorage("currentReport", item);
     newTab.location.href = `/reports/${item.id}`;
   };
-
+ 
   const handleDeleteClick = () => {
     setShowConfirm(true);
   };
-
+ 
   const handleDeleteItem = async () => {
     setLoading(true);
-
+ 
     try {
       const response = await apiService(
         "delete",
         `${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${item.id}`
       );
-
+ 
       if (response?.data?.deleted) {
         refreshReports();
       }
@@ -47,10 +49,74 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
     }
     setLoading(false);
   };
+ 
+  // const handleWhatsappClick = async (e) => {
+  //   e.preventDefault();
+  
+  //   const apiUrl = `${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/whatsapp_report/${item.id}?from_station=${item.stn_from}&to_station=${item.stn_to}&jwt=${userInfo.access_token || ""}`;
+  
+  //   try {
+  //     const response = await fetch(apiUrl);
+  //     const result = await response.json();
+  
+  //     if (result.success && result.data.whatsapp_url) {
+  //       window.open(result.data.whatsapp_url, "_blank");
+  //     } else {
+  //       toastRef.current.show({
+  //         severity: "error",
+  //         summary: "Error",
+  //         detail: result.message || "Something missing",
+  //         life: 3000,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     toastRef.current.show({
+  //       severity: "error",
+  //       summary: "Error",
+  //       detail: "Failed to connect to server",
+  //       life: 3000,
+  //     });
+  //   }
+  // };
 
-  return (
-    <div className="relative dashboardCard dashboardCardOnlyRes pb-[65px] min-h-[240px] max-w-[24%] docCol w-[100%] mx-[.5%] mb-[15px] bg-[#f1f1f1] rounded-[10px] shadow-md hover:shadow-lg">
-      <div>
+  const handleWhatsappClick = async (e) => {
+    e.preventDefault();
+  
+    const apiUrl = `${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/whatsapp_report/${item.id}?from_station=${item.stn_from}&to_station=${item.stn_to}&jwt=${userInfo.access_token || ""}`;
+  
+    try {
+      const response = await fetch(apiUrl)
+  
+      const result = await response.json();
+  
+      if (response.ok && result.data?.whatsapp_url) {
+        // ✅ Open WhatsApp in new tab
+        window.open(result.data.whatsapp_url, "_blank");
+      } else {
+        toastRef.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: result.message || "Unable to generate WhatsApp link",
+          life: 3000,
+        });
+      }
+    } catch (error) {
+      toastRef.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to connect to server",
+        life: 3000,
+      });
+    }
+  };
+  
+  
+ 
+return (
+  <>
+   <Toast ref={toastRef} position="top-right" />
+  <div className="relative dashboardCard dashboardCardOnlyRes pb-[65px] min-h-[240px] max-w-[24%] docCol w-[100%] mx-[.5%] mb-[15px] bg-[#f1f1f1] rounded-[10px] shadow-md hover:shadow-lg">
+    <div>
         <div>
           <div className="sm:text-[32px] text-[30px] leading-[28px] flex justify-between reportGenerateBg bg-[#30424c] rounded-t-[10px] px-4 pt-2 pb-2 font-medium text-[#fff] text-ellipsis overflow-hidden w-[100%] border-b border[#fefefe] truncate">
             <span className="mt-[0px]">{item.id}</span>
@@ -294,7 +360,9 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
           Download
         </a>
         <a
-          href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/whatsapp_report/${item.id}?from_station=${item.stn_from}&to_station=${item.stn_to}&jwt=${userInfo.access_token || ""}`}
+          // href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/whatsapp_report/${item.id}?from_station=${item.stn_from}&to_station=${item.stn_to}&jwt=${userInfo.access_token || ""}`}
+          href="#"
+          onClick={handleWhatsappClick}
           target="_blank"
           rel="noopener noreferrer"
           className="flex w-[50%] text-[13px] opacity-[.8] text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] justify-center text-center leading-[13px]"
@@ -336,6 +404,7 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
         </div>
       )}
     </div>
+    </>
   );
 };
 
