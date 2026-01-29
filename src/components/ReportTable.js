@@ -234,7 +234,7 @@ const ReportTable = ({
     }
   };
 
-  const handleSendWhatsApp = async(e) => {
+  const handleSendWhatsApp = async (e) => {
     e.preventDefault();
     if (!whatsappNumber) {
       alert("Please enter a WhatsApp number");
@@ -245,30 +245,30 @@ const ReportTable = ({
       }?from_station=${formData.from || currentReport.stn_from || ""}&to_station=${formData.to || currentReport.stn_to || ""
       }&phone_number=${whatsappNumber}&jwt=${userInfo.access_token || ""}`;
 
-      try {
-        const response = await fetch(apiUrl)
-    
-        const result = await response.json();
-    
-        if (response.ok && result.data?.whatsapp_url) {
-          // ✅ Open WhatsApp in new tab
-          window.open(result.data.whatsapp_url, "_blank");
-        } else {
-          toastRef.current.show({
-            severity: "error",
-            summary: "Error",
-            detail: result.message || "Unable to generate WhatsApp link",
-            life: 3000,
-          });
-        }
-      } catch (error) {
+    try {
+      const response = await fetch(apiUrl)
+
+      const result = await response.json();
+
+      if (response.ok && result.data?.whatsapp_url) {
+        // ✅ Open WhatsApp in new tab
+        window.open(result.data.whatsapp_url, "_blank");
+      } else {
         toastRef.current.show({
           severity: "error",
           summary: "Error",
-          detail: "Failed to connect to server",
+          detail: result.message || "Unable to generate WhatsApp link",
           life: 3000,
         });
       }
+    } catch (error) {
+      toastRef.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to connect to server",
+        life: 3000,
+      });
+    }
   };
 
   useEffect(() => {
@@ -301,6 +301,7 @@ const ReportTable = ({
 
   return (
     <>
+    <Toast ref={toastRef} position="top-right" />
       {loading ? (
         <div className="loader">
           <Loader />
@@ -364,7 +365,7 @@ const ReportTable = ({
                       Download Report
                     </button>
                   </a>
-                  
+
                   {/* WhatsApp Number Input */}
                   <div className="flex items-center h-full">
                     <input
