@@ -5,6 +5,7 @@ import { locations } from "../utils/tableData";
 import { Link, useLocation, useParams } from "react-router-dom";
 import Loader from "./Loader";
 import { useNavigate } from "react-router-dom";
+import whatsappIcon from "../images/whatsapp1.png";
 import logo from "../../src/images/railwayLogo.png";
 import { baseUrl } from "../config/apiConfig";
 import { getDataFromLocalStorage } from "../utils/localStorage";
@@ -37,6 +38,7 @@ const ReportTable = ({
   const [userInfo, setUserInfo] = useState(getDataFromLocalStorage("userInfo"));
   const [stationList, setStationList] = useState("");
   const [borderBox, setBorderBox] = useState(false);
+  const [whatsappNumber, setWhatsappNumber] = useState("");
   const [formData, setFormData] = useState({
     dateOfAnalysis: getLocalISOTime(),
     title: "",
@@ -97,7 +99,7 @@ const ReportTable = ({
         "get",
         `${RAILWAY_CONST.API_ENDPOINT.CREW}?cms_id=${CMS_ID}`
       );
-  
+
       if (response && response.data) {
         setFormData((prev) => ({
           ...prev,
@@ -133,7 +135,7 @@ const ReportTable = ({
       console.error("Error fetching chart data:", error);
     }
   };
-  
+
 
   const getFormData = async () => {
     const prev = formData;
@@ -216,11 +218,11 @@ const ReportTable = ({
     }
   };
 
-  
+
   const handleLocoPilotDetails = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  
+
     if (value.length > 0) {
       const type = name === "lpCMSID" ? "lp" : name === "alpCMSID" ? "alp" : null;
       if (type) {
@@ -229,7 +231,23 @@ const ReportTable = ({
       }
     }
   };
-  
+
+  const handleSendWhatsApp = () => {
+    if (!whatsappNumber) {
+      alert("Please enter a WhatsApp number");
+      return;
+    }
+
+    const url = `${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/whatsapp_report/${currentReport.id
+      }?from_station=${formData.from || currentReport.stn_from || ""}&to_station=${formData.to || currentReport.stn_to || ""
+      }&phone_number=${whatsappNumber}&jwt=${userInfo.access_token || ""}`;
+
+    window.open(url, "_blank");
+  };
+
+  useEffect(() => {
+    onFormChange(formData);
+  }, [formData]);
 
   // useEffect(() => {
   //   getChartSpeedBeforeHaltData();
@@ -287,55 +305,62 @@ const ReportTable = ({
               </div>
             </div>
             <div>
-              <h3
+              <div
                 id="sectionTitle"
-                className="text-center sm:text-xl text-[16px] font-bold mb-8 mt-2 border-b border-[#ccc] relative pt-2 pb-2 mt-4 reportViewTitle"
+                className="flex justify-between items-center text-center sm:text-xl text-[16px] font-bold mb-8 border-b border-[#ccc] relative pt-2 pb-2 mt-4 reportViewTitle"
               >
-                <span
-                  id="backButton"
-                  onClick={() => navigate(RAILWAY_CONST.ROUTE.DASHBOARD)}
-                  className="absolute left-0 px-[10px] py-[5px] sm:py-[0px] border border-[#000] sm:text-[20px] text-[12px] cursor-pointer sm:top-[10px] top-[3px] text-[#000] hover:text-[#000] font-normal flex items-start "
-                >
-                  <button>Back</button>
-                </span>
-                [{currentReport.id}] {currentReport.title}
-                {/* <button
-                  className="bg-[#2c215d] absolute top-1 right-[0] h-[32px] w-[120px] font-normal text-[16px] text-white absolute right-8"
-                  onClick={handleDownloadPDF}
-                  id="downloadPdfButton"
-                >
-                  Download PDF
-                </button> */}
-                {/* <a
-                  href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${
-                    currentReport.id
-                  }/download?report_file_type=pdf&from_station=${
-                    currentReport.stn_from
-                      ? currentReport.stn_from
-                      : formData.from
-                  }&to_station=${
-                    currentReport.stn_to ? currentReport.stn_to : formData.to
-                  }`}
-                  download
-                > */}
-                <a
-                  href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${currentReport.id
-                    }/download?report_file_type=pdf&from_station=${formData.from || currentReport.stn_from || ""
-                    }&to_station=${formData.to || currentReport.stn_to || ""
-                    }&jwt=${userInfo.access_token || ""}`}
-                  download
-                >
-                  <button
-                    className="bg-[#2c215d] absolute top-1 right-[0] sm:h-[32px] h-[30px] sm:w-[150px] w-[110px] font-normal sm:text-[16px] text-[12px] text-white absolute right-8 cursor-pointer"
-                  // onClick={() => {
-                  //   downloadFiles(currentReport.stn_from, currentReport.stn_to);
-                  // }}
-                  // id="downloadPdfButton"
+                {/* Left Div */}
+                <div className="flex-shrink-0">
+                  <span
+                    id="backButton"
+                    onClick={() => navigate(RAILWAY_CONST.ROUTE.DASHBOARD)}
+                    className="absolute left-0 px-[10px] py-[5px] sm:py-[0px] border border-[#000] sm:text-[20px] text-[12px] cursor-pointer sm:top-[10px] top-[3px] text-[#000] hover:text-[#000] font-normal flex items-start "
                   >
-                    Download Report
-                  </button>
-                </a>
-              </h3>
+                    <button>Back</button>
+                  </span>
+                </div>
+
+                {/* Center Div */}
+                <div className="absolute left-1/2 transform -translate-x-1/2 text-center">
+                  [{currentReport.id}] {currentReport.title}
+                </div>
+
+                {/* Right Div */}
+                <div className="flex items-center gap-2 flex-shrink-0 h-[40px]">
+                  {/* WhatsApp Number Input */}
+                  <div className="flex items-center h-full">
+                    <input
+                      type="tel"
+                      inputMode="numeric"
+                      placeholder="WhatsApp Number"
+                      value={whatsappNumber}
+                      onChange={(e) => setWhatsappNumber(e.target.value)}
+                      className="border-gray-300 border-2 focus:outline-none h-full px-2"
+                    />
+                  </div>
+
+                  {/* WhatsApp Icon */}
+                  <img
+                    src={whatsappIcon}
+                    alt="Send WhatsApp"
+                    onClick={handleSendWhatsApp}
+                    className="h-[32px] w-[32px] cursor-pointer hover:opacity-80 object-contain"
+                  />
+
+                  {/* Download Button */}
+                  <a
+                    href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${currentReport.id}/download?report_file_type=pdf&from_station=${formData.from || currentReport.stn_from || ""}&to_station=${formData.to || currentReport.stn_to || ""}&jwt=${userInfo.access_token || ""}`}
+                    download
+                  >
+                    <button
+                      className="h-[32px] w-[150px] bg-[#2c215d] text-white text-[14px] flex items-center justify-center"
+                    >
+                      Download Report
+                    </button>
+                  </a>
+                </div>
+              </div>
+
               {formData?.warning_details && (() => {
                 let warnings = [];
 
@@ -389,7 +414,7 @@ const ReportTable = ({
                       className="w-full border p-2 rounded focus:outline-none"
                     />
                   </div>
-                  
+
                   <div className="flex flex-row items-center">
                     <label className="block font-semibold w-[260px] text-[#414140] text-[14px]">
                       Analyzed By
@@ -853,8 +878,8 @@ const ReportTable = ({
                 {/* Row 3 end */}
               </form>
             </div>
-          </div>
-        </div>
+          </div >
+        </div >
       )}
     </>
   );

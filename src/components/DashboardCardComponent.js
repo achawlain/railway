@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import deleteIcon from "../images/delete-icon.svg";
 import downloadIcon from "../images/downloadIcon.svg";
-import whatsappIcon from "../images/whatsapp.png";
+import whatsappIcon from "../images/whatsapp1.png";
 import viewIcon from "../images/viewIcon.svg";
 import sourceFileIcon from "../images/file.png";
 import { useNavigate } from "react-router-dom";
