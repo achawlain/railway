@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import { locations } from "../utils/tableData";
 import { Link, useLocation, useParams } from "react-router-dom";
 import Loader from "./Loader";
 import { useNavigate } from "react-router-dom";
-import whatsappIcon from "../images/whatsapp1.png";
+import whatsappIcon from "../images/whatsapp.png";
 import logo from "../../src/images/railwayLogo.png";
 import { baseUrl } from "../config/apiConfig";
+import { Toast } from "primereact/toast";
 import { getDataFromLocalStorage } from "../utils/localStorage";
 const getLocalISOTime = () => {
   // const now = new Date();
@@ -33,6 +34,7 @@ const ReportTable = ({
 }) => {
   // const [locations, setLocations] = useState(locations);
   const [isDatat, setIsData] = useState(false);
+  const toastRef = useRef(null);
   const [loading, setLoading] = useState(true); // State for loader
   const [formInitialized, setFormInitialized] = useState(false);
   const [userInfo, setUserInfo] = useState(getDataFromLocalStorage("userInfo"));
@@ -232,17 +234,41 @@ const ReportTable = ({
     }
   };
 
-  const handleSendWhatsApp = () => {
+  const handleSendWhatsApp = async(e) => {
+    e.preventDefault();
     if (!whatsappNumber) {
       alert("Please enter a WhatsApp number");
       return;
     }
 
-    const url = `${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/whatsapp_report/${currentReport.id
+    const apiUrl = `${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/whatsapp_report/${currentReport.id
       }?from_station=${formData.from || currentReport.stn_from || ""}&to_station=${formData.to || currentReport.stn_to || ""
       }&phone_number=${whatsappNumber}&jwt=${userInfo.access_token || ""}`;
 
-    window.open(url, "_blank");
+      try {
+        const response = await fetch(apiUrl)
+    
+        const result = await response.json();
+    
+        if (response.ok && result.data?.whatsapp_url) {
+          // ✅ Open WhatsApp in new tab
+          window.open(result.data.whatsapp_url, "_blank");
+        } else {
+          toastRef.current.show({
+            severity: "error",
+            summary: "Error",
+            detail: result.message || "Unable to generate WhatsApp link",
+            life: 3000,
+          });
+        }
+      } catch (error) {
+        toastRef.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: "Failed to connect to server",
+          life: 3000,
+        });
+      }
   };
 
   useEffect(() => {
@@ -310,11 +336,11 @@ const ReportTable = ({
                 className="flex justify-between items-center text-center sm:text-xl text-[16px] font-bold mb-8 border-b border-[#ccc] relative pt-2 pb-2 mt-4 reportViewTitle"
               >
                 {/* Left Div */}
-                <div className="flex-shrink-0">
+                <div className="flex items-center gap-2 flex-shrink-0 h-[40px]">
                   <span
                     id="backButton"
                     onClick={() => navigate(RAILWAY_CONST.ROUTE.DASHBOARD)}
-                    className="absolute left-0 px-[10px] py-[5px] sm:py-[0px] border border-[#000] sm:text-[20px] text-[12px] cursor-pointer sm:top-[10px] top-[3px] text-[#000] hover:text-[#000] font-normal flex items-start "
+                    className="absolute left-0 px-[10px] py-[10px] sm:py-[2px] border border-[#000] sm:text-[20px] text-[12px] cursor-pointer sm:top-[14px] top-[3px] text-[#000] hover:text-[#000] font-normal flex items-start rounded"
                   >
                     <button>Back</button>
                   </span>
@@ -327,6 +353,18 @@ const ReportTable = ({
 
                 {/* Right Div */}
                 <div className="flex items-center gap-2 flex-shrink-0 h-[40px]">
+                  {/* Download Button */}
+                  <a
+                    href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${currentReport.id}/download?report_file_type=pdf&from_station=${formData.from || currentReport.stn_from || ""}&to_station=${formData.to || currentReport.stn_to || ""}&jwt=${userInfo.access_token || ""}`}
+                    download
+                  >
+                    <button
+                      className="h-[40px] w-[150px] bg-[#2c215d] text-white text-[14px] flex items-center rounded justify-center"
+                    >
+                      Download Report
+                    </button>
+                  </a>
+                  
                   {/* WhatsApp Number Input */}
                   <div className="flex items-center h-full">
                     <input
@@ -335,7 +373,7 @@ const ReportTable = ({
                       placeholder="WhatsApp Number"
                       value={whatsappNumber}
                       onChange={(e) => setWhatsappNumber(e.target.value)}
-                      className="border-gray-300 border-2 focus:outline-none h-full px-2"
+                      className="border-gray-300 border-2 rounded focus:outline-none !h-[40px] w-[150px] px-1 text-center"
                     />
                   </div>
 
@@ -344,20 +382,8 @@ const ReportTable = ({
                     src={whatsappIcon}
                     alt="Send WhatsApp"
                     onClick={handleSendWhatsApp}
-                    className="h-[32px] w-[32px] cursor-pointer hover:opacity-80 object-contain"
+                    className="!h-[40px] w-[40px] cursor-pointer hover:opacity-80 object-contain"
                   />
-
-                  {/* Download Button */}
-                  <a
-                    href={`${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/${currentReport.id}/download?report_file_type=pdf&from_station=${formData.from || currentReport.stn_from || ""}&to_station=${formData.to || currentReport.stn_to || ""}&jwt=${userInfo.access_token || ""}`}
-                    download
-                  >
-                    <button
-                      className="h-[32px] w-[150px] bg-[#2c215d] text-white text-[14px] flex items-center justify-center"
-                    >
-                      Download Report
-                    </button>
-                  </a>
                 </div>
               </div>
 
