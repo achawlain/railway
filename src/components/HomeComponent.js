@@ -82,7 +82,7 @@ const HomeComponent = () => {
                 </ul>
               </div>
               <div className="w-[40%] speedTimeBanner pl-[20px]">
-                <img src={sideBanner} className="w-full" />
+               <img src={sideBanner} className="w-full" /> 
               </div>
             </div>
           </div>

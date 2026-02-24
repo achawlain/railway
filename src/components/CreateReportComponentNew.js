@@ -333,6 +333,7 @@ const CreateReportComponentNew = () => {
     submission.append("template_id", template.id);
     submission.append("lp_cms_id", formData.lp_cms_id);
     submission.append("train_no", formData.train_no);
+    submission.append("alp_cms_id", formData.alp_cms_id);
     submission.append("load", formData.load);
     submission.append("bmbs", formData.bmbs);
     submission.append("loco_no", formData.loco_no);
@@ -408,11 +409,14 @@ const CreateReportComponentNew = () => {
   useEffect(() => { });
 
   return (
+    <>
     <div className="w-full bg-[#efefef] p-4 reportGenerateBg pt-8 min-h-screen">
-      {isSubmitting && (
-        <div className="loader">
-          <Loader />
-        </div>
+
+                {isSubmitting && (
+                    <div className="loader">
+                      <Loader />
+                     </div>
+           
       )}
 
       <div className="max-w-[1400px] mx-auto px-2 mb-4">
@@ -488,7 +492,38 @@ const CreateReportComponentNew = () => {
                   onChange={handleInputChange}
                 />
               </div>
+      
 
+              <div className="mb-4 flex items-center max-w-[460px] w-[48%] createFormColSecond">
+                <label className="block font-medium mb-1 mr-4 w-40 ">
+                  ALP CMS ID
+                </label>
+                <input
+                  type="text"
+                  name="alp_cms_id"
+                  className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px]"
+                  value={formData.alp_cms_id}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+
+            <div className="w-full flex-row flex justify-around createFormRow">
+              <div className="mb-4 flex items-center w-[48%] createFormColFirst">
+                <label className="block font-medium mb-1 mr-4 w-40 ">
+                 BMBS
+                </label>
+                <input
+                  type="text"
+                  name="bmbs"
+                  className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px]"
+                  value={formData.bmbs}
+                  onChange={handleInputChange}
+                />
+              
+              </div>
+            
+            
               <div className="mb-4 flex items-center max-w-[460px] w-[48%] createFormColSecond">
                 <label className="block font-medium mb-1 mr-4 w-40 ">
                   Load
@@ -498,33 +533,6 @@ const CreateReportComponentNew = () => {
                   name="load"
                   className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px]"
                   value={formData.load}
-                  onChange={handleInputChange}
-                />
-              </div>
-            </div>
-            <div className="w-full flex-row flex justify-around createFormRow">
-              <div className="mb-4 flex items-center w-[48%] createFormColFirst">
-                <label className="block font-medium mb-1 mr-4 w-40 ">
-                  BMBS
-                </label>
-                <input
-                  type="text"
-                  name="bmbs"
-                  className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px]"
-                  value={formData.bmbs}
-                  onChange={handleInputChange}
-                />
-              </div>
-
-              <div className="mb-4 flex items-center max-w-[460px] w-[48%] createFormColSecond">
-                <label className="block font-medium mb-1 mr-4 w-40 ">
-                  Loco No
-                </label>
-                <input
-                  type="text"
-                  name="loco_no"
-                  className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px]"
-                  value={formData.loco_no}
                   onChange={handleInputChange}
                 />
               </div>
@@ -553,7 +561,24 @@ const CreateReportComponentNew = () => {
                 </select>
               </div>
 
-              <div className="mb-4 flex items-center goodColum max-w-[460px] w-[48%] createFormColSecond">
+            
+              <div className="mb-4 flex items-center max-w-[460px] w-[48%] createFormColSecond">
+                <label className="block font-medium mb-1 mr-4 w-40 ">
+                   Loco No
+                </label>
+                <input
+                  type="text"
+                  name="loco_no"
+                  className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px]"
+                  value={formData.loco_no}
+                  onChange={handleInputChange}
+                />
+                 
+              </div>
+            </div>
+
+            <div className="w-full flex-row flex justify-around createFormRow">
+              <div className="mb-4 flex items-center w-[48%] createFormColFirst">
                 {/* <label
                   htmlFor="goods"
                   className="block font-medium mb-1 mr-4 w-40"
@@ -572,27 +597,6 @@ const CreateReportComponentNew = () => {
                 /> */}
                 {/* Goods checkbox removed */}
                 <label className="block font-medium mb-1 mr-4 w-40">
-                  Train Type <span className="text-red-500">*</span>
-                </label>
-                <select
-                  name="train_type"
-                  value={formData.train_type}
-                  onChange={handleDropdownChange}
-                  className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px] h-[39px]"
-                >
-                  <option value="" disabled>Select Train Type</option>
-                  <option value="1">Passenger</option>
-                  <option value="2">Mail Express</option>
-                  <option value="3">Goods</option>
-                  <option value="4">Light Engine [LE]</option>
-                </select>
-
-              </div>
-            </div>
-
-            <div className="w-full flex-row flex justify-around createFormRow">
-              <div className="mb-4 flex items-center w-[48%] createFormColFirst">
-                <label className="block font-medium mb-1 mr-4 w-40 ">
                   Starts From <span className="text-red-500">*</span>
                 </label>
 
@@ -610,8 +614,29 @@ const CreateReportComponentNew = () => {
                       </option>
                     ))}
                 </select>
+
               </div>
-              <div className="flex items-center w-[48%] relative max-w-[460px]"></div>
+            
+
+            
+               <div className="mb-4 flex items-center max-w-[460px] w-[48%] createFormColSecond">
+                <label className="block font-medium mb-1 mr-4 w-40 ">
+                   Train Type <span className="text-red-500">*</span>
+                </label>
+                <select
+                  name="train_type"
+                  value={formData.train_type}
+                  onChange={handleDropdownChange}
+                  className="p-2 border rounded cursor-pointer transition-all flex-grow border-gray-300 max-w-[300px] h-[39px]"
+                >
+                  <option value="" disabled>Select Train Type</option>
+                  <option value="1">Passenger</option>
+                  <option value="2">Mail Express</option>
+                  <option value="3">Goods</option>
+                  <option value="4">Light Engine [LE]</option>
+                </select>
+              </div>
+             
             </div>
 
             {isRTISSelected() && (
@@ -923,6 +948,7 @@ const CreateReportComponentNew = () => {
         ""
       )}
     </div>
+    </>
   );
 };
 
