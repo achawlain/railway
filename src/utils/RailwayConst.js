@@ -38,6 +38,7 @@ const RAILWAY_CONST = {
   ROUTE: {
     ROOT: "/",
     HOME: "/home",
+    SUPERADMIN: "/superadmin",
     LOGIN: "/login",
     REPORT_GENERATE: "/reportGenerate",
     DASHBOARD: "/dashboard",

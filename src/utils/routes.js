@@ -5,6 +5,7 @@ import WithoutHeaderLayout from "../components/WithoutHeaderLayout";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import Login from "../pages/Login";
 import HomeComponent from "../components/HomeComponent";
+import SuperAdmin from "../components/superadmin";
 import PrivateRoute from "../utils/PrivateRoute";
 import ReportGenerateComponent from "../components/ReportGenerateComponent";
 import Dashboard from "../pages/Dashboard";
@@ -64,10 +65,12 @@ const router = createBrowserRouter([
         element: <PrivateRoute element={<TemplateDetails />} />
       },
       { path: RAILWAY_CONST.ROUTE.HOME, element: <HomeComponent /> },
+      { path: RAILWAY_CONST.ROUTE.SUPERADMIN, element: <SuperAdmin /> },
       {
         path: RAILWAY_CONST.ROUTE.REPORTS,
         element: <PrivateRoute element={<Reports />} />,
       },
+      
       {
         path: RAILWAY_CONST.ROUTE.CONTROL_CENTER,
         element: <PrivateRoute element={<ControlCenter />} />,
