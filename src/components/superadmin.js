@@ -1,16 +1,20 @@
- //http://127.0.0.1:5011/organisation/org_name
- 
- import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { apiService } from "../utils/apiService";
+import RAILWAY_CONST from "../utils/RailwayConst";
+import hidePasswordIcon from "../images/eye-passwordHide.svg";
+import showPasswordIcon from "../images/eye-passwordShow.svg";
+
 
 function SuperAdmin() {
 
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [orgList, setOrgList] = useState([]);
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
 
   const [showPopup, setShowPopup] = useState(false);
   const [showUserPopup, setShowUserPopup] = useState(false);
@@ -33,14 +37,17 @@ function SuperAdmin() {
     organisation: ""
   });
 
-  // GET ORGANIZATION CARDS
+  
   const fetchOrganizations = async () => {
     try {
       setLoading(true);
-
-      const response = await axios.get("http://127.0.0.1:5011/organisation/org_name");
-
-      setData(response?.data?.data || []);
+      console.log("Fetching organizations...");
+      const response = await apiService("get",
+        RAILWAY_CONST.API_ENDPOINT.ORGANISATION_NAME
+      );
+      console.log("Fetched Organizations (raw):", response);
+     
+      setData(response?.data ?? response ?? []);
 
     } catch (error) {
       console.log("Error fetching data:", error);
@@ -57,9 +64,11 @@ function SuperAdmin() {
   const fetchOrgList = async () => {
     try {
 
-      const response = await axios.get("http://127.0.0.1:5011/organisation/org_name");
-
-      setOrgList(response?.data?.data || []);
+      
+      const response = await apiService("get",
+        RAILWAY_CONST.API_ENDPOINT.ORGANISATION_NAME
+      );
+      setOrgList(response?.data || []);
 
     } catch (error) {
 
@@ -87,15 +96,15 @@ function SuperAdmin() {
   // CREATE ORGANIZATION
   const handleSubmit = async () => {
 
- if (!formData.org_name) {
-    alert("Organization Name is required");
-    return;
-  }
+    if (!formData.org_name) {
+      alert("Organization Name is required");
+      return;
+    }
 
-  if (!formData.email) {
-    alert("Email is required");
-    return;
-  }
+    if (!formData.email) {
+      alert("Email is required");
+      return;
+    }
 
     try {
 
@@ -108,17 +117,16 @@ function SuperAdmin() {
       data.append("phone", formData.phone);
       data.append("address", formData.address);
 
-      const response = await axios.post(
-        "http://127.0.0.1:5011/organisation/create_org",
+     
+      const response = await apiService(
+        "post",
+        RAILWAY_CONST.API_ENDPOINT.CREATE_ORGANISATION,
         data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        {}
       );
 
-      console.log("Created:", response.data);
+
+      
 
       fetchOrganizations();
 
@@ -146,25 +154,25 @@ function SuperAdmin() {
   const handleUserSubmit = async () => {
 
 
-      if (!userFormData.username) {
-    alert("Username is required");
-    return;
-  }
+    if (!userFormData.username) {
+      alert("Username is required");
+      return;
+    }
 
-  if (!userFormData.name) {
-    alert("Name is required");
-    return;
-  }
+    if (!userFormData.name) {
+      alert("Name is required");
+      return;
+    }
 
-  if (!userFormData.email) {
-    alert("Email is required");
-    return;
-  }
+    if (!userFormData.email) {
+      alert("Email is required");
+      return;
+    }
 
-  if (!userFormData.password) {
-    alert("Password is required");
-    return;
-  }
+    if (!userFormData.password) {
+      alert("Password is required");
+      return;
+    }
     if (userFormData.password !== userFormData.confirm_password) {
       alert("Password and Confirm Password do not match");
       return;
@@ -185,17 +193,16 @@ function SuperAdmin() {
       data.append("role", userFormData.role);
       data.append("organisation", userFormData.organisation);
 
-      const response = await axios.post(
-        "http://127.0.0.1:5011/users/create_user",
+      
+
+      const response = await apiService(
+        "post",
+        RAILWAY_CONST.API_ENDPOINT.CREATE_USER,
         data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        {}
       );
 
-      console.log("User Created:", response.data);
+      
 
       setUserFormData({
         username: "",
@@ -223,48 +230,59 @@ function SuperAdmin() {
   };
 
   return (
-    <div className="pt-10 flex flex-col items-center gap-6">
+    <div className="flex flex-col items-center gap-6">
 
-      {/* Buttons */}
-      <div className="flex gap-6">
+      {/* Navbar */}
+      <div className="w-full ">
+      <div className="w-full bg-[#2A235A] shadow-md py-4 px-10 flex justify-between items-center">
 
-        <button
-          onClick={() => setShowUserPopup(true)}
-          className="px-4 py-2 bg-[#220441] text-white rounded-lg hover:bg-[#56254f] transition duration-300"
-        >
-          New User
-        </button>
+        {/* Left Side */}
+        <div className="text-lg font-semibold text-white">
+         Admin Portal
+        </div>
+        {/* Buttons */}
+        <div className="flex gap-6">
 
-        <button
-          onClick={() => setShowPopup(true)}
-          className="px-4 py-2 bg-[#9b4b90] text-white rounded-lg hover:bg-[#56254f] transition duration-300"
-        >
-          New Organization
-        </button>
+          <button
+            onClick={() => setShowUserPopup(true)}
+            className="px-4 py-2 bg-white text-[#56254f] rounded-lg "
+          >
+            New User
+          </button>
 
+          <button
+            onClick={() => setShowPopup(true)}
+            className="px-4 py-2 bg-white text-[#56254f] rounded-lg "
+          >
+            New Organization
+          </button>
+
+        </div>
       </div>
-
+</div>
       {/* Loader */}
       {loading && <p className="text-lg">Loading...</p>}
 
       {/* Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-8">
 
-  {data?.map((item, index) => {
+        {data?.map((item, index) => {
 
-    if (!item) return null;
+          if (!item) return null;
 
-    return (
-      <Card
-        key={item.id || index}
-        id={item.id}
-        org_name={item.org_name}
-      />
-    );
+          return (
+            <Card
+              key={index}
+              id={item.id}
+              org_name={item.org_name}
+              phone={item.phone}
+              address={item.address}
+            />
+          );
 
-  })}
+        })}
 
-</div>
+      </div>
 
       {/* ORGANIZATION POPUP */}
       {showPopup && (
@@ -353,7 +371,7 @@ function SuperAdmin() {
               value={userFormData.username}
               onChange={handleUserChange}
               className="w-full border p-2 mb-3 rounded"
-               required
+              required
             />
 
             <input
@@ -363,7 +381,7 @@ function SuperAdmin() {
               value={userFormData.name}
               onChange={handleUserChange}
               className="w-full border p-2 mb-3 rounded"
-               required
+              required
             />
 
             <input
@@ -373,46 +391,48 @@ function SuperAdmin() {
               value={userFormData.email}
               onChange={handleUserChange}
               className="w-full border p-2 mb-3 rounded"
-               required
+              required
             />
 
-          <div className="relative">
+            
+
+            <div className="relative mb-3">
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder="Password"
                 value={userFormData.password}
                 onChange={handleUserChange}
-                className="w-full border p-2 pr-10 mb-3 rounded"
-                required
+                placeholder="Enter your password"
+                className="w-full p-2 pr-10 border border-[#99B4CF] rounded bg-[#F7FBFF] text-[14px] h-[40px] appearance-none"
               />
 
-              <span
+              <img
+                src={showPassword ? hidePasswordIcon : showPasswordIcon}
+                alt="togglePassword"
+                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer w-[20px]"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-2 cursor-pointer"
-              >
-                {showPassword ? "Hide" : "Show"}
-              </span>
+              />
             </div>
 
-         <div className="relative">
-          <input
-            type={showConfirmPassword ? "text" : "password"}
-            name="confirm_password"
-            placeholder="Confirm Password"
-            value={userFormData.confirm_password}
-            onChange={handleUserChange}
-            className="w-full border p-2 pr-10 mb-3 rounded"
-            required
-          />
 
-          <span
-            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            className="absolute right-3 top-2 cursor-pointer"
-          >
-            {showConfirmPassword ? "Hide" : "Show"}
-          </span>
-        </div>
+
+            <div className="relative mb-3">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirm_password"
+                value={userFormData.confirm_password}
+                onChange={handleUserChange}
+                placeholder="Confirm Password"
+                className="w-full p-2 pr-10 border border-[#99B4CF] rounded bg-[#F7FBFF] text-[14px] h-[40px]"
+              />
+
+              <img
+                src={showConfirmPassword ? hidePasswordIcon : showPasswordIcon}
+                alt="toggleConfirmPassword"
+                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer w-[20px]"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              />
+            </div>
 
             <input
               type="text"
@@ -480,26 +500,45 @@ function SuperAdmin() {
   );
 }
 
-function Card({ id, org_name }) {
+function Card({ id, org_name, phone, address }) {
 
   if (!id && !org_name) return null;
 
   return (
-    <div className="w-full">
+<div className="m-3">
+  <div className="w-[340px] bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden">
 
-      <div className="bg-[#9b4b90] text-white shadow-lg rounded-2xl p-14 border border-gray-200 hover:shadow-2xl transition duration-300">
+    {/* Top Header with only ID */}
+    <div className="bg-gradient-to-r from-[#4b2a7a] to-[#9b4b90] text-white px-4 py-2 font-semibold">
+      [{id}]
+    </div>
 
-        <p className="text-lg mb-3">
-          <span className="font-semibold">ID:</span> {id}
-        </p>
-
-        <p className="text-lg">
-          <span className="font-semibold">Name:</span> {org_name}
-        </p>
-
+    {/* Card Body */}
+    <div className="p-4 text-gray-700 text-sm">
+      <div className="flex justify-between">
+        <span className="font-semibold">Name:</span>
+        <span>{org_name}</span>
       </div>
 
+      <div className="flex justify-between mt-2">
+        <span className="font-semibold">Phone:</span>
+        <span>{phone}</span>
+      </div>
+
+      <div className="flex justify-between mt-2">
+        <span className="font-semibold">Address:</span>
+        <span
+          className="overflow-hidden text-ellipsis whitespace-nowrap max-w-[160px]"
+          title={address}
+        >
+          {address}
+        </span>
+      </div>
     </div>
+
+  </div>
+</div>
+
   );
 }
 
