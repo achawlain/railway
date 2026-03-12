@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import deleteIcon from "../images/delete-icon.svg";
+import detailIcon from '../images/share.png';
+import { Button } from "primereact/button";
 import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import hidePasswordIcon from "../images/eye-passwordHide.svg";
@@ -76,6 +78,7 @@ function SuperAdmin() {
 
     }
   };
+
 
   // ORGANIZATION INPUT CHANGE
   const handleChange = (e) => {
@@ -272,7 +275,12 @@ function SuperAdmin() {
 
           return (
             <Card
-              key={index}
+              // key={index}
+              // id={item.id}
+              // org_name={item.org_name}
+              // phone={item.phone}
+              // address={item.address}
+               key={item.id}
               id={item.id}
               org_name={item.org_name}
               phone={item.phone}
@@ -358,7 +366,7 @@ function SuperAdmin() {
       {showUserPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40">
 
-          <div className="bg-white p-8 rounded-xl shadow-lg w-96">
+          <div className="bg-white p-8 rounded-xl shadow-lg max-w-md">
 
             <h2 className="text-xl font-semibold mb-4">
               New User
@@ -500,45 +508,94 @@ function SuperAdmin() {
   );
 }
 
-function Card({ id, org_name, phone, address }) {
+ function Card({ id, org_name, phone, address }) {
+  const fetchOrgDetails = async (id) => {
+      console.log("Function called with ID:", id);
+  try {
+
+    const response = await apiService(
+      "get",
+      `${RAILWAY_CONST.API_ENDPOINT.ORGANISATION_NAME}/${id}`
+    );
+
+    console.log(response?.data);
+  } catch (error) {
+    console.log("Error fetching organisation details:", error);
+  }
+};
+
+
 
   if (!id && !org_name) return null;
 
   return (
-<div className="m-3">
-  <div className="w-[340px] bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden">
+  
+<div className="w-[340px] h-auto bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden">
 
-    {/* Top Header with only ID */}
-    <div className="bg-gradient-to-r from-[#4b2a7a] to-[#9b4b90] text-white px-4 py-2 font-semibold">
-      [{id}]
+  {/* Top Header with only ID */}
+  <div className="bg-gradient-to-r from-[#4b2a7a] to-[#9b4b90] text-white px-4 py-2 font-semibold">
+    [{id}]
+  </div>
+
+  {/* Card Body */}
+  <div className="p-4 text-gray-700 text-sm">
+    <div className="flex justify-between">
+      <span className="font-semibold">Name:</span>
+      <span>{org_name}</span>
     </div>
 
-    {/* Card Body */}
-    <div className="p-4 text-gray-700 text-sm">
-      <div className="flex justify-between">
-        <span className="font-semibold">Name:</span>
-        <span>{org_name}</span>
-      </div>
-
-      <div className="flex justify-between mt-2">
-        <span className="font-semibold">Phone:</span>
-        <span>{phone}</span>
-      </div>
-
-      <div className="flex justify-between mt-2">
-        <span className="font-semibold">Address:</span>
-        <span
-          className="overflow-hidden text-ellipsis whitespace-nowrap max-w-[160px]"
-          title={address}
-        >
-          {address}
-        </span>
-      </div>
+    <div className="flex justify-between mt-2">
+      <span className="font-semibold">Phone:</span>
+      <span>{phone}</span>
     </div>
 
+    <div className="flex justify-between mt-2">
+      <span className="font-semibold">Address:</span>
+      <span
+        className="overflow-hidden text-ellipsis whitespace-nowrap max-w-[160px]"
+        title={address}
+      >
+        {address}
+      </span>
+    </div>
+  </div>
+
+  {/* 1. Line after Address */}
+  <hr className="border-t border-gray-200" />
+
+  {/* 2. Action Buttons with Image Logos */}
+  
+    <div className="flex justify-between items-center px-6 py-3 bg-white">
+    {/* Delete Button */}
+    <button className="flex flex-col items-center justify-center hover:bg-gray-50 transition-colors">
+      <img src={deleteIcon} alt="Delete" className="w-5 h-5 mb-1" />
+      <span className="text-[11px] text-gray-500 font-medium">Delete</span>
+    </button>
+
+
+    {/* Details Button */}
+    <button 
+          onClick={() => {
+        console.log("Clicked ID:", id);
+        fetchOrgDetails(id);
+       }}
+    className="flex flex-col items-center justify-center hover:bg-gray-50 transition-colors">
+      <img src={detailIcon} alt="Details" className="w-5 h-5 mb-1" />
+      <span className="text-[11px] text-gray-500 font-medium">Details</span>
+    </button>
+
+    {/* Edit Button */}
+    {/* <Button icon="pi pi-pencil" className="flex flex-col items-center justify-center hover:bg-gray-50 transition-colors">
+       
+      <span className="text-[11px] text-gray-500 font-medium">Edit</span>
+    </Button> */}
+    <Button type="button"
+  icon="pi pi-pencil"
+  label="Edit"
+  className="flex flex-col items-center justify-center hover:bg-gray-50 transition-colors text-[11px] text-gray-500"
+/>
   </div>
 </div>
-
   );
 }
 
