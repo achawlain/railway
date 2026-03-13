@@ -126,10 +126,10 @@ const UpdateTemplateComponent = () => {
       if (response.status >= 200 && response.status < 300) {
         showPopup("Update successful!", "success");
       } else {
-        if (response?.message ){
+        if (response?.message) {
           showPopup(response.message, "error");
         } else {
-        showPopup("Update failed.", "error");
+          showPopup("Update failed.", "error");
         }
       }
     } catch (error) {
@@ -232,7 +232,7 @@ const UpdateTemplateComponent = () => {
             >
               <button className="sm:text-[18px] text-[12px] text-[#000] hover:text-[#000] ">Back</button>
             </span>
-            Update [{template?.id}] {template?.title} Template
+            Update [{template?.template_number}] {template?.title} Template
           </h1>
 
           <form

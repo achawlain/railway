@@ -55,38 +55,38 @@ const transformData = (rawData) => {
             {rawData["lp_cms_id"]}
           </span>
         </span>
-      ) 
-    } else if (key === "report_id" && rawData["report_title"] !== undefined) {
+      )
+    } else if (key === "report_number" && rawData["report_title"] !== undefined) {
       acc[key] = (
-        <a href ={`/reports/${value}`} target="_blank" rel="noopener noreferrer">
-        <span className="cursor-pointer  hover:underline ">
-        
-         [<span>{value}</span>]
-          {"  "}
-          <br />
-          <span
-          className="underline cursor-pointer"
-          // make this line to dispaly on fixed width
-          style={{
-            display: "inline-block",
-            maxWidth: "60px",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-            verticalAlign: "bottom",
-            color: "rgb(155 75 144)",
-            fontStyle: "italic",
-            fontSize: "13px",
-          }}
-           
-          >
-            {rawData["report_title"]}
+        <a href={`/reports/${rawData["report_id"]}`} target="_blank" rel="noopener noreferrer">
+          <span className="cursor-pointer  hover:underline ">
+
+            [<span>{value}</span>]
+            {"  "}
+            <br />
+            <span
+              className="underline cursor-pointer"
+              // make this line to dispaly on fixed width
+              style={{
+                display: "inline-block",
+                maxWidth: "60px",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                verticalAlign: "bottom",
+                color: "rgb(155 75 144)",
+                fontStyle: "italic",
+                fontSize: "13px",
+              }}
+
+            >
+              {rawData["report_title"]}
+            </span>
           </span>
-        </span>
         </a>
-      ) 
+      )
     }
-     else if (!key.includes("_time")) {
+    else if (!key.includes("_time")) {
       acc[key] = rawData[key]; // Include fields that don't have `_time`
     }
     return acc;

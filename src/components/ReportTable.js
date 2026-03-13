@@ -236,15 +236,15 @@ const ReportTable = ({
 
   const handleSendWhatsApp = async (e) => {
     e.preventDefault();
-  
+
     if (!toastRef.current) {
       console.error("Toast is not initialized");
       return;
     }
-  
+
     // Remove spaces and non-digit characters
     const cleanedNumber = whatsappNumber.replace(/\D/g, "");
-  
+
     // Validation: numeric & at least 10 digits
     if (!cleanedNumber) {
       toastRef.current.show({
@@ -255,7 +255,7 @@ const ReportTable = ({
       });
       return;
     }
-  
+
     if (!/^\d+$/.test(cleanedNumber)) {
       toastRef.current.show({
         severity: "error",
@@ -265,7 +265,7 @@ const ReportTable = ({
       });
       return;
     }
-  
+
     if (cleanedNumber.length < 10) {
       toastRef.current.show({
         severity: "error",
@@ -275,16 +275,16 @@ const ReportTable = ({
       });
       return;
     }
-  
+
     // Build API URL
     const apiUrl = `${baseUrl}/${RAILWAY_CONST.API_ENDPOINT.REPORTS}/whatsapp_report/${currentReport.id
       }?from_station=${formData.from || currentReport.stn_from || ""}&to_station=${formData.to || currentReport.stn_to || ""
       }&phone_number=${cleanedNumber}&jwt=${userInfo.access_token || ""}`;
-  
+
     try {
       const response = await fetch(apiUrl);
       const result = await response.json();
-  
+
       if (response.ok && result.data?.whatsapp_url) {
         // ✅ Open WhatsApp in new tab
         window.open(result.data.whatsapp_url, "_blank");
@@ -305,7 +305,7 @@ const ReportTable = ({
       });
     }
   };
-  
+
 
   useEffect(() => {
     onFormChange(formData);
@@ -337,7 +337,7 @@ const ReportTable = ({
 
   return (
     <>
-    <Toast ref={toastRef} position="top-right" />
+      <Toast ref={toastRef} position="top-right" />
       {loading ? (
         <div className="loader">
           <Loader />
@@ -385,7 +385,7 @@ const ReportTable = ({
 
                 {/* Center Div */}
                 <div className="absolute left-1/2 transform -translate-x-1/2 text-center">
-                  [{currentReport.id}] {currentReport.title}
+                  [{currentReport.report_number}] {currentReport.title}
                 </div>
 
                 {/* Right Div */}

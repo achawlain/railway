@@ -144,7 +144,7 @@ const DailySummary = () => {
         target="_blank"
         className="text-[#9b4b90] underline"
       >
-        {rowData.report_id}
+        {rowData.report_number}
       </Link>
     );
   };
@@ -300,8 +300,8 @@ const DailySummary = () => {
               className="mt-3"
             >
               <Column
-                field="report_id"
-                header="Report ID"
+                field="report_number"
+                header="Report Number"
                 sortable
                 body={reportIdTemplate}
               />

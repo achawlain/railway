@@ -57,7 +57,7 @@ const TemplateCardComponents = ({
   const hasToggle = item.pairing_id !== null;
 
   const handleClick = () => {
-    setDataOnLocalStorage("currentTemplate", {...currentData, direction});
+    setDataOnLocalStorage("currentTemplate", { ...currentData, direction });
     navigate(RAILWAY_CONST.ROUTE.CREATE_REPORT);
   };
 
@@ -220,7 +220,7 @@ const TemplateCardComponents = ({
   };
 
   const handleEdit = () => {
-    setDataOnLocalStorage("currentTemplate", {...currentData, direction});
+    setDataOnLocalStorage("currentTemplate", { ...currentData, direction });
     navigate(RAILWAY_CONST.ROUTE.UPDATE_TEMPLATE);
   };
 
@@ -233,7 +233,7 @@ const TemplateCardComponents = ({
             <div className="text-[18px] reportGenerateBg bg-[#30424c] rounded-t-[10px] px-4 pt-2 pb-2 font-medium text-white w-full border-b border-[#fefefe] flex justify-between items-center">
               {/* Left section: ID and Title */}
               <div className="flex items-center gap-2 overflow-hidden">
-                <span className="text-nowrap">[{currentData?.id}]</span>
+                <span className="text-nowrap">[{currentData?.template_number}]</span>
                 <span className="truncate max-w-[200px] text-ellipsis overflow-hidden whitespace-nowrap">
                   {currentData?.title}
                 </span>
@@ -447,13 +447,13 @@ const TemplateCardComponents = ({
             Use It
           </span>
           <span
-          onClick={handleDetailClick}
-          className="flex w-[50%] text-[13px] opacity-[.8] text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"
+            onClick={handleDetailClick}
+            className="flex w-[50%] text-[13px] opacity-[.8] text-[#414141] items-center cursor-pointer flex-col hover:opacity-[1] items-center justify-center text-center leading-[13px]"
           >
-            <img 
-            alt="Details Icon"
-            src={detailIcon}
-            className="cursor-pointer leading-[13px] w-[21px] mr-[2px] mb-1"
+            <img
+              alt="Details Icon"
+              src={detailIcon}
+              className="cursor-pointer leading-[13px] w-[21px] mr-[2px] mb-1"
 
             />
             Details</span>
@@ -532,7 +532,7 @@ const TemplateCardComponents = ({
             <p className="mb-4">
               Are you sure you want to delete this template{" "}
               <strong>
-                "{currentData.title} (<strong>{currentData.id}</strong>)"
+                "{currentData.title} (<strong>{currentData.template_number}</strong>)"
               </strong>
               ?
             </p>
