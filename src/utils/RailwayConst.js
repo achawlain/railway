@@ -36,6 +36,8 @@ const RAILWAY_CONST = {
     ORGANISATION_NAME: "/organisation/",
     CREATE_ORGANISATION: "organisation/create_org",
     CREATE_USER: "/users/create_user",
+    ORGANISATION_UPDATE: "organisation/update_org",
+    ORGANISATION_DELETE: "organisation/delete_org",
   },
 
   ROUTE: {

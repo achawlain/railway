@@ -6,7 +6,7 @@ import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import hidePasswordIcon from "../images/eye-passwordHide.svg";
 import showPasswordIcon from "../images/eye-passwordShow.svg";
-
+import Loader from "./Loader";
 
 function SuperAdmin() {
 
@@ -16,8 +16,6 @@ function SuperAdmin() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-
   const [showPopup, setShowPopup] = useState(false);
   const [showUserPopup, setShowUserPopup] = useState(false);
 
@@ -27,6 +25,35 @@ function SuperAdmin() {
     phone: "",
     address: ""
   });
+
+  const updateOrg = (id, updatedData) => {
+
+  setData(prev =>
+    prev.map(org =>
+      org.id === id ? { ...org, ...updatedData } : org
+    )
+  );
+  };
+
+  const deleteOrg = async (id) => {
+
+  try {
+
+    await apiService(
+      "delete",
+      `${RAILWAY_CONST.API_ENDPOINT.ORGANISATION_DELETE}/${id}`
+    );
+
+    // UI se card remove
+    setData(prev => prev.filter(org => org.id !== id));
+
+  } catch (error) {
+
+    console.log("Error deleting organisation:", error);
+
+  }
+
+};
 
   const [userFormData, setUserFormData] = useState({
     username: "",
@@ -38,7 +65,7 @@ function SuperAdmin() {
     role: "",
     organisation: ""
   });
-
+  
   
   const fetchOrganizations = async () => {
     try {
@@ -47,10 +74,8 @@ function SuperAdmin() {
       const response = await apiService("get",
         RAILWAY_CONST.API_ENDPOINT.ORGANISATION_NAME
       );
-      console.log("Fetched Organizations (raw):", response);
-     
+      console.log("Fetched Organizations (raw):", response);    
       setData(response?.data ?? response ?? []);
-
     } catch (error) {
       console.log("Error fetching data:", error);
     } finally {
@@ -64,21 +89,15 @@ function SuperAdmin() {
 
   // GET ORGANIZATION LIST FOR DROPDOWN
   const fetchOrgList = async () => {
-    try {
-
-      
+    try {     
       const response = await apiService("get",
         RAILWAY_CONST.API_ENDPOINT.ORGANISATION_NAME
       );
       setOrgList(response?.data || []);
-
     } catch (error) {
-
       console.log("Error fetching organisations:", error);
-
     }
   };
-
 
   // ORGANIZATION INPUT CHANGE
   const handleChange = (e) => {
@@ -128,9 +147,6 @@ function SuperAdmin() {
         {}
       );
 
-
-      
-
       fetchOrganizations();
 
       setFormData({
@@ -155,8 +171,6 @@ function SuperAdmin() {
 
   // CREATE USER
   const handleUserSubmit = async () => {
-
-
     if (!userFormData.username) {
       alert("Username is required");
       return;
@@ -196,16 +210,12 @@ function SuperAdmin() {
       data.append("role", userFormData.role);
       data.append("organisation", userFormData.organisation);
 
-      
-
       const response = await apiService(
         "post",
         RAILWAY_CONST.API_ENDPOINT.CREATE_USER,
         data,
         {}
       );
-
-      
 
       setUserFormData({
         username: "",
@@ -221,13 +231,9 @@ function SuperAdmin() {
       setShowUserPopup(false);
 
     } catch (error) {
-
       console.log("Error creating user:", error);
-
     } finally {
-
-      setLoading(false);
-
+       setLoading(false);
     }
 
   };
@@ -263,34 +269,32 @@ function SuperAdmin() {
         </div>
       </div>
 </div>
-      {/* Loader */}
-      {loading && <p className="text-lg">Loading...</p>}
+     
+{/* Loader */}
+{loading && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
+    <img src={Loader} alt="Loading..." className="w-14 h-14" />
+  </div>
+)}
 
       {/* Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-8">
-
         {data?.map((item, index) => {
-
           if (!item) return null;
-
           return (
             <Card
-              // key={index}
-              // id={item.id}
-              // org_name={item.org_name}
-              // phone={item.phone}
-              // address={item.address}
-               key={item.id}
+              key={item.id}
               id={item.id}
               org_name={item.org_name}
+              email={item.email}
               phone={item.phone}
               address={item.address}
+              onUpdate={updateOrg}
+              onDelete={deleteOrg}
             />
           );
-
         })}
-
-      </div>
+   </div>
 
       {/* ORGANIZATION POPUP */}
       {showPopup && (
@@ -340,7 +344,6 @@ function SuperAdmin() {
             />
 
             <div className="flex justify-end gap-3">
-
               <button
                 onClick={() => setShowPopup(false)}
                 className="px-4 py-2 bg-gray-400 text-white rounded"
@@ -401,9 +404,7 @@ function SuperAdmin() {
               className="w-full border p-2 mb-3 rounded"
               required
             />
-
             
-
             <div className="relative mb-3">
               <input
                 type={showPassword ? "text" : "password"}
@@ -508,30 +509,129 @@ function SuperAdmin() {
   );
 }
 
- function Card({ id, org_name, phone, address }) {
+ function Card({ id, org_name, email, phone, address, onUpdate, onDelete  }) {
+   const [orgDetails, setOrgDetails] = useState(null);
+   const [orgList, setOrgList] = useState([]);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+ // ⭐ Edit popup state
+  const [showEditPopup, setShowEditPopup] = useState(false);
+
+  // ⭐ Edit form state
+  const [editForm, setEditForm] = useState({
+    org_name: org_name,
+    email: email,
+    phone: phone,
+    address: address
+  });
+ useEffect(() => {
+    setEditForm({
+      org_name, 
+      email,
+      phone,
+      address
+    });
+  }, [org_name, email, phone, address]);
+  // ⭐ input change
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+
+    setEditForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   const fetchOrgDetails = async (id) => {
       console.log("Function called with ID:", id);
   try {
 
     const response = await apiService(
       "get",
-      `${RAILWAY_CONST.API_ENDPOINT.ORGANISATION_NAME}/${id}`
+      `${RAILWAY_CONST.API_ENDPOINT.ORGANISATION_NAME}${id}`
     );
+     console.log("API Response:", response?.data);
 
-    console.log(response?.data);
+    setOrgDetails(response?.data); // 👈 state update
+    // console.log(response?.data);
   } catch (error) {
     console.log("Error fetching organisation details:", error);
   }
 };
 
 
+const handleUpdate = async () => {
+
+  const formData = new FormData();
+
+  formData.append("org_name", editForm.org_name);
+  formData.append("email", editForm.email);
+  formData.append("phone", editForm.phone);
+  formData.append("address", editForm.address);
+
+  try {
+
+    const response = await apiService(
+      "put",
+      `${RAILWAY_CONST.API_ENDPOINT.ORGANISATION_UPDATE}/${id}`,
+      formData
+    );
+
+    console.log("Updated Successfully:", response?.data);
+    onUpdate(id, editForm);
+    setShowEditPopup(false);
+
+  } catch (error) {
+    console.log("Error updating organisation:", error);
+  }
+};
+ 
+const confirmDelete = async () => {
+
+  await onDelete(id);
+
+  setShowDeletePopup(false);
+
+};
+
 
   if (!id && !org_name) return null;
-
   return (
-  
-<div className="w-[340px] h-auto bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden">
+    <>
 
+    {showDeletePopup && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+
+    <div className="bg-white rounded-lg shadow-lg p-6 w-[420px]">
+
+      <p className="text-lg mb-6">
+        Are you sure you want to delete this organisation
+        <span className="font-semibold"> "{org_name}"</span>?
+      </p>
+
+      <div className="flex justify-end gap-4">
+
+        <button
+          onClick={() => setShowDeletePopup(false)}
+          className="px-5 py-2 bg-gray-300 rounded-md"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={confirmDelete}
+          className="px-5 py-2 bg-[#9b4b90] text-white rounded-md"
+        >
+          Delete
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+)}
+   
+<div className="w-[340px] h-auto bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden">
   {/* Top Header with only ID */}
   <div className="bg-gradient-to-r from-[#4b2a7a] to-[#9b4b90] text-white px-4 py-2 font-semibold">
     [{id}]
@@ -542,6 +642,11 @@ function SuperAdmin() {
     <div className="flex justify-between">
       <span className="font-semibold">Name:</span>
       <span>{org_name}</span>
+    </div>
+
+    <div className="flex justify-between mt-2">
+      <span className="font-semibold">Email:</span>
+      <span>{email}</span>
     </div>
 
     <div className="flex justify-between mt-2">
@@ -567,7 +672,9 @@ function SuperAdmin() {
   
     <div className="flex justify-between items-center px-6 py-3 bg-white">
     {/* Delete Button */}
-    <button className="flex flex-col items-center justify-center hover:bg-gray-50 transition-colors">
+    <button 
+    onClick={() => setShowDeletePopup(true)}
+    className="flex flex-col items-center justify-center hover:bg-gray-50 transition-colors">
       <img src={deleteIcon} alt="Delete" className="w-5 h-5 mb-1" />
       <span className="text-[11px] text-gray-500 font-medium">Delete</span>
     </button>
@@ -584,18 +691,82 @@ function SuperAdmin() {
       <span className="text-[11px] text-gray-500 font-medium">Details</span>
     </button>
 
-    {/* Edit Button */}
-    {/* <Button icon="pi pi-pencil" className="flex flex-col items-center justify-center hover:bg-gray-50 transition-colors">
-       
-      <span className="text-[11px] text-gray-500 font-medium">Edit</span>
-    </Button> */}
-    <Button type="button"
-  icon="pi pi-pencil"
-  label="Edit"
-  className="flex flex-col items-center justify-center hover:bg-gray-50 transition-colors text-[11px] text-gray-500"
-/>
+    <Button 
+      onClick={() => setShowEditPopup(true)}
+      type="button"
+        icon="pi pi-pencil"
+        label="Edit"
+        className="flex flex-col items-center justify-center hover:bg-gray-50 transition-colors text-[11px] text-gray-500"/>
   </div>
+   
+{showEditPopup && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40">
+
+    <div className="bg-white p-6 rounded-lg w-96 shadow-lg">
+
+      <h2 className="text-lg font-semibold mb-4">Edit Organisation</h2>
+
+      <input
+        type="text"
+        name="org_name"
+        value={editForm.org_name}
+        onChange={handleEditChange}
+        className="w-full border p-2 mb-3 rounded"
+        placeholder="Organisation Name"
+      />
+
+       <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={editForm.email}
+              onChange={handleEditChange}
+              className="w-full border p-2 mb-3 rounded"
+            />
+
+      <input
+        type="text"
+        name="phone"
+        value={editForm.phone}
+        onChange={handleEditChange}
+        className="w-full border p-2 mb-3 rounded"
+        placeholder="Phone"
+      />
+
+      <input
+        type="text"
+        name="address"
+        value={editForm.address}
+        onChange={handleEditChange}
+        className="w-full border p-2 mb-4 rounded"
+        placeholder="Address"
+      />
+
+      <div className="flex justify-end gap-3">
+
+        <button
+          onClick={() => setShowEditPopup(false)}
+          className="px-4 py-2 bg-gray-400 text-white rounded"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={handleUpdate}
+          className="px-4 py-2 bg-[#9b4b90] text-white rounded"
+        >
+          Update
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+)}
+
 </div>
+</>
   );
 }
 
