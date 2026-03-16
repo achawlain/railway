@@ -209,7 +209,7 @@ const UpdateTemplateComponent = () => {
         );
         // console.log("Unpaire List Response:", response);
         if (Array.isArray(response?.data)) {
-          setUnpaireOptions(response.data.map((item) => ({ id: item.id, title: item.title })));
+          setUnpaireOptions(response.data.map((item) => ({ id: item.id, title: item.title, template_id: item.template_number })));
         }
       } catch (error) {
         console.error("Error fetching unpaire list:", error);
@@ -309,12 +309,14 @@ const UpdateTemplateComponent = () => {
                   {template?.pairing_id ? (
                     <>
                       <b>
-                        [{template.pairing_id}]
-                        {" "}
-                        {
-                          unpaireOptions.find((item) => item.id === template.pairing_id)?.title ||
-                          "(Title not found)"
-                        }
+                        {(() => {
+                          const matched = unpaireOptions.find(
+                            (item) => item.id === template.pairing_id
+                          );
+                          return matched
+                            ? `[${matched.template_id}] ${matched.title} `
+                            : "(Title not found)";
+                        })()}
                       </b>
                     </>
                   ) : (
@@ -338,7 +340,7 @@ const UpdateTemplateComponent = () => {
                   <option value="">None</option>
                   {unpaireOptions.map((item) => (
                     <option key={item.id} value={item.id}>
-                      [{item.id}] {item.title}
+                      [{item.template_id}] {item.title}
                     </option>
                   ))}
                 </select>

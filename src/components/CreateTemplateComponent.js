@@ -190,7 +190,7 @@ const CreateTemplateComponent = () => {
         );
         // console.log("Unpaire List Response:", response);
         if (Array.isArray(response?.data)) {
-          setUnpaireOptions(response.data.map((item) => ({ id: item.id, title: item.title })));
+          setUnpaireOptions(response.data.map((item) => ({ id: item.id, title: item.title, template_id: item.template_number })));
         }
       } catch (error) {
         console.error("Error fetching unpaire list:", error);
@@ -382,7 +382,7 @@ const CreateTemplateComponent = () => {
                 <option value="">None</option>
                 {unpaireOptions.map((item) => (
                   <option key={item.id} value={item.id}>
-                    [{item.id}] {item.title}
+                    [{item.template_id}] {item.title}
                   </option>
                 ))}
               </select>
