@@ -6,11 +6,12 @@ import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import hidePasswordIcon from "../images/eye-passwordHide.svg";
 import showPasswordIcon from "../images/eye-passwordShow.svg";
-import Loader from "./Loader";
+import loader from "./Loader";
 
 function SuperAdmin() {
 
   const [loading, setLoading] = useState(false);
+  
   const [data, setData] = useState([]);
   const [orgList, setOrgList] = useState([]);
   const [password, setPassword] = useState("");
@@ -271,14 +272,22 @@ function SuperAdmin() {
 </div>
      
 {/* Loader */}
-{loading && (
+{/* {loading && (
   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
-    <img src={Loader} alt="Loading..." className="w-14 h-14" />
+    <loader />
   </div>
-)}
+)} */}
+{loading ? (
+                <div className="flex justify-center py-10">
+                  <div className="loader">
+                    <loader />
+                  </div>
+                </div>
+              ) : null}
 
       {/* Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-8">
+      {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-8"> */}
+      <div className="flex flex-wrap justify-center gap-6 p-6">
         {data?.map((item, index) => {
           if (!item) return null;
           return (
@@ -630,8 +639,7 @@ const confirmDelete = async () => {
 
   </div>
 )}
-   
-<div className="w-[340px] h-auto bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden">
+  <div className="w-full max-w-[340px] bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden"> 
   {/* Top Header with only ID */}
   <div className="bg-gradient-to-r from-[#4b2a7a] to-[#9b4b90] text-white px-4 py-2 font-semibold">
     [{id}]
