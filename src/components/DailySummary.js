@@ -24,6 +24,7 @@ const DailySummary = () => {
   const [globalFilterValue, setGlobalFilterValue] = useState("");
   const ref = useRef();
   const dateInputRef = useRef();
+  /*let loadings = true  */
 
   useEffect(() => {
     fetchDailySummary();
@@ -208,13 +209,15 @@ const DailySummary = () => {
   /* ================= RENDER ================= */
   return (
     <>
-      {loading ? (
-        <div className="flex justify-center py-10">
-          <Loader />
-        </div>
-      ) : (
-        <div className="w-full bg-[#efefef] min-h-screen">
-          <div className="bg-white w-full sm:p-8 p-4 rounded-[15px] min-h-[900px] sm:pt-4">
+      
+          {loading ? (
+            <div className="flex items-center justify-center w-full h-96 pt-20">
+              <div className="w-12 h-12">
+                <Loader />
+              </div>
+            </div>
+          ) : (
+            <div>
             {/* ================= HEADER ================= */}
             <h1 className="sm:text-[18px] rounded-[5px] font-normal flex justify-between items-center text-[18px] text-[#fff] bg-[#2A235A] mb-1 border-b border-[#ccc] relative px-3 py-2 dailyReportTitle">
               <span>Daily Summary</span>
@@ -346,9 +349,8 @@ const DailySummary = () => {
                 />
               ))}
             </DataTable>
-          </div>
-        </div>
-      )}
+            </div>
+          )}
     </>
   );
 };

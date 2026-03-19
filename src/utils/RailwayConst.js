@@ -33,11 +33,17 @@ const RAILWAY_CONST = {
     HALT_REPORT: "/halt_report/unique_halt/",
     HALT_DATA: "/halt_report/halt_data",
     HALT_FIG: "/halt_report/halt_fig",
+    ORGANISATION_NAME: "/organisation/",
+    CREATE_ORGANISATION: "organisation/create_org",
+    CREATE_USER: "/users/create_user",
+    ORGANISATION_UPDATE: "organisation/update_org",
+    ORGANISATION_DELETE: "organisation/delete_org",
   },
 
   ROUTE: {
     ROOT: "/",
     HOME: "/home",
+    SUPERADMIN: "/superadmin",
     LOGIN: "/login",
     REPORT_GENERATE: "/reportGenerate",
     DASHBOARD: "/dashboard",

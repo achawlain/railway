@@ -17,6 +17,7 @@ import logoutIcon from "../../src/images/logoutIcon.svg";
 const Header = () => {
   const location = useLocation();
   const [userInfo, setUserInfo] = useState(null);
+  
   const navigate = useNavigate();
   const [isAdminRoute, setIsAdminRoute] = useState(false);
   const [isNavListVisible, setIsNavListVisible] = useState(false);
@@ -223,7 +224,7 @@ const Header = () => {
                             </NavLink>{" "}
                           </li>
                         )}
-
+                       
                         {(userInfo.user_details?.role === 1 ||
                           userInfo.user_details?.role === 3) && (
                           <li
@@ -240,7 +241,7 @@ const Header = () => {
                                 }`
                               }
                             >
-                              Control Center
+                              Control Center 
                             </NavLink>
                           </li>
                         )}
@@ -260,6 +261,25 @@ const Header = () => {
                               }
                             >
                               Route List
+                            </NavLink>
+                          </li>
+                        )}
+                        {(userInfo.user_details?.role === 0) && (
+                          <li
+                            className="ml-0 pl-0 border-t sm:border-t sm:border-transparent border-[#efefef]"
+                            onClick={() => setIsNavListVisible(false)}
+                          >
+                            <NavLink
+                              to={RAILWAY_CONST.ROUTE.SUPERADMIN}
+                              className={({ isActive }) =>
+                                `hover:text-[#9b4b90] transition p-[10px] block ${
+                                  isActive
+                                    ? "text-[#9b4b90] font-medium underline"
+                                    : ""
+                                }`
+                              }
+                            >
+                              Admin
                             </NavLink>
                           </li>
                         )}

@@ -10,6 +10,19 @@
   display: none;
 }
 
+
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+input::-ms-reveal {
+  display: none;
+}
+input[type="password"]::-webkit-textfield-decoration-container {
+  display: none;
+}
+
+
 .loaderPdf {
   position: absolute;
   z-index: 77;
@@ -68,7 +81,23 @@
   width: 40px;
   animation: rotateAnimation 2s linear infinite;
 }
-
+/*.loadings{
+   position: absolute;
+  z-index: 77;
+  left: 0%;
+  top: 0%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+}
+.loadings img {
+  display: inline-block;
+  width: 20px;
+  animation: rotateAnimation 2s linear infinite;
+}*/
 .componentLoader {
   z-index: 77;
   left: 0%;
