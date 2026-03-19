@@ -279,7 +279,7 @@ const Header = () => {
                                 }`
                               }
                             >
-                              Admin
+                              Admin Portal
                             </NavLink>
                           </li>
                         )}
