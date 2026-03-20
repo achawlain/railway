@@ -153,7 +153,7 @@ const DashboardCardComponent = ({ item, onDelete, onView, refreshReports }) => {
                     <a
                       href={`/templateDetails/${item?.template_id}`}
                       target="_blank"
-                    > <span className="text-red-400">[{item?.template_id}]</span> </a>
+                    > <span className="text-red-400">[{item?.template_number}]</span> </a>
                     {item?.stn_from} &rarr; {item?.stn_to}</span>
                 </li>
                 <li className="mt-2 text-[#000] font-bold  text-[14px]">
