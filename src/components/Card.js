@@ -139,8 +139,8 @@ function Card({ id, org_name, email, phone, address, onUpdate, onDelete }) {
         </div>
       )}
 
-      <div className="w-full max-w-[340px] bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden">
-
+      {/* <div className="w-full max-w-[340px] bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden"> */}
+      <div className="w-full bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden">
         {/* Header */}
         <div className="bg-gradient-to-r from-[#4b2a7a] to-[#9b4b90] text-white px-4 py-2 font-semibold">
           [{id}]
