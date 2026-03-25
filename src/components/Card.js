@@ -5,11 +5,12 @@ import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";   // ✅ added
 import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
+import { useNavigate } from "react-router-dom";
 
 function Card({ id, org_name, email, phone, address, onUpdate, onDelete }) {
 
   const toastRef = useRef(null); // ✅ added
-
+  const navigate = useNavigate();
   const [orgDetails, setOrgDetails] = useState(null);
   const [orgList, setOrgList] = useState([]);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
@@ -139,7 +140,6 @@ function Card({ id, org_name, email, phone, address, onUpdate, onDelete }) {
         </div>
       )}
 
-      {/* <div className="w-full max-w-[340px] bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden"> */}
       <div className="w-full bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden">
         {/* Header */}
         <div className="bg-gradient-to-r from-[#4b2a7a] to-[#9b4b90] text-white px-4 py-2 font-semibold">
@@ -189,9 +189,15 @@ function Card({ id, org_name, email, phone, address, onUpdate, onDelete }) {
 
           {/* Details */}
           <button
+            // onClick={() => {
+            //   fetchOrgDetails(id);
+            // }}
             onClick={() => {
-              fetchOrgDetails(id);
+              navigate(`/organisation/${id}`, {
+              state: { org_name }
+            });
             }}
+            
             className="flex flex-col items-center justify-center hover:bg-gray-50 transition-colors">
             <img src={detailIcon} alt="Details" className="w-5 h-5 mb-1" />
             <span className="text-[11px] text-gray-500 font-medium">Details</span>
@@ -269,7 +275,7 @@ function Card({ id, org_name, email, phone, address, onUpdate, onDelete }) {
 
           </div>
         )}
-
+       
       </div>
     </>
   );

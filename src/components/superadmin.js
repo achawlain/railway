@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import AdminHeader from "../components/AdminHeader";
 import Card from "../components/Card";
 import OrgPopup from "../components/OrgPopUp";
 import UserPopup from "../components/UserPopUp";
@@ -150,7 +149,7 @@ function SuperAdmin() {
   };
 
   return (
-   <div className="min-h-screen bg-gradient-to-r from-[#4b2a7a] to-[#9b4b90] p-6">
+    <div className="min-h-screen bg-gradient-to-r from-[#4b2a7a] to-[#9b4b90] p-6">
 
       {loading && (
         <div className="flex justify-center py-10">
@@ -158,60 +157,47 @@ function SuperAdmin() {
         </div>
       )}
 
-{/* <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-xl p-6"> */}
-<div className="w-full bg-white rounded-2xl shadow-xl p-6 mx-auto">
-  <div className="flex flex-col md:flex-row md:justify-between md:items-center border-b pb-4 mb-6 gap-4">
-  {/* <div className="flex justify-between items-center border-b pb-4 mb-6"> */}
+      <div className="w-full bg-white rounded-2xl shadow-xl p-6 mx-auto">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center border-b pb-4 mb-6 gap-4">
 
-    <h1 className="text-[18px] text-[#30424c] font-medium">
-      Admin Portal
-    </h1>
+          <h1 className="text-[18px] text-[#30424c] font-medium">
+            Admin Portal
+          </h1>
 
-    {/* <div className="flex gap-6 font-serif"> */}
-      <div className="flex flex-wrap gap-4 md:gap-10">
-      <button
-          onClick={() => setShowUserPopup(true)}
-          className="sm:text-[16px] text-[16px] font-medium text-[#30424c] hover:text-[#9b4b90] transition"
-        >
-          + Add New User
-        </button>
+          <div className="flex flex-wrap gap-4 md:gap-10">
+            <button
+              onClick={() => setShowUserPopup(true)}
+              className="sm:text-[16px] text-[16px] font-medium text-[#30424c] hover:text-[#9b4b90] transition"
+            >
+              + Add New User
+            </button>
 
-        <button
-          onClick={() => setShowPopup(true)}
-          className="sm:text-[16px] text-[16px] font-medium text-[#30424c] hover:text-[#9b4b90] transition"
-        >
-          + Add New Organisation
-        </button>
+            <button
+              onClick={() => setShowPopup(true)}
+              className="sm:text-[16px] text-[16px] font-medium text-[#30424c] hover:text-[#9b4b90] transition"
+            >
+              + Add New Organisation
+            </button>
 
-    </div>
-  </div>
+          </div>
+        </div>
 
-  {/* CARDS GRID */}
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {/* CARDS GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
-    {data.map(item => (
-      <Card
-        key={item.id}
-        {...item}
-        onDelete={deleteOrg}
-        onUpdate={updateOrg}
-      />
-    ))}
+          {data.map(item => (
+            <Card
+              key={item.id}
+              {...item}
+              onDelete={deleteOrg}
+              onUpdate={updateOrg}
+            />
+          ))}
 
-  </div>
+        </div>
 
-</div>
-      {/* <div className="flex flex-wrap justify-center gap-6 p-6">
-        {data.map(item => (
-          <Card
-            key={item.id}
-            {...item}
-            onDelete={deleteOrg}
-            onUpdate={updateOrg}
-          />
-        ))}
-      </div> */}
-
+      </div>
+      
       <OrgPopup
         showPopup={showPopup}
         setShowPopup={setShowPopup}

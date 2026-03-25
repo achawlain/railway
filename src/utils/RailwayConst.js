@@ -38,12 +38,14 @@ const RAILWAY_CONST = {
     CREATE_USER: "/users/create_user",
     ORGANISATION_UPDATE: "organisation/update_org",
     ORGANISATION_DELETE: "organisation/delete_org",
+    ORGANISATION_DETAILS: "management/reports/summary",
   },
 
   ROUTE: {
     ROOT: "/",
     HOME: "/home",
     SUPERADMIN: "/superadmin",
+    ORGDETAILS: "/organisation/:id",
     LOGIN: "/login",
     REPORT_GENERATE: "/reportGenerate",
     DASHBOARD: "/dashboard",
