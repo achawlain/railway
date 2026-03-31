@@ -39,6 +39,8 @@ const RAILWAY_CONST = {
     ORGANISATION_UPDATE: "organisation/update_org",
     ORGANISATION_DELETE: "organisation/delete_org",
     ORGANISATION_DETAILS: "management/reports/summary",
+    USERS: "/organisation/users",
+    TEMPLATE_STATUS: "/organisation/template_status",
   },
 
   ROUTE: {
