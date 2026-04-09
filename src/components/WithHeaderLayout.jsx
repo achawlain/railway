@@ -6,6 +6,8 @@ import ScrollToTopButton from "./ScrollToTopComponent";
 const WithHeaderLayout = () => {
   const location = useLocation();
   const showFooter = location.pathname === "/home";
+  const hideScrollToTop = location.pathname.startsWith("/organisation");
+  
   return (
     <div>
       <Header/>
@@ -13,7 +15,7 @@ const WithHeaderLayout = () => {
       <Outlet />
       </div>
       {showFooter && <Footer />} 
-      <ScrollToTopButton />
+      {!hideScrollToTop && <ScrollToTopButton />}
     </div>
   );
 };

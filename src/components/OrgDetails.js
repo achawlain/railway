@@ -13,6 +13,11 @@ import "primereact/resources/themes/lara-light-cyan/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 
+import dailyReportIcon from "../images/DailyReport.svg";
+import userIcon from "../images/userIcon.svg";
+import locoPilotReport from "../images/locoPilotReport.svg";
+import deletedUsersIcon from "../images/deleted-users.png";
+import deletedTemplateIcon from "../images/deleted-template.png";
 function OrgDetails() {
   const { id } = useParams();
   const location = useLocation();
@@ -22,9 +27,7 @@ function OrgDetails() {
   const [selectedTab, setSelectedTab] = useState("Daily Report");
   const [isShowMenu, setIsShowMenu] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
   const [chartData, setChartData] = useState(null);
-
   const [stats, setStats] = useState({
     activeUsers: 0,
     activeTemplates: 0,
@@ -153,22 +156,18 @@ function OrgDetails() {
 
   const handleDeleteUser = (userId) => {
     console.log("Delete user:", userId);
-    // Add delete logic here
   };
 
   const handleDeleteTemplate = (templateId) => {
     console.log("Delete template:", templateId);
-    // Add delete logic here
   };
 
   const handleActivateUser = (userId) => {
     console.log("Activate user:", userId);
-    // Add activate logic here
   };
 
   const handleActivateTemplate = (templateId) => {
     console.log("Activate template:", templateId);
-    // Add activate logic here
   };
 
   const actionBodyTemplate = (rowData) => {
@@ -217,9 +216,8 @@ function OrgDetails() {
 
   return (
     <>
-      <div className="w-full flex flex-row controlCenterCol">
-        {/* Side Navbar */}
-        <div className="leftMenuCol w-[300px] bg-[#2c215d] h-[calc(100vh_-_80px)] fixed top-[80px] z-20">
+      <div className="w-full flex flex-row controlCenterCol overflow-hidden">
+        <div className="leftMenuCol w-[300px] bg-[#2c215d] h-[calc(100vh_-_80px)] fixed top-[80px] left-0 z-20 overflow-y-auto">
           <div className="leftColInner">
             <div
               className={`hideDesktop showSelectedItem z-30 relative ${
@@ -237,6 +235,9 @@ function OrgDetails() {
                     selectedTab === "Daily Report" ? "selectedCol" : ""
                   } cursor-pointer flex items-center border-b border-b-[#030015] text-white px-4 py-4`}
                 >
+                  <span className="w-[40px] mr-[15px]">
+                    <img src={dailyReportIcon} alt="icon" className="h-[36px]" />
+                  </span>
                   Daily Report
                 </li>
                 <li
@@ -245,6 +246,9 @@ function OrgDetails() {
                     selectedTab === "Active Users" ? "selectedCol" : ""
                   } cursor-pointer flex items-center border-b border-b-[#030015] text-white px-4 py-4`}
                 >
+                  <span className="w-[40px] mr-[15px]">
+                    <img src={userIcon} alt="icon" className="h-[30px]" />
+                  </span>
                   Active Users
                 </li>
                 <li
@@ -253,6 +257,9 @@ function OrgDetails() {
                     selectedTab === "Active Templates" ? "selectedCol" : ""
                   } cursor-pointer flex items-center border-b border-b-[#030015] text-white px-4 py-4`}
                 >
+                  <span className="w-[40px] mr-[15px]">
+                    <img src={locoPilotReport} alt="icon" className="h-[30px]" />
+                  </span>
                   Active Templates
                 </li>
                 <li
@@ -261,6 +268,9 @@ function OrgDetails() {
                     selectedTab === "Deleted Users" ? "selectedCol" : ""
                   } cursor-pointer flex items-center border-b border-b-[#030015] text-white px-4 py-4`}
                 >
+                  <span className="w-[40px] mr-[15px]">
+                    <img src={deletedUsersIcon} alt="icon" className="h-[30px]" />
+                  </span>
                   Deleted Users
                 </li>
                 <li
@@ -269,6 +279,9 @@ function OrgDetails() {
                     selectedTab === "Deleted Templates" ? "selectedCol" : ""
                   } cursor-pointer flex items-center border-b border-b-[#030015] text-white px-4 py-4`}
                 >
+                  <span className="w-[40px] mr-[15px]">
+                    <img src={deletedTemplateIcon} alt="icon" className="h-[30px]" />
+                  </span>
                   Deleted Templates
                 </li>
               </ul>
@@ -276,11 +289,10 @@ function OrgDetails() {
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="rightContentCol w-full pl-[300px] z-10">
-          <div className="min-h-screen bg-white p-3 sm:p-6">
-            <div className="w-full bg-white rounded-2xl shadow-xl p-4 sm:p-6 mx-auto">
-              <h1 className="text-[22px] text-[#30424c] font-medium text-center pb-3 mb-6">
+          <div className="min-h-screen p-3 sm:p-6">
+            <div className="w-full rounded-2xl p-4 sm:p-6 mx-auto">
+              <h1 className="text-[22px] text-[#30424c] font-medium text-center pb-2 mb-3">
                 {orgName || "Organisation Name"}
               </h1>
 
@@ -299,7 +311,7 @@ function OrgDetails() {
                         className="border px-1 py-2 rounded-md w-[240px] cursor-pointer inputbox pl-2 -mt-1"
                       />
                       {showPicker && (
-                        <div className="absolute z-10 mt-[44px] shadow-lg border right-0 bg-white font-normal">
+                        <div className="fixed z-50 mt-[44px] shadow-lg border right-6 bg-white font-normal">
                           <DateRange
                             editableDateInputs={true}
                             onChange={(item) => setRange([item.selection])}
@@ -314,7 +326,7 @@ function OrgDetails() {
                   </h1>
 
                   <div className="bg-white w-full rounded-[15px] min-h-[900px]">
-                    <div style={{ overflowX: "auto", width: "100%" }}>
+                    <div style={{ overflowX: "hidden", width: "100%" }}>
                       <div className="mt-6 w-full">
                         {chartData && chartData.data && chartData.data.length > 0 ? (
                           <Plot
@@ -504,5 +516,4 @@ function OrgDetails() {
     </>
   );
 }
-
 export default OrgDetails;

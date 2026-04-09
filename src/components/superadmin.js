@@ -4,7 +4,6 @@ import OrgPopup from "../components/OrgPopUp";
 import UserPopup from "../components/UserPopUp";
 import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
-import loader from "./Loader";
 
 function SuperAdmin() {
 
@@ -153,7 +152,7 @@ function SuperAdmin() {
 
       {loading && (
         <div className="flex justify-center py-10">
-          <loader />
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
         </div>
       )}
 
@@ -178,7 +177,6 @@ function SuperAdmin() {
             >
               + Add New Organisation
             </button>
-
           </div>
         </div>
 
@@ -193,9 +191,7 @@ function SuperAdmin() {
               onUpdate={updateOrg}
             />
           ))}
-
         </div>
-
       </div>
       
       <OrgPopup
@@ -219,7 +215,6 @@ function SuperAdmin() {
         orgList={orgList}
         fetchOrgList={fetchOrgList}
       />
-
     </div>
   );
 }

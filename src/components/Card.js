@@ -2,17 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import deleteIcon from "../images/delete-icon.svg";
 import detailIcon from '../images/share.png';
 import { Button } from "primereact/button";
-import { Toast } from "primereact/toast";   // ✅ added
+import { Toast } from "primereact/toast";
 import { apiService } from "../utils/apiService";
 import RAILWAY_CONST from "../utils/RailwayConst";
 import { useNavigate } from "react-router-dom";
 
 function Card({ id, org_name, email, phone, address, onUpdate, onDelete }) {
 
-  const toastRef = useRef(null); // ✅ added
+  const toastRef = useRef(null);
   const navigate = useNavigate();
-  const [orgDetails, setOrgDetails] = useState(null);
-  const [orgList, setOrgList] = useState([]);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [showEditPopup, setShowEditPopup] = useState(false);
 
@@ -40,18 +38,6 @@ function Card({ id, org_name, email, phone, address, onUpdate, onDelete }) {
     }));
   };
 
-  const fetchOrgDetails = async (id) => {
-    try {
-      const response = await apiService(
-        "get",
-        `${RAILWAY_CONST.API_ENDPOINT.ORGANISATION_NAME}${id}`
-      );
-      setOrgDetails(response?.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const handleUpdate = async () => {
 
     const formData = new FormData();
@@ -62,7 +48,7 @@ function Card({ id, org_name, email, phone, address, onUpdate, onDelete }) {
     formData.append("address", editForm.address);
 
     try {
-      const response = await apiService(
+      await apiService(
         "put",
         `${RAILWAY_CONST.API_ENDPOINT.ORGANISATION_UPDATE}/${id}`,
         formData
@@ -76,7 +62,6 @@ function Card({ id, org_name, email, phone, address, onUpdate, onDelete }) {
     }
   };
 
-  // ✅ updated with toast
   const confirmDelete = async () => {
     await onDelete(id);
 
@@ -94,7 +79,6 @@ function Card({ id, org_name, email, phone, address, onUpdate, onDelete }) {
 
   return (
     <>
-      {/* ✅ Toast added */}
       <Toast ref={toastRef} position="top-right" />
 
       {showDeletePopup && (
@@ -109,7 +93,6 @@ function Card({ id, org_name, email, phone, address, onUpdate, onDelete }) {
 
             <div className="flex justify-end gap-4">
 
-              {/* ✅ Cancel with toast */}
               <button
                 onClick={() => {
                   setShowDeletePopup(false);
@@ -189,15 +172,11 @@ function Card({ id, org_name, email, phone, address, onUpdate, onDelete }) {
 
           {/* Details */}
           <button
-            // onClick={() => {
-            //   fetchOrgDetails(id);
-            // }}
             onClick={() => {
               navigate(`/organisation/${id}`, {
               state: { org_name }
             });
             }}
-            
             className="flex flex-col items-center justify-center hover:bg-gray-50 transition-colors">
             <img src={detailIcon} alt="Details" className="w-5 h-5 mb-1" />
             <span className="text-[11px] text-gray-500 font-medium">Details</span>
@@ -213,7 +192,6 @@ function Card({ id, org_name, email, phone, address, onUpdate, onDelete }) {
           />
         </div>
 
-        {/* Edit Popup (same as before) */}
         {showEditPopup && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40">
 
